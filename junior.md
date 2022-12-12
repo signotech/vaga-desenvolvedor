@@ -8,7 +8,7 @@ Nesse teste analisaremos seu conhecimento geral e inclusive velocidade de desenv
 
 ## Instruções
 
-O desafio consiste em implementar uma aplicação Web utilizando o framework PHP Laravel OU NodeJS, e um banco de dados relacional SQLite, MySQL ou Postgres, a partir de uma modelagem de dados inicial desnormalizada, que deve ser normalizada para a implementação da solução.
+O desafio consiste em implementar uma aplicação Web utilizando o framework PHP Laravel OU NodeJS + Express, e um banco de dados relacional SQLite, MySQL ou Postgres, a partir de uma modelagem de dados inicial desnormalizada, que deve ser normalizada para a implementação da solução.
 
 Você vai criar uma aplicação de cadastro de pedidos de compra, a partir de uma modelagem inicial, com as seguintes funcionalidades:
 
@@ -32,7 +32,7 @@ Você deve alterar esta modelagem para que a mesma cumpra com as três primeiras
 
 Além disso, a implementação deste modelo em um banco de dados relacional deve ser realizada levando em consideração os seguintes requisitos:
 
-- O banco de dados deve ser criado utilizando Migrations do framework Laravel, e também utilizar Seeds e Factorys para popular as informações no banco de dados.
+- O banco de dados deve ser criado utilizando Migrations do framework Laravel, e também utilizar Seeds e Factorys para popular as informações no banco de dados. Se o seu projeto for em NodeJS solicitamos o uso do ORM Sequelize para a criação das migrations.
 - Implementação das validações necessárias na camada que julgar melhor.
 
 ## Tecnologias a serem utilizadas
@@ -42,7 +42,7 @@ Devem ser utilizadas as seguintes tecnologias:
 - HTML
 - CSS
 - Javascript
-- Framework Laravel (PHP) ou NodeJS
+- Framework Laravel (PHP) ou NodeJS+Express
 - Docker (construção do ambiente de desenvolvimento)
 
 ## Entrega
