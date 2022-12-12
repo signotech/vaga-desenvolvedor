@@ -2,7 +2,7 @@
   <img src="https://site.signoweb.com.br/assets/images/logo-signo.svg" width="20%" />
 </div>
 
-# Teste para candidatos à vaga de Desenvolvedor Pleno
+# Teste para candidatos à vaga de Desenvolvedor
 
 Olá caro desenvolvedor, nesse teste analisaremos seu conhecimento geral e inclusive velocidade de desenvolvimento. Abaixo explicaremos tudo o que será necessário.
 
@@ -45,7 +45,7 @@ Devem ser utilizadas as seguintes tecnologias:
 
 - Para iniciar o teste, faça um fork deste repositório; **Se você apenas clonar o repositório não vai conseguir fazer push.**
 - Crie uma branch com o seu nome completo;
-- Altere o arquivo pleno-php.md com as informações necessárias para executar o seu teste (comandos, migrations, seeds, etc);
+- Altere o arquivo teste2.md com as informações necessárias para executar o seu teste (comandos, migrations, seeds, etc);
 - Depois de finalizado, envie-nos o pull request;
 
 ## Bônus
