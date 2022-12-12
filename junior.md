@@ -26,7 +26,7 @@ Você vai criar uma aplicação de cadastro de pedidos de compra, a partir de um
 
 A modelagem inicial para a implementação solução é a seguinte:
 
-IMAGEM
+[![](banco-junior.png)]
 
 Você deve alterar esta modelagem para que a mesma cumpra com as três primeiras formas normais.
 
@@ -49,7 +49,7 @@ Devem ser utilizadas as seguintes tecnologias:
 
 - Para iniciar o teste, faça um fork deste repositório; **Se você apenas clonar o repositório não vai conseguir fazer push.**
 - Crie uma branch com o seu nome completo;
-- Altere o arquivo teste-junior.md com as informações necessárias para executar o seu teste (comandos, migrations, seeds, etc);
+- Altere o arquivo junior.md com as informações necessárias para executar o seu teste (comandos, migrations, seeds, etc);
 - Depois de finalizado, envie-nos o pull request;
 
 ## Bônus
