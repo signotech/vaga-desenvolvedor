@@ -34,5 +34,5 @@
 
 ### Como se candidatar
 `Para se candidatar, basta acessar a url de acordo com o nível e realizar o teste para a vaga:`
-* <a href="junior.md">Desenvolvedor FullStack Júnior</a>
-* <a href="pleno-php.md">Desenvolvedor FullStack Pleno</a>
+* <a href="teste1.md">Teste 1</a>
+* <a href="teste2.md">Teste 2</a>
