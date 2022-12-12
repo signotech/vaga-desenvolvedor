@@ -26,7 +26,7 @@ Você vai criar uma aplicação de cadastro de pedidos de compra, a partir de um
 
 A modelagem inicial para a implementação solução é a seguinte:
 
-[![](banco-junior.png)]
+![](banco.png)
 
 Você deve alterar esta modelagem para que a mesma cumpra com as três primeiras formas normais.
 
