@@ -1,5 +1,3 @@
-O arquivo README geralmente segue um formato para orientar imediatamente os desenvolvedores sobre
-os aspectos mais importantes do projeto, é de extrema importância sinalizar versões que foi utilizar para rodar o projeto conforme o modelo abaixo.
 
 <div align="center">
   <img width="20%" src="https://site.signoweb.com.br/assets/images/logo-signo.svg" />
