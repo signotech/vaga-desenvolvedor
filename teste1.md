@@ -2,7 +2,7 @@
   <img src="https://site.signoweb.com.br/assets/images/logo-signo.svg" width="20%" />
 </div>
 
-# Teste para candidatos à vaga de Desenvolvedor Júnior
+# Teste para candidatos à vaga de Desenvolvedor
 
 Nesse teste analisaremos seu conhecimento geral e inclusive velocidade de desenvolvimento. Abaixo explicaremos tudo o que será necessário.
 
