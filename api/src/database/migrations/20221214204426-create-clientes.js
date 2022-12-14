@@ -5,7 +5,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable('clientes', {
       cpfCliente: {
-        type: Sequelize.STRING(11),
+        type: Sequelize.CHAR(11),
         primaryKey: true,
         field: 'cpf_cliente',
       },
