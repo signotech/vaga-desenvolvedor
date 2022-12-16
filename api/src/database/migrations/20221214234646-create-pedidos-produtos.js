@@ -12,6 +12,8 @@ module.exports = {
           model: 'pedidos',
           key: 'codigo_pedido'
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
         field: 'codigo_pedido',
       },
       skuProduto: {
@@ -22,6 +24,8 @@ module.exports = {
           model: 'produtos',
           key: 'sku_produto'
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
         field: 'sku_produto',
       },
     });

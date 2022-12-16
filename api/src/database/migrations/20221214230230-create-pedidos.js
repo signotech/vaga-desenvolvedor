@@ -24,7 +24,7 @@ module.exports = {
           key: 'cpf_cliente'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
+        onDelete: 'CASCADE',
         field: 'cpf_cliente',
       },
     });
