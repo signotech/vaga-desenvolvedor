@@ -20,20 +20,16 @@ class SequelizeClienteRepository {
     nomeCliente,
     emailCliente,
   }) {
-    try {
-      const storedClientes = await ClienteModel.findAll({
-        limit: porPagina,
-        offset: porPagina * (pagina - 1),
-        order: [[ordenarPor, ordem]],
-        where: {
-          nomeCliente: { [Op.substring]: nomeCliente },
-          emailCliente: { [Op.substring]: emailCliente },
-        },
-      });
-      return storedClientes.map((storedCliente) => new Cliente(storedCliente));
-    } catch {
-      return [];
-    }
+    const storedClientes = await ClienteModel.findAll({
+      limit: porPagina,
+      offset: porPagina * (pagina - 1),
+      order: [[ordenarPor, ordem]],
+      where: {
+        nomeCliente: { [Op.substring]: nomeCliente },
+        emailCliente: { [Op.substring]: emailCliente },
+      },
+    });
+    return storedClientes.map((storedCliente) => new Cliente(storedCliente));
   }
 }
 
