@@ -2,10 +2,11 @@
   "name": "signoweb-vaga-desenvolvedor-api",
   "version": "1.0.0",
   "description": "API de cadastro de pedidos de compra",
-  "main": "src/server.js",
+  "main": "src/main/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "start": "node src/main/server.js"
   },
   "author": "",
   "license": "ISC",
