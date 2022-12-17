@@ -24,7 +24,7 @@ class Cliente {
     if (typeof emailCliente !== 'string') {
       throw new ValidationError('O campo emailCliente deve ser uma string');
     }
-    const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const emailFormat = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     if (!emailCliente.match(emailFormat)) {
       throw new ValidationError('O campo emailCliente deve ser um email válido');
     }
