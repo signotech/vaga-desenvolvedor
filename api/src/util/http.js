@@ -1,4 +1,9 @@
 module.exports = {
+  ok: (data) => ({
+    statusCode: 200,
+    body: data,
+  }),
+
   created: (data) => ({
     statusCode: 201,
     body: data,
