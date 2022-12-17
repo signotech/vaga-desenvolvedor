@@ -3,7 +3,7 @@ const ValidationError = require('../errors/validation-error');
 const { serverError, badRequest, conflict } = require('../util/http');
 
 class ErrorMiddleware {
-  handle(error) {
+  static handle(error) {
     if (error instanceof ValidationError) {
       return badRequest({ mensagem: error.message });
     }

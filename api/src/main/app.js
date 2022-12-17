@@ -10,6 +10,6 @@ app.use(express.json());
 app.use(cors());
 
 setupClientesRoute(app);
-app.use(adaptErrorMiddleware(new ErrorMiddleware()));
+app.use(adaptErrorMiddleware(ErrorMiddleware));
 
 module.exports = app;
