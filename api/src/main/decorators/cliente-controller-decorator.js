@@ -5,7 +5,7 @@ class ClienteControllerDecorator {
 
   async handle(httpRequest) {
     const httpResponse = await this.clienteController.handle(httpRequest);
-    if (typeof httpResponse.body === 'array') {
+    if (Array.isArray(httpResponse.body)) {
       httpResponse.body = httpResponse.body.map(this.addUrlPedidosToCliente);
     } else {
       httpResponse.body = this.addUrlPedidosToCliente(httpResponse.body);
