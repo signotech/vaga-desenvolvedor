@@ -1,4 +1,4 @@
-const { created } = require("../util/http");
+const { created } = require('../util/http');
 
 class CreateClienteController {
   constructor(useCase) {

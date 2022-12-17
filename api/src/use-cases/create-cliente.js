@@ -1,5 +1,5 @@
-const Cliente = require("../entities/cliente");
-const ResourceAlreadyExistsError = require("../errors/resource-already-exists-error");
+const Cliente = require('../entities/cliente');
+const ResourceAlreadyExistsError = require('../errors/resource-already-exists-error');
 
 class CreateCliente {
   constructor(clienteRepository) {

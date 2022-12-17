@@ -1,4 +1,4 @@
-const ValidationError = require("../errors/validation-error");
+const ValidationError = require('../errors/validation-error');
 
 class Cliente {
   constructor({ cpfCliente, nomeCliente, emailCliente }) {

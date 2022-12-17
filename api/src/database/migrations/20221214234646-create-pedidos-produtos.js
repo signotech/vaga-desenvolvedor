@@ -1,8 +1,6 @@
-'use strict';
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     await queryInterface.createTable('pedidos_produtos', {
       codigoPedido: {
         type: Sequelize.INTEGER,
@@ -10,7 +8,7 @@ module.exports = {
         primaryKey: true,
         references: {
           model: 'pedidos',
-          key: 'codigo_pedido'
+          key: 'codigo_pedido',
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
@@ -22,7 +20,7 @@ module.exports = {
         primaryKey: true,
         references: {
           model: 'produtos',
-          key: 'sku_produto'
+          key: 'sku_produto',
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
@@ -31,7 +29,7 @@ module.exports = {
     });
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('pedidos_produtos');
-  }
+  },
 };

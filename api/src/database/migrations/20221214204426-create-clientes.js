@@ -1,8 +1,6 @@
-'use strict';
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     await queryInterface.createTable('clientes', {
       cpfCliente: {
         type: Sequelize.CHAR(11),
@@ -16,12 +14,12 @@ module.exports = {
       emailCliente: {
         type: Sequelize.STRING,
         allowNull: false,
-        field: 'email_cliente'
+        field: 'email_cliente',
       },
     });
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('clientes');
-  }
+  },
 };

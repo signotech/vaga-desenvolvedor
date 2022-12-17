@@ -17,8 +17,8 @@ class ClienteControllerDecorator {
     const { API_HOST, API_PORT } = process.env;
     return {
       ...cliente,
-      urlPedidos: 
-        `http://${API_HOST}:${API_PORT}/clientes/${cliente.cpfCliente}/pedidos`
+      urlPedidos:
+        `http://${API_HOST}:${API_PORT}/clientes/${cliente.cpfCliente}/pedidos`,
     };
   }
 }

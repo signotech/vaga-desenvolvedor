@@ -7,7 +7,7 @@ class SequelizeClienteRepository {
 
   async existsByCpf(cpf) {
     const cliente = await Cliente.findByPk(cpf);
-    return cliente === null ? false : true;
+    return cliente !== null;
   }
 }
 

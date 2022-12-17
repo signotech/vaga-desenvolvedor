@@ -16,7 +16,7 @@ const options = {
   database: `${process.env.MYSQL_DB_NAME || 'database'}${suffix[environment] || suffix.test}`,
   host: process.env.MYSQL_HOST || '127.0.0.1',
   port: process.env.MYSQL_PORT || '3306',
-  dialect: 'mysql'
+  dialect: 'mysql',
 };
 
 module.exports = {

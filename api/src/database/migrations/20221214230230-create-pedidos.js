@@ -1,8 +1,6 @@
-'use strict';
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     await queryInterface.createTable('pedidos', {
       codigoPedido: {
         type: Sequelize.INTEGER,
@@ -15,13 +13,13 @@ module.exports = {
       },
       dataPedido: {
         type: Sequelize.DATE,
-        field: 'data_pedido'
+        field: 'data_pedido',
       },
       cpfCliente: {
         type: Sequelize.CHAR(11),
         references: {
           model: 'clientes',
-          key: 'cpf_cliente'
+          key: 'cpf_cliente',
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
@@ -30,7 +28,7 @@ module.exports = {
     });
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('pedidos');
-  }
+  },
 };
