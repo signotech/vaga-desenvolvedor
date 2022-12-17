@@ -6,14 +6,14 @@ class ClienteControllerDecorator {
   async handle(httpRequest) {
     const httpResponse = await this.clienteController.handle(httpRequest);
     if (Array.isArray(httpResponse.body)) {
-      httpResponse.body = httpResponse.body.map(this.addUrlPedidosToCliente);
+      httpResponse.body = httpResponse.body.map(ClienteControllerDecorator.addUrlPedidosToCliente);
     } else {
-      httpResponse.body = this.addUrlPedidosToCliente(httpResponse.body);
+      httpResponse.body = ClienteControllerDecorator.addUrlPedidosToCliente(httpResponse.body);
     }
     return httpResponse;
   }
 
-  addUrlPedidosToCliente(cliente) {
+  static addUrlPedidosToCliente(cliente) {
     const { API_HOST, API_PORT } = process.env;
     return {
       ...cliente,
