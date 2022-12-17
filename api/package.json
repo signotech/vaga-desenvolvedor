@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
-    "start": "node src/main/server.js"
+    "start": "node src/main/server.js",
+    "dev": "nodemon src/main/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +22,7 @@
     "eslint": "^8.30.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
+    "nodemon": "^2.0.20",
     "sequelize-cli": "^6.5.2"
   }
 }
