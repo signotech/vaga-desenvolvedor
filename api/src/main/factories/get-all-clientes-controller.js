@@ -1,6 +1,6 @@
 const GetAllClientesController = require('../../controllers/get-all-clientes-controller');
 const SequelizeClienteRepository = require('../../repositories/sequelize-cliente-repository');
-const GetAllClientesUseCase = require('../../use-cases/get-all-clientes');
+const GetAllClientesUseCase = require('../../use-cases/get-all-clientes-use-case');
 const ClienteControllerDecorator = require('../decorators/cliente-controller-decorator');
 
 function makeGetAllClientesController() {

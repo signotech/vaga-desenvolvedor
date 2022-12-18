@@ -1,6 +1,6 @@
 const CreateClienteController = require('../../controllers/create-cliente-controller');
 const SequelizeClienteRepository = require('../../repositories/sequelize-cliente-repository');
-const CreateClienteUseCase = require('../../use-cases/create-cliente');
+const CreateClienteUseCase = require('../../use-cases/create-cliente-use-case');
 const ClienteControllerDecorator = require('../decorators/cliente-controller-decorator');
 
 function makeCreateClienteController() {

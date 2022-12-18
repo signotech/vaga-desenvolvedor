@@ -1,6 +1,6 @@
 const DeleteClienteByCpfController = require('../../controllers/delete-cliente-by-cpf-controller');
 const SequelizeClienteRepository = require('../../repositories/sequelize-cliente-repository');
-const DeleteClienteByCpfUseCase = require('../../use-cases/delete-cliente-by-cpf');
+const DeleteClienteByCpfUseCase = require('../../use-cases/delete-cliente-by-cpf-use-case');
 
 function makeDeleteClienteByCpfController() {
   const deleteAllClientesUseCase = new DeleteClienteByCpfUseCase(SequelizeClienteRepository);
