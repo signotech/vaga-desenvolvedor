@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
     "start": "node src/main/server.js",
-    "dev": "nodemon src/main/server.js"
+    "dev": "nodemon src/main/server.js",
+    "db:create": "sequelize db:create && sequelize db:migrate && sequelize db:seed:all",
+    "db:reset": "sequelize-cli db:drop && npm run db:create"
   },
   "author": "",
   "license": "ISC",
