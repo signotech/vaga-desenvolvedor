@@ -1,4 +1,4 @@
-class GetAllClientes {
+class GetAllClientesUseCase {
   MIN_PAGE_NUMBER = 1;
 
   MIN_QTY_ITEMS = 1;
@@ -54,4 +54,4 @@ class GetAllClientes {
   }
 }
 
-module.exports = GetAllClientes;
+module.exports = GetAllClientesUseCase;

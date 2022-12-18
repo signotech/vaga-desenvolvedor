@@ -1,7 +1,7 @@
 const Cliente = require('../entities/cliente');
 const ResourceNotFoundError = require('../errors/resource-not-found-error');
 
-class UpdateCliente {
+class UpdateClienteUseCase {
   constructor(clienteRepository) {
     this.clienteRepository = clienteRepository;
   }
@@ -17,4 +17,4 @@ class UpdateCliente {
   }
 }
 
-module.exports = UpdateCliente;
+module.exports = UpdateClienteUseCase;

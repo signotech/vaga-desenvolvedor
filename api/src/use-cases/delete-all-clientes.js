@@ -1,4 +1,4 @@
-class DeleteAllClientes {
+class DeleteAllClientesUseCase {
   constructor(clienteRepository) {
     this.clienteRepository = clienteRepository;
   }
@@ -8,4 +8,4 @@ class DeleteAllClientes {
   }
 }
 
-module.exports = DeleteAllClientes;
+module.exports = DeleteAllClientesUseCase;

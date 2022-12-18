@@ -1,7 +1,7 @@
 const Cliente = require('../entities/cliente');
 const ResourceAlreadyExistsError = require('../errors/resource-already-exists-error');
 
-class CreateCliente {
+class CreateClienteUseCase {
   constructor(clienteRepository) {
     this.clienteRepository = clienteRepository;
   }
@@ -17,4 +17,4 @@ class CreateCliente {
   }
 }
 
-module.exports = CreateCliente;
+module.exports = CreateClienteUseCase;

@@ -1,6 +1,6 @@
 const ResourceNotFoundError = require('../errors/resource-not-found-error');
 
-class GetClienteByCpf {
+class GetClienteByCpfUseCase {
   constructor(clienteRepository) {
     this.clienteRepository = clienteRepository;
   }
@@ -14,4 +14,4 @@ class GetClienteByCpf {
   }
 }
 
-module.exports = GetClienteByCpf;
+module.exports = GetClienteByCpfUseCase;
