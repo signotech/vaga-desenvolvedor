@@ -32,8 +32,8 @@ class SequelizeClienteRepository {
     return storedClientes.map((storedCliente) => new Cliente(storedCliente));
   }
 
-  static async getByCpf(cpf) {
-    const storedCliente = await ClienteModel.findByPk(cpf);
+  static async getByCpf(cpfCliente) {
+    const storedCliente = await ClienteModel.findByPk(cpfCliente);
     if (storedCliente === null) {
       return null;
     }
@@ -49,6 +49,10 @@ class SequelizeClienteRepository {
 
   static async deleteAll() {
     await ClienteModel.destroy({ where: {} });
+  }
+
+  static async deleteByCpf(cpfCliente) {
+    await ClienteModel.destroy({ where: { cpfCliente } });
   }
 }
 
