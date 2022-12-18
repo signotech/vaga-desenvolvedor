@@ -3,8 +3,8 @@ const SequelizeClienteRepository = require('../../repositories/sequelize-cliente
 const DeleteClienteByCpfUseCase = require('../../use-cases/delete-cliente-by-cpf-use-case');
 
 function makeDeleteClienteByCpfController() {
-  const deleteAllClientesUseCase = new DeleteClienteByCpfUseCase(SequelizeClienteRepository);
-  return new DeleteClienteByCpfController(deleteAllClientesUseCase);
+  const deleteClienteByCpfUseCase = new DeleteClienteByCpfUseCase(SequelizeClienteRepository);
+  return new DeleteClienteByCpfController(deleteClienteByCpfUseCase);
 }
 
 module.exports = { makeDeleteClienteByCpfController };
