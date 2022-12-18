@@ -31,6 +31,14 @@ class SequelizeClienteRepository {
     });
     return storedClientes.map((storedCliente) => new Cliente(storedCliente));
   }
+
+  static async getByCpf(cpf) {
+    const storedCliente = await ClienteModel.findByPk(cpf);
+    if (storedCliente === null) {
+      return null;
+    }
+    return new Cliente(storedCliente);
+  }
 }
 
 module.exports = SequelizeClienteRepository;
