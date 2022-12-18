@@ -1,10 +1,10 @@
 const { adaptController } = require('../adapters/express-controller-adapter');
-const { makeCreateClienteController } = require('../factories/create-cliente-controller');
-const { makeDeleteAllClientesController } = require('../factories/delete-all-clientes-controller');
-const { makeDeleteClienteByCpfController } = require('../factories/delete-cliente-by-cpf-controller');
-const { makeGetAllClientesController } = require('../factories/get-all-clientes-controller');
-const { makeGetClienteByCpfController } = require('../factories/get-cliente-by-cpf-controller');
-const { makeUpdateClienteController } = require('../factories/update-cliente-controller');
+const { makeCreateClienteController } = require('../factories/create-cliente-controller-factory');
+const { makeDeleteAllClientesController } = require('../factories/delete-all-clientes-controller-factory');
+const { makeDeleteClienteByCpfController } = require('../factories/delete-cliente-by-cpf-controller-factory');
+const { makeGetAllClientesController } = require('../factories/get-all-clientes-controller-factory');
+const { makeGetClienteByCpfController } = require('../factories/get-cliente-by-cpf-controller-factory');
+const { makeUpdateClienteController } = require('../factories/update-cliente-controller-factory');
 
 function setupClientesRoute(app) {
   app.post('/clientes', adaptController(makeCreateClienteController()));
