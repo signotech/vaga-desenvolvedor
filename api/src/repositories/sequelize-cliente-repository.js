@@ -4,7 +4,7 @@ const Cliente = require('../entities/cliente');
 
 class SequelizeClienteRepository {
   static async create(cliente) {
-    ClienteModel.create(cliente);
+    await ClienteModel.create(cliente);
   }
 
   static async existsByCpf(cpf) {
@@ -38,6 +38,13 @@ class SequelizeClienteRepository {
       return null;
     }
     return new Cliente(storedCliente);
+  }
+
+  static async update({ cpfCliente, nomeCliente, emailCliente }) {
+    await ClienteModel.update(
+      { nomeCliente, emailCliente },
+      { where: { cpfCliente } },
+    );
   }
 }
 
