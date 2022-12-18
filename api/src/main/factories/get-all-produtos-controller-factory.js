@@ -1,9 +1,9 @@
 const GetAllProdutosController = require('../../controllers/get-all-produtos-controller');
-const SequelizeClienteRepository = require('../../repositories/sequelize-produto-repository');
+const SequelizeProdutoRepository = require('../../repositories/sequelize-produto-repository');
 const GetAllProdutosUseCase = require('../../use-cases/get-all-produtos-use-case');
 
 function makeGetAllProdutosController() {
-  const getAllProdutosUseCase = new GetAllProdutosUseCase(SequelizeClienteRepository);
+  const getAllProdutosUseCase = new GetAllProdutosUseCase(SequelizeProdutoRepository);
   return new GetAllProdutosController(getAllProdutosUseCase);
 }
 
