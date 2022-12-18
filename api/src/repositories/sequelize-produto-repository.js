@@ -41,6 +41,18 @@ class SequelizeProdutoRepository {
     }
     return new Produto(produto);
   }
+
+  static async update({
+    skuProduto,
+    tituloProduto,
+    preco,
+    estoque,
+  }) {
+    await ProdutoModel.update(
+      { tituloProduto, preco, estoque },
+      { where: { skuProduto } },
+    );
+  }
 }
 
 module.exports = SequelizeProdutoRepository;
