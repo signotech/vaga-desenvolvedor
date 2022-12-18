@@ -5,8 +5,8 @@ class GetClienteByCpfController {
     this.useCase = useCase;
   }
 
-  async handle({ queryParams }) {
-    const cliente = await this.useCase.execute(queryParams);
+  async handle({ pathParams }) {
+    const cliente = await this.useCase.execute(pathParams);
     return ok(cliente);
   }
 }
