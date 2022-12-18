@@ -46,6 +46,10 @@ class SequelizeClienteRepository {
       { where: { cpfCliente } },
     );
   }
+
+  static async deleteAll() {
+    await ClienteModel.destroy({ where: {} });
+  }
 }
 
 module.exports = SequelizeClienteRepository;
