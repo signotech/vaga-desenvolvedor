@@ -9,6 +9,10 @@ module.exports = {
     body: data,
   }),
 
+  noContent: () => ({
+    statusCode: 204,
+  }),
+
   badRequest: (error) => ({
     statusCode: 400,
     body: error,
