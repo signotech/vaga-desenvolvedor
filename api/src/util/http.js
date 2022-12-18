@@ -14,6 +14,11 @@ module.exports = {
     body: error,
   }),
 
+  notFound: (error) => ({
+    statusCode: 404,
+    body: error,
+  }),
+
   conflict: (error) => ({
     statusCode: 409,
     body: error,
