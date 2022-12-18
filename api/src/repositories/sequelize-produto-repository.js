@@ -57,6 +57,10 @@ class SequelizeProdutoRepository {
   static async deleteAll() {
     await ProdutoModel.destroy({ where: {} });
   }
+
+  static async deleteBySku(skuProduto) {
+    await ProdutoModel.destroy({ where: { skuProduto } });
+  }
 }
 
 module.exports = SequelizeProdutoRepository;
