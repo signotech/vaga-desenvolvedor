@@ -33,6 +33,14 @@ class SequelizeProdutoRepository {
     });
     return storedProdutos.map((storedProduto) => new Produto(storedProduto));
   }
+
+  static async getBySku(sku) {
+    const produto = await ProdutoModel.findByPk(sku);
+    if (produto === null) {
+      return null;
+    }
+    return new Produto(produto);
+  }
 }
 
 module.exports = SequelizeProdutoRepository;
