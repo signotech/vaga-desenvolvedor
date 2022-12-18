@@ -5,8 +5,8 @@ class GetClienteByCpf {
     this.clienteRepository = clienteRepository;
   }
 
-  async execute(cpf) {
-    const cliente = await this.clienteRepository.getByCpf(cpf);
+  async execute({ cpfCliente }) {
+    const cliente = await this.clienteRepository.getByCpf(cpfCliente);
     if (cliente === null) {
       throw new ResourceNotFoundError('Não foi encontrado um cliente com o CPF informado');
     }
