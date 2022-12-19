@@ -42,6 +42,15 @@ class SequelizeProdutoRepository {
     return new Produto(produto);
   }
 
+  static async getAllBySku(skus) {
+    const produtos = await ProdutoModel.findAll({
+      where: {
+        skuProduto: skus,
+      },
+    });
+    return produtos.map((produto) => new Produto(produto));
+  }
+
   static async update({
     skuProduto,
     tituloProduto,
