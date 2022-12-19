@@ -4,6 +4,7 @@ const { setupClientesRoute } = require('./routes/clientes');
 const { adaptErrorMiddleware } = require('./adapters/express-error-middleware-adapter');
 const ErrorMiddleware = require('../middlewares/error-middleware');
 const { setupProdutosRoute } = require('./routes/produtos');
+const { setupPedidosRoute } = require('./routes/pedidos');
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(cors());
 
 setupClientesRoute(app);
 setupProdutosRoute(app);
+setupPedidosRoute(app);
 
 app.use(adaptErrorMiddleware(ErrorMiddleware));
 
