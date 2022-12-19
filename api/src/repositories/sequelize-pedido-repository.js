@@ -56,6 +56,13 @@ class SequelizePedidoRepository {
     return this.mapToPedidoEntity(pedido);
   }
 
+  static async update({ codigoPedido, status }) {
+    await PedidoModel.update(
+      { status },
+      { where: { codigoPedido } },
+    );
+  }
+
   static mapToPedidoEntity(pedido) {
     const cliente = new Cliente(pedido.cliente);
     const produtos = pedido.produtos.map((produto) => new Produto(produto));
