@@ -42,16 +42,29 @@ class SequelizePedidoRepository {
       },
       include: { all: true },
     });
-    return storedPedidos.map((storedPedido) => {
-      const cliente = new Cliente(storedPedido.cliente);
-      const produtos = storedPedido.produtos.map((produto) => new Produto(produto));
-      return new Pedido({
-        codigoPedido: storedPedido.codigoPedido,
-        status: storedPedido.status,
-        dataPedido: storedPedido.dataPedido,
-        cliente,
-        produtos,
-      });
+    return storedPedidos.map(this.mapToPedidoEntity);
+  }
+
+  static async getByCodigo(codigoPedido) {
+    const pedido = await PedidoModel.findByPk(
+      codigoPedido,
+      { include: { all: true } },
+    );
+    if (pedido === null) {
+      return null;
+    }
+    return this.mapToPedidoEntity(pedido);
+  }
+
+  static mapToPedidoEntity(pedido) {
+    const cliente = new Cliente(pedido.cliente);
+    const produtos = pedido.produtos.map((produto) => new Produto(produto));
+    return new Pedido({
+      codigoPedido: pedido.codigoPedido,
+      status: pedido.status,
+      dataPedido: pedido.dataPedido,
+      cliente,
+      produtos,
     });
   }
 }
