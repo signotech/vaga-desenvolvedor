@@ -1,10 +1,10 @@
-const CreateProdutoController = require('../../controllers/create-produto-controller');
+const CreateResourceController = require('../../controllers/create-resource-controller');
 const SequelizeProdutoRepository = require('../../repositories/sequelize-produto-repository');
 const CreateProdutoUseCase = require('../../use-cases/create-produto-use-case');
 
 function makeCreateProdutoController() {
   const createProdutoUseCase = new CreateProdutoUseCase(SequelizeProdutoRepository);
-  return new CreateProdutoController(createProdutoUseCase);
+  return new CreateResourceController(createProdutoUseCase);
 }
 
 module.exports = { makeCreateProdutoController };

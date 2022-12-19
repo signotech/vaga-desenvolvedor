@@ -1,4 +1,4 @@
-const CreatePedidoController = require('../../controllers/create-pedido-controller');
+const CreateResourceController = require('../../controllers/create-resource-controller');
 const SequelizeClienteRepository = require('../../repositories/sequelize-cliente-repository');
 const SequelizePedidoRepository = require('../../repositories/sequelize-pedido-repository');
 const SequelizeProdutoRepository = require('../../repositories/sequelize-produto-repository');
@@ -11,7 +11,7 @@ function makeCreatePedidoController() {
     SequelizeClienteRepository,
     SequelizeProdutoRepository,
   );
-  const createPedidoController = new CreatePedidoController(createPedidoUseCase);
+  const createPedidoController = new CreateResourceController(createPedidoUseCase);
   return new PedidoControllerDecorator(createPedidoController);
 }
 
