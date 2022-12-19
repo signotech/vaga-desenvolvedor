@@ -1,6 +1,6 @@
 const { noContent } = require('../util/http');
 
-class DeleteAllProdutosController {
+class DeleteAllResourcesController {
   constructor(useCase) {
     this.useCase = useCase;
   }
@@ -11,4 +11,4 @@ class DeleteAllProdutosController {
   }
 }
 
-module.exports = DeleteAllProdutosController;
+module.exports = DeleteAllResourcesController;
