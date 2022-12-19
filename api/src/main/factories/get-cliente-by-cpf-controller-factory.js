@@ -1,11 +1,11 @@
-const GetClienteByCpfController = require('../../controllers/get-cliente-by-cpf-controller');
+const GetResourceByIdController = require('../../controllers/get-resource-by-id-controller');
 const SequelizeClienteRepository = require('../../repositories/sequelize-cliente-repository');
 const GetClienteByCpfUseCase = require('../../use-cases/get-cliente-by-cpf-use-case');
 const ClienteControllerDecorator = require('../decorators/cliente-controller-decorator');
 
 function makeGetClienteByCpfController() {
   const getClienteByCpfUseCase = new GetClienteByCpfUseCase(SequelizeClienteRepository);
-  const getClienteByCpfController = new GetClienteByCpfController(getClienteByCpfUseCase);
+  const getClienteByCpfController = new GetResourceByIdController(getClienteByCpfUseCase);
   return new ClienteControllerDecorator(getClienteByCpfController);
 }
 
