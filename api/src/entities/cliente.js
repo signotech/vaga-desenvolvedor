@@ -1,17 +1,9 @@
 const ValidationError = require('../errors/validation-error');
+const { validateCpfCliente } = require('./cpf-validator');
 
 class Cliente {
   constructor({ cpfCliente, nomeCliente, emailCliente }) {
-    if (cpfCliente === undefined) {
-      throw new ValidationError('O campo cpfCliente é obrigatório');
-    }
-    if (typeof cpfCliente !== 'string') {
-      throw new ValidationError('O campo cpfCliente deve ser uma string');
-    }
-    const cpfFormat = /^\d{11}$/;
-    if (!cpfCliente.match(cpfFormat)) {
-      throw new ValidationError('O campo cpfCliente deve conter 11 dígitos');
-    }
+    validateCpfCliente(cpfCliente);
     if (nomeCliente === undefined) {
       throw new ValidationError('O campo nomeCliente é obrigatório');
     }
