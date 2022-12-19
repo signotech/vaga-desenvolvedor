@@ -1,6 +1,6 @@
 const { noContent } = require('../util/http');
 
-class DeleteProdutoBySkuController {
+class DeleteResourceByIdController {
   constructor(useCase) {
     this.useCase = useCase;
   }
@@ -11,4 +11,4 @@ class DeleteProdutoBySkuController {
   }
 }
 
-module.exports = DeleteProdutoBySkuController;
+module.exports = DeleteResourceByIdController;

@@ -1,10 +1,10 @@
-const DeleteProdutoBySkuController = require('../../controllers/delete-produto-by-sku-controller');
+const DeleteResourceByIdController = require('../../controllers/delete-resource-by-id-controller');
 const SequelizeProdutoRepository = require('../../repositories/sequelize-produto-repository');
 const DeleteProdutoBySkuUseCase = require('../../use-cases/delete-produto-by-sku-use-case');
 
 function makeDeleteProdutoBySkuController() {
   const deleteProdutoBySkuUseCase = new DeleteProdutoBySkuUseCase(SequelizeProdutoRepository);
-  return new DeleteProdutoBySkuController(deleteProdutoBySkuUseCase);
+  return new DeleteResourceByIdController(deleteProdutoBySkuUseCase);
 }
 
 module.exports = { makeDeleteProdutoBySkuController };
