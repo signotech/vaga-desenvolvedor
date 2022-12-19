@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     codigoPedido: {
       type: DataTypes.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
     },
     status: DataTypes.STRING(100),
     dataPedido: DataTypes.DATE,
