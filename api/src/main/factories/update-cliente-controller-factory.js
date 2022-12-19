@@ -1,11 +1,11 @@
-const UpdateClienteController = require('../../controllers/update-cliente-controller');
+const UpdateResourceController = require('../../controllers/update-resource-controller');
 const SequelizeClienteRepository = require('../../repositories/sequelize-cliente-repository');
 const UpdateClienteUseCase = require('../../use-cases/update-cliente-use-case');
 const ClienteControllerDecorator = require('../decorators/cliente-controller-decorator');
 
 function makeUpdateClienteController() {
   const updateClienteUseCase = new UpdateClienteUseCase(SequelizeClienteRepository);
-  const updateClienteController = new UpdateClienteController(updateClienteUseCase);
+  const updateClienteController = new UpdateResourceController(updateClienteUseCase);
   return new ClienteControllerDecorator(updateClienteController);
 }
 
