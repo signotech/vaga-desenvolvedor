@@ -4,7 +4,7 @@ import { CreateProductUseCase } from './CreateProductUseCase';
 
 export class CreateProductController {
   async handle(request: Request, response: Response) {
-    const { name, category, stock, unitPrice } = request.body;
+    const { name, category, stock, unitPrice, sku } = request.body;
 
     const createProductUseCase = new CreateProductUseCase();
 
@@ -12,7 +12,8 @@ export class CreateProductController {
       category,
       name,
       stock,
-      unitPrice
+      unitPrice,
+      sku
     });
 
     return response.json(product);

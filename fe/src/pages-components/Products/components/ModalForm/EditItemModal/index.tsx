@@ -2,6 +2,7 @@
 import {
   Button,
   FormControl,
+  FormLabel,
   Input,
   InputGroup,
   InputLeftElement,
@@ -36,6 +37,7 @@ interface EditProductFormData {
   category: string
   stock: number
   unitPrice: string
+  sku: string
 }
 
 export function EditItemModal({
@@ -60,7 +62,13 @@ export function EditItemModal({
 
   async function handleEditProduct(data: EditProductFormData) {
     try {
-      if (!data.category || !data.name || !data.stock || !data.unitPrice) {
+      if (
+        !data.category ||
+        !data.name ||
+        !data.stock ||
+        !data.unitPrice ||
+        !data.sku
+      ) {
         toast({
           status: 'error',
           title: 'Preencha os campos necessários',
@@ -115,13 +123,20 @@ export function EditItemModal({
         flexDirection="column"
         gap={4}
       >
-        <InputGroup flexDir="column" gap={2}>
-          <Text>Nome</Text>
-          <Input placeholder="Nome" {...register('name')} />
-        </InputGroup>
+        <FormControl isRequired>
+          <FormLabel>Nome do produto</FormLabel>
 
-        <InputGroup flexDir="column" gap={2}>
-          <Text>Categoria</Text>
+          <Input placeholder="Digite nome do produto" {...register('name')} />
+        </FormControl>
+
+        <FormControl isRequired>
+          <FormLabel>Código do produto</FormLabel>
+
+          <Input placeholder="Digite Código do produto" {...register('sku')} />
+        </FormControl>
+
+        <FormControl isRequired>
+          <FormLabel>Categoria</FormLabel>
           <Select
             placeholder="Selecione uma categoria"
             {...register('category')}
@@ -132,9 +147,9 @@ export function EditItemModal({
               </option>
             ))}
           </Select>
-        </InputGroup>
-        <InputGroup flexDir="column" gap={2}>
-          <Text>Quantidade</Text>
+        </FormControl>
+        <FormControl isRequired>
+          <FormLabel>Quantidade </FormLabel>
           <NumberInput defaultValue={1} placeholder="Quantidade" min={1}>
             <NumberInputField {...register('stock', { valueAsNumber: true })} />
             <NumberInputStepper>
@@ -142,10 +157,10 @@ export function EditItemModal({
               <NumberDecrementStepper />
             </NumberInputStepper>
           </NumberInput>
-        </InputGroup>
+        </FormControl>
 
-        <InputGroup flexDir="column" gap={2}>
-          <Text>Preço da unidade</Text>
+        <FormControl isRequired>
+          <FormLabel>Preço da unidade</FormLabel>
           <InputGroup>
             <InputLeftElement children="R$" pointerEvents="none" />
             <Input
@@ -153,7 +168,7 @@ export function EditItemModal({
               {...register('unitPrice')}
             />
           </InputGroup>
-        </InputGroup>
+        </FormControl>
 
         <Button
           type="submit"

@@ -4,4 +4,5 @@ export interface IProduct {
   category: string
   stock: number
   unitPrice: string
+  sku: string
 }

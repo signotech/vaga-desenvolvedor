@@ -72,7 +72,7 @@ export function Header({ children }: HeaderProps) {
           width={['calc(0.25 * 249px)', 'calc(249px * 0.5)']}
           height={['calc(0.25 * 75px)', 'calc(75px * 0.5)']}
         >
-          <Image src={Logo} alt="logo" layout="fill" objectFit="contain" />
+          <Image src={Logo} alt="logo" />
         </Box>
 
         <Flex gap={4} justify="center" align="center" h={[10, 12]}>
@@ -112,6 +112,7 @@ export function Header({ children }: HeaderProps) {
             <Flex flexDirection="column" gap={6} mt={[2, 4, 6]}>
               {headerButtons.map(({ text, icon: BtnIcon, path }) => (
                 <Button
+                  onClick={() => router.push(path)}
                   key={`header-btn-${path}`}
                   alignItems="center"
                   gap={[1, 1, 2]}

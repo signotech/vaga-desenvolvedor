@@ -7,21 +7,22 @@ interface ICreateProduct {
   category: string;
   stock: number;
   unitPrice: string;
+  sku: string;
 }
 
 export class CreateProductUseCase {
-  async execute({ name, category, stock, unitPrice }: ICreateProduct) {
+  async execute({ name, category, stock, unitPrice, sku }: ICreateProduct) {
 
-    const hasFieldEmpty = someIsEmpty([name, unitPrice, stock, category]);
+    const hasFieldEmpty = someIsEmpty([name, unitPrice, stock, category, sku]);
 
     if(hasFieldEmpty) {
       throw new Error('Campos obrigatórios foram esquecidos.');
     }
 
-    const nameInUse = await prisma.products.findFirst({where: {name}});
+    const skuInUse = await prisma.products.findFirst({where: {sku}});
 
-    if(nameInUse) {
-      throw new Error('Nome já está em uso.');
+    if(skuInUse) {
+      throw new Error('Código do produto já está em uso.');
     }
 
     const newProduct = await prisma.products.create({
@@ -29,7 +30,8 @@ export class CreateProductUseCase {
         name,
         category,
         stock,
-        unitPrice
+        unitPrice,
+        sku
       }
     });
 

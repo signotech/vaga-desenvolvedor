@@ -2,6 +2,7 @@
 import {
   Button,
   FormControl,
+  FormLabel,
   Input,
   InputGroup,
   InputLeftElement,
@@ -34,6 +35,7 @@ interface NewProductFormData {
   category: string
   stock: number
   unitPrice: string
+  sku: string
 }
 
 export function AddItemModal({
@@ -51,7 +53,13 @@ export function AddItemModal({
 
   async function handleCreateNewProduct(data: NewProductFormData) {
     try {
-      if (!data.category || !data.name || !data.stock || !data.unitPrice) {
+      if (
+        !data.category ||
+        !data.name ||
+        !data.stock ||
+        !data.unitPrice ||
+        !data.sku
+      ) {
         toast({
           status: 'error',
           title: 'Preencha os campos necessários',
@@ -100,14 +108,20 @@ export function AddItemModal({
         flexDirection="column"
         gap={4}
       >
-        <InputGroup flexDir="column" gap={2}>
-          <Text>Nome do produto *</Text>
+        <FormControl isRequired>
+          <FormLabel>Nome do produto</FormLabel>
 
           <Input placeholder="Digite nome do produto" {...register('name')} />
-        </InputGroup>
+        </FormControl>
 
-        <InputGroup flexDir="column" gap={2}>
-          <Text>Categoria *</Text>
+        <FormControl isRequired>
+          <FormLabel>Código do produto</FormLabel>
+
+          <Input placeholder="Digite Código do produto" {...register('sku')} />
+        </FormControl>
+
+        <FormControl isRequired>
+          <FormLabel>Categoria</FormLabel>
           <Select
             placeholder="Selecione uma categoria"
             {...register('category')}
@@ -118,9 +132,9 @@ export function AddItemModal({
               </option>
             ))}
           </Select>
-        </InputGroup>
-        <InputGroup flexDir="column" gap={2}>
-          <Text>Quantidade *</Text>
+        </FormControl>
+        <FormControl isRequired>
+          <FormLabel>Quantidade </FormLabel>
           <NumberInput defaultValue={1} placeholder="Quantidade" min={1}>
             <NumberInputField {...register('stock', { valueAsNumber: true })} />
             <NumberInputStepper>
@@ -128,10 +142,10 @@ export function AddItemModal({
               <NumberDecrementStepper />
             </NumberInputStepper>
           </NumberInput>
-        </InputGroup>
+        </FormControl>
 
-        <InputGroup flexDir="column" gap={2}>
-          <Text>Preço da unidade *</Text>
+        <FormControl isRequired>
+          <FormLabel>Preço da unidade</FormLabel>
           <InputGroup>
             <InputLeftElement children="R$" pointerEvents="none" />
             <Input
@@ -139,7 +153,7 @@ export function AddItemModal({
               {...register('unitPrice')}
             />
           </InputGroup>
-        </InputGroup>
+        </FormControl>
 
         <Button
           type="submit"

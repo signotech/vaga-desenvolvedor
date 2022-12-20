@@ -22,6 +22,7 @@ import { DeleteItemModal } from '../ModalForm/DeleteItemModal'
 import { EditItemModal } from '../ModalForm/EditItemModal'
 
 const stockColumns = [
+  { text: 'Código P.', prop: 'sku' },
   { text: 'Nome', prop: 'name' },
   { text: 'Categoria', prop: 'category' },
   { text: 'Quantidade', prop: 'amount' },
@@ -114,6 +115,7 @@ export function Table() {
                       bg: 'blue.50',
                     }}
                   >
+                    <Td>{item.sku}</Td>
                     <Td>{item.name}</Td>
                     <Td>{item.category}</Td>
                     <Td>{item.stock}</Td>

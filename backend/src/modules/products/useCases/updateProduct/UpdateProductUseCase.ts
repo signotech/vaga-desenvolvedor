@@ -7,12 +7,14 @@ interface IUpdateProduct {
   name: string;
   category: string;
   stock: number;
-  unitPrice: string;  
+  unitPrice: string;
+  sku: string;
+
 }
 
 
 export class UpdateProductUseCase {
-  async execute({ id, name, category, stock, unitPrice }: IUpdateProduct) {
+  async execute({ id, name, category, stock, unitPrice, sku }: IUpdateProduct) {
 
     const hasFieldEmpty = someIsEmpty([name, unitPrice, stock, category]);
 
@@ -28,10 +30,11 @@ export class UpdateProductUseCase {
         name,
         category,
         stock,
-        unitPrice
+        unitPrice,
+        sku
       }
     });
-   
+
     return updatedProduct;
   }
 }

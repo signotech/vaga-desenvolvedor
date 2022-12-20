@@ -6,7 +6,7 @@ interface ICreateOrder{
   productsId: string;
   clientsId: string;
   quantity: number;
-  status?: 'Aberto' | 'Pago' | 'Cancelado'; 
+  status?: 'Aberto' | 'Pago' | 'Cancelado';
 }
 
 
@@ -20,7 +20,7 @@ export class CreateOrderUseCase {
     }
 
     const product = await prisma.products.findFirst({where: {id: productsId}});
-    
+
     if(!product) {
       throw new Error('Esse produto nao existe.');
     }
