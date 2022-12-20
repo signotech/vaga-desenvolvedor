@@ -37,7 +37,7 @@ model Orders {
   code       Int      @default(autoincrement())
   product    Products @relation(fields: [productsId], references: [id])
   productsId String
-  client     Clients  @relation(fields: [clientsId], references: [id])
+  client     Clients  @relation(fields: [clientsId], references: [id], onDelete: Cascade)
   clientsId  String
   status     String
   quantity   Int

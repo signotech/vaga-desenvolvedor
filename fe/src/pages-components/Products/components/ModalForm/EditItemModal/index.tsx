@@ -12,7 +12,6 @@ import {
   NumberInputField,
   NumberInputStepper,
   Select,
-  Text,
   useToast,
 } from '@chakra-ui/react'
 
@@ -32,13 +31,7 @@ interface EditItemModalProps {
   items: IProduct
 }
 
-interface EditProductFormData {
-  name: string
-  category: string
-  stock: number
-  unitPrice: string
-  sku: string
-}
+interface EditProductFormData extends IProduct {}
 
 export function EditItemModal({
   isEditModalOpen,
@@ -59,6 +52,7 @@ export function EditItemModal({
   setValue('category', items.category)
   setValue('stock', items.stock)
   setValue('unitPrice', items.unitPrice)
+  setValue('sku', items.sku)
 
   async function handleEditProduct(data: EditProductFormData) {
     try {

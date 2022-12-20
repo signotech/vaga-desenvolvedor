@@ -72,7 +72,7 @@ export function AddItemModal({
       toast.closeAll()
       toast({
         status: 'error',
-        title: 'Error ao Cadastrar Cliente.',
+        title: error.response.data.message,
       })
     }
   }

@@ -1,34 +1,13 @@
-import {
-  TableContainer,
-  Table as TableChakra,
-  Tr,
-  Th,
-  Flex,
-  Thead,
-  Tbody,
-  Td,
-  Icon,
-  Spinner,
-} from '@chakra-ui/react'
-import moment from 'moment'
+import { TableContainer, Flex, Icon, Spinner, Button } from '@chakra-ui/react'
 import { OrderContext } from 'pages-components/Orders'
 import { useCallback, useContext, useMemo, useState } from 'react'
-import { AiOutlineDelete } from 'react-icons/ai'
-import { FiEdit2 } from 'react-icons/fi'
+import { FiEdit2, FiTrash2 } from 'react-icons/fi'
 import { formatMoney } from 'utils/formatMoney'
 import { IOrder } from '../../../../../@types/Order'
 import { DeleteItemModal } from '../ModalForm/DeleteItemModal'
 import { EditItemModal } from '../ModalForm/EditItemModal'
 
-const stockColumns = [
-  { text: 'Código', prop: 'code' },
-  { text: 'Produto', prop: 'product' },
-  { text: 'Cliente', prop: 'client' },
-  { text: 'Quantidade', prop: 'quantity' },
-  { text: 'Status', prop: 'status' },
-  { text: 'Valor Total', prop: 'status' },
-  { text: 'Data', prop: 'date' },
-]
+import { Table as TablePagination } from 'react-chakra-pagination'
 
 export function Table() {
   const { orders, filter, orderBy, isLoading, searchContent } =
@@ -37,6 +16,7 @@ export function Table() {
   const [items, setItems] = useState({} as IOrder)
   const [isDeleteItemModal, setIsDeleteItemModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [page, setPage] = useState(1)
 
   const filteredByFilter = useMemo(() => {
     if (filter) {
@@ -88,63 +68,86 @@ export function Table() {
     setIsDeleteItemModalOpen(true)
   }, [])
 
+  const tableData = filteredBySearch.map((item) => ({
+    code: String(item.code_order),
+    product: item.product,
+    client: item.name,
+    quantity: String(item.quantity),
+    status: item.status,
+    price: formatMoney(item.totalPrice),
+    date: new Date(item.date).toLocaleDateString('pt-BR'),
+    action: (
+      <Flex gap={2} align="center" color="blue.800">
+        <Button
+          colorScheme="gray"
+          onClick={() => handleOpenEditModal({ ...item })}
+          size="sm"
+        >
+          <Icon as={FiEdit2} fontSize="20" />
+        </Button>
+        <Button
+          colorScheme="gray"
+          onClick={() => handleOpenDeleteItemModal(item.id)}
+          size="sm"
+        >
+          <Icon as={FiTrash2} fontSize="20" />
+        </Button>
+      </Flex>
+    ),
+  }))
+
+  const tableColumns = [
+    {
+      Header: 'Código P.',
+      accessor: 'code' as const,
+    },
+    {
+      Header: 'Produto',
+      accessor: 'product' as const,
+    },
+    {
+      Header: 'Cliente',
+      accessor: 'client' as const,
+    },
+    {
+      Header: 'Quantidade',
+      accessor: 'quantity' as const,
+    },
+    {
+      Header: 'Status',
+      accessor: 'status' as const,
+    },
+    {
+      Header: 'Valor Total',
+      accessor: 'price' as const,
+    },
+    {
+      Header: 'Data',
+      accessor: 'date' as const,
+    },
+    {
+      Header: '',
+      accessor: 'action' as const,
+    },
+  ]
+
   return (
     <>
       {isLoading ? (
         <Spinner size="xl" />
       ) : (
         <TableContainer>
-          <TableChakra variant="simple">
-            <Thead>
-              <Tr>
-                {stockColumns.map(({ text, prop }) => (
-                  <Th key={`header-${prop}`}>
-                    <Flex align="center" gap={2}>
-                      {text}
-                    </Flex>
-                  </Th>
-                ))}
-              </Tr>
-            </Thead>
-            <Tbody>
-              {filteredBySearch.map((item) => {
-                return (
-                  <Tr
-                    key={item.id}
-                    cursor="pointer"
-                    _hover={{
-                      bg: 'blue.50',
-                    }}
-                  >
-                    <Td>{item.code_order}</Td>
-                    <Td>{item.product}</Td>
-                    <Td>{item.name}</Td>
-                    <Td>{item.quantity}</Td>
-                    <Td>{item.status}</Td>
-                    <Td>{formatMoney(item.totalPrice)}</Td>
-                    <Td>{moment(item.date).format('l')}</Td>
-                    {/* Buttons */}
-                    <Td>
-                      <Flex gap={2} align="center" color="blue.800">
-                        <Icon
-                          as={FiEdit2}
-                          fontSize={[16, 18]}
-                          _hover={{ color: 'blue.500' }}
-                          onClick={() => handleOpenEditModal({ ...item })}
-                        />
-                        <Icon
-                          as={AiOutlineDelete}
-                          fontSize={[20, 22]}
-                          _hover={{ color: 'red.400' }}
-                          onClick={() => handleOpenDeleteItemModal(item.id)}
-                        />
-                      </Flex>
-                    </Td>
-                  </Tr>
-                )
-              })}
-            </Tbody>
-          </TableChakra>
+          <TablePagination
+            colorScheme="blue"
+            totalRegisters={filteredBySearch.length}
+            page={page}
+            emptyData={{
+              text: 'Nao existe Pedidos cadastrados.',
+            }}
+            onPageChange={(page) => setPage(page)}
+            columns={tableColumns}
+            data={tableData}
+          />
         </TableContainer>
       )}
 

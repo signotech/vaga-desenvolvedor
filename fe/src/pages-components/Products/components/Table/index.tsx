@@ -1,37 +1,19 @@
-import {
-  TableContainer,
-  Table as TableChakra,
-  Tr,
-  Th,
-  Flex,
-  Thead,
-  Tbody,
-  Td,
-  Icon,
-  Spinner,
-  Stack,
-  Skeleton,
-} from '@chakra-ui/react'
-import { ProductContext } from 'pages-components/Products'
 import { useCallback, useContext, useMemo, useState } from 'react'
-import { AiOutlineDelete } from 'react-icons/ai'
-import { FiEdit2 } from 'react-icons/fi'
+import { TableContainer, Flex, Icon, Button, Spinner } from '@chakra-ui/react'
+
+import { Table as TablePagination } from 'react-chakra-pagination'
+
+import { ProductContext } from 'pages-components/Products'
+import { FiEdit2, FiTrash2 } from 'react-icons/fi'
 import { formatMoney } from 'utils/formatMoney'
 import { IProduct } from '../../../../../@types/Product'
 import { DeleteItemModal } from '../ModalForm/DeleteItemModal'
 import { EditItemModal } from '../ModalForm/EditItemModal'
 
-const stockColumns = [
-  { text: 'Código P.', prop: 'sku' },
-  { text: 'Nome', prop: 'name' },
-  { text: 'Categoria', prop: 'category' },
-  { text: 'Quantidade', prop: 'amount' },
-  { text: 'Preço unid.', prop: 'unitPrice' },
-]
-
 export function Table() {
-  const { products, filter, orderBy, isLoading, searchContent } =
+  const { products, filter, orderBy, searchContent, isLoading } =
     useContext(ProductContext)
+  const [page, setPage] = useState(1)
   const [id, setId] = useState('')
   const [items, setItems] = useState({} as IProduct)
   const [isDeleteItemModal, setIsDeleteItemModalOpen] = useState(false)
@@ -87,63 +69,78 @@ export function Table() {
     setIsDeleteItemModalOpen(true)
   }, [])
 
+  const tableData = filteredBySearch.map((item) => ({
+    sku: item.sku,
+    name: item.name,
+    category: item.category,
+    stock: String(item.stock),
+    unitPrice: formatMoney(Number(item.unitPrice)),
+    action: (
+      <Flex gap={2} align="center" color="blue.800">
+        <Button
+          colorScheme="gray"
+          onClick={() => handleOpenEditModal({ ...item })}
+          size="sm"
+        >
+          <Icon as={FiEdit2} fontSize="20" />
+        </Button>
+        <Button
+          colorScheme="gray"
+          onClick={() => handleOpenDeleteItemModal(item.id)}
+          size="sm"
+        >
+          <Icon as={FiTrash2} fontSize="20" />
+        </Button>
+      </Flex>
+    ),
+  }))
+
+  const tableColumns = [
+    {
+      Header: 'Código P.',
+      accessor: 'sku' as const,
+    },
+    {
+      Header: 'Name',
+      accessor: 'name' as const,
+    },
+    {
+      Header: 'Categoria',
+      accessor: 'category' as const,
+    },
+    {
+      Header: 'Quantidade',
+      accessor: 'stock' as const,
+    },
+    {
+      Header: 'Preço',
+      accessor: 'unitPrice' as const,
+    },
+    {
+      Header: '',
+      accessor: 'action' as const,
+    },
+  ]
+
   return (
     <>
-      <TableContainer>
-        <TableChakra variant="simple">
-          <Thead>
-            <Tr>
-              {stockColumns.map(({ text, prop }) => (
-                <Th key={`header-${prop}`}>
-                  <Flex align="center" gap={2}>
-                    {text}
-                  </Flex>
-                </Th>
-              ))}
-            </Tr>
-          </Thead>
-          {isLoading ? (
-            <Spinner size="xl" />
-          ) : (
-            <Tbody>
-              {filteredBySearch.map((item) => {
-                return (
-                  <Tr
-                    key={item.id}
-                    cursor="pointer"
-                    _hover={{
-                      bg: 'blue.50',
-                    }}
-                  >
-                    <Td>{item.sku}</Td>
-                    <Td>{item.name}</Td>
-                    <Td>{item.category}</Td>
-                    <Td>{item.stock}</Td>
-                    <Td>{formatMoney(Number(item.unitPrice))}</Td>
-                    {/* Buttons */}
-                    <Td>
-                      <Flex gap={2} align="center" color="blue.800">
-                        <Icon
-                          as={FiEdit2}
-                          fontSize={[16, 18]}
-                          _hover={{ color: 'blue.500' }}
-                          onClick={() => handleOpenEditModal({ ...item })}
-                        />
-                        <Icon
-                          as={AiOutlineDelete}
-                          fontSize={[20, 22]}
-                          _hover={{ color: 'red.400' }}
-                          onClick={() => handleOpenDeleteItemModal(item.id)}
-                        />
-                      </Flex>
-                    </Td>
-                  </Tr>
-                )
-              })}
-            </Tbody>
-          )}
-        </TableChakra>
-      </TableContainer>
+      {isLoading ? (
+        <Spinner size="xl" />
+      ) : (
+        <TableContainer>
+          <TablePagination
+            colorScheme="blue"
+            totalRegisters={filteredBySearch.length}
+            page={page}
+            emptyData={{
+              text: 'Nao existe produtos cadastrados.',
+            }}
+            onPageChange={(page) => setPage(page)}
+            columns={tableColumns}
+            data={tableData}
+          />
+        </TableContainer>
+      )}
 
       <DeleteItemModal
         id={id}

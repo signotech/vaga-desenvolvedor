@@ -1,36 +1,20 @@
-import {
-  TableContainer,
-  Table as TableChakra,
-  Tr,
-  Th,
-  Flex,
-  Thead,
-  Tbody,
-  Td,
-  Icon,
-  Spinner,
-} from '@chakra-ui/react'
+import { TableContainer, Flex, Icon, Spinner, Button } from '@chakra-ui/react'
 import { ClientContext } from 'pages-components/Clients'
 import { useCallback, useContext, useMemo, useState } from 'react'
-import { AiOutlineDelete } from 'react-icons/ai'
-import { FiEdit2 } from 'react-icons/fi'
+import { FiEdit2, FiTrash2 } from 'react-icons/fi'
 import { IClient } from '../../../../../@types/Client'
 import { DeleteItemModal } from '../ModalForm/DeleteItemModal'
 import { EditItemModal } from '../ModalForm/EditItemModal'
-
-const stockColumns = [
-  { text: 'Nome', prop: 'name' },
-  { text: 'E-mail', prop: 'email' },
-  { text: 'CPF', prop: 'cpf' },
-]
+import { Table as TablePagination } from 'react-chakra-pagination'
 
 export function Table() {
-  const { clients, orderBy, isLoading, searchContent } =
+  const { clients, orderBy, searchContent, isLoading } =
     useContext(ClientContext)
   const [id, setId] = useState('')
   const [items, setItems] = useState({} as IClient)
   const [isDeleteItemModal, setIsDeleteItemModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [page, setPage] = useState(1)
 
   const filteredBySort = useMemo(
     () =>
@@ -74,59 +58,66 @@ export function Table() {
     setIsDeleteItemModalOpen(true)
   }, [])
 
+  const tableData = filteredBySearch.map((item) => ({
+    name: item.name,
+    email: item.email,
+    cpf: item.cpf,
+    action: (
+      <Flex gap={2} align="center" color="blue.800">
+        <Button
+          colorScheme="gray"
+          onClick={() => handleOpenEditModal({ ...item })}
+          size="sm"
+        >
+          <Icon as={FiEdit2} fontSize="20" />
+        </Button>
+        <Button
+          colorScheme="gray"
+          onClick={() => handleOpenDeleteItemModal(item.id)}
+          size="sm"
+        >
+          <Icon as={FiTrash2} fontSize="20" />
+        </Button>
+      </Flex>
+    ),
+  }))
+
+  const tableColumns = [
+    {
+      Header: 'Nome',
+      accessor: 'name' as const,
+    },
+    {
+      Header: 'E-mail',
+      accessor: 'email' as const,
+    },
+    {
+      Header: 'CPF',
+      accessor: 'cpf' as const,
+    },
+    {
+      Header: '',
+      accessor: 'action' as const,
+    },
+  ]
+
   return (
     <>
       {isLoading ? (
         <Spinner size="xl" />
       ) : (
         <TableContainer>
-          <TableChakra variant="simple">
-            <Thead>
-              <Tr>
-                {stockColumns.map(({ text, prop }) => (
-                  <Th key={`header-${prop}`}>
-                    <Flex align="center" gap={2}>
-                      {text}
-                    </Flex>
-                  </Th>
-                ))}
-              </Tr>
-            </Thead>
-            <Tbody>
-              {filteredBySearch?.map((item) => {
-                return (
-                  <Tr
-                    key={item.id}
-                    cursor="pointer"
-                    _hover={{
-                      bg: 'blue.50',
-                    }}
-                  >
-                    <Td>{item.name}</Td>
-                    <Td>{item.email}</Td>
-                    <Td>{item.cpf}</Td>
-                    {/* Buttons */}
-                    <Td>
-                      <Flex gap={2} align="center" color="blue.800">
-                        <Icon
-                          as={FiEdit2}
-                          fontSize={[16, 18]}
-                          _hover={{ color: 'blue.500' }}
-                          onClick={() => handleOpenEditModal({ ...item })}
-                        />
-                        <Icon
-                          as={AiOutlineDelete}
-                          fontSize={[20, 22]}
-                          _hover={{ color: 'red.400' }}
-                          onClick={() => handleOpenDeleteItemModal(item.id)}
-                        />
-                      </Flex>
-                    </Td>
-                  </Tr>
-                )
-              })}
-            </Tbody>
-          </TableChakra>
+          <TablePagination
+            colorScheme="blue"
+            totalRegisters={filteredBySearch.length}
+            page={page}
+            emptyData={{
+              text: 'Nao existe Clientes cadastrados.',
+            }}
+            onPageChange={(page) => setPage(page)}
+            columns={tableColumns}
+            data={tableData}
+          />
         </TableContainer>
       )}
 
