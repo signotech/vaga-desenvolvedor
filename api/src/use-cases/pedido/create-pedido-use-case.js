@@ -1,7 +1,7 @@
-const { validateCpfCliente } = require('../entities/cpf-validator');
-const Pedido = require('../entities/pedido');
-const ResourceNotFoundError = require('../errors/resource-not-found-error');
-const ValidationError = require('../errors/validation-error');
+const { validateCpfCliente } = require('../../entities/cpf-validator');
+const Pedido = require('../../entities/pedido');
+const ResourceNotFoundError = require('../../errors/resource-not-found-error');
+const ValidationError = require('../../errors/validation-error');
 
 class CreatePedidoUseCase {
   constructor(pedidoRepository, clienteRepository, produtoRepository) {

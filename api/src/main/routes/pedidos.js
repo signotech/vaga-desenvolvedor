@@ -1,11 +1,11 @@
 const { adaptController } = require('../adapters/express-controller-adapter');
-const { makeCreatePedidoController } = require('../factories/create-pedido-controller-factory');
-const { makeDeleteAllPedidosController } = require('../factories/delete-all-pedidos-controller-factory');
-const { makeDeletePedidoByCodigoController } = require('../factories/delete-pedido-by-codigo-controller-factory');
-const { makeGetAllPedidoByClienteController } = require('../factories/get-all-pedidos-by-cliente-controller-factory');
-const { makeGetAllPedidosController } = require('../factories/get-all-pedidos-controller-factory');
-const { makeGetPedidoByCodigoController } = require('../factories/get-pedido-by-codigo-controller-factory');
-const { makeUpdatePedidoController } = require('../factories/update-pedido-controller-factory');
+const { makeCreatePedidoController } = require('../factories/pedido/create-pedido-controller-factory');
+const { makeDeleteAllPedidosController } = require('../factories/pedido/delete-all-pedidos-controller-factory');
+const { makeDeletePedidoByCodigoController } = require('../factories/pedido/delete-pedido-by-codigo-controller-factory');
+const { makeGetAllPedidoByClienteController } = require('../factories/pedido/get-all-pedidos-by-cliente-controller-factory');
+const { makeGetAllPedidosController } = require('../factories/pedido/get-all-pedidos-controller-factory');
+const { makeGetPedidoByCodigoController } = require('../factories/pedido/get-pedido-by-codigo-controller-factory');
+const { makeUpdatePedidoController } = require('../factories/pedido/update-pedido-controller-factory');
 
 function setupPedidosRoute(app) {
   app.post('/pedidos', adaptController(makeCreatePedidoController()));

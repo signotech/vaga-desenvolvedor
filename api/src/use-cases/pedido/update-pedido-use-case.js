@@ -1,5 +1,5 @@
-const Pedido = require('../entities/pedido');
-const ResourceNotFoundError = require('../errors/resource-not-found-error');
+const Pedido = require('../../entities/pedido');
+const ResourceNotFoundError = require('../../errors/resource-not-found-error');
 
 class UpdateClienteUseCase {
   constructor(pedidoRepository) {

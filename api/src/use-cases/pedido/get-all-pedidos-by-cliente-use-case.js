@@ -1,4 +1,4 @@
-const ResourceNotFoundError = require('../errors/resource-not-found-error');
+const ResourceNotFoundError = require('../../errors/resource-not-found-error');
 
 class GetAllPedidosByClienteUseCase {
   constructor(pedidoRepository, clienteRepository) {
