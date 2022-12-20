@@ -27,8 +27,8 @@ interface AddItemModalProps {
 }
 
 interface NewClientFormData {
-  client: string
-  product: string
+  productsId: string
+  clientsId: string
   quantity: number
 }
 
@@ -58,7 +58,7 @@ export function AddItemModal({
 
   async function handleCreateNewOrder(data: NewClientFormData) {
     try {
-      if (!data.client || !data.product || !data.quantity) {
+      if (!data.clientsId || !data.productsId || !data.quantity) {
         toast({
           status: 'error',
           title: 'Preencha os campos necessários',
@@ -73,18 +73,9 @@ export function AddItemModal({
         title: 'Adicionando Item',
       })
 
-      const [client] = clients.filter((client) => client.name === data.client)
-      const [product] = products.filter(
-        (product) => product.name === data.product,
-      )
+      console.log(data)
 
-      const newData = {
-        productsId: product.id,
-        clientsId: client.id,
-        quantity: data.quantity,
-      }
-
-      const response = await api.post('/orders', newData)
+      const response = await api.post('/orders', data)
 
       toast.closeAll()
 
@@ -124,9 +115,12 @@ export function AddItemModal({
         <FormControl isRequired>
           <FormLabel>Cliente</FormLabel>
 
-          <Select placeholder="Escolha..." {...register('client')}>
+          <Select placeholder="Escolha..." {...register('clientsId')}>
             {clients.map((client) => (
-              <option key={`categorie-select-list-${client.id}`}>
+              <option
+                key={`categorie-select-list-${client.id}`}
+                value={client.id}
+              >
                 {client.name}
               </option>
             ))}
@@ -134,9 +128,12 @@ export function AddItemModal({
         </FormControl>
         <FormControl isRequired>
           <FormLabel>Produto</FormLabel>
-          <Select placeholder="Escolha..." {...register('product')}>
+          <Select placeholder="Escolha..." {...register('productsId')}>
             {products.map((product) => (
-              <option key={`categorie-select-list-${product.id}`}>
+              <option
+                key={`categorie-select-list-${product.id}`}
+                value={product.id}
+              >
                 {product.name}
               </option>
             ))}
