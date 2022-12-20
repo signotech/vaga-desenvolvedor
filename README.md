@@ -66,9 +66,10 @@ Além disto é bom ter um editor para trabalhar com o código como [VSCode](http
 ### 🎲 Rodando o Back End (servidor)
 ```bash
 # Clone este repositório
-$ git clone <https://github.com/jonasmartinsdev/foodexplorer-backend.git>
+$ git clone <https://github.com/jonasmartinsdev/vaga-desenvolvedor.git>
 
 # Acesse a pasta do projeto no terminal/cmd
+$ cd vaga-desenvolvedor
 $ cd backend
 
 # Instale as dependências
@@ -96,9 +97,10 @@ $ npm run dev
 
 ```bash
 # Clone este repositório
-$ git clone <>
+$ git clone <https://github.com/jonasmartinsdev/vaga-desenvolvedor.git>
 
 # Acesse a pasta do projeto no terminal/cmd
+$ cd vaga-desenvolvedor
 $ cd fe
 
 # Instale as dependências
