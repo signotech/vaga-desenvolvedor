@@ -1,5 +1,5 @@
-const Produto = require('../entities/produto');
-const ResourceAlreadyExistsError = require('../errors/resource-already-exists-error');
+const Produto = require('../../entities/produto');
+const ResourceAlreadyExistsError = require('../../errors/resource-already-exists-error');
 
 class CreateProdutoUseCase {
   constructor(produtoRepository) {

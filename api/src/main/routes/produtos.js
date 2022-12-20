@@ -1,11 +1,11 @@
 const { adaptController } = require('../adapters/express-controller-adapter');
-const { makeCreateProdutoController } = require('../factories/create-produto-controller-factory');
-const { makeDeleteAllProdutosController } = require('../factories/delete-all-produtos-controller-factory');
-const { makeDeleteProdutoBySkuController } = require('../factories/delete-produto-by-sku-controller-factory');
-const { makeGetAllProdutosByPedidoController } = require('../factories/get-all-produtos-by-pedido-controller-factory');
-const { makeGetAllProdutosController } = require('../factories/get-all-produtos-controller-factory');
-const { makeGetProdutoBySkuController } = require('../factories/get-produto-by-sku-controller-factory');
-const { makeUpdateProdutoController } = require('../factories/update-produto-controller-factory');
+const { makeCreateProdutoController } = require('../factories/produto/create-produto-controller-factory');
+const { makeDeleteAllProdutosController } = require('../factories/produto/delete-all-produtos-controller-factory');
+const { makeDeleteProdutoBySkuController } = require('../factories/produto/delete-produto-by-sku-controller-factory');
+const { makeGetAllProdutosByPedidoController } = require('../factories/produto/get-all-produtos-by-pedido-controller-factory');
+const { makeGetAllProdutosController } = require('../factories/produto/get-all-produtos-controller-factory');
+const { makeGetProdutoBySkuController } = require('../factories/produto/get-produto-by-sku-controller-factory');
+const { makeUpdateProdutoController } = require('../factories/produto/update-produto-controller-factory');
 
 function setupProdutosRoute(app) {
   app.post('/produtos', adaptController(makeCreateProdutoController()));

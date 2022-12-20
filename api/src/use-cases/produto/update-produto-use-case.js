@@ -1,5 +1,5 @@
-const Produto = require('../entities/produto');
-const ResourceNotFoundError = require('../errors/resource-not-found-error');
+const Produto = require('../../entities/produto');
+const ResourceNotFoundError = require('../../errors/resource-not-found-error');
 
 class UpdateProdutoUseCase {
   constructor(produtoRepository) {
