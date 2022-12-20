@@ -2,6 +2,7 @@ const { adaptController } = require('../adapters/express-controller-adapter');
 const { makeCreatePedidoController } = require('../factories/create-pedido-controller-factory');
 const { makeDeleteAllPedidosController } = require('../factories/delete-all-pedidos-controller-factory');
 const { makeDeletePedidoByCodigoController } = require('../factories/delete-pedido-by-codigo-controller-factory');
+const { makeGetAllPedidoByClienteController } = require('../factories/get-all-pedidos-by-cliente-controller-factory');
 const { makeGetAllPedidosController } = require('../factories/get-all-pedidos-controller-factory');
 const { makeGetPedidoByCodigoController } = require('../factories/get-pedido-by-codigo-controller-factory');
 const { makeUpdatePedidoController } = require('../factories/update-pedido-controller-factory');
@@ -13,6 +14,7 @@ function setupPedidosRoute(app) {
   app.patch('/pedidos/:codigoPedido', adaptController(makeUpdatePedidoController()));
   app.delete('/pedidos', adaptController(makeDeleteAllPedidosController()));
   app.delete('/pedidos/:codigoPedido', adaptController(makeDeletePedidoByCodigoController()));
+  app.get('/clientes/:cpfCliente/pedidos', adaptController(makeGetAllPedidoByClienteController()));
 }
 
 module.exports = { setupPedidosRoute };
