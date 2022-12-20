@@ -67,6 +67,15 @@ class SequelizePedidoRepository {
     await PedidoModel.destroy({ where: {} });
   }
 
+  static async deleteByCodigo(codigoPedido) {
+    await PedidoModel.destroy({ where: { codigoPedido } });
+  }
+
+  static async existsByCodigo(codigoPedido) {
+    const pedido = await PedidoModel.findByPk(codigoPedido);
+    return pedido !== null;
+  }
+
   static mapToPedidoEntity(pedido) {
     const cliente = new Cliente(pedido.cliente);
     const produtos = pedido.produtos.map((produto) => new Produto(produto));
