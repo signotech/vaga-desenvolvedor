@@ -32,6 +32,7 @@ Tabela de conteúdos
 - [x] CRUD de clientes.
 - [x] CRUD de produtos.
 - [x] CRUD de pedidos de compra,com status (Em Aberto, Pago ou Cancelado).
+- [x] Autenticação.
 
 
 
