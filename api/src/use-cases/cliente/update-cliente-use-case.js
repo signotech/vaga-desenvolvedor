@@ -1,5 +1,5 @@
-const Cliente = require('../entities/cliente');
-const ResourceNotFoundError = require('../errors/resource-not-found-error');
+const Cliente = require('../../entities/cliente');
+const ResourceNotFoundError = require('../../errors/resource-not-found-error');
 
 class UpdateClienteUseCase {
   constructor(clienteRepository) {
