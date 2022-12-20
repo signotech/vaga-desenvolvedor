@@ -63,6 +63,10 @@ class SequelizePedidoRepository {
     );
   }
 
+  static async deleteAll() {
+    await PedidoModel.destroy({ where: {} });
+  }
+
   static mapToPedidoEntity(pedido) {
     const cliente = new Cliente(pedido.cliente);
     const produtos = pedido.produtos.map((produto) => new Produto(produto));
