@@ -32,7 +32,7 @@ class SequelizePedidoRepository {
     status,
     dataPedido,
   }) {
-    const storedPedidos = await PedidoModel.findAll({
+    const pedidos = await PedidoModel.findAll({
       limit: porPagina,
       offset: porPagina * (pagina - 1),
       order: [[ordenarPor, ordem]],
@@ -42,7 +42,7 @@ class SequelizePedidoRepository {
       },
       include: { all: true },
     });
-    return storedPedidos.map(this.mapToPedidoEntity);
+    return pedidos.map(this.mapToPedidoEntity);
   }
 
   static async getByCodigo(codigoPedido) {
@@ -54,6 +54,14 @@ class SequelizePedidoRepository {
       return null;
     }
     return this.mapToPedidoEntity(pedido);
+  }
+
+  static async getAllByCpfCliente(cpfCliente) {
+    const pedidos = await PedidoModel.findAll({
+      where: { cpfCliente },
+      include: { all: true },
+    });
+    return pedidos.map(this.mapToPedidoEntity);
   }
 
   static async update({ codigoPedido, status }) {
