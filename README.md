@@ -1,38 +1,138 @@
 
-<div align="center">
-  <img width="20%" src="https://site.signoweb.com.br/assets/images/logo-signo.svg" />
-</div>
+<h1 align="center">
+    <a href="#" alt="site do ecoleta"> Desafio SignoWeb </a>
+</h1>
 
-# Sobre nós
-`Software-house especialista em desenvolvimento de projetos personalizados WEB ou MOBILE utilizando sempre tecnologias mais atuais de mercado ou consforme necessidade de nosso cliente`
+ <p align="center"> Cadastro de pedidos de compra.. </p>
 
-## Nosso Manifesto
-<img src="https://site.signoweb.com.br/assets/images/manifesto.png" />
 
-## Nos conheça mais
-<p>Site: https://www.signoweb.com.br</p>
-<p>Linkedin: https://www.linkedin.com/company/2894389</p>
-<p>Instagram: https://www.instagram.com/signoweb</p>
-<p>Facebook: https://facebook.com/signoweb</p>
+ <h4 align="center">
+	🚧   Concluído... 🚀 🚧
+</h4>
 
-# Sobre a vaga
-`Buscamos profissionais que sejam movidos a desafios e apaixonados por desenvolvimento, inovação e novas tecnologias.`
 
-## Requisitos
+[![Linkedin Badge](https://img.shields.io/badge/-JonasMartins-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://https://www.linkedin.com/in/jonas-martins-950a30184/)](https://www.linkedin.com/in/jonas-martins-950a30184/)
 
-### Obrigatórios:
-* Mínimo 1 ano de experiência em desenvolvimento de sites e sistemas em Laravel;
-* Conhecimentos em Node.JS;
-* Desenvolvimento de APIs RESTful;
-* Conhecimentos em SQL e NoSQL;
-* Conhecimentos em Docker;
-* Controle de versões (GIT).
 
-### Diferenciais
-* TDD;
-* Experiência em metodologias ágeis (Scrum/Kanban).
+Tabela de conteúdos
+=================
+   * [Funcionalidades](#-funcionalidades)
+   * [Layout](#-layout)
+     * [Web](#web)
+   * [Como executar o projeto](#-como-executar-o-projeto)
+     * [Pré-requisitos](#pré-requisitos)
+     * [Rodando o Backend (servidor)](#rodando-o-back-end)
+     * [Rodando a aplicação web (Frontend)](#user-content--rodando-a-aplicação-web-frontend)
+   * [Tecnologias](#-tecnologias)
 
-### Como se candidatar
+---
 
-* <a href="teste1.md">Teste 1</a>
-* <a href="teste2.md">Teste 2</a>
+## Funcionalidades
+
+- [x] CRUD de clientes.
+- [x] CRUD de produtos.
+- [x] CRUD de pedidos de compra,com status (Em Aberto, Pago ou Cancelado).
+
+
+
+### Web
+<p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
+  <img src=".github/1.png" width="400px">
+
+  <img src=".github/2.png" width="400px">
+</p>
+
+---
+
+
+## 🚀 Como executar o projeto
+Este projeto é divido em duas partes:
+1. Backend (pasta server) 
+2. Fe (pasta web)
+
+
+💡O Frontend precisa que o Backend esteja sendo executado para funcionar.
+
+
+<hr />
+
+### Pré-requisitos
+
+Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
+[Git](https://git-scm.com), [Node.js](https://nodejs.org/en/), [Docker](https://www.docker.com). 
+Além disto é bom ter um editor para trabalhar com o código como [VSCode](https://code.visualstudio.com/)
+
+
+### 🎲 Rodando o Back End (servidor)
+```bash
+# Clone este repositório
+$ git clone <https://github.com/jonasmartinsdev/foodexplorer-backend.git>
+
+# Acesse a pasta do projeto no terminal/cmd
+$ cd backend
+
+# Instale as dependências
+$ npm i
+
+# Renomeie .env.example para .env
+
+# Criação do banco de dados utilizando o docker compose
+
+$ docker-compose up
+
+# Execute as migration e seed
+$ npx prisma migrate dev
+
+# Execute a aplicação em modo de desenvolvimento
+$ npm run dev
+
+# O servidor iniciará na porta:3333 - acesse <http://localhost:3333>
+```
+
+
+
+
+### 🎲 Rodando o Front End
+
+```bash
+# Clone este repositório
+$ git clone <>
+
+# Acesse a pasta do projeto no terminal/cmd
+$ cd fe
+
+# Instale as dependências
+$ npm i
+
+# Execute a aplicação em modo de desenvolvimento
+$ npm run dev
+
+
+# Login do admin
+$ chave: jonas@dev
+```
+
+---
+
+
+## Como foi feito:
+Para criar a interface, utilizer o Next.js e o ChakraUi.
+O Cliente esta sendo conectado a uma API feita usando o Node.js e PostgreSQL.
+
+
+## 🚀 Tecnologias usadas no projeto
+
+- Next.js
+- TypeScript
+- ChakraUI
+- Node.js
+- PostgreSQL
+- Prisma
+
+---
+
+
+
+Feito com ❤️ por Jonas Martins 👋🏽 [Entre em contato!](https://www.linkedin.com/in/jonas-martins-950a30184)
+
+---
