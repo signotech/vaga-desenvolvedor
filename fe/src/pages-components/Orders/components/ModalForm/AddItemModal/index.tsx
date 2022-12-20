@@ -13,7 +13,6 @@ import {
 
 import { Modal } from 'components/Modal'
 import { OrderContext } from 'pages-components/Orders'
-import { ProductContext } from 'pages-components/Products'
 import { useContext, useEffect, useState } from 'react'
 
 import { useForm } from 'react-hook-form'

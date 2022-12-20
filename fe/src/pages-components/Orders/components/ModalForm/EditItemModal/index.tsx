@@ -1,24 +1,14 @@
-/* eslint-disable react/no-children-prop */
 import {
   Button,
   FormControl,
   FormLabel,
   Input,
-  InputGroup,
-  InputLeftElement,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
   Select,
-  Text,
   useToast,
 } from '@chakra-ui/react'
 
 import { Modal } from 'components/Modal'
 import { OrderContext } from 'pages-components/Orders'
-import { ProductContext } from 'pages-components/Products'
 import { useContext } from 'react'
 
 import { useForm } from 'react-hook-form'

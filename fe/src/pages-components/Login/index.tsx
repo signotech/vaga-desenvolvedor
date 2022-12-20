@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-access-key */
 import { useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { setCookie } from 'nookies'

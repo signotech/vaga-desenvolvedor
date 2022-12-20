@@ -1,4 +1,4 @@
-import { Dispatch, ReactNode, useContext, useState } from 'react'
+import { ReactNode, useContext, useState } from 'react'
 import { BiSearchAlt2, BiSortAlt2 } from 'react-icons/bi'
 import { AiFillFilter } from 'react-icons/ai'
 

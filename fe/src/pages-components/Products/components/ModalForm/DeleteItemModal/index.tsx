@@ -1,4 +1,4 @@
-import { Button, Flex, ModalProps, useToast } from '@chakra-ui/react'
+import { Button, Flex, useToast } from '@chakra-ui/react'
 import { Modal } from 'components/Modal'
 import { ProductContext } from 'pages-components/Products'
 import { useContext } from 'react'

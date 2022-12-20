@@ -1,10 +1,4 @@
-import {
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useContext,
-  useState,
-} from 'react'
+import { ReactNode, useContext, useState } from 'react'
 import { BiSearchAlt2, BiSortAlt2 } from 'react-icons/bi'
 
 import {

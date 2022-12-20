@@ -1,4 +1,4 @@
-import { IProduct } from '../../../../../@types/Product'
+import { IOrder } from '../../../../../@types/Order'
 
 export interface ActionTypes {
   type: 'ADD-ORDERS' | 'ADD-ONE-ORDER' | 'REMOVE-ONE-ORDER' | 'UPDATE-ONE-ORDER'
@@ -7,7 +7,7 @@ export interface ActionTypes {
 }
 
 interface OrdersState {
-  value: []
+  value: IOrder[]
 }
 
 export const ordersReducer = (state: OrdersState, action: ActionTypes) => {
