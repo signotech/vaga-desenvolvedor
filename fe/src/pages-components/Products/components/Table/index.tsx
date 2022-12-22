@@ -51,7 +51,7 @@ export function Table() {
         }
         return false
       }),
-    [filteredBySort, searchContent],
+    [filteredBySort, searchContent, orderBy],
   )
 
   function handleCloseModal() {

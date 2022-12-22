@@ -1,8 +1,9 @@
-import { TableContainer, Flex, Icon, Spinner, Button } from '@chakra-ui/react'
+import { Flex, Icon, Spinner, Button } from '@chakra-ui/react'
 import { OrderContext } from 'pages-components/Orders'
 import { useCallback, useContext, useMemo, useState } from 'react'
 import { FiEdit2, FiTrash2 } from 'react-icons/fi'
 import { formatMoney } from 'utils/formatMoney'
+
 import { IOrder } from '../../../../../@types/Order'
 import { DeleteItemModal } from '../ModalForm/DeleteItemModal'
 import { EditItemModal } from '../ModalForm/EditItemModal'
@@ -50,7 +51,7 @@ export function Table() {
         }
         return false
       }),
-    [filteredBySort, searchContent],
+    [filteredBySort, searchContent, orderBy],
   )
 
   function handleCloseModal() {
@@ -136,19 +137,17 @@ export function Table() {
       {isLoading ? (
         <Spinner size="xl" />
       ) : (
-        <TableContainer>
-          <TablePagination
-            colorScheme="blue"
-            totalRegisters={filteredBySearch.length}
-            page={page}
-            emptyData={{
-              text: 'Nao existe Pedidos cadastrados.',
-            }}
-            onPageChange={(page) => setPage(page)}
-            columns={tableColumns}
-            data={tableData}
-          />
-        </TableContainer>
+        <TablePagination
+          colorScheme="blue"
+          totalRegisters={filteredBySearch.length}
+          page={page}
+          emptyData={{
+            text: 'Nao existe Pedidos cadastrados.',
+          }}
+          onPageChange={(page) => setPage(page)}
+          columns={tableColumns}
+          data={tableData}
+        />
       )}
 
       <DeleteItemModal

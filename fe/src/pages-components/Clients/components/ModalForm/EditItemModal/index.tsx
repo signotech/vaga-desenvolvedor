@@ -6,6 +6,8 @@ import {
   useToast,
 } from '@chakra-ui/react'
 
+import InputMask from 'react-input-mask'
+
 import { Modal } from 'components/Modal'
 import { ClientContext } from 'pages-components/Clients'
 import { useContext } from 'react'
@@ -118,7 +120,13 @@ export function EditItemModal({
 
         <FormControl isRequired>
           <FormLabel>CPF</FormLabel>
-          <Input placeholder="000.000.000-00" {...register('cpf')} />
+          <Input
+            as={InputMask}
+            mask="***.***.***-**"
+            placeholder="000.000.000-00"
+            max={15}
+            {...register('cpf')}
+          />
         </FormControl>
 
         <Button
