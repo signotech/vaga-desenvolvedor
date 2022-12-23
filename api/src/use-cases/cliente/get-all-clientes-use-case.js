@@ -18,6 +18,7 @@ class GetAllClientesUseCase {
     ordem = 'asc',
     nomeCliente = '',
     emailCliente = '',
+    cpfCliente = '',
   } = {}) {
     const parsedPorPagina = Number(porPagina);
     const parsedPagina = Number(pagina);
@@ -34,6 +35,7 @@ class GetAllClientesUseCase {
       ordem,
       nomeCliente,
       emailCliente,
+      cpfCliente,
     });
   }
 

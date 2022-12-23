@@ -19,6 +19,7 @@ class SequelizeClienteRepository {
     ordem,
     nomeCliente,
     emailCliente,
+    cpfCliente,
   }) {
     const storedClientes = await ClienteModel.findAll({
       limit: porPagina,
@@ -27,6 +28,7 @@ class SequelizeClienteRepository {
       where: {
         nomeCliente: { [Op.substring]: nomeCliente },
         emailCliente: { [Op.substring]: emailCliente },
+        cpfCliente: { [Op.substring]: cpfCliente },
       },
     });
     return storedClientes.map((storedCliente) => new Cliente(storedCliente));
