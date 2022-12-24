@@ -1,9 +1,5 @@
-function App() {
-  return (
-    <div>
-      Hello World
-    </div>
-  );
-}
+import ClienteRegistration from './pages/ClienteRegistration';
 
-export default App;
+export default function App() {
+  return <ClienteRegistration />;
+}
