@@ -9,12 +9,12 @@ import {
 import InputMask from 'react-input-mask'
 
 import { Modal } from 'components/Modal'
-import { ClientContext } from 'pages-components/Clients'
-import { useContext } from 'react'
 
 import { useForm } from 'react-hook-form'
 import { api } from 'services/api'
 import { IClient } from '../../../../../../@types/Client'
+import { useContext } from 'react'
+import { ClientContext } from 'pages-components/Clients'
 
 interface EditItemModalProps {
   isEditModalOpen: boolean
@@ -40,8 +40,9 @@ export function EditItemModal({
     setValue,
     formState: { isSubmitting },
   } = useForm<EditClientFormData>()
+
+  const { updateClient } = useContext(ClientContext)
   const toast = useToast({ position: 'top' })
-  const { dispatch } = useContext(ClientContext)
 
   setValue('name', items.name)
   setValue('email', items.email)
@@ -63,7 +64,9 @@ export function EditItemModal({
         title: 'Adicionando Item',
       })
 
-      await api.put(`/clients/${items.id}`, data)
+      const response = await api.put(`/clients/${items.id}`, data)
+
+      updateClient(response.data)
       toast.closeAll()
 
       toast({
@@ -73,11 +76,6 @@ export function EditItemModal({
       })
 
       onClose()
-
-      dispatch({
-        type: 'UPDATE-ONE-CLIENT',
-        payload: { ...data, id: items.id },
-      })
 
       reset()
     } catch (error: any) {

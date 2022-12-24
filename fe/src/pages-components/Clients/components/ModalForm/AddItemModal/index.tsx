@@ -10,14 +10,14 @@ import InputMask from 'react-input-mask'
 
 import { Modal } from 'components/Modal'
 import { ClientContext } from 'pages-components/Clients'
-import { useContext } from 'react'
+import { Dispatch, SetStateAction, useCallback, useContext } from 'react'
 
 import { useForm } from 'react-hook-form'
 import { api } from 'services/api'
 
 interface AddItemModalProps {
   isAddItemModalOpen: boolean
-  setIsAddItemModalOpen: () => void
+  setIsAddItemModalOpen: Dispatch<SetStateAction<boolean>>
 }
 
 interface NewClientFormData {
@@ -36,8 +36,14 @@ export function AddItemModal({
     reset,
     formState: { isSubmitting },
   } = useForm<NewClientFormData>()
+
+  const { createNewClient } = useContext(ClientContext)
+
   const toast = useToast({ position: 'top' })
-  const { dispatch } = useContext(ClientContext)
+
+  const handleCloseModal = useCallback(() => {
+    setIsAddItemModalOpen(false)
+  }, [setIsAddItemModalOpen])
 
   async function handleCreateNewProduct(data: NewClientFormData) {
     try {
@@ -55,18 +61,19 @@ export function AddItemModal({
         isClosable: true,
         title: 'Adicionando Item',
       })
-      const response = await api.post('/clients', data)
-      toast.closeAll()
 
+      const response = await api.post('/clients', data)
+
+      createNewClient(response.data)
+
+      toast.closeAll()
       toast({
         status: 'success',
         title: 'Cliente Adicionado.',
       })
 
-      dispatch({ type: 'ADD-ONE-CLIENT', payload: response.data })
-
       reset()
-      setIsAddItemModalOpen()
+      handleCloseModal()
     } catch (error: any) {
       console.error(error)
       toast.closeAll()
@@ -80,7 +87,7 @@ export function AddItemModal({
   return (
     <Modal
       isOpen={isAddItemModalOpen}
-      onClose={setIsAddItemModalOpen}
+      onClose={handleCloseModal}
       title="Adicionar Clientes"
       size="2xl"
     >

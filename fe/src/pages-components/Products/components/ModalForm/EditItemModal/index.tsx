@@ -45,7 +45,7 @@ export function EditItemModal({
     formState: { isSubmitting },
   } = useForm<EditProductFormData>()
   const toast = useToast({ position: 'top' })
-  const { dispatch } = useContext(ProductContext)
+  const { updateProduct } = useContext(ProductContext)
 
   setValue('name', items.name)
   setValue('category', items.category)
@@ -75,7 +75,7 @@ export function EditItemModal({
         title: 'Adicionando Item',
       })
 
-      await api.put(`/products/${items.id}`, data)
+      const response = await api.put(`/products/${items.id}`, data)
       toast.closeAll()
 
       toast({
@@ -86,10 +86,7 @@ export function EditItemModal({
 
       onClose()
 
-      dispatch({
-        type: 'UPDATE-ONE-PRODUCT',
-        payload: { ...data, id: items.id },
-      })
+      updateProduct(response.data)
 
       reset()
     } catch (error: any) {

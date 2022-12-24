@@ -1,4 +1,4 @@
-import { ReactNode, useContext, useState } from 'react'
+import { ChangeEvent, ReactNode, useContext, useState } from 'react'
 import { BiSearchAlt2, BiSortAlt2 } from 'react-icons/bi'
 
 import {
@@ -7,18 +7,13 @@ import {
   Flex,
   FlexProps,
   Icon,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Text,
   TextProps,
 } from '@chakra-ui/react'
 import { Button } from 'components/Button'
 import { ClientContext } from 'pages-components/Clients'
+import { Input } from 'components/Input'
+import { NavContent } from 'components/NavContent'
 
 const sortOptions = [
   { text: 'Nome', prop: 'name' },
@@ -27,7 +22,7 @@ const sortOptions = [
 ]
 
 export function NavHeader() {
-  const { orderBy, setOrderBy, searchContent, setSearchContent } =
+  const { orderBy, setOrderBy, searchContent, setSearchContent, setPage } =
     useContext(ClientContext)
 
   const [whichMenuIsOpened, setWhichMenuIsOpened] = useState<
@@ -39,69 +34,49 @@ export function NavHeader() {
   }
 
   function handleOrderByFilter(order: string) {
-    if (order === orderBy) {
-      setOrderBy('')
-      return
-    }
-    setOrderBy(order)
+    setOrderBy((prev) => (prev === order ? '' : order))
     handleToggleSortMenu()
   }
 
+  function handleSearchItems(e: ChangeEvent<HTMLInputElement>) {
+    const existingSearchValue = e.target.value
+
+    if (existingSearchValue.trim() !== '') {
+      setPage(1)
+    }
+    setSearchContent(existingSearchValue)
+  }
+
   return (
-    <Flex mb={8} w="100%">
-      <Flex
-        w="100%"
-        justify="space-between"
-        gap={4}
-        height={['auto', 32, 14]}
-        flexWrap={['wrap', 'wrap', 'nowrap']}
-        display={['flex', 'grid', 'flex']}
-        gridTemplateColumns={[null, 'repeat(2, 1fr)', null]}
-      >
-        <MenuBtnContainer>
-          <Button h="100%" onClick={handleToggleSortMenu}>
-            <Icon as={BiSortAlt2} fontSize={[16, 20, 24]} />
-            Ordenar
-            {orderBy.length > 0 && <Circle />}
-          </Button>
-          {whichMenuIsOpened === 'sort' && (
-            <MenuItemsContainer>
-              {sortOptions.map(({ text, prop }) => (
-                <ItemContainer
-                  onClick={() => handleOrderByFilter(prop)}
-                  key={`sort#${prop}`}
-                >
-                  {text}
-                </ItemContainer>
-              ))}
-            </MenuItemsContainer>
-          )}
-        </MenuBtnContainer>
+    <NavContent>
+      <MenuBtnContainer>
+        <Button onClick={handleToggleSortMenu} h="100%">
+          <Icon as={BiSortAlt2} fontSize={[16, 20, 24]} />
+          Ordenar
+          {orderBy.length > 0 && <Circle />}
+        </Button>
+        {whichMenuIsOpened === 'sort' && (
+          <MenuItemsContainer>
+            {sortOptions.map(({ text, prop }) => (
+              <ItemContainer
+                onClick={() => handleOrderByFilter(prop)}
+                key={`sort#${prop}`}
+                bg={orderBy === prop ? 'blue.200' : ''}
+              >
+                {text}
+              </ItemContainer>
+            ))}
+          </MenuItemsContainer>
+        )}{' '}
+      </MenuBtnContainer>
 
-        {/* Search */}
-
-        <InputGroup>
-          <InputLeftElement pointerEvents="none" h="100%">
-            <Icon as={BiSearchAlt2} />
-          </InputLeftElement>
-          <Input
-            value={searchContent}
-            variant="filled"
-            placeholder="Pesquise por um item"
-            fontWeight={600}
-            fontSize={18}
-            color="blue.800"
-            boxShadow="base"
-            h="100%"
-            onChange={(e) => setSearchContent(e.target.value)}
-            _focus={{
-              border: '2px',
-              borderColor: 'blue.400',
-            }}
-          />
-        </InputGroup>
-      </Flex>
-    </Flex>
+      <Input
+        icon={BiSearchAlt2}
+        placeholder="Pesquise por um item"
+        onChange={(e) => handleSearchItems(e)}
+        value={searchContent}
+      />
+    </NavContent>
   )
 }
 
@@ -110,14 +85,7 @@ interface FlexContainerProps extends FlexProps {
 }
 
 const MenuBtnContainer = (props: FlexContainerProps) => (
-  <Flex
-    {...props}
-    direction="column"
-    w={['auto', 'auto', 200]}
-    flex={[1, 1, 'auto']}
-    h={[10, 12, 'auto']}
-    position="relative"
-  >
+  <Flex {...props} direction="column" h={'100%'} position="relative">
     {props.children}
   </Flex>
 )

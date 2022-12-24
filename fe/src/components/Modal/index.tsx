@@ -7,7 +7,7 @@ import {
   ModalOverlay,
   ModalProps as ChakraModalProps,
 } from '@chakra-ui/react'
-import { ReactNode } from 'react'
+import { ReactNode, useRef } from 'react'
 
 interface ModalProps extends ChakraModalProps {
   title: string

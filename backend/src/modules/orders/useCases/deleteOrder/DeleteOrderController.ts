@@ -5,15 +5,15 @@ import { DeleteOrderUseCase } from './DeleteOrderUseCase';
 export class DeleteOrderController {
   async handle(request: Request, response: Response) {
     const { id } = request.params;
-    
+
     try {
-      const deleteClientUseCase = new DeleteOrderUseCase();
+      const deleteOrderUseCase = new DeleteOrderUseCase();
 
-      await deleteClientUseCase.execute(id);
+      const deletedOrder =  await deleteOrderUseCase.execute(id);
 
-      return response.json({ message: 'Pedido deletado.' });
+      return response.json(deletedOrder);
     } catch (error) {
-      throw new Error('Cliente nao existe.');
+      throw new Error('Pedido nao existe.');
     }
   }
 }

@@ -19,6 +19,8 @@ model Products {
   unitPrice String
   Orders    Orders[]
 
+  created_at DateTime @default(now())
+
   @@map("products")
 }
 
@@ -28,6 +30,8 @@ model Clients {
   cpf    String
   email  String
   Orders Orders[]
+
+  created_at DateTime @default(now())
 
   @@map("clients")
 }

@@ -1,13 +1,15 @@
-import { Box } from '@chakra-ui/react'
+import { Box, BoxProps } from '@chakra-ui/react'
 
-export const Layout = (props: any) => (
+interface LayoutProps extends BoxProps {}
+
+export const Layout = (props: LayoutProps) => (
   <Box
     px={[4, 8, 12, 14]}
     {...props}
     minHeight="100vh"
     height="100%"
     overflow="clip"
-    // mb={[24, 16]}
+    {...props}
   >
     {props.children}
   </Box>

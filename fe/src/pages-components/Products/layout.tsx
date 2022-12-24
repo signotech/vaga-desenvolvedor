@@ -4,7 +4,7 @@ import { Layout } from '../../components/Layout'
 import { Header } from '../../components/Header'
 import { Heading, Icon, useDisclosure } from '@chakra-ui/react'
 
-import { Table } from './components/Table'
+import { TableList } from './components/TableList'
 import { Button } from '../../components/Button'
 import { MdOutlineAddBox } from 'react-icons/md'
 import { AddItemModal } from './components/ModalForm/AddItemModal'
@@ -33,7 +33,7 @@ export function ProductsLayout() {
 
         <NavHeader />
 
-        <Table />
+        <TableList />
       </Layout>
 
       <AddItemModal

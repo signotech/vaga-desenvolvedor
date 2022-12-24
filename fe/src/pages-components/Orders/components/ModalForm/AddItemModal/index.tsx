@@ -41,10 +41,11 @@ export function AddItemModal({
     reset,
     formState: { isSubmitting },
   } = useForm<NewClientFormData>()
+  const { createNewOrder } = useContext(OrderContext)
+
   const [products, setProducts] = useState<IProduct[]>([])
   const [clients, setClients] = useState<IClient[]>([])
   const toast = useToast({ position: 'top' })
-  const { dispatch } = useContext(OrderContext)
 
   useEffect(() => {
     ;(async () => {
@@ -72,9 +73,8 @@ export function AddItemModal({
         title: 'Adicionando Item',
       })
 
-      console.log(data)
-
       const response = await api.post('/orders', data)
+      createNewOrder(response.data)
 
       toast.closeAll()
 
@@ -82,8 +82,6 @@ export function AddItemModal({
         status: 'success',
         title: 'Pedido Adicionado.',
       })
-
-      dispatch({ type: 'ADD-ONE-ORDER', payload: response.data })
 
       reset()
       setIsAddItemModalOpen()

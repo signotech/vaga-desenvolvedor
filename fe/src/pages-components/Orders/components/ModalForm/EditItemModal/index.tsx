@@ -42,8 +42,9 @@ export function EditItemModal({
     setValue,
     formState: { isSubmitting },
   } = useForm<EditProductFormData>()
+  const { updateOrder } = useContext(OrderContext)
+
   const toast = useToast({ position: 'top' })
-  const { dispatch } = useContext(OrderContext)
 
   setValue('name', items.name)
   setValue('status', items.status)
@@ -66,6 +67,7 @@ export function EditItemModal({
       })
 
       const response = await api.patch(`/orders/${items.id}`, data)
+      updateOrder(response.data)
 
       toast.closeAll()
 
@@ -76,12 +78,6 @@ export function EditItemModal({
       })
 
       onClose()
-
-      dispatch({
-        type: 'UPDATE-ONE-ORDER',
-        payload: response.data,
-      })
-
       reset()
     } catch (error: any) {
       console.log(error)

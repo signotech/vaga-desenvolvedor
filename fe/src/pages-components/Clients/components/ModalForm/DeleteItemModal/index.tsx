@@ -11,20 +11,19 @@ interface DeleteItemModalProps {
 }
 
 export function DeleteItemModal({ id, isOpen, onClose }: DeleteItemModalProps) {
-  const { dispatch } = useContext(ClientContext)
-
+  const { removeClient } = useContext(ClientContext)
   const toast = useToast({ position: 'top' })
 
   async function handleDeleteItem() {
     try {
       const response = await api.delete('/clients/' + id)
 
-      dispatch({ type: 'REMOVE-ONE-CLIENT', payload: id })
+      removeClient(response.data)
 
       toast.closeAll()
       toast({
         status: 'success',
-        title: response.data.message,
+        title: 'Cliente deletado com sucesso.',
         duration: 2000,
         isClosable: true,
       })

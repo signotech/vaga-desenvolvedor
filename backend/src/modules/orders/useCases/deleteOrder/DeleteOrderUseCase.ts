@@ -3,14 +3,14 @@ import { prisma } from '../../../../database/prismaClient';
 
 export class DeleteOrderUseCase {
   async execute( id: string) {
-    
+
     if (!id) {
       throw new Error('O ID da Pedido precisa ser informado para sua deleção.');
     }
 
     try {
       const order = await prisma.orders.findFirst({where: {id}});
-      
+
       await prisma.products.update({
         where: {
           id: order?.productsId
@@ -22,7 +22,9 @@ export class DeleteOrderUseCase {
         }
       });
 
-      await prisma.orders.delete({where: {id}});
+      const  deletedOrder = await prisma.orders.delete({where: {id}});
+      return deletedOrder;
+
     } catch (error) {
       throw new Error('Nao foi possível remover esse pedido, tente novamente mais tarde.');
     }

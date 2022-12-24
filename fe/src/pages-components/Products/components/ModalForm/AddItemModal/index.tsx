@@ -47,8 +47,8 @@ export function AddItemModal({
     reset,
     formState: { isSubmitting },
   } = useForm<NewProductFormData>()
+  const { createNewProduct } = useContext(ProductContext)
   const toast = useToast({ position: 'top' })
-  const { dispatch } = useContext(ProductContext)
 
   async function handleCreateNewProduct(data: NewProductFormData) {
     try {
@@ -73,14 +73,13 @@ export function AddItemModal({
         title: 'Adicionando Item',
       })
       const response = await api.post('/products', data)
+      createNewProduct(response.data)
       toast.closeAll()
 
       toast({
         status: 'success',
         title: 'Produto Adicionado.',
       })
-
-      dispatch({ type: 'ADD-ONE-PRODUCT', payload: response.data })
 
       reset()
       setIsAddItemModalOpen()

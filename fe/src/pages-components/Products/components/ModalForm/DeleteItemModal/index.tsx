@@ -11,7 +11,7 @@ interface DeleteItemModalProps {
 }
 
 export function DeleteItemModal({ id, isOpen, onClose }: DeleteItemModalProps) {
-  const { dispatch } = useContext(ProductContext)
+  const { removeProduct } = useContext(ProductContext)
 
   const toast = useToast({ position: 'top' })
 
@@ -19,12 +19,11 @@ export function DeleteItemModal({ id, isOpen, onClose }: DeleteItemModalProps) {
     try {
       const response = await api.delete('/products/' + id)
 
-      dispatch({ type: 'REMOVE-ONE-PRODUCT', payload: id })
-
+      removeProduct(response.data)
       toast.closeAll()
       toast({
         status: 'success',
-        title: response.data.message,
+        title: 'Produto deletado com sucesso.',
         duration: 2000,
         isClosable: true,
       })

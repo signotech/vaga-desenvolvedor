@@ -4,15 +4,18 @@ import { Layout } from '../../components/Layout'
 import { Header } from '../../components/Header'
 import { Heading, Icon, useDisclosure } from '@chakra-ui/react'
 
-import { Table } from './components/Table'
+import { TableList } from './components/TableList'
 import { Button } from '../../components/Button'
 import { MdOutlineAddBox } from 'react-icons/md'
 import { AddItemModal } from './components/ModalForm/AddItemModal'
 import { NavHeader } from './components/NavHeader'
+import { Dispatch, SetStateAction } from 'react'
 
-export function ClientsLayout() {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+interface ClientsLayoutProps {
+  setIsAddItemModalOpen: Dispatch<SetStateAction<boolean>>
+}
 
+export function ClientsLayout({ setIsAddItemModalOpen }: ClientsLayoutProps) {
   return (
     <>
       <Head>
@@ -21,7 +24,7 @@ export function ClientsLayout() {
 
       <Layout>
         <Header>
-          <Button isCallAction onClick={onOpen}>
+          <Button isCallAction onClick={() => setIsAddItemModalOpen(true)}>
             <Icon as={MdOutlineAddBox} />
             Adicionar Clientes
           </Button>
@@ -33,13 +36,8 @@ export function ClientsLayout() {
 
         <NavHeader />
 
-        <Table />
+        <TableList />
       </Layout>
-
-      <AddItemModal
-        isAddItemModalOpen={isOpen}
-        setIsAddItemModalOpen={onClose}
-      />
     </>
   )
 }

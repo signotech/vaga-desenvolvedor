@@ -1,11 +1,4 @@
-import {
-  ChangeEvent,
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useContext,
-  useState,
-} from 'react'
+import { ChangeEvent, ReactNode, useContext, useState } from 'react'
 import { BiSearchAlt2, BiSortAlt2 } from 'react-icons/bi'
 import { AiFillFilter } from 'react-icons/ai'
 
@@ -15,14 +8,14 @@ import {
   Flex,
   FlexProps,
   Icon,
-  Input,
-  InputGroup,
-  InputLeftElement,
   Text,
   TextProps,
 } from '@chakra-ui/react'
+
 import { Button } from 'components/Button'
 import { ProductContext } from 'pages-components/Products'
+import { Input } from 'components/Input'
+import { NavContent } from 'components/NavContent'
 
 const sortOptions = [
   { text: 'Nome', prop: 'name' },
@@ -41,6 +34,7 @@ export function NavHeader() {
     setOrderBy,
     searchContent,
     setSearchContent,
+    setPage,
   } = useContext(ProductContext)
 
   const [whichMenuIsOpened, setWhichMenuIsOpened] = useState<
@@ -58,101 +52,73 @@ export function NavHeader() {
   }
 
   function handleSetFilter(prevFilter: string) {
-    if (prevFilter === filter) {
-      setFilter('')
-      return
-    }
-    setFilter(prevFilter)
+    setFilter((prev) => (prev === prevFilter ? '' : prevFilter))
     handleToggleFilterMenu()
   }
 
   function handleOrderByFilter(order: string) {
-    if (order === orderBy) {
-      setOrderBy('')
-      return
-    }
-    setOrderBy(order)
+    setOrderBy((prev) => (prev === order ? '' : order))
     handleToggleSortMenu()
   }
 
   function handleSearchItems(e: ChangeEvent<HTMLInputElement>) {
     setSearchContent(e.target.value)
+    setPage(1)
   }
 
   return (
-    <Flex mb={8} w="100%">
-      <Flex
-        w="100%"
-        justify="space-between"
-        gap={4}
-        height={['auto', 32, 14]}
-        flexWrap={['wrap', 'wrap', 'nowrap']}
-        display={['flex', 'grid', 'flex']}
-        gridTemplateColumns={[null, 'repeat(2, 1fr)', null]}
-      >
-        <MenuBtnContainer>
-          <Button h="100%" onClick={handleToggleFilterMenu}>
-            <Icon as={AiFillFilter} fontSize={[12, 16, 18]} />
-            Filtrar
-            {filter.length > 0 && <Circle />}
-          </Button>
-          {whichMenuIsOpened === 'filter' && (
-            <MenuItemsContainer>
-              {filterOptions.map((text) => (
-                <ItemContainer
-                  onClick={() => handleSetFilter(text)}
-                  key={`filter#${text}`}
-                >
-                  {text}
-                </ItemContainer>
-              ))}
-            </MenuItemsContainer>
-          )}
-        </MenuBtnContainer>
-        <MenuBtnContainer>
-          <Button h="100%" onClick={handleToggleSortMenu}>
-            <Icon as={BiSortAlt2} fontSize={[16, 20, 24]} />
-            Ordenar
-            {orderBy.length > 0 && <Circle />}
-          </Button>
-          {whichMenuIsOpened === 'sort' && (
-            <MenuItemsContainer>
-              {sortOptions.map(({ text, prop }) => (
-                <ItemContainer
-                  onClick={() => handleOrderByFilter(prop)}
-                  key={`sort#${prop}`}
-                >
-                  {text}
-                </ItemContainer>
-              ))}
-            </MenuItemsContainer>
-          )}
-        </MenuBtnContainer>
+    <NavContent>
+      <MenuBtnContainer>
+        <Button h="100%" onClick={handleToggleFilterMenu}>
+          <Icon as={AiFillFilter} fontSize={[12, 16, 18]} />
+          Filtrar
+          {filter.length > 0 && <Circle />}
+        </Button>
+        {whichMenuIsOpened === 'filter' && (
+          <MenuItemsContainer>
+            {filterOptions.map((text) => (
+              <ItemContainer
+                onClick={() => handleSetFilter(text)}
+                key={`filter#${text}`}
+                bg={filter === text ? 'blue.200' : ''}
+              >
+                {text}
+              </ItemContainer>
+            ))}
+          </MenuItemsContainer>
+        )}
+      </MenuBtnContainer>
 
-        {/* Search */}
+      <MenuBtnContainer>
+        <Button h="100%" onClick={handleToggleSortMenu}>
+          <Icon as={BiSortAlt2} fontSize={[16, 20, 24]} />
+          Ordenar
+          {orderBy.length > 0 && <Circle />}
+        </Button>
+        {whichMenuIsOpened === 'sort' && (
+          <MenuItemsContainer>
+            {sortOptions.map(({ text, prop }) => (
+              <ItemContainer
+                onClick={() => handleOrderByFilter(prop)}
+                key={`sort#${prop}`}
+                bg={prop === orderBy ? 'blue.200' : ''}
+              >
+                {text}
+              </ItemContainer>
+            ))}
+          </MenuItemsContainer>
+        )}
+      </MenuBtnContainer>
 
-        <InputGroup>
-          <InputLeftElement pointerEvents="none" h="100%">
-            <Icon as={BiSearchAlt2} />
-          </InputLeftElement>
-          <Input
-            value={searchContent}
-            variant="filled"
-            placeholder="Pesquise por um item"
-            fontWeight={600}
-            fontSize={18}
-            color="blue.800"
-            boxShadow="base"
-            h="100%"
-            onChange={(e) => handleSearchItems(e)}
-            _focus={{
-              border: '2px',
-              borderColor: 'blue.400',
-            }}
-          />
-        </InputGroup>
-      </Flex>
-    </Flex>
+      {/* Search */}
+
+      <Input
+        icon={BiSearchAlt2}
+        placeholder="Pesquise por um item"
+        onChange={(e) => handleSearchItems(e)}
+        value={searchContent}
+      />
+    </NavContent>
   )
 }
 
@@ -161,14 +127,7 @@ interface FlexContainerProps extends FlexProps {
 }
 
 const MenuBtnContainer = (props: FlexContainerProps) => (
-  <Flex
-    {...props}
-    direction="column"
-    w={['auto', 'auto', 200]}
-    flex={[1, 1, 'auto']}
-    h={[10, 12, 'auto']}
-    position="relative"
-  >
+  <Flex {...props} direction="column" h={'100%'} position="relative">
     {props.children}
   </Flex>
 )

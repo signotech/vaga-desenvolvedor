@@ -2,6 +2,7 @@ import { Button, Flex, useToast } from '@chakra-ui/react'
 import { Modal } from 'components/Modal'
 import { OrderContext } from 'pages-components/Orders'
 import { useContext } from 'react'
+
 import { api } from 'services/api'
 
 interface DeleteItemModalProps {
@@ -11,20 +12,19 @@ interface DeleteItemModalProps {
 }
 
 export function DeleteItemModal({ id, isOpen, onClose }: DeleteItemModalProps) {
-  const { dispatch } = useContext(OrderContext)
+  const { removeOrder } = useContext(OrderContext)
 
   const toast = useToast({ position: 'top' })
 
   async function handleDeleteItem() {
     try {
       const response = await api.delete('/orders/' + id)
-
-      dispatch({ type: 'REMOVE-ONE-ORDER', payload: id })
+      removeOrder(response.data)
 
       toast.closeAll()
       toast({
         status: 'success',
-        title: response.data.message,
+        title: 'Produto deletado com sucesso.',
         duration: 2000,
         isClosable: true,
       })
