@@ -11,7 +11,6 @@ import {
   NumberInputField,
   NumberInputStepper,
   Select,
-  Text,
   useToast,
 } from '@chakra-ui/react'
 

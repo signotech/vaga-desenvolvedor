@@ -11,6 +11,7 @@ import {
   Td,
   Th,
   TableContainer,
+  Text,
 } from '@chakra-ui/react'
 import { NoContent } from 'components/NoContent'
 import { GiCook } from 'react-icons/gi'

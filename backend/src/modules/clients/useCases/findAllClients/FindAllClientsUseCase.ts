@@ -10,7 +10,6 @@ export class FindAllClientsUseCase {
   async execute({ name, orderBy, skip}:IFindAllClientsProps) {
     const pageSize = 20;
 
-
     const existingOrderBy = orderBy || 'created_at' ;
 
     if(name === 'undefined' || orderBy === 'undefined') {
@@ -39,6 +38,6 @@ export class FindAllClientsUseCase {
 
     const count = await prisma.clients.count();
 
-    return {clients, count, pageSize};
+    return { clients, count, pageSize };
   }
 }

@@ -23,7 +23,7 @@ export function OrdersLayout() {
         <Header>
           <Button isCallAction onClick={onOpen}>
             <Icon as={MdOutlineAddBox} />
-            Adicionar Pedido
+            Novo Pedido
           </Button>
         </Header>
 

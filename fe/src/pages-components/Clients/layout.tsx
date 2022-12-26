@@ -10,6 +10,7 @@ import { MdOutlineAddBox } from 'react-icons/md'
 import { AddItemModal } from './components/ModalForm/AddItemModal'
 import { NavHeader } from './components/NavHeader'
 import { Dispatch, SetStateAction } from 'react'
+import { FiTrash2 } from 'react-icons/fi'
 
 interface ClientsLayoutProps {
   setIsAddItemModalOpen: Dispatch<SetStateAction<boolean>>
@@ -26,7 +27,7 @@ export function ClientsLayout({ setIsAddItemModalOpen }: ClientsLayoutProps) {
         <Header>
           <Button isCallAction onClick={() => setIsAddItemModalOpen(true)}>
             <Icon as={MdOutlineAddBox} />
-            Adicionar Clientes
+            Novo Cliente
           </Button>
         </Header>
 

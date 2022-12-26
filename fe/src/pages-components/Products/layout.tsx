@@ -23,7 +23,7 @@ export function ProductsLayout() {
         <Header>
           <Button isCallAction onClick={onOpen}>
             <Icon as={MdOutlineAddBox} />
-            Adicionar Produto
+            Novo Produto
           </Button>
         </Header>
 

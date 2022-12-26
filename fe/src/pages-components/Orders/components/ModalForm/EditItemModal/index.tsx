@@ -46,6 +46,8 @@ export function EditItemModal({
 
   const toast = useToast({ position: 'top' })
 
+  console.log(items.name)
+
   setValue('name', items.name)
   setValue('status', items.status)
   setValue('product', items.product)
@@ -105,12 +107,12 @@ export function EditItemModal({
       >
         <FormControl>
           <FormLabel>Nome</FormLabel>
-          <Input placeholder="Nome" disabled />
+          <Input placeholder="Nome" disabled {...register('name')} />
         </FormControl>
 
         <FormControl>
           <FormLabel>Produto</FormLabel>
-          <Input placeholder="Nome" disabled />
+          <Input placeholder="Produto" disabled {...register('product')} />
         </FormControl>
 
         <FormControl>
