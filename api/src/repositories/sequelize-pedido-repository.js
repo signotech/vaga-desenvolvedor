@@ -29,6 +29,7 @@ class SequelizePedidoRepository {
     pagina,
     ordenarPor,
     ordem,
+    codigoPedido,
     status,
     dataPedido,
   }) {
@@ -39,6 +40,7 @@ class SequelizePedidoRepository {
       where: {
         status: { [Op.substring]: status },
         dataPedido: { [Op.startsWith]: dataPedido },
+        ...(codigoPedido !== undefined && { codigoPedido }),
       },
       include: { all: true },
     });

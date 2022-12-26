@@ -16,6 +16,7 @@ class GetAllPedidosUseCase {
     pagina = 1,
     ordenarPor = 'codigoPedido',
     ordem = 'asc',
+    codigoPedido,
     status = '',
     dataPedido = '',
   } = {}) {
@@ -24,7 +25,8 @@ class GetAllPedidosUseCase {
     if (!this.isPorPaginaValid(parsedPorPagina)
         || !this.isPaginaValid(parsedPagina)
         || !this.isOrdenarPorValid(ordenarPor)
-        || !this.isOrdemValid(ordem)) {
+        || !this.isOrdemValid(ordem)
+        || !this.isNumericFilterValid(codigoPedido)) {
       return [];
     }
     return this.pedidoRepository.getAll({
@@ -32,6 +34,7 @@ class GetAllPedidosUseCase {
       pagina: parsedPagina,
       ordenarPor,
       ordem,
+      codigoPedido,
       status,
       dataPedido,
     });
@@ -51,6 +54,11 @@ class GetAllPedidosUseCase {
 
   isOrdemValid(ordem) {
     return this.VALID_ORDERS.includes(ordem.toLowerCase());
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  isNumericFilterValid(preco) {
+    return preco === undefined || !Number.isNaN(Number(preco));
   }
 }
 
