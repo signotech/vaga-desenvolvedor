@@ -17,6 +17,7 @@ class SequelizeProdutoRepository {
     pagina,
     ordenarPor,
     ordem,
+    skuProduto,
     tituloProduto,
     preco,
     estoque,
@@ -26,6 +27,7 @@ class SequelizeProdutoRepository {
       offset: porPagina * (pagina - 1),
       order: [[ordenarPor, ordem]],
       where: {
+        skuProduto: { [Op.substring]: skuProduto },
         tituloProduto: { [Op.substring]: tituloProduto },
         ...(preco !== undefined && { preco }),
         ...(estoque !== undefined && { estoque }),
