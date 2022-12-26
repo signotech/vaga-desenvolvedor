@@ -1,13 +1,22 @@
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 export default function Header({ title }) {
   return (
     <header>
       <h1>{title}</h1>
       <nav>
-        <a href="/clientes">Clientes</a>
-        <a href="/produtos">Produtos</a>
-        <a href="/pedidos">Pedidos</a>
+        <ul>
+          <li>
+            <Link to="/clientes">Clientes</Link>
+          </li>
+          <li>
+            <Link to="/produtos">Produtos</Link>
+          </li>
+          <li>
+            <Link to="/pedidos">Pedidos</Link>
+          </li>
+        </ul>
       </nav>
     </header>
   );
