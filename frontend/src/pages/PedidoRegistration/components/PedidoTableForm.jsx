@@ -11,6 +11,18 @@ export default function PedidoTableForm({
 }) {
   const [clientes, setClientes] = useState([]);
   const [produtos, setProdutos] = useState([]);
+  const [cpfValidation, setCpfValidation] = useState({
+    isValid: true,
+    message: '',
+  });
+  const [skuValidation, setSkuValidation] = useState({
+    isValid: true,
+    message: '',
+  });
+  const [statusValidation, setStatusValidation] = useState({
+    isValid: true,
+    message: '',
+  });
 
   const handleInputChange = ({ target: { name, value } }) => {
     if (name !== 'skuProdutos') {
@@ -32,7 +44,39 @@ export default function PedidoTableForm({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onPedidoSubmit();
+    let shouldSubmit = true;
+
+    setCpfValidation({ isValid: true, message: '' });
+    setSkuValidation({ isValid: true, message: '' });
+    setStatusValidation({ isValid: true, message: '' });
+
+    if (!cpfDisabled && !pedido.cpfCliente) {
+      shouldSubmit = false;
+      setCpfValidation({
+        isValid: false,
+        message: 'Selecione um CPF',
+      });
+    }
+
+    if (!skuDisabled && pedido.skuProdutos.length === 0) {
+      shouldSubmit = false;
+      setSkuValidation({
+        isValid: false,
+        message: 'Selecione um ou mais SKUs dos produtos',
+      });
+    }
+
+    if (!pedido.status) {
+      shouldSubmit = false;
+      setStatusValidation({
+        isValid: false,
+        message: 'Selecione um status',
+      });
+    }
+
+    if (shouldSubmit) {
+      onPedidoSubmit();
+    }
   };
 
   const getAllClientes = async () => {
@@ -56,50 +100,68 @@ export default function PedidoTableForm({
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="cpfCliente">
-        CPF do cliente
-        <select
-          name="cpfCliente"
-          id="cpfCliente"
-          value={pedido.cpfCliente}
-          onChange={handleInputChange}
-          disabled={cpfDisabled}
-        >
-          {clientes.map(({ cpfCliente }) => (
-            <option key={cpfCliente} value={cpfCliente}>{cpfCliente}</option>
-          ))}
-        </select>
-      </label>
-      <label htmlFor="skuProdutos">
-        SKU dos produtos
-        <select
-          multiple
-          name="skuProdutos"
-          id="skuProdutos"
-          value={pedido.skuProdutos}
-          onChange={handleInputChange}
-          disabled={skuDisabled}
-        >
-          {produtos.map(({ skuProduto }) => (
-            <option key={skuProduto} value={skuProduto}>{skuProduto}</option>
-          ))}
-        </select>
-      </label>
-      <label htmlFor="status">
-        Status
-        <select
-          name="status"
-          id="status"
-          value={pedido.status}
-          onChange={handleInputChange}
-        >
-          <option value="em aberto">Em aberto</option>
-          <option value="pago">Pago</option>
-          <option value="cancelado">Cancelado</option>
-        </select>
-      </label>
-      <button type="submit">Salvar</button>
-      <button type="button" onClick={onCancel}>Cancelar</button>
+      <div>
+        <label htmlFor="cpfCliente">
+          CPF do cliente
+          <select
+            name="cpfCliente"
+            id="cpfCliente"
+            value={pedido.cpfCliente}
+            onChange={handleInputChange}
+            disabled={cpfDisabled}
+          >
+            <option value="">Selecione...</option>
+            {clientes.map(({ cpfCliente }) => (
+              <option key={cpfCliente} value={cpfCliente}>{cpfCliente}</option>
+            ))}
+          </select>
+        </label>
+        {!cpfValidation.isValid && (
+          <div>{cpfValidation.message}</div>
+        )}
+      </div>
+      <div>
+        <label htmlFor="skuProdutos">
+          SKU dos produtos
+          <select
+            multiple
+            name="skuProdutos"
+            id="skuProdutos"
+            value={pedido.skuProdutos}
+            onChange={handleInputChange}
+            disabled={skuDisabled}
+          >
+            {produtos.map(({ skuProduto }) => (
+              <option key={skuProduto} value={skuProduto}>{skuProduto}</option>
+            ))}
+          </select>
+        </label>
+        {!skuValidation.isValid && (
+          <div>{skuValidation.message}</div>
+        )}
+      </div>
+      <div>
+        <label htmlFor="status">
+          Status
+          <select
+            name="status"
+            id="status"
+            value={pedido.status}
+            onChange={handleInputChange}
+          >
+            <option value="em aberto">Em aberto</option>
+            <option value="pago">Pago</option>
+            <option value="cancelado">Cancelado</option>
+          </select>
+        </label>
+        {!statusValidation.isValid && (
+          <div>{statusValidation.message}</div>
+        )}
+      </div>
+      <div>
+        <button type="button" onClick={onCancel}>Cancelar</button>
+        <button type="submit">Salvar</button>
+      </div>
     </form>
   );
 }
