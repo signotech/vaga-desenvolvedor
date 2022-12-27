@@ -32,6 +32,7 @@ export default function FilterBar({ onFilterSubmit }) {
         <option value="tituloProduto">Título</option>
         <option value="preco">Preço</option>
         <option value="estoque">Estoque</option>
+        <option value="codigoPedido">Código do pedido</option>
       </select>
       <button type="submit">Filtrar</button>
     </form>

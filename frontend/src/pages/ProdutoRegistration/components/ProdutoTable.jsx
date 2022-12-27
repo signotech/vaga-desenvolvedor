@@ -31,7 +31,10 @@ export default function ProdutoTable({
   const rows = [];
 
   const getAllProdutos = async () => {
-    const url = `http://localhost:3001/produtos?${filter.field}=${filter.text}&ordenarPor=${sort.field}&ordem=${sort.order}&porPagina=${itemsPerPage}&pagina=${pageNumber}`;
+    let url = `http://localhost:3001/produtos?${filter.field}=${filter.text}&ordenarPor=${sort.field}&ordem=${sort.order}&porPagina=${itemsPerPage}&pagina=${pageNumber}`;
+    if (filter.field === 'codigoPedido') {
+      url = `http://localhost:3001/pedidos/${filter.text}/produtos`;
+    }
     const response = await fetch(url);
     if (response.status === 200) {
       const fetchedProdutos = await response.json();
