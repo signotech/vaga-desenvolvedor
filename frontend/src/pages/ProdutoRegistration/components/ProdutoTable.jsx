@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Alert from '../../../components/Alert';
 import ProdutoTableForm from './ProdutoTableForm';
 import ProdutoTableHeader from './ProdutoTableHeader';
 import ProdutoTableRow from './ProdutoTableRow';
@@ -21,13 +22,27 @@ export default function ProdutoTable({
   });
   const [isCreating, setIsCreating] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [operationAlert, setOperationAlert] = useState({
+    isError: false,
+    hasMessage: false,
+    message: '',
+  });
+  const timeout = useRef(0);
   const rows = [];
 
   const getAllProdutos = async () => {
     const url = `http://localhost:3001/produtos?${filter.field}=${filter.text}&ordenarPor=${sort.field}&ordem=${sort.order}&porPagina=${itemsPerPage}&pagina=${pageNumber}`;
     const response = await fetch(url);
-    const fetchedProdutos = await response.json();
-    onProdutosChange(fetchedProdutos);
+    if (response.status === 200) {
+      const fetchedProdutos = await response.json();
+      onProdutosChange(fetchedProdutos);
+    } else {
+      setOperationAlert({
+        isError: true,
+        hasMessage: true,
+        message: 'Ocorreu um erro ao requisitar os produtos!',
+      });
+    }
   };
 
   const createProduto = async () => {
@@ -46,6 +61,23 @@ export default function ProdutoTable({
     if (response.status === 201) {
       const createdProduto = await response.json();
       onProdutosChange(produtos.concat(createdProduto));
+      setOperationAlert({
+        isError: false,
+        hasMessage: true,
+        message: 'O produto foi criado com sucesso!',
+      });
+    } else if (response.status === 409) {
+      setOperationAlert({
+        isError: true,
+        hasMessage: true,
+        message: 'O SKU informado já existe!',
+      });
+    } else {
+      setOperationAlert({
+        isError: true,
+        hasMessage: true,
+        message: 'Ocorreu um erro ao criar o produto!',
+      });
     }
     setIsCreating(false);
   };
@@ -67,18 +99,59 @@ export default function ProdutoTable({
       onProdutosChange(produtos.map((produto) => (
         produto.skuProduto === updatedProduto.skuProduto ? updatedProduto : produto
       )));
+      setOperationAlert({
+        isError: false,
+        hasMessage: true,
+        message: 'Produto atualizado com sucesso!',
+      });
+    } else {
+      setOperationAlert({
+        isError: true,
+        hasMessage: true,
+        message: 'Ocorreu um erro ao atualizar o produto!',
+      });
     }
     setIsUpdating(false);
   };
 
   const deleteProdutoBySku = async (sku) => {
-    await fetch(`http://localhost:3001/produtos/${sku}`, { method: 'DELETE' });
-    onProdutosChange(produtos.filter((produto) => produto.skuProduto !== sku));
+    const response = await fetch(`http://localhost:3001/produtos/${sku}`, {
+      method: 'DELETE',
+    });
+    if (response.status === 204) {
+      onProdutosChange(produtos.filter((produto) => produto.skuProduto !== sku));
+      setOperationAlert({
+        isError: false,
+        hasMessage: true,
+        message: 'Produto excluído com sucesso!',
+      });
+    } else {
+      setOperationAlert({
+        isError: true,
+        hasMessage: true,
+        message: 'Ocorreu um erro ao excluír o produto',
+      });
+    }
   };
 
   const deleteAllProdutos = async () => {
-    await fetch('http://localhost:3001/produtos', { method: 'DELETE' });
-    onProdutosChange([]);
+    const response = await fetch('http://localhost:3001/produtos', {
+      method: 'DELETE',
+    });
+    if (response.status === 204) {
+      onProdutosChange([]);
+      setOperationAlert({
+        isError: false,
+        hasMessage: true,
+        message: 'Tabela limpa com sucesso!',
+      });
+    } else {
+      setOperationAlert({
+        isError: true,
+        hasMessage: true,
+        message: 'Ocorreu um erro ao limpar a tabela',
+      });
+    }
   };
 
   const startCreation = () => {
@@ -105,6 +178,16 @@ export default function ProdutoTable({
   useEffect(() => {
     getAllProdutos();
   }, [filter, sort, itemsPerPage, pageNumber]);
+
+  useEffect(() => {
+    clearTimeout(timeout.current);
+
+    timeout.current = setTimeout(() => {
+      setOperationAlert({ isError: false, hasMessage: false, messsage: '' });
+    }, 3000);
+
+    return () => clearTimeout(timeout.current);
+  }, [operationAlert]);
 
   produtos.forEach((produto) => {
     rows.push(
@@ -137,6 +220,9 @@ export default function ProdutoTable({
           onCancel={() => setIsUpdating(false)}
           skuDisabled
         />
+      )}
+      {operationAlert.hasMessage && (
+        <Alert isError={operationAlert.isError} message={operationAlert.message} />
       )}
       <table>
         <thead>
