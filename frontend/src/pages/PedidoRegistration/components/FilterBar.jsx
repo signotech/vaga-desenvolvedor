@@ -31,6 +31,7 @@ export default function FilterBar({ onFilterSubmit }) {
         <option value="codigoPedido">Código</option>
         <option value="status">Status</option>
         <option value="dataPedido">Data</option>
+        <option value="cpfCliente">CPF do cliente</option>
       </select>
       <button type="submit">Filtrar</button>
     </form>

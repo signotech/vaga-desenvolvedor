@@ -32,7 +32,10 @@ export default function PedidoTable({
   const rows = [];
 
   const getAllPedidos = async () => {
-    const url = `http://localhost:3001/pedidos?${filter.field}=${filter.text}&ordenarPor=${sort.field}&ordem=${sort.order}&porPagina=${itemsPerPage}&pagina=${pageNumber}`;
+    let url = `http://localhost:3001/pedidos?${filter.field}=${filter.text}&ordenarPor=${sort.field}&ordem=${sort.order}&porPagina=${itemsPerPage}&pagina=${pageNumber}`;
+    if (filter.field === 'cpfCliente') {
+      url = `http://localhost:3001/clientes/${filter.text}/pedidos`;
+    }
     const response = await fetch(url);
     if (response.status === 200) {
       const fetchedPedidos = await response.json();
