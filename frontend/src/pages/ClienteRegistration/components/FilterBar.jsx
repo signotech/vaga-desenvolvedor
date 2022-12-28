@@ -1,5 +1,9 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
 
 export default function FilterBar({ onFilterSubmit }) {
   const [filterText, setFilterText] = useState('');
@@ -14,26 +18,41 @@ export default function FilterBar({ onFilterSubmit }) {
   };
 
   return (
-    <form onSubmit={submitFilter}>
-      <input
-        type="search"
-        name="filterText"
-        id="filterText"
-        value={filterText}
-        onChange={(e) => setFilterText(e.target.value)}
-      />
-      <select
-        name="filterField"
-        id="filterField"
-        value={filterField}
-        onChange={(e) => setFilterField(e.target.value)}
-      >
-        <option value="nomeCliente">Nome</option>
-        <option value="emailCliente">Email</option>
-        <option value="cpfCliente">CPF</option>
-      </select>
-      <button type="submit">Filtrar</button>
-    </form>
+    <Form onSubmit={submitFilter}>
+      <Row className="g-2 align-items-end">
+        <Col xs="auto">
+          <Form.Label htmlFor="filterText" visuallyHidden>
+            Filtro
+          </Form.Label>
+          <Form.Control
+            type="text"
+            name="filterText"
+            id="filterText"
+            placeholder="Filtro"
+            value={filterText}
+            onChange={(e) => setFilterText(e.target.value)}
+          />
+        </Col>
+        <Col xs="auto">
+          <Form.Label htmlFor="filterField" visuallyHidden>
+            Campo
+          </Form.Label>
+          <Form.Select
+            name="filterField"
+            id="filterField"
+            value={filterField}
+            onChange={(e) => setFilterField(e.target.value)}
+          >
+            <option value="nomeCliente">Nome</option>
+            <option value="emailCliente">Email</option>
+            <option value="cpfCliente">CPF</option>
+          </Form.Select>
+        </Col>
+        <Col xs="auto">
+          <Button type="submit">Filtrar</Button>
+        </Col>
+      </Row>
+    </Form>
   );
 }
 
