@@ -1,5 +1,9 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
 
 export default function ClienteTableForm({
   cliente,
@@ -65,58 +69,65 @@ export default function ClienteTableForm({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="nomeCliente">
+    <Form noValidate onSubmit={handleSubmit}>
+      <Form.Group className="mb-3">
+        <Form.Label htmlFor="nomeCliente">
           Nome
-          <input
-            type="text"
-            id="nomeCliente"
-            name="nomeCliente"
-            value={cliente.nomeCliente}
-            onChange={handleInputChange}
-          />
-        </label>
-        {!nomeValidation.isValid && (
-          <div>{nomeValidation.message}</div>
-        )}
-      </div>
-      <div>
-        <label htmlFor="emailCliente">
+        </Form.Label>
+        <Form.Control
+          type="text"
+          id="nomeCliente"
+          name="nomeCliente"
+          value={cliente.nomeCliente}
+          onChange={handleInputChange}
+          isInvalid={!nomeValidation.isValid}
+        />
+        <Form.Control.Feedback type="invalid">
+          {nomeValidation.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+      <Form.Group className="mb-3">
+        <Form.Label htmlFor="emailCliente">
           Email
-          <input
-            type="text"
-            id="emailCliente"
-            name="emailCliente"
-            value={cliente.emailCliente}
-            onChange={handleInputChange}
-          />
-        </label>
-        {!emailValidation.isValid && (
-          <div>{emailValidation.message}</div>
-        )}
-      </div>
-      <div>
-        <label htmlFor="cpfCliente">
+        </Form.Label>
+        <Form.Control
+          type="text"
+          id="emailCliente"
+          name="emailCliente"
+          value={cliente.emailCliente}
+          onChange={handleInputChange}
+          isInvalid={!emailValidation.isValid}
+        />
+        <Form.Control.Feedback type="invalid">
+          {emailValidation.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+      <Form.Group className="mb-3">
+        <Form.Label htmlFor="cpfCliente">
           CPF
-          <input
-            type="text"
-            id="cpfCliente"
-            name="cpfCliente"
-            value={cliente.cpfCliente}
-            onChange={handleInputChange}
-            disabled={cpfDisabled}
-          />
-        </label>
-        {!cpfValidation.isValid && (
-          <div>{cpfValidation.message}</div>
-        )}
-      </div>
-      <div>
-        <button type="button" onClick={onCancel}>Cancelar</button>
-        <button type="submit">Salvar</button>
-      </div>
-    </form>
+        </Form.Label>
+        <Form.Control
+          type="text"
+          id="cpfCliente"
+          name="cpfCliente"
+          value={cliente.cpfCliente}
+          onChange={handleInputChange}
+          disabled={cpfDisabled}
+          isInvalid={!cpfValidation.isValid}
+        />
+        <Form.Control.Feedback type="invalid">
+          {cpfValidation.message}
+        </Form.Control.Feedback>
+      </Form.Group>
+      <Row className="g-2">
+        <Col xs="auto">
+          <Button variant="danger" type="button" onClick={onCancel}>Cancelar</Button>
+        </Col>
+        <Col xs="auto">
+          <Button type="submit">Salvar</Button>
+        </Col>
+      </Row>
+    </Form>
   );
 }
 
