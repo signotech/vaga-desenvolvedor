@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import ClienteTable from './ClienteTable';
 import FilterBar from './FilterBar';
 import Pagination from '../../../components/Pagination';
@@ -29,15 +31,21 @@ export default function FilterablePaginatedClienteTable() {
         itemsPerPage={itemsPerPage}
         pageNumber={pageNumber}
       />
-      <Pagination
-        pageNumber={pageNumber}
-        itemsPerPage={itemsPerPage}
-        currentPageLength={clientes.length}
-        onPageNumberChange={setPageNumber}
-      />
-      <ItemsPerPageAdjuster
-        onItemsPerPageSubmit={setItemsPerPage}
-      />
+      <Row className="justify-content-between align-items-end">
+        <Col xs="auto">
+          <ItemsPerPageAdjuster
+            onItemsPerPageSubmit={setItemsPerPage}
+          />
+        </Col>
+        <Col xs="auto" className="">
+          <Pagination
+            pageNumber={pageNumber}
+            itemsPerPage={itemsPerPage}
+            currentPageLength={clientes.length}
+            onPageNumberChange={setPageNumber}
+          />
+        </Col>
+      </Row>
     </div>
   );
 }
