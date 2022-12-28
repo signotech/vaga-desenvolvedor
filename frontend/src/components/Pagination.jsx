@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import BsPagination from 'react-bootstrap/Pagination';
 
 export default function Pagination({
   pageNumber,
@@ -7,23 +8,17 @@ export default function Pagination({
   onPageNumberChange,
 }) {
   return (
-    <div>
-      <button
-        type="button"
+    <BsPagination>
+      <BsPagination.Prev
         onClick={() => onPageNumberChange(pageNumber - 1)}
         disabled={pageNumber === 1}
-      >
-        Anterior
-      </button>
-      <span>{pageNumber}</span>
-      <button
-        type="button"
+      />
+      <BsPagination.Item disabled>{pageNumber}</BsPagination.Item>
+      <BsPagination.Next
         onClick={() => onPageNumberChange(pageNumber + 1)}
         disabled={currentPageLength < itemsPerPage}
-      >
-        Próximo
-      </button>
-    </div>
+      />
+    </BsPagination>
   );
 }
 
