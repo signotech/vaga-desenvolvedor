@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { BsArrowUp, BsArrowDown } from 'react-icons/bs';
 
 export default function ClienteTableHeader({ sort, onSortChange }) {
   const changeSort = (field) => {
@@ -19,23 +20,35 @@ export default function ClienteTableHeader({ sort, onSortChange }) {
 
   return (
     <tr>
-      <th>
+      <th style={{ cursor: 'pointer' }} onClick={() => changeSort('nomeCliente')}>
         Nome
-        <button type="button" onClick={() => changeSort('nomeCliente')}>
-          Ordenar
-        </button>
+        <BsArrowUp
+          color={sort.field === 'nomeCliente' && sort.order === 'asc' ? 'black' : 'grey'}
+        />
+        <BsArrowDown
+          color={sort.field === 'nomeCliente' && sort.order === 'desc' ? 'black' : 'grey'}
+        />
       </th>
-      <th>
+      <th style={{ cursor: 'pointer' }} onClick={() => changeSort('emailCliente')}>
         Email
-        <button type="button" onClick={() => changeSort('emailCliente')}>
-          Ordenar
-        </button>
+        <BsArrowUp
+          color={sort.field === 'emailCliente' && sort.order === 'asc' ? 'black' : 'grey'}
+        />
+        <BsArrowDown
+          color={sort.field === 'emailCliente' && sort.order === 'desc' ? 'black' : 'grey'}
+        />
+      </th>
+      <th style={{ cursor: 'pointer' }} onClick={() => changeSort('cpfCliente')}>
+        CPF
+        <BsArrowUp
+          color={sort.field === 'cpfCliente' && sort.order === 'asc' ? 'black' : 'grey'}
+        />
+        <BsArrowDown
+          color={sort.field === 'cpfCliente' && sort.order === 'desc' ? 'black' : 'grey'}
+        />
       </th>
       <th>
-        CPF
-        <button type="button" onClick={() => changeSort('cpfCliente')}>
-          Ordenar
-        </button>
+        Ações
       </th>
     </tr>
   );
