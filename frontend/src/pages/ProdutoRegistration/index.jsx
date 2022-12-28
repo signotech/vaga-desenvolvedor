@@ -4,7 +4,7 @@ import FilterablePaginatedProdutoTable from './components/FilterablePaginatedPro
 export default function ProdutoRegistration() {
   return (
     <div>
-      <Header title="Cadastro de produtos" />
+      <Header />
       <FilterablePaginatedProdutoTable />
     </div>
   );

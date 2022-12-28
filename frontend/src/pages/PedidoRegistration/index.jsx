@@ -4,7 +4,7 @@ import FilterablePaginatedPedidoTable from './components/FilterablePaginatedPedi
 export default function PedidoRegistration() {
   return (
     <div>
-      <Header title="Cadastro de pedidos de compra" />
+      <Header />
       <FilterablePaginatedPedidoTable />
     </div>
   );

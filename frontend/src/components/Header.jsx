@@ -1,27 +1,24 @@
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import { LinkContainer } from 'react-router-bootstrap';
 
-export default function Header({ title }) {
+export default function Header() {
   return (
     <header>
-      <h1>{title}</h1>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/clientes">Clientes</Link>
-          </li>
-          <li>
-            <Link to="/produtos">Produtos</Link>
-          </li>
-          <li>
-            <Link to="/pedidos">Pedidos</Link>
-          </li>
-        </ul>
-      </nav>
+      <h1>Cadastro de Pedidos de Compra</h1>
+      <Navbar>
+        <Nav>
+          <LinkContainer to="/clientes">
+            <Nav.Link>Clientes</Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/produtos">
+            <Nav.Link>Produtos</Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/pedidos">
+            <Nav.Link>Pedidos</Nav.Link>
+          </LinkContainer>
+        </Nav>
+      </Navbar>
     </header>
   );
 }
-
-Header.propTypes = {
-  title: PropTypes.string.isRequired,
-};

@@ -4,7 +4,7 @@ import Header from '../../components/Header';
 export default function ClienteRegistration() {
   return (
     <div>
-      <Header title="Cadastro de clientes" />
+      <Header />
       <FilterablePaginatedClienteTable />
     </div>
   );
