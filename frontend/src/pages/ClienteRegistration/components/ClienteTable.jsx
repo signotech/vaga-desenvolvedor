@@ -1,5 +1,10 @@
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Table from 'react-bootstrap/Table';
+import Row from 'react-bootstrap/Row';
+
 import Alert from '../../../components/Alert';
 import ClienteTableForm from './ClienteTableForm';
 import ClienteTableHeader from './ClienteTableHeader';
@@ -194,8 +199,25 @@ export default function ClienteTable({
 
   return (
     <div>
-      <button type="button" onClick={deleteAllClientes}>Limpar</button>
-      <button type="button" onClick={startCreation}>Adicionar</button>
+      <Row className="g-2">
+        <Col xs="auto">
+          <Button
+            variant="danger"
+            type="button"
+            onClick={deleteAllClientes}
+          >
+            Deletar todos
+          </Button>
+        </Col>
+        <Col xs="auto">
+          <Button
+            type="button"
+            onClick={startCreation}
+          >
+            Adicionar
+          </Button>
+        </Col>
+      </Row>
       {isCreating && (
         <ClienteTableForm
           cliente={clienteInput}
@@ -216,14 +238,14 @@ export default function ClienteTable({
       {operationAlert.hasMessage && (
         <Alert isError={operationAlert.isError} message={operationAlert.message} />
       )}
-      <table>
+      <Table striped hover>
         <thead>
           <ClienteTableHeader sort={sort} onSortChange={onSortChange} />
         </thead>
         <tbody>
           {rows}
         </tbody>
-      </table>
+      </Table>
     </div>
   );
 }
