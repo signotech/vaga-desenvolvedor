@@ -1,4 +1,8 @@
 import PropTypes from 'prop-types';
+import Button from 'react-bootstrap/Button';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+import { BsTrashFill, BsPencilFill } from 'react-icons/bs';
 
 export default function ClienteTableRow({
   cliente,
@@ -11,8 +15,16 @@ export default function ClienteTableRow({
       <td>{cliente.emailCliente}</td>
       <td>{cliente.cpfCliente}</td>
       <td>
-        <button type="button" onClick={onUpdateButtonClick}>Atualizar</button>
-        <button type="button" onClick={onDeleteButtonClick}>Deletar</button>
+        <OverlayTrigger overlay={<Tooltip>Editar</Tooltip>}>
+          <Button variant="white" type="button" onClick={onUpdateButtonClick}>
+            <BsPencilFill color="orange" />
+          </Button>
+        </OverlayTrigger>
+        <OverlayTrigger overlay={<Tooltip>Deletar</Tooltip>}>
+          <Button variant="white" type="button" onClick={onDeleteButtonClick}>
+            <BsTrashFill color="red" />
+          </Button>
+        </OverlayTrigger>
       </td>
     </tr>
   );
