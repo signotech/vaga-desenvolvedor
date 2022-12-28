@@ -1,4 +1,8 @@
 import PropTypes from 'prop-types';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
 import { useState } from 'react';
 
 export default function ItemsPerPageAdjuster({ onItemsPerPageSubmit }) {
@@ -10,20 +14,26 @@ export default function ItemsPerPageAdjuster({ onItemsPerPageSubmit }) {
   };
 
   return (
-    <form onSubmit={submitItemsPerPage}>
-      <label htmlFor="itemsPerPage">
-        Itens por página
-        <input
-          type="number"
-          name="itemsPerPage"
-          id="itemsPerPage"
-          min={1}
-          value={itemsPerPage}
-          onChange={(e) => setItemsPerPage(e.target.value)}
-        />
-      </label>
-      <button type="submit">Aplicar</button>
-    </form>
+    <Form onSubmit={submitItemsPerPage}>
+      <Row className="g-2 align-items-end">
+        <Col xs="auto">
+          <Form.Label htmlFor="itemsPerPage">
+            Itens por página
+          </Form.Label>
+          <Form.Control
+            type="number"
+            name="itemsPerPage"
+            id="itemsPerPage"
+            min={1}
+            value={itemsPerPage}
+            onChange={(e) => setItemsPerPage(e.target.value)}
+          />
+        </Col>
+        <Col xs="auto">
+          <Button type="submit">Aplicar</Button>
+        </Col>
+      </Row>
+    </Form>
   );
 }
 
