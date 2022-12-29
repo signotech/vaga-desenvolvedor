@@ -1,7 +1,11 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
 
 export default function PedidoTableForm({
+  title,
   pedido,
   onPedidoChange,
   onPedidoSubmit,
@@ -62,7 +66,7 @@ export default function PedidoTableForm({
       shouldSubmit = false;
       setSkuValidation({
         isValid: false,
-        message: 'Selecione um ou mais SKUs dos produtos',
+        message: 'Selecione um ou mais SKUs',
       });
     }
 
@@ -99,74 +103,85 @@ export default function PedidoTableForm({
   }, []);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="cpfCliente">
-          CPF do cliente
-          <select
-            name="cpfCliente"
-            id="cpfCliente"
-            value={pedido.cpfCliente}
-            onChange={handleInputChange}
-            disabled={cpfDisabled}
-          >
-            <option value="">Selecione...</option>
-            {clientes.map(({ cpfCliente }) => (
-              <option key={cpfCliente} value={cpfCliente}>{cpfCliente}</option>
-            ))}
-          </select>
-        </label>
-        {!cpfValidation.isValid && (
-          <div>{cpfValidation.message}</div>
-        )}
-      </div>
-      <div>
-        <label htmlFor="skuProdutos">
-          SKU dos produtos
-          <select
-            multiple
-            name="skuProdutos"
-            id="skuProdutos"
-            value={pedido.skuProdutos}
-            onChange={handleInputChange}
-            disabled={skuDisabled}
-          >
-            {produtos.map(({ skuProduto }) => (
-              <option key={skuProduto} value={skuProduto}>{skuProduto}</option>
-            ))}
-          </select>
-        </label>
-        {!skuValidation.isValid && (
-          <div>{skuValidation.message}</div>
-        )}
-      </div>
-      <div>
-        <label htmlFor="status">
-          Status
-          <select
-            name="status"
-            id="status"
-            value={pedido.status}
-            onChange={handleInputChange}
-          >
-            <option value="em aberto">Em aberto</option>
-            <option value="pago">Pago</option>
-            <option value="cancelado">Cancelado</option>
-          </select>
-        </label>
-        {!statusValidation.isValid && (
-          <div>{statusValidation.message}</div>
-        )}
-      </div>
-      <div>
-        <button type="button" onClick={onCancel}>Cancelar</button>
-        <button type="submit">Salvar</button>
-      </div>
-    </form>
+    <Modal show onHide={onCancel}>
+      <Modal.Header closeButton>
+        <Modal.Title>{title}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form noValidate onSubmit={handleSubmit}>
+          <Form.Group className="mb-3">
+            <Form.Label htmlFor="cpfCliente">
+              CPF do cliente
+            </Form.Label>
+            <Form.Select
+              name="cpfCliente"
+              id="cpfCliente"
+              value={pedido.cpfCliente}
+              onChange={handleInputChange}
+              disabled={cpfDisabled}
+              isInvalid={!cpfValidation.isValid}
+            >
+              <option value="">Selecione...</option>
+              {clientes.map(({ cpfCliente }) => (
+                <option key={cpfCliente} value={cpfCliente}>{cpfCliente}</option>
+              ))}
+            </Form.Select>
+            <Form.Control.Feedback type="invalid">
+              {cpfValidation.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label htmlFor="skuProdutos">
+              SKU dos produtos
+            </Form.Label>
+            <Form.Select
+              multiple
+              name="skuProdutos"
+              id="skuProdutos"
+              value={pedido.skuProdutos}
+              onChange={handleInputChange}
+              disabled={skuDisabled}
+              isInvalid={!skuValidation.isValid}
+            >
+              {produtos.map(({ skuProduto }) => (
+                <option key={skuProduto} value={skuProduto}>{skuProduto}</option>
+              ))}
+            </Form.Select>
+            <Form.Control.Feedback type="invalid">
+              {skuValidation.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label htmlFor="status">
+              Status
+            </Form.Label>
+            <Form.Select
+              name="status"
+              id="status"
+              value={pedido.status}
+              onChange={handleInputChange}
+              isInvalid={!statusValidation.isValid}
+            >
+              <option value="em aberto">Em aberto</option>
+              <option value="pago">Pago</option>
+              <option value="cancelado">Cancelado</option>
+            </Form.Select>
+            <Form.Control.Feedback type="invalid">
+              {statusValidation.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="danger" type="button" onClick={onCancel}>Cancelar</Button>
+        <Button variant="success" type="button" onClick={handleSubmit}>Salvar</Button>
+      </Modal.Footer>
+    </Modal>
   );
 }
 
 PedidoTableForm.propTypes = {
+  title: PropTypes.string.isRequired,
   pedido: PropTypes.shape({
     codigoPedido: PropTypes.number,
     status: PropTypes.string,

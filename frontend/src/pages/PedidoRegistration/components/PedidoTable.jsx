@@ -229,6 +229,7 @@ export default function PedidoTable({
       </Row>
       {isCreating && (
         <PedidoTableForm
+          title="Criar pedido"
           pedido={pedidoInput}
           onPedidoChange={setPedidoInput}
           onPedidoSubmit={createPedido}
@@ -237,6 +238,7 @@ export default function PedidoTable({
       )}
       {isUpdating && (
         <PedidoTableForm
+          title="Atualizar pedido"
           pedido={pedidoInput}
           onPedidoChange={setPedidoInput}
           onPedidoSubmit={updatePedido}
