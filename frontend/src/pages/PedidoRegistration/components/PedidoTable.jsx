@@ -1,5 +1,10 @@
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Table from 'react-bootstrap/Table';
+import Row from 'react-bootstrap/Row';
+
 import Alert from '../../../components/Alert';
 import PedidoTableForm from './PedidoTableForm';
 import PedidoTableHeader from './PedidoTableHeader';
@@ -171,6 +176,10 @@ export default function PedidoTable({
     setPedidoInput(pedido);
   };
 
+  const resetOperationAlert = () => {
+    setOperationAlert({ isError: false, hasMessage: false, messsage: '' });
+  };
+
   useEffect(() => {
     getAllPedidos();
   }, [filter, sort, itemsPerPage, pageNumber]);
@@ -179,8 +188,8 @@ export default function PedidoTable({
     clearTimeout(timeout.current);
 
     timeout.current = setTimeout(() => {
-      setOperationAlert({ isError: false, hasMessage: false, messsage: '' });
-    }, 3000);
+      resetOperationAlert();
+    }, 5000);
 
     return () => clearTimeout(timeout.current);
   }, [operationAlert]);
@@ -198,8 +207,26 @@ export default function PedidoTable({
 
   return (
     <div>
-      <button type="button" onClick={deleteAllPedidos}>Limpar</button>
-      <button type="button" onClick={startCreation}>Adicionar</button>
+      <Row className="g-2 py-2">
+        <Col xs="auto">
+          <Button
+            variant="success"
+            type="button"
+            onClick={startCreation}
+          >
+            Adicionar
+          </Button>
+        </Col>
+        <Col xs="auto">
+          <Button
+            variant="danger"
+            type="button"
+            onClick={deleteAllPedidos}
+          >
+            Deletar todos
+          </Button>
+        </Col>
+      </Row>
       {isCreating && (
         <PedidoTableForm
           pedido={pedidoInput}
@@ -219,16 +246,20 @@ export default function PedidoTable({
         />
       )}
       {operationAlert.hasMessage && (
-        <Alert isError={operationAlert.isError} message={operationAlert.message} />
+        <Alert
+          isError={operationAlert.isError}
+          message={operationAlert.message}
+          onClose={resetOperationAlert}
+        />
       )}
-      <table>
+      <Table hover>
         <thead>
           <PedidoTableHeader sort={sort} onSortChange={onSortChange} />
         </thead>
         <tbody>
           {rows}
         </tbody>
-      </table>
+      </Table>
     </div>
   );
 }
