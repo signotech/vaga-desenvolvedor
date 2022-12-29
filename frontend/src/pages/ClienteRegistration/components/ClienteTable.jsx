@@ -220,6 +220,7 @@ export default function ClienteTable({
       </Row>
       {isCreating && (
         <ClienteTableForm
+          title="Criar cliente"
           cliente={clienteInput}
           onClienteChange={setClienteInput}
           onClienteSubmit={createCliente}
@@ -228,6 +229,7 @@ export default function ClienteTable({
       )}
       {isUpdating && (
         <ClienteTableForm
+          title="Atualizar cliente"
           cliente={clienteInput}
           onClienteChange={setClienteInput}
           onClienteSubmit={updateCliente}

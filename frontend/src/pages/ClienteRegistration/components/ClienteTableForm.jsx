@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
+import Modal from 'react-bootstrap/Modal';
 
 export default function ClienteTableForm({
+  title,
   cliente,
   onClienteChange,
   onClienteSubmit,
@@ -69,69 +69,73 @@ export default function ClienteTableForm({
   };
 
   return (
-    <Form noValidate onSubmit={handleSubmit}>
-      <Form.Group className="mb-3">
-        <Form.Label htmlFor="nomeCliente">
-          Nome
-        </Form.Label>
-        <Form.Control
-          type="text"
-          id="nomeCliente"
-          name="nomeCliente"
-          value={cliente.nomeCliente}
-          onChange={handleInputChange}
-          isInvalid={!nomeValidation.isValid}
-        />
-        <Form.Control.Feedback type="invalid">
-          {nomeValidation.message}
-        </Form.Control.Feedback>
-      </Form.Group>
-      <Form.Group className="mb-3">
-        <Form.Label htmlFor="emailCliente">
-          Email
-        </Form.Label>
-        <Form.Control
-          type="text"
-          id="emailCliente"
-          name="emailCliente"
-          value={cliente.emailCliente}
-          onChange={handleInputChange}
-          isInvalid={!emailValidation.isValid}
-        />
-        <Form.Control.Feedback type="invalid">
-          {emailValidation.message}
-        </Form.Control.Feedback>
-      </Form.Group>
-      <Form.Group className="mb-3">
-        <Form.Label htmlFor="cpfCliente">
-          CPF
-        </Form.Label>
-        <Form.Control
-          type="text"
-          id="cpfCliente"
-          name="cpfCliente"
-          value={cliente.cpfCliente}
-          onChange={handleInputChange}
-          disabled={cpfDisabled}
-          isInvalid={!cpfValidation.isValid}
-        />
-        <Form.Control.Feedback type="invalid">
-          {cpfValidation.message}
-        </Form.Control.Feedback>
-      </Form.Group>
-      <Row className="g-2">
-        <Col xs="auto">
-          <Button variant="danger" type="button" onClick={onCancel}>Cancelar</Button>
-        </Col>
-        <Col xs="auto">
-          <Button type="submit">Salvar</Button>
-        </Col>
-      </Row>
-    </Form>
+    <Modal show onHide={onCancel}>
+      <Modal.Header closeButton>
+        <Modal.Title>{title}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form noValidate onSubmit={handleSubmit}>
+          <Form.Group className="mb-3">
+            <Form.Label htmlFor="nomeCliente">
+              Nome
+            </Form.Label>
+            <Form.Control
+              type="text"
+              id="nomeCliente"
+              name="nomeCliente"
+              value={cliente.nomeCliente}
+              onChange={handleInputChange}
+              isInvalid={!nomeValidation.isValid}
+            />
+            <Form.Control.Feedback type="invalid">
+              {nomeValidation.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label htmlFor="emailCliente">
+              Email
+            </Form.Label>
+            <Form.Control
+              type="text"
+              id="emailCliente"
+              name="emailCliente"
+              value={cliente.emailCliente}
+              onChange={handleInputChange}
+              isInvalid={!emailValidation.isValid}
+            />
+            <Form.Control.Feedback type="invalid">
+              {emailValidation.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label htmlFor="cpfCliente">
+              CPF
+            </Form.Label>
+            <Form.Control
+              type="text"
+              id="cpfCliente"
+              name="cpfCliente"
+              value={cliente.cpfCliente}
+              onChange={handleInputChange}
+              disabled={cpfDisabled}
+              isInvalid={!cpfValidation.isValid}
+            />
+            <Form.Control.Feedback type="invalid">
+              {cpfValidation.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="danger" type="button" onClick={onCancel}>Cancelar</Button>
+        <Button type="button" onClick={handleSubmit}>Salvar</Button>
+      </Modal.Footer>
+    </Modal>
   );
 }
 
 ClienteTableForm.propTypes = {
+  title: PropTypes.string.isRequired,
   cliente: PropTypes.shape({
     nomeCliente: PropTypes.string,
     emailCliente: PropTypes.string,
