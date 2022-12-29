@@ -1,5 +1,10 @@
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Table from 'react-bootstrap/Table';
+import Row from 'react-bootstrap/Row';
+
 import Alert from '../../../components/Alert';
 import ProdutoTableForm from './ProdutoTableForm';
 import ProdutoTableHeader from './ProdutoTableHeader';
@@ -178,6 +183,10 @@ export default function ProdutoTable({
     setProdutoInput(produto);
   };
 
+  const resetOperationAlert = () => {
+    setOperationAlert({ isError: false, hasMessage: false, messsage: '' });
+  };
+
   useEffect(() => {
     getAllProdutos();
   }, [filter, sort, itemsPerPage, pageNumber]);
@@ -186,8 +195,8 @@ export default function ProdutoTable({
     clearTimeout(timeout.current);
 
     timeout.current = setTimeout(() => {
-      setOperationAlert({ isError: false, hasMessage: false, messsage: '' });
-    }, 3000);
+      resetOperationAlert();
+    }, 5000);
 
     return () => clearTimeout(timeout.current);
   }, [operationAlert]);
@@ -205,8 +214,26 @@ export default function ProdutoTable({
 
   return (
     <div>
-      <button type="button" onClick={deleteAllProdutos}>Limpar</button>
-      <button type="button" onClick={startCreation}>Adicionar</button>
+      <Row className="g-2 py-2">
+        <Col xs="auto">
+          <Button
+            variant="success"
+            type="button"
+            onClick={startCreation}
+          >
+            Adicionar
+          </Button>
+        </Col>
+        <Col xs="auto">
+          <Button
+            variant="danger"
+            type="button"
+            onClick={deleteAllProdutos}
+          >
+            Deletar todos
+          </Button>
+        </Col>
+      </Row>
       {isCreating && (
         <ProdutoTableForm
           produto={produtoInput}
@@ -225,16 +252,20 @@ export default function ProdutoTable({
         />
       )}
       {operationAlert.hasMessage && (
-        <Alert isError={operationAlert.isError} message={operationAlert.message} />
+        <Alert
+          isError={operationAlert.isError}
+          message={operationAlert.message}
+          onClose={resetOperationAlert}
+        />
       )}
-      <table>
+      <Table hover>
         <thead>
           <ProdutoTableHeader sort={sort} onSortChange={onSortChange} />
         </thead>
         <tbody>
           {rows}
         </tbody>
-      </table>
+      </Table>
     </div>
   );
 }
