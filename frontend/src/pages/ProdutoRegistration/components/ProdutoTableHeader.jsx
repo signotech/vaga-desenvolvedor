@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { BsArrowUp, BsArrowDown } from 'react-icons/bs';
 
 export default function ProdutoTableHeader({ sort, onSortChange }) {
   const changeSort = (field) => {
@@ -18,30 +19,45 @@ export default function ProdutoTableHeader({ sort, onSortChange }) {
   };
 
   return (
-    <tr>
-      <th>
+    <tr className="align-middle">
+      <th style={{ cursor: 'pointer' }} onClick={() => changeSort('skuProduto')}>
         SKU
-        <button type="button" onClick={() => changeSort('skuProduto')}>
-          Ordenar
-        </button>
+        <BsArrowUp
+          color={sort.field === 'skuProduto' && sort.order === 'asc' ? 'black' : 'grey'}
+        />
+        <BsArrowDown
+          color={sort.field === 'skuProduto' && sort.order === 'desc' ? 'black' : 'grey'}
+        />
       </th>
-      <th>
+      <th style={{ cursor: 'pointer' }} onClick={() => changeSort('tituloProduto')}>
         Título
-        <button type="button" onClick={() => changeSort('tituloProduto')}>
-          Ordenar
-        </button>
+        <BsArrowUp
+          color={sort.field === 'tituloProduto' && sort.order === 'asc' ? 'black' : 'grey'}
+        />
+        <BsArrowDown
+          color={sort.field === 'tituloProduto' && sort.order === 'desc' ? 'black' : 'grey'}
+        />
       </th>
-      <th>
+      <th style={{ cursor: 'pointer' }} onClick={() => changeSort('preco')}>
         Preço
-        <button type="button" onClick={() => changeSort('preco')}>
-          Ordenar
-        </button>
+        <BsArrowUp
+          color={sort.field === 'preco' && sort.order === 'asc' ? 'black' : 'grey'}
+        />
+        <BsArrowDown
+          color={sort.field === 'preco' && sort.order === 'desc' ? 'black' : 'grey'}
+        />
+      </th>
+      <th style={{ cursor: 'pointer' }} onClick={() => changeSort('estoque')}>
+        Estoque
+        <BsArrowUp
+          color={sort.field === 'estoque' && sort.order === 'asc' ? 'black' : 'grey'}
+        />
+        <BsArrowDown
+          color={sort.field === 'estoque' && sort.order === 'desc' ? 'black' : 'grey'}
+        />
       </th>
       <th>
-        Estoque
-        <button type="button" onClick={() => changeSort('estoque')}>
-          Ordenar
-        </button>
+        Ações
       </th>
     </tr>
   );
