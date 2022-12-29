@@ -185,7 +185,7 @@ export default function ClienteTable({
 
     timeout.current = setTimeout(() => {
       resetOperationAlert();
-    }, 3000);
+    }, 5000);
 
     return () => clearTimeout(timeout.current);
   }, [operationAlert]);
@@ -203,7 +203,16 @@ export default function ClienteTable({
 
   return (
     <div>
-      <Row className="g-2">
+      <Row className="g-2 py-2">
+        <Col xs="auto">
+          <Button
+            variant="success"
+            type="button"
+            onClick={startCreation}
+          >
+            Adicionar
+          </Button>
+        </Col>
         <Col xs="auto">
           <Button
             variant="danger"
@@ -211,14 +220,6 @@ export default function ClienteTable({
             onClick={deleteAllClientes}
           >
             Deletar todos
-          </Button>
-        </Col>
-        <Col xs="auto">
-          <Button
-            type="button"
-            onClick={startCreation}
-          >
-            Adicionar
           </Button>
         </Col>
       </Row>
@@ -248,7 +249,7 @@ export default function ClienteTable({
           onClose={resetOperationAlert}
         />
       )}
-      <Table striped hover>
+      <Table hover>
         <thead>
           <ClienteTableHeader sort={sort} onSortChange={onSortChange} />
         </thead>
