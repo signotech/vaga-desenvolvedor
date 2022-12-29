@@ -37,7 +37,7 @@ export default function FilterablePaginatedClienteTable() {
             onItemsPerPageSubmit={setItemsPerPage}
           />
         </Col>
-        <Col xs="auto" className="">
+        <Col xs="auto">
           <Pagination
             pageNumber={pageNumber}
             itemsPerPage={itemsPerPage}
