@@ -1,11 +1,12 @@
+import Container from 'react-bootstrap/Container';
 import Header from '../../components/Header';
 import FilterablePaginatedProdutoTable from './components/FilterablePaginatedProdutoTable';
 
 export default function ProdutoRegistration() {
   return (
-    <div>
+    <Container className="my-4 col-lg-8">
       <Header />
       <FilterablePaginatedProdutoTable />
-    </div>
+    </Container>
   );
 }
