@@ -172,6 +172,10 @@ export default function ClienteTable({
     setClienteInput(cliente);
   };
 
+  const resetOperationAlert = () => {
+    setOperationAlert({ isError: false, hasMessage: false, messsage: '' });
+  };
+
   useEffect(() => {
     getAllClientes();
   }, [filter, sort, itemsPerPage, pageNumber]);
@@ -180,7 +184,7 @@ export default function ClienteTable({
     clearTimeout(timeout.current);
 
     timeout.current = setTimeout(() => {
-      setOperationAlert({ isError: false, hasMessage: false, messsage: '' });
+      resetOperationAlert();
     }, 3000);
 
     return () => clearTimeout(timeout.current);
@@ -238,7 +242,11 @@ export default function ClienteTable({
         />
       )}
       {operationAlert.hasMessage && (
-        <Alert isError={operationAlert.isError} message={operationAlert.message} />
+        <Alert
+          isError={operationAlert.isError}
+          message={operationAlert.message}
+          onClose={resetOperationAlert}
+        />
       )}
       <Table striped hover>
         <thead>
