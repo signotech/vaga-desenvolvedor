@@ -13,7 +13,12 @@ export default function ProdutoTableRow({
     <tr className="align-middle">
       <td>{produto.skuProduto}</td>
       <td>{produto.tituloProduto}</td>
-      <td>{produto.preco}</td>
+      <td>
+        {produto.preco.toLocaleString('pt-br', {
+          style: 'currency',
+          currency: 'BRL',
+        })}
+      </td>
       <td>{produto.estoque}</td>
       <td>
         <OverlayTrigger overlay={<Tooltip>Editar</Tooltip>}>
