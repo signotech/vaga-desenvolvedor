@@ -74,7 +74,7 @@ export default function ClienteTableForm({
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form noValidate onSubmit={handleSubmit}>
+        <Form noValidate>
           <Form.Group className="mb-3">
             <Form.Label htmlFor="nomeCliente">
               Nome

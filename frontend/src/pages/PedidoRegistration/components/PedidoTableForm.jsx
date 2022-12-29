@@ -108,7 +108,7 @@ export default function PedidoTableForm({
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form noValidate onSubmit={handleSubmit}>
+        <Form noValidate>
           <Form.Group className="mb-3">
             <Form.Label htmlFor="cpfCliente">
               CPF do cliente
