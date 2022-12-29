@@ -168,8 +168,8 @@ ProdutoTableForm.propTypes = {
   produto: PropTypes.shape({
     skuProduto: PropTypes.string,
     tituloProduto: PropTypes.string,
-    preco: PropTypes.number,
-    estoque: PropTypes.number,
+    preco: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    estoque: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   }).isRequired,
   onProdutoChange: PropTypes.func.isRequired,
   onProdutoSubmit: PropTypes.func.isRequired,
