@@ -1,7 +1,11 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
 
 export default function ProdutoTableForm({
+  title,
   produto,
   onProdutoChange,
   onProdutoSubmit,
@@ -78,77 +82,89 @@ export default function ProdutoTableForm({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="skuProduto">
-          SKU
-          <input
-            type="text"
-            id="skuProduto"
-            name="skuProduto"
-            value={produto.skuProduto}
-            onChange={handleInputChange}
-            disabled={skuDisabled}
-          />
-        </label>
-        {!skuValidation.isValid && (
-          <div>{skuValidation.message}</div>
-        )}
-      </div>
-      <div>
-        <label htmlFor="tituloProduto">
-          Título
-          <input
-            type="text"
-            id="tituloProduto"
-            name="tituloProduto"
-            value={produto.tituloProduto}
-            onChange={handleInputChange}
-          />
-        </label>
-        {!tituloValidation.isValid && (
-          <div>{tituloValidation.message}</div>
-        )}
-      </div>
-      <div>
-        <label htmlFor="preco">
-          Preço
-          <input
-            type="number"
-            id="preco"
-            name="preco"
-            value={produto.preco}
-            onChange={handleInputChange}
-          />
-        </label>
-        {!precoValidation.isValid && (
-          <div>{precoValidation.message}</div>
-        )}
-      </div>
-      <div>
-        <label htmlFor="estoque">
-          Estoque
-          <input
-            type="number"
-            id="estoque"
-            name="estoque"
-            value={produto.estoque}
-            onChange={handleInputChange}
-          />
-        </label>
-        {!estoqueValidation.isValid && (
-          <div>{estoqueValidation.message}</div>
-        )}
-      </div>
-      <div>
-        <button type="button" onClick={onCancel}>Cancelar</button>
-        <button type="submit">Salvar</button>
-      </div>
-    </form>
+    <Modal show onHide={onCancel}>
+      <Modal.Header closeButton>
+        <Modal.Title>{title}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form noValidate onSubmit={handleSubmit}>
+          <Form.Group className="mb-3">
+            <Form.Label htmlFor="skuProduto">
+              SKU
+            </Form.Label>
+            <Form.Control
+              type="text"
+              id="skuProduto"
+              name="skuProduto"
+              value={produto.skuProduto}
+              onChange={handleInputChange}
+              disabled={skuDisabled}
+              isInvalid={!skuValidation.isValid}
+            />
+            <Form.Control.Feedback type="invalid">
+              {skuValidation.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label htmlFor="tituloProduto">
+              Título
+            </Form.Label>
+            <Form.Control
+              type="text"
+              id="tituloProduto"
+              name="tituloProduto"
+              value={produto.tituloProduto}
+              onChange={handleInputChange}
+              isInvalid={!tituloValidation.isValid}
+            />
+            <Form.Control.Feedback type="invalid">
+              {tituloValidation.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label htmlFor="preco">
+              Preço
+            </Form.Label>
+            <Form.Control
+              type="number"
+              id="preco"
+              name="preco"
+              value={produto.preco}
+              onChange={handleInputChange}
+              isInvalid={!precoValidation.isValid}
+            />
+            <Form.Control.Feedback type="invalid">
+              {precoValidation.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label htmlFor="estoque">
+              Estoque
+            </Form.Label>
+            <Form.Control
+              type="number"
+              id="estoque"
+              name="estoque"
+              value={produto.estoque}
+              onChange={handleInputChange}
+              isInvalid={!estoqueValidation.isValid}
+            />
+            <Form.Control.Feedback type="invalid">
+              {estoqueValidation.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="danger" type="button" onClick={onCancel}>Cancelar</Button>
+        <Button variant="success" type="button" onClick={handleSubmit}>Salvar</Button>
+      </Modal.Footer>
+    </Modal>
   );
 }
 
 ProdutoTableForm.propTypes = {
+  title: PropTypes.string.isRequired,
   produto: PropTypes.shape({
     skuProduto: PropTypes.string,
     tituloProduto: PropTypes.string,

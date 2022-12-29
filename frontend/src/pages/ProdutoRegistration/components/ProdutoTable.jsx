@@ -236,6 +236,7 @@ export default function ProdutoTable({
       </Row>
       {isCreating && (
         <ProdutoTableForm
+          title="Criar produto"
           produto={produtoInput}
           onProdutoChange={setProdutoInput}
           onProdutoSubmit={createProduto}
@@ -244,6 +245,7 @@ export default function ProdutoTable({
       )}
       {isUpdating && (
         <ProdutoTableForm
+          title="Atualizar produto"
           produto={produtoInput}
           onProdutoChange={setProdutoInput}
           onProdutoSubmit={updateProduto}
