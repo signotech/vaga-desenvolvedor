@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { BsArrowUp, BsArrowDown } from 'react-icons/bs';
 
 export default function PedidoTableHeader({ sort, onSortChange }) {
   const changeSort = (field) => {
@@ -18,24 +19,36 @@ export default function PedidoTableHeader({ sort, onSortChange }) {
   };
 
   return (
-    <tr>
-      <th>
+    <tr className="align-middle">
+      <th style={{ cursor: 'pointer' }} onClick={() => changeSort('codigoPedido')}>
         Código
-        <button type="button" onClick={() => changeSort('codigoPedido')}>
-          Ordenar
-        </button>
+        <BsArrowUp
+          color={sort.field === 'codigoPedido' && sort.order === 'asc' ? 'black' : 'grey'}
+        />
+        <BsArrowDown
+          color={sort.field === 'codigoPedido' && sort.order === 'desc' ? 'black' : 'grey'}
+        />
       </th>
-      <th>
+      <th style={{ cursor: 'pointer' }} onClick={() => changeSort('status')}>
         Status
-        <button type="button" onClick={() => changeSort('status')}>
-          Ordenar
-        </button>
+        <BsArrowUp
+          color={sort.field === 'status' && sort.order === 'asc' ? 'black' : 'grey'}
+        />
+        <BsArrowDown
+          color={sort.field === 'status' && sort.order === 'desc' ? 'black' : 'grey'}
+        />
+      </th>
+      <th style={{ cursor: 'pointer' }} onClick={() => changeSort('dataPedido')}>
+        Data
+        <BsArrowUp
+          color={sort.field === 'dataPedido' && sort.order === 'asc' ? 'black' : 'grey'}
+        />
+        <BsArrowDown
+          color={sort.field === 'dataPedido' && sort.order === 'desc' ? 'black' : 'grey'}
+        />
       </th>
       <th>
-        Data
-        <button type="button" onClick={() => changeSort('dataPedido')}>
-          Ordenar
-        </button>
+        Ações
       </th>
     </tr>
   );
