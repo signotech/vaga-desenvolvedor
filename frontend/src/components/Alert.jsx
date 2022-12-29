@@ -9,7 +9,7 @@ export default function Alert({ message, isError, onClose }) {
       dismissible
     >
       <BsAlert.Heading>{isError ? 'Erro!' : 'Sucesso!'}</BsAlert.Heading>
-      <p>{message}</p>
+      <span>{message}</span>
     </BsAlert>
   );
 }
