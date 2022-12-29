@@ -19,7 +19,7 @@ export default function ClienteTableHeader({ sort, onSortChange }) {
   };
 
   return (
-    <tr>
+    <tr className="align-middle">
       <th style={{ cursor: 'pointer' }} onClick={() => changeSort('nomeCliente')}>
         Nome
         <BsArrowUp

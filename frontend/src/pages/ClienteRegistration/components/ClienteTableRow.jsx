@@ -10,7 +10,7 @@ export default function ClienteTableRow({
   onDeleteButtonClick,
 }) {
   return (
-    <tr>
+    <tr className="align-middle">
       <td>{cliente.nomeCliente}</td>
       <td>{cliente.emailCliente}</td>
       <td>{cliente.cpfCliente}</td>

@@ -19,7 +19,7 @@ export default function FilterBar({ onFilterSubmit }) {
 
   return (
     <Form onSubmit={submitFilter}>
-      <Row className="g-2 align-items-end">
+      <Row className="g-2 align-items-end py-2">
         <Col xs="auto">
           <Form.Label htmlFor="filterText" visuallyHidden>
             Filtro

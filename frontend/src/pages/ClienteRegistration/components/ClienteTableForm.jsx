@@ -128,7 +128,7 @@ export default function ClienteTableForm({
       </Modal.Body>
       <Modal.Footer>
         <Button variant="danger" type="button" onClick={onCancel}>Cancelar</Button>
-        <Button type="button" onClick={handleSubmit}>Salvar</Button>
+        <Button variant="success" type="button" onClick={handleSubmit}>Salvar</Button>
       </Modal.Footer>
     </Modal>
   );

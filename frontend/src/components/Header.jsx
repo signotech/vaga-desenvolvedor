@@ -7,7 +7,7 @@ export default function Header() {
     <header>
       <h1>Cadastro de Pedidos de Compra</h1>
       <Navbar>
-        <Nav>
+        <Nav className="gap-4">
           <LinkContainer to="/clientes">
             <Nav.Link>Clientes</Nav.Link>
           </LinkContainer>

@@ -8,7 +8,7 @@ export default function Pagination({
   onPageNumberChange,
 }) {
   return (
-    <BsPagination className="mb-0">
+    <BsPagination className="mb-0 mt-2">
       <BsPagination.Prev
         onClick={() => onPageNumberChange(pageNumber - 1)}
         disabled={pageNumber === 1}
