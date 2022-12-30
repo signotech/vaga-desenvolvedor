@@ -9,6 +9,7 @@ import Alert from '../../../components/Alert';
 import PedidoTableForm from './PedidoTableForm';
 import PedidoTableHeader from './PedidoTableHeader';
 import PedidoTableRow from './PedidoTableRow';
+import { API_HOST, API_PORT } from '../../../config/environment';
 
 export default function PedidoTable({
   pedidos,
@@ -37,9 +38,9 @@ export default function PedidoTable({
   const rows = [];
 
   const getAllPedidos = async () => {
-    let url = `http://localhost:3001/pedidos?${filter.field}=${filter.text}&ordenarPor=${sort.field}&ordem=${sort.order}&porPagina=${itemsPerPage}&pagina=${pageNumber}`;
+    let url = `http://${API_HOST}:${API_PORT}/pedidos?${filter.field}=${filter.text}&ordenarPor=${sort.field}&ordem=${sort.order}&porPagina=${itemsPerPage}&pagina=${pageNumber}`;
     if (filter.field === 'cpfCliente') {
-      url = `http://localhost:3001/clientes/${filter.text}/pedidos`;
+      url = `http://${API_HOST}:${API_PORT}/clientes/${filter.text}/pedidos`;
     }
     const response = await fetch(url);
     if (response.status === 200) {
@@ -55,7 +56,7 @@ export default function PedidoTable({
   };
 
   const createPedido = async () => {
-    const response = await fetch('http://localhost:3001/pedidos', {
+    const response = await fetch(`http://${API_HOST}:${API_PORT}/pedidos`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -85,7 +86,7 @@ export default function PedidoTable({
   };
 
   const updatePedido = async () => {
-    const response = await fetch(`http://localhost:3001/pedidos/${pedidoInput.codigoPedido}`, {
+    const response = await fetch(`http://${API_HOST}:${API_PORT}/pedidos/${pedidoInput.codigoPedido}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -115,7 +116,7 @@ export default function PedidoTable({
   };
 
   const deletePedidoByCodigo = async (codigo) => {
-    const response = await fetch(`http://localhost:3001/pedidos/${codigo}`, {
+    const response = await fetch(`http://${API_HOST}:${API_PORT}/pedidos/${codigo}`, {
       method: 'DELETE',
     });
     if (response.status === 204) {
@@ -135,7 +136,7 @@ export default function PedidoTable({
   };
 
   const deleteAllPedidos = async () => {
-    const response = await fetch('http://localhost:3001/pedidos', {
+    const response = await fetch(`http://${API_HOST}:${API_PORT}/pedidos`, {
       method: 'DELETE',
     });
     if (response.status === 204) {

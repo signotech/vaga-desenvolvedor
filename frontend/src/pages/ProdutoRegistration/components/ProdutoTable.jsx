@@ -9,6 +9,7 @@ import Alert from '../../../components/Alert';
 import ProdutoTableForm from './ProdutoTableForm';
 import ProdutoTableHeader from './ProdutoTableHeader';
 import ProdutoTableRow from './ProdutoTableRow';
+import { API_HOST, API_PORT } from '../../../config/environment';
 
 export default function ProdutoTable({
   produtos,
@@ -36,9 +37,9 @@ export default function ProdutoTable({
   const rows = [];
 
   const getAllProdutos = async () => {
-    let url = `http://localhost:3001/produtos?${filter.field}=${filter.text}&ordenarPor=${sort.field}&ordem=${sort.order}&porPagina=${itemsPerPage}&pagina=${pageNumber}`;
+    let url = `http://${API_HOST}:${API_PORT}/produtos?${filter.field}=${filter.text}&ordenarPor=${sort.field}&ordem=${sort.order}&porPagina=${itemsPerPage}&pagina=${pageNumber}`;
     if (filter.field === 'codigoPedido') {
-      url = `http://localhost:3001/pedidos/${filter.text}/produtos`;
+      url = `http://${API_HOST}:${API_PORT}/pedidos/${filter.text}/produtos`;
     }
     const response = await fetch(url);
     if (response.status === 200) {
@@ -54,7 +55,7 @@ export default function ProdutoTable({
   };
 
   const createProduto = async () => {
-    const response = await fetch('http://localhost:3001/produtos', {
+    const response = await fetch(`http://${API_HOST}:${API_PORT}/produtos`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -91,7 +92,7 @@ export default function ProdutoTable({
   };
 
   const updateProduto = async () => {
-    const response = await fetch(`http://localhost:3001/produtos/${produtoInput.skuProduto}`, {
+    const response = await fetch(`http://${API_HOST}:${API_PORT}/produtos/${produtoInput.skuProduto}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -123,7 +124,7 @@ export default function ProdutoTable({
   };
 
   const deleteProdutoBySku = async (sku) => {
-    const response = await fetch(`http://localhost:3001/produtos/${sku}`, {
+    const response = await fetch(`http://${API_HOST}:${API_PORT}/produtos/${sku}`, {
       method: 'DELETE',
     });
     if (response.status === 204) {
@@ -143,7 +144,7 @@ export default function ProdutoTable({
   };
 
   const deleteAllProdutos = async () => {
-    const response = await fetch('http://localhost:3001/produtos', {
+    const response = await fetch(`http://${API_HOST}:${API_PORT}/produtos`, {
       method: 'DELETE',
     });
     if (response.status === 204) {

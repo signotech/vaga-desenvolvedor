@@ -9,6 +9,7 @@ import Alert from '../../../components/Alert';
 import ClienteTableForm from './ClienteTableForm';
 import ClienteTableHeader from './ClienteTableHeader';
 import ClienteTableRow from './ClienteTableRow';
+import { API_HOST, API_PORT } from '../../../config/environment';
 
 export default function ClienteTable({
   clientes,
@@ -35,7 +36,7 @@ export default function ClienteTable({
   const rows = [];
 
   const getAllClientes = async () => {
-    const url = `http://localhost:3001/clientes?${filter.field}=${filter.text}&ordenarPor=${sort.field}&ordem=${sort.order}&porPagina=${itemsPerPage}&pagina=${pageNumber}`;
+    const url = `http://${API_HOST}:${API_PORT}/clientes?${filter.field}=${filter.text}&ordenarPor=${sort.field}&ordem=${sort.order}&porPagina=${itemsPerPage}&pagina=${pageNumber}`;
     const response = await fetch(url);
     if (response.status === 200) {
       const fetchedClientes = await response.json();
@@ -50,7 +51,7 @@ export default function ClienteTable({
   };
 
   const createCliente = async () => {
-    const response = await fetch('http://localhost:3001/clientes', {
+    const response = await fetch(`http://${API_HOST}:${API_PORT}/clientes`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -82,7 +83,7 @@ export default function ClienteTable({
   };
 
   const updateCliente = async () => {
-    const response = await fetch(`http://localhost:3001/clientes/${clienteInput.cpfCliente}`, {
+    const response = await fetch(`http://${API_HOST}:${API_PORT}/clientes/${clienteInput.cpfCliente}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -113,7 +114,7 @@ export default function ClienteTable({
   };
 
   const deleteClienteByCpf = async (cpf) => {
-    const response = await fetch(`http://localhost:3001/clientes/${cpf}`, {
+    const response = await fetch(`http://${API_HOST}:${API_PORT}/clientes/${cpf}`, {
       method: 'DELETE',
     });
     if (response.status === 204) {
@@ -133,7 +134,7 @@ export default function ClienteTable({
   };
 
   const deleteAllClientes = async () => {
-    const response = await fetch('http://localhost:3001/clientes', {
+    const response = await fetch(`http://${API_HOST}:${API_PORT}/clientes`, {
       method: 'DELETE',
     });
     if (response.status === 204) {

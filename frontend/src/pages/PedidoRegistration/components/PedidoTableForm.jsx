@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import { API_HOST, API_PORT } from '../../../config/environment';
 
 export default function PedidoTableForm({
   title,
@@ -84,14 +85,14 @@ export default function PedidoTableForm({
   };
 
   const getAllClientes = async () => {
-    const url = 'http://localhost:3001/clientes';
+    const url = `http://${API_HOST}:${API_PORT}/clientes`;
     const response = await fetch(url);
     const fetchedClientes = await response.json();
     setClientes(fetchedClientes);
   };
 
   const getAllProdutos = async () => {
-    const url = 'http://localhost:3001/produtos';
+    const url = `http://${API_HOST}:${API_PORT}/produtos`;
     const response = await fetch(url);
     const fetchedProdutos = await response.json();
     setProdutos(fetchedProdutos);
