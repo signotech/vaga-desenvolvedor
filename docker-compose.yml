@@ -1,0 +1,64 @@
+version: '3.9'
+services:
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - 3000:3000
+    environment:
+      - VITE_API_HOST=localhost
+      - VITE_API_PORT=3001
+    networks:
+      - public
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "lsof", "-t", "-i:3000"]
+      timeout: 10s
+      retries: 5
+  api:
+    build: ./api
+    container_name: api
+    ports:
+      - 3001:3001
+    environment:
+      - NODE_ENV=development
+      - API_PORT=3001
+      - API_HOST=localhost
+      - MYSQL_HOST=db
+      - MYSQL_PORT=3306
+      - MYSQL_USERNAME=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_DB_NAME=database
+    networks:
+      - public
+      - private
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "lsof", "-t", "-i:3001"]
+      timeout: 10s
+      retries: 5
+  db:
+    image: mysql:8.0
+    container_name: db
+    environment:
+      - MYSQL_PORT=3306
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - private
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 60
+      start_period: 30s
+volumes:
+  db-data: {}
+networks:
+  public: {}
+  private: {}
