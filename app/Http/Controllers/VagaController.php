@@ -16,7 +16,11 @@ class VagaController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Vaga/Index', ['vagas' => Vaga::all()]);
+        $user = auth()->user();
+        $vagas = Vaga::all()->map(function ($vaga) use ($user) {
+            return ['candidatado' => $user->vagas()->where('vaga_id', $vaga['id'])->exists(), ...$vaga->toArray()];
+        });
+        return Inertia::render('Vaga/Index', ['vagas' => $vagas]);
     }
 
     /**
