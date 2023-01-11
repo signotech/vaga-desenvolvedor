@@ -39,7 +39,8 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('vagas', VagaController::class);
 Route::resource('candidaturas', CandidaturaController::class)->only([
-    'index', 'store', 'destroy'
+    'index', 'store'
 ]);
+Route::delete('candidaturas/{vaga}', [CandidaturaController::class, 'destroy'])->name('candidaturas.destroy');
 
 require __DIR__.'/auth.php';
