@@ -26,7 +26,7 @@ class VagaController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Vaga/Create');
     }
 
     /**
@@ -39,7 +39,7 @@ class VagaController extends Controller
     {
         
         Vaga::create($request->validated());
-        return redirect('vaga.index');
+        return redirect()->route('vagas.index');
     }
 
     /**
@@ -74,7 +74,7 @@ class VagaController extends Controller
     public function update(UpdateVagaRequest $request, Vaga $vaga)
     {
         $vaga->update($request->validated());
-        return redirect('vaga.index');
+        return redirect()->route('vagas.index');
     }
 
     /**
@@ -86,6 +86,6 @@ class VagaController extends Controller
     public function destroy(Vaga $vaga)
     {
         $vaga->delete();
-        return redirect('vaga.index');
+        return redirect()->route('vagas.index');
     }
 }
