@@ -29,7 +29,7 @@ class CandidaturaController extends Controller
     public function store(StoreCandidaturaRequest $request)
     {
         $user = auth()->user();
-        $user->vagas()->attach($request->validated()['vaga_id']);
+        $user->vagas()->syncWithoutDetaching([$request->validated()['vaga_id']]);
         return redirect()->route('candidaturas.index');
     }
 
