@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VagaController;
+use App\Http\Controllers\CandidaturaController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -37,5 +38,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('vagas', VagaController::class);
+Route::resource('candidaturas', CandidaturaController::class)->only([
+    'index', 'store', 'destroy'
+]);
 
 require __DIR__.'/auth.php';
