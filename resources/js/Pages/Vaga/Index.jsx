@@ -1,4 +1,5 @@
 import PrimaryButton from "@/Components/PrimaryButton"
+import VagaPod from "@/Components/VagaPod"
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout"
 import { Link } from "@inertiajs/inertia-react"
 
@@ -12,10 +13,7 @@ export default function Index(props) {
                         <PrimaryButton className="w-full place-content-center text-xl">Nova Vaga</PrimaryButton>
                     </Link>
                     {vagas.map((vaga) => (
-                        <Link className="shadow rounded-md border p-5" as='div' href={route('vagas.show', vaga.id)}>
-                            <div className="text-xl">{vaga.nome}</div>
-                            <div className="truncate w-3/4 text-gray-500">{vaga.descricao}</div>
-                        </Link>
+                        <VagaPod vaga={vaga}/>
                     ))}
                 </div>
             </div>
