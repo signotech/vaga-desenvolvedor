@@ -19,4 +19,8 @@ class Vaga extends Model
     public function criador() {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function candidatos() {
+        return $this->belongsToMany(User::class);
+    }
 }
