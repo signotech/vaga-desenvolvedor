@@ -10,7 +10,6 @@ export default function Create(props) {
     });
 
     const onHandleChange = (event) => {
-        console.log(event.target.value)
         setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
     };
 
