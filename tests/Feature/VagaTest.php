@@ -16,6 +16,15 @@ class VagaTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_tela_de_vagas_mostra_todas_as_vagas() {
+        $vagas = Vaga::factory(10)->create();
+        $response = $this->get('/vagas');
+        $response->assertStatus(200);
+        foreach ($vagas as $vaga) {
+            $response->assertSee($vaga->nome);
+        }
+    }
+
     public function test_tela_da_vaga_renderiza() {
         $vaga = Vaga::factory()->create();
         $response = $this->get('/vagas/'.$vaga->id);
