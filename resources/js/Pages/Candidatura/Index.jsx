@@ -8,7 +8,7 @@ export default function Index(props) {
             <div className="flex flex-col place-items-center p-5">
                 <div className="flex flex-col space-y-3 w-3/5">
                     {vagas.map((vaga) => (
-                        <VagaPod vaga={vaga}/>
+                        <VagaPod key={vaga.id} vaga={vaga} candidatado={true}/>
                     ))}
                 </div>
             </div>

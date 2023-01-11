@@ -13,7 +13,7 @@ export default function Index(props) {
                         <PrimaryButton className="w-full place-content-center text-xl">Nova Vaga</PrimaryButton>
                     </Link>
                     {vagas.map((vaga) => (
-                        <VagaPod vaga={vaga}/>
+                        <VagaPod candidatado={vaga.candidatado} vaga={vaga}/>
                     ))}
                 </div>
             </div>

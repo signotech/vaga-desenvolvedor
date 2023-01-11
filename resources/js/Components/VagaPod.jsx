@@ -1,24 +1,38 @@
 import { Link, useForm } from "@inertiajs/inertia-react"
+import DangerButton from "./DangerButton";
 import PrimaryButton from "./PrimaryButton";
 
 export default function VagaPod(props) {
     const vaga = props.vaga
-    const { post } = useForm({vaga_id : vaga.id});
+    const candidatado = props.candidatado
+    const { post, delete : destroy } = useForm({vaga_id : vaga.id});
 
-    const submit = (e) => {
-        e.preventDefault();
-        post(route('candidaturas.store'));
-    };
+    function onDelete(e) {
+        e.stopPropagation()
+        console.log(vaga.id)
+        destroy(route('candidaturas.destroy', vaga.id))
+    }
+
+    function onCandidatar(e) {
+        e.stopPropagation()
+        post(route('candidaturas.store'))
+    }
 
     return (
-        <form onSubmit={submit}>
-            <Link className="shadow rounded-md border p-5" as='div' href={route('vagas.show', vaga.id)}>
+        <Link className="shadow rounded-md border p-5 flex place-content-between space-x-14" as='div' href={route('vagas.show', vaga.id)}>
+            <div className="w-3/4">
                 <div className="text-xl">{vaga.nome}</div>
-                <div className="truncate w-3/4 text-gray-500">{vaga.descricao}</div>
-                <PrimaryButton className="z-50" onClick={(e) => e.stopPropagation()}>
+                <div className="truncate text-gray-500">{vaga.descricao}</div>
+            </div>
+            {candidatado ?
+                <DangerButton className="flex-1 place-content-center" onClick={onDelete}>
+                    Cancelar
+                </DangerButton>
+            :
+                <PrimaryButton className="flex-1 place-content-center" onClick={onCandidatar}>
                     Candidatar-se
                 </PrimaryButton>
-            </Link>
-        </form>
+            }
+        </Link>
     )
 }
