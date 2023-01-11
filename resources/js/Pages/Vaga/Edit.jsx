@@ -1,18 +1,38 @@
-export default function Edit(props) {
+import PrimaryButton from '@/Components/PrimaryButton'
+import { useForm } from '@inertiajs/inertia-react';
+
+export default function Create(props) {
     const vaga = props.vaga
+
+    const { data, setData, put, processing } = useForm({
+        ...vaga
+    });
+
+    const onHandleChange = (event) => {
+        setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
+    };
+
+    const submit = (e) => {
+        e.preventDefault();
+        put(route('vagas.update', vaga.id));
+    };
+
     return (
-        <div className="edit flex flex-col p-5">
+        <form className="edit flex flex-col p-5 space-y-5" onSubmit={submit}>
             <label htmlFor="nome">Nome:</label>
-            <input type="text" name="nome" id="nome" value={vaga.nome}/>
+            <input type="text" name="nome" id="nome" value={data.nome} onChange={onHandleChange}/>
 
             <label htmlFor="descricao">Descrição:</label>
-            <textarea name="descricao" id="descricao" cols="30" rows="10">{vaga.descricao}</textarea>
+            <textarea name="descricao" id="descricao" cols="30" rows="10" onChange={onHandleChange} value={data.descricao}/>
 
             <label htmlFor="tipo">Tipo:</label>
-            <select name="tipo" id="tipo">
+            <select name="tipo" id="tipo" onChange={onHandleChange}>
                 <option value="CLT">CLT</option>
                 <option value="PJ">PJ</option>
             </select>
-        </div>
-    )
+            <PrimaryButton processing={processing}>
+                Salvar
+            </PrimaryButton>
+        </form>
+    );
 }
