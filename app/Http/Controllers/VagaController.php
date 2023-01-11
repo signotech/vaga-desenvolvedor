@@ -16,7 +16,7 @@ class VagaController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Vaga/Index', ['vagas' => Vaga::all()]);
     }
 
     /**
