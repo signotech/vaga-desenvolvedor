@@ -39,7 +39,7 @@ class VagaCandidatoTeste extends TestCase
         $response = $this->actingAs($user)->patch('/vagas/'.$vaga->id, $vaga->toArray());
 
         $response->assertStatus(403);
-        $this->assertDatabaseMissing('vagas', ['nome' => $vaga->nome]);
+        $this->assertDatabaseMissing('vagas', ['id' => $vaga->id, 'nome' => $vaga->nome]);
     }
 
     public function test_vagas_não_podem_ser_deletadas_por_candidatos() {

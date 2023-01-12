@@ -36,7 +36,7 @@ class VagaEmpresaTeste extends TestCase
         $vaga = Vaga::factory()->create();
         $vaga->nome = 'Vaga Teste Editada';
         $response = $this->actingAs($user)->patch('/vagas/'.$vaga->id, $vaga->toArray());
-        $this->assertDatabaseHas('vagas', ['nome' => $vaga->nome]);
+        $this->assertDatabaseHas('vagas', ['id' => $vaga->id, 'nome' => $vaga->nome]);
     }
 
     public function test_vagas_podem_ser_deletadas_por_empresas() {
