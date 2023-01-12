@@ -106,9 +106,11 @@ export default function Authenticated({ auth, header, children }) {
                         <ResponsiveNavLink href={route('vagas.index')} active={route().current('vagas.index')}>
                             Vagas
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('candidaturas.index')} active={route().current('candidaturas.index')}>
-                            Minhas Candidaturas
-                        </ResponsiveNavLink>
+                        {auth.user.role == 'candidato' &&
+                            <ResponsiveNavLink href={route('candidaturas.index')} active={route().current('candidaturas.index')}>
+                                Minhas Candidaturas
+                            </ResponsiveNavLink>
+                        }
                     </div>
 
                     <div className="pt-4 pb-1 border-t border-gray-200">
