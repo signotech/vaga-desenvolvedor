@@ -16,7 +16,9 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(10)->create();
-        User::factory()->has(Vaga::factory()->count(3))->create();
+        User::factory(10)->has(Vaga::factory()->count(3))->create();
+        User::factory()->create(['email' => 'candidato@gmail.com']);
+        User::factory()->create(['email' => 'empresa@gmail.com', 'role' => 'empresa']);
+        User::factory()->create(['email' => 'admin@gmail.com', 'role' => 'admin']);
     }
 }
