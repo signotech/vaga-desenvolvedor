@@ -35,12 +35,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::resource('candidaturas', CandidaturaController::class)->only([
+        'index', 'store'
+    ]);
+    Route::delete('candidaturas/{vaga}', [CandidaturaController::class, 'destroy'])->name('candidaturas.destroy');
 });
 
 Route::resource('vagas', VagaController::class);
-Route::resource('candidaturas', CandidaturaController::class)->only([
-    'index', 'store'
-]);
-Route::delete('candidaturas/{vaga}', [CandidaturaController::class, 'destroy'])->name('candidaturas.destroy');
 
 require __DIR__.'/auth.php';
