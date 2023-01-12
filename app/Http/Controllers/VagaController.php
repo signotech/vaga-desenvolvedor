@@ -23,15 +23,17 @@ class VagaController extends Controller
     public function index()
     {
         $user = auth()->user();
-        if ($user) {
-            $vagas = Vaga::all()->map(function ($vaga) use ($user) {
+
+        if (!$user || $user->role == 'candidato') {
+            $vagas = Vaga::where('pausada', false)->get();
+            $vagas = $vagas->map(function ($vaga) use ($user) {
                 return ['candidatado' => $user->vagas()->where('vaga_id', $vaga['id'])->exists(), ...$vaga->toArray()];
             });
-            $candidato = $user->role == 'candidato';
+            $candidato = true;
         }
         else {
             $vagas = Vaga::all();
-            $candidato = true;
+            $candidato = false;
         }
         return Inertia::render('Vaga/Index', ['vagas' => $vagas, 'candidato' => $candidato]);
     }
