@@ -6,6 +6,7 @@ use App\Http\Controllers\CandidaturaController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,5 +43,11 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('vagas', VagaController::class);
+
+Route::get('/tokens/create', function (Request $request) {
+    $token = $request->user()->createToken('token');
+ 
+    return ['token' => $token->plainTextToken];
+});
 
 require __DIR__.'/auth.php';
