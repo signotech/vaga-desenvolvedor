@@ -27,11 +27,13 @@ class VagaController extends Controller
             $vagas = Vaga::all()->map(function ($vaga) use ($user) {
                 return ['candidatado' => $user->vagas()->where('vaga_id', $vaga['id'])->exists(), ...$vaga->toArray()];
             });
+            $candidato = $user->role == 'candidato';
         }
         else {
             $vagas = Vaga::all();
+            $candidato = true;
         }
-        return Inertia::render('Vaga/Index', ['vagas' => $vagas, 'candidato' => $user->role == 'candidato']);
+        return Inertia::render('Vaga/Index', ['vagas' => $vagas, 'candidato' => $candidato]);
     }
 
     /**
