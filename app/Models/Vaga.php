@@ -13,7 +13,8 @@ class Vaga extends Model
         'nome',
         'descricao',
         'tipo',
-        'user_id'
+        'user_id',
+        'pausada'
     ];
 
     public function criador() {

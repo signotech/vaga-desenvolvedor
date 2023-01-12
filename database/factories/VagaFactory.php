@@ -21,6 +21,7 @@ class VagaFactory extends Factory
             'descricao' => fake()->text(),
             'tipo' => 'PJ',
             'user_id' => 0,
+            'pausada' => false,
         ];
     }
 }

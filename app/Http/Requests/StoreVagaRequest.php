@@ -27,7 +27,8 @@ class StoreVagaRequest extends FormRequest
             'nome' => 'required',
             'descricao' => 'required',
             'tipo' => 'required',
-            'user_id' => 'required'
+            'user_id' => 'required',
+            'pausada' => 'required'
         ];
     }
 }
