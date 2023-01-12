@@ -24,6 +24,14 @@ export default function Authenticated({ auth, header, children }) {
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                                     Dashboard
                                 </NavLink>
+                                <NavLink href={route('vagas.index')} active={route().current('vagas.index')}>
+                                    Vagas
+                                </NavLink>
+                                {auth.user.role == 'candidato' &&
+                                    <NavLink href={route('candidaturas.index')} active={route().current('candidaturas.index')}>
+                                        Minhas Candidaturas
+                                    </NavLink>
+                                }
                             </div>
                         </div>
 
@@ -94,6 +102,12 @@ export default function Authenticated({ auth, header, children }) {
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                             Dashboard
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('vagas.index')} active={route().current('vagas.index')}>
+                            Vagas
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('candidaturas.index')} active={route().current('candidaturas.index')}>
+                            Minhas Candidaturas
                         </ResponsiveNavLink>
                     </div>
 
