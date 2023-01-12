@@ -9,6 +9,12 @@ use Inertia\Inertia;
 
 class VagaController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(Vaga::class, 'vaga');
+    }
+
     /**
      * Display a listing of the resource.
      *
