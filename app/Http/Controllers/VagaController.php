@@ -75,7 +75,8 @@ class VagaController extends Controller
      */
     public function show(Vaga $vaga)
     {
-        return Inertia::render('Vaga/Show', ['vaga' => $vaga]);
+        $user = auth()->user();
+        return Inertia::render('Vaga/Show', ['vaga' => $vaga, 'candidato' => $user->role == 'candidato']);
     }
 
     /**
