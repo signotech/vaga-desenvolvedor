@@ -8,6 +8,9 @@ use Inertia\Inertia;
 
 class CandidaturaController extends Controller
 {
+    public function __construct() {
+        $this->middleware('role:candidato');
+    }
     /**
      * Display a listing of the resource.
      *
