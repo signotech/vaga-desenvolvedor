@@ -31,6 +31,10 @@ class VagaController extends Controller
             });
             $candidato = true;
         }
+        else if ($user->role == 'empresa') {
+            $vagas = Vaga::where('user_id', $user->id)->get();
+            $candidato = false;
+        }
         else {
             $vagas = Vaga::all();
             $candidato = false;
