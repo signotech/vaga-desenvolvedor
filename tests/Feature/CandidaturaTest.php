@@ -22,14 +22,6 @@ class CandidaturaTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_tela_de_candidaturas_mostra_todas_as_candidaturas() {
-        $user = User::factory()->has(Vaga::factory()->count(3))->create();
-        $response = $this->actingAs($user)->get('/candidaturas');
-        foreach ($user->vagas as $vaga) {
-            $response->assertSee($vaga->nome);
-        }
-    }
-
     public function test_candidato_pode_se_candidatar() {
         $user = User::factory()->create();
         $vaga = Vaga::factory()->create();

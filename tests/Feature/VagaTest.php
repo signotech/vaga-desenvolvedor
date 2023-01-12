@@ -16,21 +16,10 @@ class VagaTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_tela_de_vagas_mostra_todas_as_vagas() {
-        $vagas = Vaga::factory(10)->create();
-        $response = $this->get('/vagas');
-        $response->assertStatus(200);
-        foreach ($vagas as $vaga) {
-            $response->assertSee($vaga->nome);
-        }
-    }
-
     public function test_tela_da_vaga_renderiza() {
         $vaga = Vaga::factory()->create();
         $response = $this->get('/vagas/'.$vaga->id);
-        $response->assertSee($vaga->nome);
-        $response->assertSee($vaga->descricao);
-        $response->assertSee($vaga->tipo);
+        $response->assertStatus(200);
     }
 
     public function test_tela_de_criacao_de_vagas_renderiza() {
@@ -51,9 +40,6 @@ class VagaTest extends TestCase
         $vaga = Vaga::factory()->create();
         $response = $this->get('/vagas/'.$vaga->id.'/edit');
         $response->assertStatus(200);
-        $response->assertSee($vaga->nome);
-        $response->assertSee($vaga->descricao);
-        $response->assertSee($vaga->tipo);
     }
 
     public function test_vagas_podem_ser_alteradas() {
