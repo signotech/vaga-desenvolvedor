@@ -2,11 +2,12 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout"
 import { Link } from "@inertiajs/inertia-react"
 import DangerButton from "@/Components/DangerButton"
 import SecondaryButton from "@/Components/SecondaryButton"
-import PrimaryButton from "@/Components/PrimaryButton"
+import CandidatarButton from "@/Components/CandidatarButton"
 
 export default function Show(props) {
     const vaga = props.vaga
     const candidato = props.candidato
+
     return (
         <AuthenticatedLayout auth={props.auth}>
             <div className="flex place-content-center">
@@ -20,11 +21,7 @@ export default function Show(props) {
                         Contratação: <div className="inline font-bold">{vaga.tipo}</div>
                         <div className="space-x-3">
                             {candidato ? 
-                                <Link method='post' href={route('candidaturas.store')} data={{vaga_id : vaga.id}}>
-                                    <PrimaryButton>
-                                        Candidatar-se
-                                    </PrimaryButton>
-                                </Link>
+                                <CandidatarButton vaga={vaga} candidatado={vaga.candidatado} />
                             : <>
                                 <Link href={route('vagas.edit', vaga.id)}>
                                     <SecondaryButton>
