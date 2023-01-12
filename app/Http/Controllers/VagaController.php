@@ -26,9 +26,11 @@ class VagaController extends Controller
 
         if (!$user || $user->role == 'candidato') {
             $vagas = Vaga::where('pausada', false)->get();
-            $vagas = $vagas->map(function ($vaga) use ($user) {
-                return ['candidatado' => $user->vagas()->where('vaga_id', $vaga['id'])->exists(), ...$vaga->toArray()];
-            });
+            if ($user) {
+                $vagas = $vagas->map(function ($vaga) use ($user) {
+                    return ['candidatado' => $user->vagas()->where('vaga_id', $vaga['id'])->exists(), ...$vaga->toArray()];
+                });
+            }
             $candidato = true;
         }
         else if ($user->role == 'empresa') {
