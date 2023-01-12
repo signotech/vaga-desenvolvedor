@@ -35,7 +35,7 @@ class VagaCandidatoTeste extends TestCase
     public function test_vagas_não_podem_ser_alteradas_por_candidatos() {
         $user = User::factory()->create();
         $vaga = Vaga::factory()->create();
-        $vaga->nome = 'Vaga Teste Editada';
+        $vaga->nome = 'Vaga Teste Editada Pelo Candidato';
         $response = $this->actingAs($user)->patch('/vagas/'.$vaga->id, $vaga->toArray());
 
         $response->assertStatus(403);

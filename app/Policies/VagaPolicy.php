@@ -53,7 +53,7 @@ class VagaPolicy
      */
     public function update(User $user, Vaga $vaga)
     {
-        return $user->role == 'empresa';
+        return $user->role == 'empresa' && $vaga->criador->id == $user->id;
     }
 
     /**
@@ -65,7 +65,7 @@ class VagaPolicy
      */
     public function delete(User $user, Vaga $vaga)
     {
-        return $user->role == 'empresa';
+        return $user->role == 'empresa' && $vaga->criador->id == $user->id;
     }
 
     /**
@@ -77,7 +77,7 @@ class VagaPolicy
      */
     public function restore(User $user, Vaga $vaga)
     {
-        return $user->role == 'empresa';
+        return $user->role == 'empresa' && $vaga->criador->id == $user->id;
     }
 
     /**
@@ -89,6 +89,6 @@ class VagaPolicy
      */
     public function forceDelete(User $user, Vaga $vaga)
     {
-        return $user->role == 'empresa';
+        return $user->role == 'empresa' && $vaga->criador->id == $user->id;
     }
 }

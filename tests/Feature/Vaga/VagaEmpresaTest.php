@@ -41,7 +41,7 @@ class VagaEmpresaTeste extends TestCase
     public function test_vagas_podem_ser_alteradas_por_empresas() {
         $user = User::factory()->create(['role' => 'empresa']);
         $vaga = Vaga::factory()->create(['user_id' => $user->id]);
-        $vaga->nome = 'Vaga Teste Editada';
+        $vaga->nome = 'Vaga Teste Editada Empresa';
         $response = $this->actingAs($user)->patch('/vagas/'.$vaga->id, $vaga->toArray());
         $this->assertDatabaseHas('vagas', ['id' => $vaga->id, 'nome' => $vaga->nome]);
     }
@@ -49,7 +49,7 @@ class VagaEmpresaTeste extends TestCase
     public function test_vagas_nao_podem_ser_alteradas_por_outras_empresas() {
         $user = User::factory()->create(['role' => 'empresa']);
         $vaga = Vaga::factory()->create();
-        $vaga->nome = 'Vaga Teste Editada';
+        $vaga->nome = 'Vaga Teste Editada Pela Outra Empresa';
         $response = $this->actingAs($user)->patch('/vagas/'.$vaga->id, $vaga->toArray());
 
         $response->assertStatus(403);

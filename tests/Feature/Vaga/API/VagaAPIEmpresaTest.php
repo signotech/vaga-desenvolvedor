@@ -22,7 +22,7 @@ class VagaAPIEmpresaTest extends TestCase
     public function test_vagas_podem_ser_alteradas_por_empresas_pela_api() {
         $user = User::factory()->create(['role' => 'empresa']);
         $vaga = Vaga::factory()->create(['user_id' => $user->id]);
-        $vaga->nome = 'Vaga Teste Editada Pela Empresa';
+        $vaga->nome = 'Vaga Teste Editada Pela Empresa Pela API';
         $response = $this->actingAs($user)->patch('/api/vagas/'.$vaga->id, $vaga->toArray());
 
         $response->assertJson($vaga->toArray());
@@ -32,7 +32,7 @@ class VagaAPIEmpresaTest extends TestCase
     public function test_vagas_não_podem_ser_alteradas_por_outras_empresas_pela_api() {
         $user = User::factory()->create(['role' => 'empresa']);
         $vaga = Vaga::factory()->create();
-        $vaga->nome = 'Vaga Teste Editada Pela Outra Empresa';
+        $vaga->nome = 'Vaga Teste Editada Pela Outra Empresa Pela API';
         $response = $this->actingAs($user)->patch('/api/vagas/'.$vaga->id, $vaga->toArray());
 
         $response->status(403);
