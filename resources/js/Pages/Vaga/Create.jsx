@@ -9,7 +9,8 @@ export default function Create(props) {
         nome : '',
         descricao : '',
         tipo: 'CLT',
-        user_id : props.auth.user.id
+        user_id : props.auth.user.id,
+        pausada : false
     });
 
     const onHandleChange = (event) => {
