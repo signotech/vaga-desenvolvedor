@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VagaAPIController;
+use App\Http\Controllers\CandidaturaAPIController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('vagas', VagaAPIController::class)->middleware('auth:sanctum');
+Route::apiResource('candidaturas', CandidaturaAPIController::class)->only([
+    'index', 'store'
+]);
+Route::delete('candidaturas/{vaga}', [CandidaturaAPIController::class, 'destroy'])->name('candidaturas.destroy');
