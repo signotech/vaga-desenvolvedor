@@ -35,7 +35,7 @@ class VagaAPIEmpresaTest extends TestCase
         $vaga->nome = 'Vaga Teste Editada Pela Outra Empresa Pela API';
         $response = $this->actingAs($user)->patch('/api/vagas/'.$vaga->id, $vaga->toArray());
 
-        $response->status(403);
+        $response->assertStatus(403);
         $this->assertDatabaseMissing('vagas', ['nome' => $vaga->nome]);
     }
 
