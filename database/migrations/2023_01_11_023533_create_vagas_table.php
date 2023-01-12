@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('nome');
             $table->string('descricao');
-            $table->enum('tipo', ['CLT', 'PJ']);
+            $table->enum('tipo', ['CLT', 'PJ', 'Freelancer']);
             $table->foreignId('user_id');
             $table->timestamps();
         });

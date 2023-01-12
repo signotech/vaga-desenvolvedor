@@ -34,6 +34,7 @@ export default function Create(props) {
                     <select value={data.tipo} name="tipo" id="tipo" className='w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm' onChange={onHandleChange}>
                         <option value="CLT">CLT</option>
                         <option value="PJ">PJ</option>
+                        <option value="Freelancer">Freelancer</option>
                     </select>
                 </div>
 
