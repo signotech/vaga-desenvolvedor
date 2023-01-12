@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 export class AuthenticateAdminController {
   async handle(request: Request, response: Response) {
     const { accessKey } = request.body;
-    
+
     const isCorrect = accessKey === process.env.ACCESS_KEY;
 
 

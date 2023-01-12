@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction, useCallback, useContext } from 'react'
 import {
   Button,
   FormControl,
@@ -10,7 +11,6 @@ import InputMask from 'react-input-mask'
 
 import { Modal } from 'components/Modal'
 import { ClientContext } from 'pages-components/Clients'
-import { Dispatch, SetStateAction, useCallback, useContext } from 'react'
 
 import { useForm } from 'react-hook-form'
 import { api } from 'services/api'

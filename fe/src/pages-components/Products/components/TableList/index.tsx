@@ -1,4 +1,4 @@
-import { useCallback, useContext, useMemo, useState } from 'react'
+import { useCallback, useContext, useState } from 'react'
 
 import { ProductContext } from 'pages-components/Products'
 import { IProduct } from '../../../../../@types/Product'
