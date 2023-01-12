@@ -98,4 +98,12 @@ class VagaTest extends TestCase
         $response = $this->actingAs($user)->delete('/vagas/'.$vaga->id);
         $this->assertModelMissing($vaga);
     }
+
+    public function test_empresas_podem_pausar_vagas() {
+        $user = User::factory()->create(['role' => 'empresa']);
+        $vaga = Vaga::factory()->create();
+        $vaga->pausada = true;
+        $response = $this->actingAs($user)->put('/vagas/'.$vaga->id, $vaga->toArray());
+        $this->assertDatabaseHas('vagas', ['id' => $vaga->id, 'pausada' => true]);
+    }
 }
