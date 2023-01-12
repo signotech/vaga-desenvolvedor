@@ -5,6 +5,7 @@ import PrimaryButton from "./PrimaryButton";
 export default function VagaPod(props) {
     const vaga = props.vaga
     const candidatado = props.candidatado
+    const showButtons = props.showButtons === undefined ? true : props.showButtons
     const { post, delete : destroy } = useForm({vaga_id : vaga.id});
 
     function onDelete(e) {
@@ -24,15 +25,17 @@ export default function VagaPod(props) {
                 <div className="text-xl">{vaga.nome}</div>
                 <div className="truncate text-gray-500">{vaga.descricao}</div>
             </div>
-            {candidatado ?
-                <DangerButton className="flex-1 place-content-center" onClick={onDelete}>
-                    Cancelar
-                </DangerButton>
-            :
-                <PrimaryButton className="flex-1 place-content-center" onClick={onCandidatar}>
-                    Candidatar-se
-                </PrimaryButton>
-            }
+            {showButtons && <>
+                {candidatado ?
+                    <DangerButton className="flex-1 place-content-center" onClick={onDelete}>
+                        Cancelar
+                    </DangerButton>
+                    :
+                    <PrimaryButton className="flex-1 place-content-center" onClick={onCandidatar}>
+                        Candidatar-se
+                    </PrimaryButton>
+                }
+            </>}
         </Link>
     )
 }
