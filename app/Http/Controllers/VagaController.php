@@ -31,7 +31,7 @@ class VagaController extends Controller
         else {
             $vagas = Vaga::all();
         }
-        return Inertia::render('Vaga/Index', ['vagas' => $vagas]);
+        return Inertia::render('Vaga/Index', ['vagas' => $vagas, 'candidato' => $user->role == 'candidato']);
     }
 
     /**
