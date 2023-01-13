@@ -77,7 +77,7 @@ class VagaController extends Controller
     {
         $user = auth()->user();
         $vaga['candidatado'] = $user ? $user->vagas()->where('vaga_id', $vaga['id'])->exists() : false;
-        $candidato = $user ? $user->role == 'candidato' : false;
+        $candidato = $user ? $user->role == 'candidato' : true;
         return Inertia::render('Vaga/Show', ['vaga' => $vaga, 'candidato' => $candidato]);
     }
 
