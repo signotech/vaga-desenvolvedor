@@ -3,7 +3,7 @@ export default function Paginator(props) {
     return (
         <div class="flex justify-center">
             <nav aria-label="Page navigation example">
-                <ul class="flex list-style-none">
+                <ul className="flex list-style-none">
                     {links.map((link) => (
                         <li>
                             <a
