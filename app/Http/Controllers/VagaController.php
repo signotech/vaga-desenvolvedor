@@ -25,7 +25,7 @@ class VagaController extends Controller
         $user = auth()->user();
 
         if (!$user || $user->role == 'candidato') {
-            $vagas = Vaga::where('pausada', false)->get();
+            $vagas = Vaga::where('pausada', false)->paginate(20);
             if ($user) {
                 $vagas = $vagas->map(function ($vaga) use ($user) {
                     return ['candidatado' => $user->vagas()->where('vaga_id', $vaga['id'])->exists(), ...$vaga->toArray()];
@@ -34,11 +34,11 @@ class VagaController extends Controller
             $candidato = true;
         }
         else if ($user->role == 'empresa') {
-            $vagas = Vaga::where('user_id', $user->id)->get();
+            $vagas = Vaga::where('user_id', $user->id)->paginate(20);
             $candidato = false;
         }
         else {
-            $vagas = Vaga::all();
+            $vagas = Vaga::paginate(20);
             $candidato = false;
         }
         return Inertia::render('Vaga/Index', ['vagas' => $vagas, 'candidato' => $candidato]);
