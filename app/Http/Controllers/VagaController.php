@@ -28,6 +28,7 @@ class VagaController extends Controller
         $vagas = Vaga::select();
         $vagas = $request->input('tipo') ? Vaga::where('tipo', $request->input('tipo')) : $vagas;
         $vagas = $request->input('nome') ? Vaga::where('nome', 'like', '%'.$request->input('nome').'%') : $vagas;
+        $vagas = $request->input('ordenar') ? $vagas->orderBy($request->input('ordenar')) : $vagas->orderBy('nome');
 
         if (!$user || $user->role == 'candidato') {
             $vagas = $vagas->where('pausada', false)->paginate(20);

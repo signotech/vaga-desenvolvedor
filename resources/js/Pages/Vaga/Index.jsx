@@ -13,7 +13,8 @@ export default function Index(props) {
 
     const vaga = props.vaga ? {...props.vaga} : {
         nome : '',
-        tipo: 'CLT'
+        tipo : '',
+        ordenar : 'nome',
     }
 
     const { data, setData, get } = useForm(vaga);
@@ -42,9 +43,19 @@ export default function Index(props) {
                                 <div>
                                     <InputLabel forInput="tipo" value="Tipo"/>
                                     <select value={data.tipo} name="tipo" id="tipo" className='mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm' onChange={onHandleChange}>
+                                        <option value="">Todos</option>
                                         <option value="CLT">CLT</option>
                                         <option value="PJ">PJ</option>
                                         <option value="Freelancer">Freelancer</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <InputLabel forInput="ordenar" value="Ordenar por"/>
+                                    <select value={data.ordenar} name="ordenar" id="ordenar" className='mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm' onChange={onHandleChange}>
+                                        <option value="nome">Nome</option>
+                                        <option value="tipo">Tipo</option>
+                                        <option value="created_at">Data</option>
                                     </select>
                                 </div>
                                 <PrimaryButton className="h-fit">
