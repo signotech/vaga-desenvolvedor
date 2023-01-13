@@ -16,6 +16,18 @@ export default function Show(props) {
                         <h1 className="text-3xl">{vaga.nome}</h1>
                         <hr/>
                         <div>{vaga.descricao}</div>
+                        {!candidato && <>
+                            <hr/>
+                            <h1 className="text-xl">Candidatos</h1>
+                            {vaga.candidatos.map((candidato) => (
+                                <div className="shadow rounded-md border p-5 flex place-content-between space-x-14">
+                                    <div className="w-3/4">
+                                        <div className="text-xl">{candidato.name}</div>
+                                        <div className="truncate text-gray-500">{candidato.email}</div>
+                                    </div>
+                                </div>
+                            ))}
+                        </>}
                     </div>
                     <div className="shadow-inner bg-slate-200 rounded-md h-fit p-5 space-y-1">
                         Contratação: <div className="inline font-bold">{vaga.tipo}</div>
