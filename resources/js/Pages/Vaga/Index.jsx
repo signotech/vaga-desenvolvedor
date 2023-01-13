@@ -11,7 +11,12 @@ export default function Index(props) {
     const links = props.vagas.links
     const candidato = props.candidato
 
-    const params = props.params ? {...props.params} : {
+    const params = props.params ? {
+        nome : props.params.nome,
+        tipo : props.params.tipo,
+        ordenar : props.params.ordenar ,
+        quantidade : props.params.quantidade
+    } : {
         nome : '',
         tipo : '',
         ordenar : 'nome',
@@ -81,7 +86,7 @@ export default function Index(props) {
                     ))}
                 </div>
             </div>
-            <Paginator params={props.params} links={links}/>
+            <Paginator params={params} links={links}/>
         </AuthenticatedLayout>
     )
 }
