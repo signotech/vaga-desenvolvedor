@@ -18,7 +18,7 @@ class VagaEmpresaTeste extends TestCase
 
     public function test_novas_vagas_podem_ser_criadas_por_empresas() {
         $user = User::factory()->create(['role' => 'empresa']);
-        $vaga = Vaga::factory()->make();
+        $vaga = Vaga::factory()->make(['user_id' => $user->id]);
         $response = $this->actingAs($user)->post('/vagas', $vaga->toArray());
 
         $this->assertDatabaseHas('vagas', $vaga->toArray());
