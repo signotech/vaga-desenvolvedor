@@ -24,11 +24,11 @@ class StoreVagaRequest extends FormRequest
     public function rules()
     {
         return [
-            'nome' => 'required',
-            'descricao' => 'required',
-            'tipo' => 'required',
-            'user_id' => 'required',
-            'pausada' => 'required'
+            'nome' => ['required', 'string'],
+            'descricao' => ['required', 'string'],
+            'tipo' => ['required', 'in:CLT,PJ,Freelancer'],
+            'user_id' => ['required', 'integer'],
+            'pausada' => ['required', 'boolean']
         ];
     }
 }

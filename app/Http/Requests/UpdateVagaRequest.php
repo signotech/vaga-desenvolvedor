@@ -24,11 +24,11 @@ class UpdateVagaRequest extends FormRequest
     public function rules()
     {
         return [
-            'nome' => 'required',
-            'descricao' => 'required',
-            'tipo' => 'required',
-            'user_id' => 'required',
-            'pausada' => 'required'
+            'nome' => ['nullable', 'string'],
+            'descricao' => ['nullable', 'string'],
+            'tipo' => ['nullable', 'in:CLT,PJ,Freelancer'],
+            'user_id' => ['nullable', 'integer'],
+            'pausada' => ['nullable', 'boolean']
         ];
     }
 }
