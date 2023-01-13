@@ -63,7 +63,7 @@ class VagaController extends Controller
     public function store(StoreVagaRequest $request)
     {
         
-        Vaga::create($request->validated());
+        Vaga::create([...$request->validated(), 'user_id' => auth()->user()->id]);
         return redirect()->route('vagas.index');
     }
 

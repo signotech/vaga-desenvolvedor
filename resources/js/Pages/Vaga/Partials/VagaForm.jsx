@@ -10,11 +10,12 @@ export default function VagaForm(props) {
         nome : '',
         descricao : '',
         tipo: 'CLT',
-        user_id : props.auth.user.id,
         pausada : false
     }
 
     const { data, setData, post, put, processing, errors } = useForm(vaga);
+
+    console.log(vaga)
 
     const onHandleChange = (event) => {
         setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);

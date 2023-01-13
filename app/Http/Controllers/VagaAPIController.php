@@ -31,7 +31,7 @@ class VagaAPIController extends Controller
      */
     public function store(StoreVagaRequest $request)
     {
-        $vaga = Vaga::create($request->validated());
+        $vaga = Vaga::create([...$request->validated(), 'user_id' => auth()->user()->id]);
         return $vaga;
     }
 

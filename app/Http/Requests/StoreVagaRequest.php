@@ -27,7 +27,6 @@ class StoreVagaRequest extends FormRequest
             'nome' => ['required', 'string'],
             'descricao' => ['required', 'string'],
             'tipo' => ['required', 'in:CLT,PJ,Freelancer'],
-            'user_id' => ['required', 'integer'],
             'pausada' => ['required', 'boolean']
         ];
     }

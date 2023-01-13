@@ -27,7 +27,6 @@ class UpdateVagaRequest extends FormRequest
             'nome' => ['nullable', 'string'],
             'descricao' => ['nullable', 'string'],
             'tipo' => ['nullable', 'in:CLT,PJ,Freelancer'],
-            'user_id' => ['nullable', 'integer'],
             'pausada' => ['nullable', 'boolean']
         ];
     }
