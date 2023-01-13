@@ -81,7 +81,7 @@ export default function Index(props) {
                     ))}
                 </div>
             </div>
-            <Paginator links={links}/>
+            <Paginator params={props.params} links={links}/>
         </AuthenticatedLayout>
     )
 }
