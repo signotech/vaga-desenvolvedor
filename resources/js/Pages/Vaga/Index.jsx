@@ -15,6 +15,7 @@ export default function Index(props) {
         nome : '',
         tipo : '',
         ordenar : 'nome',
+        quantidade : 20
     }
 
     const { data, setData, get } = useForm(vaga);
@@ -58,6 +59,12 @@ export default function Index(props) {
                                         <option value="created_at">Data</option>
                                     </select>
                                 </div>
+
+                                <div>
+                                    <InputLabel forInput="quantidade" value="Itens por página"/>
+                                    <TextInput className="mt-1" type="number" name="quantidade" id="quantidade" value={data.quantidade} handleChange={onHandleChange}/>
+                                </div>
+
                                 <PrimaryButton className="h-fit">
                                     Buscar
                                 </PrimaryButton>

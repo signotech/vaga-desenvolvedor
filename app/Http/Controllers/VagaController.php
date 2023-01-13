@@ -24,6 +24,7 @@ class VagaController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
+        $quantidade = $request->input('quantidade') ? $request->input('quantidade') : 20;
 
         $vagas = Vaga::select();
         $vagas = $request->input('tipo') ? Vaga::where('tipo', $request->input('tipo')) : $vagas;
@@ -31,7 +32,7 @@ class VagaController extends Controller
         $vagas = $request->input('ordenar') ? $vagas->orderBy($request->input('ordenar')) : $vagas->orderBy('nome');
 
         if (!$user || $user->role == 'candidato') {
-            $vagas = $vagas->where('pausada', false)->paginate(20);
+            $vagas = $vagas->where('pausada', false)->paginate($quantidade);
             if ($user) {
                 $vagas = $vagas->map(function ($vaga) use ($user) {
                     return ['candidatado' => $user->vagas()->where('vaga_id', $vaga['id'])->exists(), ...$vaga->toArray()];
@@ -40,11 +41,11 @@ class VagaController extends Controller
             $candidato = true;
         }
         else if ($user->role == 'empresa') {
-            $vagas = $vagas->where('user_id', $user->id)->paginate(20);
+            $vagas = $vagas->where('user_id', $user->id)->paginate($quantidade);
             $candidato = false;
         }
         else {
-            $vagas = $vagas::paginate(20);
+            $vagas = $vagas::paginate($quantidade);
             $candidato = false;
         }
         return Inertia::render('Vaga/Index', ['vagas' => $vagas, 'candidato' => $candidato, 'vaga' => $request->collect()]);
