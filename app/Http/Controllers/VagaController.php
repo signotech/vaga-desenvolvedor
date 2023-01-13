@@ -48,7 +48,7 @@ class VagaController extends Controller
             $vagas = $vagas::paginate($quantidade);
             $candidato = false;
         }
-        return Inertia::render('Vaga/Index', ['vagas' => $vagas, 'candidato' => $candidato, 'vaga' => $request->collect()]);
+        return Inertia::render('Vaga/Index', ['vagas' => $vagas, 'candidato' => $candidato, 'vaga' => count($request->collect()) == 0 ? null : $request->collect()]);
     }
 
     /**
