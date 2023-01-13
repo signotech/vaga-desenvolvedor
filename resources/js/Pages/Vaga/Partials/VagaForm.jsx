@@ -2,7 +2,8 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import { useForm } from '@inertiajs/inertia-react'
 import TextInput from '@/Components/TextInput'
 import InputLabel from '@/Components/InputLabel'
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
+import InputError from '@/Components/InputError'
 
 export default function VagaForm(props) {
     const vaga = props.vaga ? {...props.vaga} : {
@@ -13,7 +14,7 @@ export default function VagaForm(props) {
         pausada : false
     }
 
-    const { data, setData, post, put, processing } = useForm(vaga);
+    const { data, setData, post, put, processing, errors } = useForm(vaga);
 
     const onHandleChange = (event) => {
         setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
@@ -35,6 +36,7 @@ export default function VagaForm(props) {
                 <div className='w-3/5'>
                     <InputLabel forInput="nome" value="Nome"/>
                     <TextInput className="mt-1 block w-full" type="text" name="nome" id="nome" value={data.nome} handleChange={onHandleChange}/>
+                    <InputError message={errors.nome} className="mt-2" />
                 </div>
 
                 <div className='w-3/5'>
@@ -44,11 +46,13 @@ export default function VagaForm(props) {
                         <option value="PJ">PJ</option>
                         <option value="Freelancer">Freelancer</option>
                     </select>
+                    <InputError message={errors.tipo} className="mt-2" />
                 </div>
 
                 <div className='w-3/5'>
                     <InputLabel forInput="descricao" value="Descrição"/>
                     <textarea className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" name="descricao" id="descricao" cols="30" rows="10" onChange={onHandleChange} value={data.descricao}/>
+                    <InputError message={errors.descricao} className="mt-2" />
                 </div>
 
                 <PrimaryButton processing={processing}>
