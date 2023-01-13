@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreVagaRequest;
 use App\Http\Requests\UpdateVagaRequest;
 use App\Models\Vaga;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class VagaController extends Controller
@@ -20,12 +21,16 @@ class VagaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = auth()->user();
 
+        $vagas = Vaga::select();
+        $vagas = $request->input('tipo') ? Vaga::where('tipo', $request->input('tipo')) : $vagas;
+        $vagas = $request->input('nome') ? Vaga::where('nome', 'like', '%'.$request->input('nome').'%') : $vagas;
+
         if (!$user || $user->role == 'candidato') {
-            $vagas = Vaga::where('pausada', false)->paginate(20);
+            $vagas = $vagas->where('pausada', false)->paginate(20);
             if ($user) {
                 $vagas = $vagas->map(function ($vaga) use ($user) {
                     return ['candidatado' => $user->vagas()->where('vaga_id', $vaga['id'])->exists(), ...$vaga->toArray()];
@@ -34,14 +39,14 @@ class VagaController extends Controller
             $candidato = true;
         }
         else if ($user->role == 'empresa') {
-            $vagas = Vaga::where('user_id', $user->id)->paginate(20);
+            $vagas = $vagas->where('user_id', $user->id)->paginate(20);
             $candidato = false;
         }
         else {
-            $vagas = Vaga::paginate(20);
+            $vagas = $vagas::paginate(20);
             $candidato = false;
         }
-        return Inertia::render('Vaga/Index', ['vagas' => $vagas, 'candidato' => $candidato]);
+        return Inertia::render('Vaga/Index', ['vagas' => $vagas, 'candidato' => $candidato, 'vaga' => $request->collect()]);
     }
 
     /**
