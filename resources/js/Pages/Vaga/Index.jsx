@@ -11,14 +11,14 @@ export default function Index(props) {
     const links = props.vagas.links
     const candidato = props.candidato
 
-    const vaga = props.vaga ? {...props.vaga} : {
+    const params = props.params ? {...props.params} : {
         nome : '',
         tipo : '',
         ordenar : 'nome',
         quantidade : 20
     }
 
-    const { data, setData, get } = useForm(vaga);
+    const { data, setData, get } = useForm(params);
 
     const onHandleChange = (event) => {
         setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
