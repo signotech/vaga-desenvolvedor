@@ -19,8 +19,6 @@ class CandidaturaController extends Controller
      */
     public function index(Request $request)
     {
-        $user = auth()->user();
-
         $params = $request->collect();
         $quantidade = isset($params['quantidade']) ? $params['quantidade'] : 20;
 
