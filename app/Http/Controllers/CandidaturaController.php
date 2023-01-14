@@ -24,8 +24,13 @@ class CandidaturaController extends Controller
         $params = $request->collect();
         $quantidade = isset($params['quantidade']) ? $params['quantidade'] : 20;
 
-        $vagas = $user->vagas()->paginate($quantidade);
-        return Inertia::render('Candidatura/Index', ['vagas' => $vagas]);
+        $vagas = $user->vagas();
+        $vagas = isset($params['tipo']) ? $vagas->where('tipo', $request->input('tipo')) : $vagas;
+        $vagas = isset($params['nome']) ? $vagas->where('nome', 'like', '%'.$request->input('nome').'%') : $vagas;
+        $vagas = isset($params['ordenar']) ? $vagas->orderBy($request->input('ordenar')) : $vagas->orderBy('nome');
+        $vagas = $vagas->paginate($quantidade);
+
+        return Inertia::render('Candidatura/Index', ['vagas' => $vagas, 'params' => count($params) == 0 ? null : $params]);
     }
 
 
