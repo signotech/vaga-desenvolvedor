@@ -14,7 +14,7 @@ export default function VagaFilter(props) {
 
     const submit = (e) => {
         e.preventDefault();
-        get(route('vagas.index'));
+        get(route().current());
     };
 
     return (
