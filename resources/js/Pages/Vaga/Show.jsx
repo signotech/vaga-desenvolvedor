@@ -3,6 +3,7 @@ import { Link } from "@inertiajs/inertia-react"
 import DangerButton from "@/Components/DangerButton"
 import SecondaryButton from "@/Components/SecondaryButton"
 import CandidatarButton from "@/Components/CandidatarButton"
+import VagaCard from "./Partials/VagaCard"
 
 export default function Show(props) {
     const vaga = props.vaga
@@ -29,25 +30,22 @@ export default function Show(props) {
                             ))}
                         </>}
                     </div>
-                    <div className="shadow-inner bg-slate-200 rounded-md w-full lg:w-fit h-fit p-5 space-y-1">
-                        Contratação: <div className="inline font-bold">{vaga.tipo}</div>
-                        <div className="space-x-3">
-                            {candidato ? 
-                                <CandidatarButton vaga={vaga} candidatado={vaga.candidatado} />
-                            : <div className="space-x-3 flex">
-                                <Link className="flex-1" href={route('vagas.edit', vaga.id)}>
-                                    <SecondaryButton className="w-full place-content-center">
-                                        Editar
-                                    </SecondaryButton>
-                                </Link>
-                                <Link className="flex-1" method="delete" href={route('vagas.destroy', vaga.id)}>
-                                    <DangerButton className="w-full place-content-center">
-                                        Deletar
-                                    </DangerButton>
-                                </Link>
-                            </div>}
-                        </div>
-                    </div>
+                    <VagaCard vaga={vaga}>
+                        {candidato ? 
+                            <CandidatarButton vaga={vaga} candidatado={vaga.candidatado} />
+                        : <div className="space-x-3 flex">
+                            <Link className="flex-1" href={route('vagas.edit', vaga.id)}>
+                                <SecondaryButton className="w-full place-content-center">
+                                    Editar
+                                </SecondaryButton>
+                            </Link>
+                            <Link className="flex-1" method="delete" href={route('vagas.destroy', vaga.id)}>
+                                <DangerButton className="w-full place-content-center">
+                                    Deletar
+                                </DangerButton>
+                            </Link>
+                        </div>}
+                    </VagaCard>
                 </div>
             </div>
         </AuthenticatedLayout>
