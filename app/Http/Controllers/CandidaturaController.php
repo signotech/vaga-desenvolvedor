@@ -22,7 +22,7 @@ class CandidaturaController extends Controller
         $params = $request->collect();
         $quantidade = isset($params['quantidade']) ? $params['quantidade'] : 20;
 
-        $vagas = Vaga::filtrarPorParametros($params)->paginate($quantidade);
+        $vagas = Vaga::filtrarPorParametros($params)->with('criador')->paginate($quantidade);
 
         return Inertia::render('Vaga/Candidatura/Index', ['vagas' => $vagas, 'params' => count($params) == 0 ? null : $params]);
     }

@@ -43,6 +43,7 @@ class VagaAPIController extends Controller
      */
     public function show(Vaga $vaga)
     {
+        $vaga = $vaga->with('criador')->where('id', $vaga->id)->first();
         return $vaga;
     }
 

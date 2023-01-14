@@ -36,6 +36,7 @@ class VagaController extends Controller
         $quantidade = isset($params['quantidade']) ? $params['quantidade'] : 20;
 
         $vagas = Vaga::filtrarPorParametros($params);
+        $vagas->with('criador');
 
         $candidato = false;
         // Candidatos e convidados são considerados candidatos
@@ -86,9 +87,10 @@ class VagaController extends Controller
     public function show(Vaga $vaga)
     {
         $user = auth()->user();
+        $vaga = $vaga->with('criador')->with('candidatos')->where('id', $vaga->id)->first();
         $vaga['candidatado'] = $user ? $user->vagas()->where('vaga_id', $vaga['id'])->exists() : false;
         $candidato = $user ? $user->role == 'candidato' : true;
-        return Inertia::render('Vaga/Show', ['vaga' => [...$vaga->toArray(), 'candidatos' => $vaga->candidatos], 'candidato' => $candidato]);
+        return Inertia::render('Vaga/Show', ['vaga' => $vaga, 'candidato' => $candidato]);
     }
 
     /**
