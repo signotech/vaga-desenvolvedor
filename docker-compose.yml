@@ -1,0 +1,39 @@
+version: '3.5'
+
+services:
+  npm:
+    build:
+      context: '.'
+      target: npm
+    container_name: npm
+
+  composer:
+    build:
+      context: '.'
+      target: composer
+    container_name: composer
+
+  laravel-app:
+    build:
+      context: '.'
+      target: laravel
+      args:
+        uid: ${UID}
+    container_name: laravel-app
+    environment:
+      - APACHE_RUN_USER=#${UID}
+      - APACHE_RUN_GROUP=#${UID}
+      - DB_HOST=mysql-db
+    ports:
+      - 8000:80
+
+  mysql-db:
+    image: mysql:5.7
+    container_name: mysql-db
+    volumes:
+      - ./run/var:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=securerootpassword
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
