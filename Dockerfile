@@ -20,3 +20,4 @@ RUN a2enmod rewrite headers
 RUN docker-php-ext-install pdo_mysql
 WORKDIR /var/www/html
 COPY --from=npm /app .
+RUN php artisan key:generate
