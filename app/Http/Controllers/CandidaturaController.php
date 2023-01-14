@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCandidaturaRequest;
 use App\Models\Vaga;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class CandidaturaController extends Controller
@@ -16,10 +17,15 @@ class CandidaturaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = auth()->user();
-        return Inertia::render('Candidatura/Index', ['vagas' => $user->vagas]);
+
+        $params = $request->collect();
+        $quantidade = isset($params['quantidade']) ? $params['quantidade'] : 20;
+
+        $vagas = $user->vagas()->paginate($quantidade);
+        return Inertia::render('Candidatura/Index', ['vagas' => $vagas]);
     }
 
 

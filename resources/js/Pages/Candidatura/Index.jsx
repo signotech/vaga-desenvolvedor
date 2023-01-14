@@ -1,8 +1,12 @@
 import VagaPod from "@/Components/VagaPod"
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout"
+import Paginator from "../Vaga/Partials/Paginator";
 
 export default function Index(props) {
-    const vagas = props.vagas
+    const vagas = props.vagas.data
+    const links = props.vagas.links
+    const params = {}
+
     return (
         <AuthenticatedLayout auth={props.auth}>
             <div className="flex flex-col place-items-center p-5">
@@ -12,6 +16,7 @@ export default function Index(props) {
                     ))}
                 </div>
             </div>
+            <Paginator params={params} links={links}/>
         </AuthenticatedLayout>
     )
 }
