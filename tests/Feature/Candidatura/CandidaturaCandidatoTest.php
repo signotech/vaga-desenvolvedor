@@ -13,7 +13,7 @@ class CandidaturaCandidatoTest extends TestCase
     public function test_candidato_pode_se_candidatar() {
         $user = User::factory()->create();
         $vaga = Vaga::factory()->create();
-        $response = $this->actingAs($user)->post('/vagas/candidaturas', ['vaga_id' => $vaga->id]);
+        $response = $this->actingAs($user)->post('/candidaturas', ['vaga_id' => $vaga->id]);
         $this->assertDatabaseHas('user_vaga', ['user_id' => $user->id, 'vaga_id' => $vaga->id]);
     }
 
@@ -23,7 +23,7 @@ class CandidaturaCandidatoTest extends TestCase
             $this->assertDatabaseHas('user_vaga', ['user_id' => $user->id, 'vaga_id' => $vaga->id]);
         }
         foreach ($user->vagas as $vaga) {
-            $response = $this->actingAs($user)->delete('/vagas/candidaturas'.$vaga->id);
+            $response = $this->actingAs($user)->delete('/candidaturas/'.$vaga->id);
             $this->assertDatabaseMissing('user_vaga', ['user_id' => $user->id, 'vaga_id' => $vaga->id]);
         }
     }
