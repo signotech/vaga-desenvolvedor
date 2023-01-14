@@ -17,8 +17,6 @@ services:
     build:
       context: '.'
       target: laravel
-      args:
-        uid: ${UID}
     container_name: laravel-app
     environment:
       - APACHE_RUN_USER=#${UID}
