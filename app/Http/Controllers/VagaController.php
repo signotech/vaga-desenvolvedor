@@ -16,6 +16,13 @@ class VagaController extends Controller
         $this->authorizeResource(Vaga::class, 'vaga');
     }
 
+    private function selectIsUsuarioCandidato($vagas, $user) {
+        if (!$user) return;
+        $vagas->transform(function ($vaga) use ($user) {
+            return ['candidatado' => $user->vagas()->where('vaga_id', $vaga['id'])->exists(), ...$vaga->toArray()];
+        });
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -34,15 +41,8 @@ class VagaController extends Controller
         // Candidatos e convidados são considerados candidatos
         if (!$user || $user->role == 'candidato') {
             $candidato = true;
-
             $vagas = $vagas->where('pausada', false)->paginate($quantidade);
-            // Se usuario for candidato e estiver logado,
-            // Adiciona se o usuario está candidatado ou não.
-            if ($user) {
-                $vagas->transform(function ($vaga) use ($user) {
-                    return ['candidatado' => $user->vagas()->where('vaga_id', $vaga['id'])->exists(), ...$vaga->toArray()];
-                });
-            }
+            $this->selectIsUsuarioCandidato($vagas, $user);
         }
         // Se usuario for empresa, só mostra vagas que o usuario criou.
         else if ($user->role == 'empresa') {
