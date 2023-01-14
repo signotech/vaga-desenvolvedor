@@ -16,15 +16,6 @@ class VagaController extends Controller
         $this->authorizeResource(Vaga::class, 'vaga');
     }
 
-    private function filtrarVagasPorParametros($params) {
-        $vagas = Vaga::select();
-        $vagas = isset($params['tipo']) ? $vagas->where('tipo', $params['tipo']) : $vagas;
-        $vagas = isset($params['nome']) ? $vagas->where('nome', 'like', '%'.$params['nome'].'%') : $vagas;
-        $vagas = isset($params['ordenar']) ? $vagas->orderBy($params['ordenar']) : $vagas->orderBy('nome');
-
-        return $vagas;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -37,7 +28,7 @@ class VagaController extends Controller
         $params = $request->collect();
         $quantidade = isset($params['quantidade']) ? $params['quantidade'] : 20;
 
-        $vagas = $this->filtrarVagasPorParametros($params);
+        $vagas = Vaga::filtrarPorParametros($params);
 
         if (!$user || $user->role == 'candidato') {
             $vagas = $vagas->where('pausada', false)->paginate($quantidade);

@@ -24,4 +24,13 @@ class Vaga extends Model
     public function candidatos() {
         return $this->belongsToMany(User::class);
     }
+
+    public static function filtrarPorParametros($params) {
+        $vagas = self::select();
+        $vagas = isset($params['tipo']) ? $vagas->where('tipo', $params['tipo']) : $vagas;
+        $vagas = isset($params['nome']) ? $vagas->where('nome', 'like', '%'.$params['nome'].'%') : $vagas;
+        $vagas = isset($params['ordenar']) ? $vagas->orderBy($params['ordenar']) : $vagas->orderBy('nome');
+
+        return $vagas;
+    }
 }
