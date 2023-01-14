@@ -13,7 +13,7 @@ class CandidaturaTest extends TestCase
     public function test_tela_de_candidaturas_renderiza()
     {
         $user = User::factory()->has(Vaga::factory()->count(3))->create();
-        $response = $this->actingAs($user)->get('/candidaturas');
+        $response = $this->actingAs($user)->get('/vagas/candidaturas');
         $response->assertStatus(200);
     }
 }

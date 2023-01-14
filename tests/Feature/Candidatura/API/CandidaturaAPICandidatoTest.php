@@ -24,7 +24,7 @@ class CandidaturaAPICandidatoTest extends TestCase
             $this->assertDatabaseHas('user_vaga', ['user_id' => $user->id, 'vaga_id' => $vaga->id]);
         }
         foreach ($user->vagas as $vaga) {
-            $response = $this->actingAs($user)->delete('/api//vagas/candidaturas'.$vaga->id);
+            $response = $this->actingAs($user)->delete('/api/candidaturas/'.$vaga->id);
             $json = $vaga->toArray();
             unset($json['pivot']);
             $response->assertJson($json);

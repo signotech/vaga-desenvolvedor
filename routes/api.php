@@ -24,4 +24,4 @@ Route::apiResource('vagas', VagaAPIController::class)->middleware('auth:sanctum'
 Route::apiResource('candidaturas', CandidaturaAPIController::class)->only([
     'index', 'store'
 ]);
-Route::delete('/vagas/candidaturas{vaga}', [CandidaturaAPIController::class, 'destroy'])->name('candidaturas.destroy');
+Route::delete('candidaturas/{vaga}', [CandidaturaAPIController::class, 'destroy'])->name('candidaturas.destroy');

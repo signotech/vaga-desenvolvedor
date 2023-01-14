@@ -13,7 +13,7 @@ class CandidaturaEmpresaTest extends TestCase
     public function test_empresa_nao_pode_se_candidatar() {
         $user = User::factory()->create(['role' => 'empresa']);
         $vaga = Vaga::factory()->create();
-        $response = $this->actingAs($user)->post('/candidaturas', ['vaga_id' => $vaga->id]);
+        $response = $this->actingAs($user)->post('/vagas/candidaturas', ['vaga_id' => $vaga->id]);
 
         $response->assertStatus(403);
         $this->assertDatabaseMissing('user_vaga', ['user_id' => $user->id, 'vaga_id' => $vaga->id]);
@@ -25,7 +25,7 @@ class CandidaturaEmpresaTest extends TestCase
             $this->assertDatabaseHas('user_vaga', ['user_id' => $user->id, 'vaga_id' => $vaga->id]);
         }
         foreach ($user->vagas as $vaga) {
-            $response = $this->actingAs($user)->delete('//vagas/candidaturas'.$vaga->id);
+            $response = $this->actingAs($user)->delete('/vagas/candidaturas'.$vaga->id);
 
             $response->assertStatus(403);
             $this->assertDatabaseHas('user_vaga', ['user_id' => $user->id, 'vaga_id' => $vaga->id]);
