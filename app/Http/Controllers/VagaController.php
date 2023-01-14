@@ -29,8 +29,8 @@ class VagaController extends Controller
         $quantidade = isset($params['quantidade']) ? $params['quantidade'] : 20;
 
         $vagas = Vaga::select();
-        $vagas = isset($params['tipo']) ? Vaga::where('tipo', $request->input('tipo')) : $vagas;
-        $vagas = isset($params['nome']) ? Vaga::where('nome', 'like', '%'.$request->input('nome').'%') : $vagas;
+        $vagas = isset($params['tipo']) ? $vagas->where('tipo', $request->input('tipo')) : $vagas;
+        $vagas = isset($params['nome']) ? $vagas->where('nome', 'like', '%'.$request->input('nome').'%') : $vagas;
         $vagas = isset($params['ordenar']) ? $vagas->orderBy($request->input('ordenar')) : $vagas->orderBy('nome');
 
         if (!$user || $user->role == 'candidato') {
