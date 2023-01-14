@@ -1,6 +1,6 @@
 import VagaPod from "@/Components/VagaPod"
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout"
-import Paginator from "../Vaga/Partials/Paginator"
+import Paginator from "../../Components/Paginator"
 import { useForm } from "@inertiajs/inertia-react"
 import InputLabel from "@/Components/InputLabel"
 import TextInput from "@/Components/TextInput"

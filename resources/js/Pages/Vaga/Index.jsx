@@ -2,7 +2,7 @@ import PrimaryButton from "@/Components/PrimaryButton"
 import VagaPod from "@/Components/VagaPod"
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout"
 import { Link, useForm } from "@inertiajs/inertia-react"
-import Paginator from "./Partials/Paginator"
+import Paginator from "../../Components/Paginator"
 import InputLabel from "@/Components/InputLabel"
 import TextInput from "@/Components/TextInput"
 
