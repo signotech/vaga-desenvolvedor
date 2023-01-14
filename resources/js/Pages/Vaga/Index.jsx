@@ -25,7 +25,7 @@ export default function Index(props) {
     return (
         <AuthenticatedLayout auth={props.auth}>
             <div className="flex flex-col place-items-center p-5">
-                <div className="flex flex-col space-y-3 w-3/5">
+                <div className="flex flex-col space-y-3 w-full lg:w-3/5">
                     <div>
                         <VagaFilter params={params}>
                             {!candidato &&
