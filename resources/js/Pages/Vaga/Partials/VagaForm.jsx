@@ -34,13 +34,13 @@ export default function VagaForm(props) {
     return (
         <AuthenticatedLayout auth={props.auth}>
             <form className="edit flex flex-col p-5 space-y-5 place-items-center" onSubmit={submit}>
-                <div className='w-3/5'>
+                <div className='w-full lg:w-3/5'>
                     <InputLabel forInput="nome" value="Nome"/>
                     <TextInput className="mt-1 block w-full" type="text" name="nome" id="nome" value={data.nome} handleChange={onHandleChange}/>
                     <InputError message={errors.nome} className="mt-2" />
                 </div>
 
-                <div className='w-3/5'>
+                <div className='w-full lg:w-3/5'>
                     <InputLabel forInput="tipo" value="Tipo"/>
                     <select value={data.tipo} name="tipo" id="tipo" className='w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm' onChange={onHandleChange}>
                         <option value="CLT">CLT</option>
@@ -50,13 +50,13 @@ export default function VagaForm(props) {
                     <InputError message={errors.tipo} className="mt-2" />
                 </div>
 
-                <div className='w-3/5'>
+                <div className='w-full lg:w-3/5'>
                     <InputLabel forInput="descricao" value="Descrição"/>
                     <textarea className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" name="descricao" id="descricao" cols="30" rows="10" onChange={onHandleChange} value={data.descricao}/>
                     <InputError message={errors.descricao} className="mt-2" />
                 </div>
 
-                <PrimaryButton processing={processing}>
+                <PrimaryButton className='w-full lg:w-3/5 place-content-center' processing={processing}>
                     Salvar
                 </PrimaryButton>
             </form>
