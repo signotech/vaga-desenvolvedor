@@ -30,22 +30,26 @@ class VagaController extends Controller
 
         $vagas = Vaga::filtrarPorParametros($params);
 
+        $candidato = false;
+        // Candidatos e convidados são considerados candidatos
         if (!$user || $user->role == 'candidato') {
+            $candidato = true;
+
             $vagas = $vagas->where('pausada', false)->paginate($quantidade);
+            // Se usuario for candidato e estiver logado,
+            // Adiciona se o usuario está candidatado ou não.
             if ($user) {
                 $vagas->transform(function ($vaga) use ($user) {
                     return ['candidatado' => $user->vagas()->where('vaga_id', $vaga['id'])->exists(), ...$vaga->toArray()];
                 });
             }
-            $candidato = true;
         }
+        // Se usuario for empresa, só mostra vagas que o usuario criou.
         else if ($user->role == 'empresa') {
             $vagas = $vagas->where('user_id', $user->id)->paginate($quantidade);
-            $candidato = false;
         }
         else {
             $vagas = $vagas->paginate($quantidade);
-            $candidato = false;
         }
         return Inertia::render('Vaga/Index', ['vagas' => $vagas, 'candidato' => $candidato, 'params' => count($params) == 0 ? null : $params]);
     }
