@@ -30,7 +30,7 @@ class CandidaturaController extends Controller
         $vagas = isset($params['ordenar']) ? $vagas->orderBy($request->input('ordenar')) : $vagas->orderBy('nome');
         $vagas = $vagas->paginate($quantidade);
 
-        return Inertia::render('Candidatura/Index', ['vagas' => $vagas, 'params' => count($params) == 0 ? null : $params]);
+        return Inertia::render('Vaga/Candidatura/Index', ['vagas' => $vagas, 'params' => count($params) == 0 ? null : $params]);
     }
 
 
