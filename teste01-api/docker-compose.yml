@@ -1,0 +1,22 @@
+version: "3.7"
+
+services:
+  teste_signoweb_db:
+    image: postgres
+    container_name: teste
+    # restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=teste
+      - POSTGRES_PASSWORD=teste
+      - POSTGRES_DB=teste
+    volumes:
+      - pgdata:/data/postgres
+    network_mode: host
+volumes:
+  pgdata:
+    driver: local
+networks:
+  network:
+    driver: bridge
