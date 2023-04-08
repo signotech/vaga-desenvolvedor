@@ -1,0 +1,27 @@
+.btn-action {
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+.btn-action:nth-child(1) {
+    background-color: orange;
+    margin-right: 5px;
+}
+  
+.btn-action:nth-child(2) {
+    background-color: rgba(237, 42, 42, 0.9);
+}
+
+.editForm{
+    font-size: 1rem;
+    border: none;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    height: auto;
+}

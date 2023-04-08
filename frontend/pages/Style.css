@@ -1,0 +1,90 @@
+.App{
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10vw;
+}
+
+#title{
+  margin-top: 5vh;
+}
+
+.container{
+  margin-top: 5vh;
+  background-color: white;
+  min-height: 80vh;
+  width: 85vw;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 25px;
+  padding-bottom: 10vh;
+  margin-bottom: 5vh;
+}
+
+.App .container form{
+  margin-top: 5vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-bottom: 5vh;
+}
+
+input{
+  width: 80%;
+  padding: 0.5rem;
+  margin-right: 2vw;
+  height: 50px;
+}
+
+.App .container .add-button{
+  background-color: #0099FF;
+  border: none;
+  border-radius: 5px;
+  color: #FFF;
+  font-size: 1.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  height: 50px;
+  width: 50px;
+}
+
+
+/*Tabela*/
+
+.form-table{
+  height: 100%;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+table {
+  border-collapse: collapse;
+  width: 80%;
+}
+
+td, th {
+  padding: 10px 15px;
+  border: 1px solid #DDD;
+  text-align: center;
+}
+
+td {
+  color: #333;
+  font-weight: 600;
+}
+
+tr:nth-child(even){
+  background-color: #F5F5F5;
+}
