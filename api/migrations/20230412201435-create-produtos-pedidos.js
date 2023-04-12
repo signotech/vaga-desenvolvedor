@@ -8,7 +8,7 @@ module.exports = {
         type: Sequelize.STRING(100),
         allowNull: false,
         references: {
-          model: 'Produto',
+          model: 'produtos',
           key: 'sku_produto'
         }
       },
@@ -16,7 +16,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Pedido',
+          model: 'pedidos',
           key: 'codigo_pedido'
         }
       }
