@@ -5,7 +5,6 @@ module.exports = {
     async store(req, res) {
         const { id_cliente_pedido, valor_pedido, itens } = req.body;
         const order = await pedido.create({ id_cliente_pedido, valor_pedido });
-        console.log(order);
         await produtosPedido.bulkCreate(itens.map(item => ({ ...item, codigo_pedido: order.codigo_pedido })));
         return res.json({ order, itens });
     },
