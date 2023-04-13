@@ -20,7 +20,7 @@ module.exports = {
         allowNull: false
       },
       email_cliente: Sequelize.STRING,
-    }, { timestamps: false });
+    });
   },
 
   async down (queryInterface, Sequelize) {

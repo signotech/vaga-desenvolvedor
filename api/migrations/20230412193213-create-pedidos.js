@@ -32,7 +32,7 @@ module.exports = {
         allowNull: false,
         defaultValue: 'Aberto'
       }
-    }, { timestamps: false});
+    });
   },
 
   async down (queryInterface, Sequelize) {
