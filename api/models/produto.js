@@ -9,7 +9,7 @@ class produto extends Model {
             },
             titulo_produto: Sequelize.STRING(100),
             preco: Sequelize.DECIMAL(15, 2),
-            estoque: Sequelize.INTEGER,
+            estoque: Sequelize.INTEGER
         }, {
             sequelize
         });
