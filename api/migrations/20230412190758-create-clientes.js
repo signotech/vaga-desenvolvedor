@@ -4,17 +4,23 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable('clientes', { 
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+      },
       cpf_cliente: {
         type: Sequelize.CHAR(11),
-        primaryKey: true,
-        allowNull: false
+        allowNull: false,
+        unique: true
       },
       nome_cliente: {
         type: Sequelize.STRING(150),
         allowNull: false
       },
-      email_cliente: Sequelize.STRING
-    });
+      email_cliente: Sequelize.STRING,
+    }, { timestamps: false });
   },
 
   async down (queryInterface, Sequelize) {
