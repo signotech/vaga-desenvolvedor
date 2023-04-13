@@ -1,14 +1,32 @@
+import M from  'materialize-css/dist/js/materialize.min.js';
+import { useEffect, useRef } from 'react';
+
 export default function Navbar() {
+    const sliderRef = useRef('sliderRef');
+
+    useEffect(() => {
+        M.Sidenav.init(sliderRef.current);
+    })
+
     return (
-        <nav>
-            <div class="nav-wrapper">
-                <div href="#" class="brand-logo">Logo</div>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><div href="#" >Sass</div></li>
-                    <li><div href="#" >Components</div></li>
-                    <li><div href="#" >JavaScript</div></li>
-                </ul>
-            </div>
-        </nav>
+        <>
+            <nav className='blue darken-1'>
+                <div className="nav-wrapper">
+                    <a href="#!" className="brand-logo">Logo</a>
+                    <a href="#" data-target="mobile-demo" className="sidenav-trigger"><i className="material-icons">menu</i></a>
+                    <ul className="right hide-on-med-and-down">
+                        <li><a href="#">Clientes</a></li>
+                        <li><a href="#">Produtos</a></li>
+                        <li><a href="#">Pedidos</a></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <ul className="sidenav" id="mobile-demo" ref={sliderRef}>
+                <li><a href="#">Clientes</a></li>
+                <li><a href="#">Produtos</a></li>
+                <li><a href="#">Pedidos</a></li>
+            </ul>
+        </>
     )
 }
