@@ -9,6 +9,8 @@ import {
 } from "react-router-dom";
 import Root from './pages/Root';
 import Customers from './pages/Customers';
+import NewCustomer from './pages/NewCustomer';
+import customerServices from './services/customerServices';
 
 const router = createBrowserRouter([
   {
@@ -17,7 +19,12 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/clientes',
-        element: <Customers />
+        element: <Customers />,
+        loader: () => customerServices.getCustomers(),
+      },
+      {
+        path: '/clientes/novo',
+        element: <NewCustomer />
       }
     ]
   },

@@ -3,6 +3,9 @@ import Icon from '../components/Icon';
 import CustomerForm from '../components/CustomerForm';
 import customerServices from '../services/customerServices';
 import { useEffect, useState } from 'react';
+import { useLoaderData, Link } from 'react-router-dom';
+import useForm from '../hooks/useForm';
+
 
 export default function Customers() {
     const customerShape = {
@@ -11,10 +14,9 @@ export default function Customers() {
         email_cliente: ''
     };
 
-    const [customers, setCustomers] = useState([]);
+    const [customers, setCustomers] = useState(useLoaderData());
     const [filteredCustomers, setFilteredCustomers] = useState(customers);
-    const [filters, setFilters] = useState(customerShape);
-    const [newCustomer, setNewCustomer] = useState(customerShape);
+    const [filters, handleFilterInput] = useForm(customerShape);
 
     useEffect(() => setFilteredCustomers(customers), [customers]);
 
@@ -27,25 +29,6 @@ export default function Customers() {
         fetchFilteredCustomers();
     }, [filters])
 
-    useEffect(() => {
-        async function fetchCustomers() {
-            const customersData = await customerServices.getCustomers();
-            setCustomers(customersData);
-        }
-
-        fetchCustomers();
-    }, [])
-
-    function handleInput(setInput) {
-        return (e) => {
-            setInput(prevForm => ({...prevForm, [e.target.name]: e.target.value }))
-        }
-    }
-
-    async function createCustomer(formValues) {
-        const createdCustomer = await customerServices.storeCustomer(formValues);
-        setCustomers(prevCustomers => [...prevCustomers, createdCustomer]);
-    }
 
     async function deleteCustomer({ id }) {
         const { deleted } = await customerServices.deleteCustomer(id);
@@ -57,7 +40,7 @@ export default function Customers() {
             <h3>Buscar clientes</h3>
             <CustomerForm 
                 shape={filters}
-                inputHandler={handleInput(setFilters)}
+                inputHandler={handleFilterInput}
             />
             <Table
                 data={filteredCustomers}
@@ -86,15 +69,6 @@ export default function Customers() {
                     }
                 ]}
             />
-            <CustomerForm 
-                shape={newCustomer}
-                inputHandler={handleInput(setNewCustomer)}
-                submitHandler={createCustomer}
-            >
-                <button className="btn blue darken-1 waves-light" type="submit">Salvar
-                    <i className="material-icons right">send</i>
-                </button>
-            </CustomerForm>
         </>
     );
 }
