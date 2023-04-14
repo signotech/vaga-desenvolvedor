@@ -37,7 +37,7 @@ export default function Customers() {
 
     return (
         <>
-            <h3>Buscar clientes</h3>
+            <p className="title">Buscar clientes</p>
             <CustomerForm 
                 shape={filters}
                 inputHandler={handleFilterInput}
@@ -69,6 +69,9 @@ export default function Customers() {
                     }
                 ]}
             />
+            <Link to="/clientes/novo" className="btn blue darken-1 waves-light" type="submit">
+                Novo Cliente
+            </Link>
         </>
     );
 }
