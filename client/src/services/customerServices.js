@@ -10,6 +10,11 @@ const services = {
     async storeCustomer(customerData) {
         const response = await axios.post(`${host}/clientes`, customerData);
         return response.data;
+    },
+
+    async deleteCustomer(customerId) {
+        const response = await axios.delete(`${host}/clientes/${customerId}`);
+        return response.data
     }
 }
 

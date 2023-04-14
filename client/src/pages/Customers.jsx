@@ -1,5 +1,5 @@
 import Table from '../components/Table';
-import TextInput from '../components/TextInput';
+import Icon from '../components/Icon';
 import CustomerForm from '../components/CustomerForm';
 import customerServices from '../services/customerServices';
 import { useEffect, useState } from 'react';
@@ -47,6 +47,11 @@ export default function Customers() {
         setCustomers(prevCustomers => [...prevCustomers, createdCustomer]);
     }
 
+    async function deleteCustomer({ id }) {
+        const { deleted } = await customerServices.deleteCustomer(id);
+        setCustomers(prevCustomers => prevCustomers.filter(customer => customer.id !== Number(deleted)));
+    }
+
     return (
         <>
             <CustomerForm 
@@ -56,18 +61,28 @@ export default function Customers() {
             <Table
                 data={filteredCustomers}
                 columns={[
-                {
-                    name: 'cpf_cliente',
-                    alias: 'CPF'
-                },
-                {
-                    name: 'nome_cliente',
-                    alias: 'Nome'
-                },
-                {
-                    name: 'email_cliente',
-                    alias: 'Email'
-                } 
+                    {
+                        name: 'cpf_cliente',
+                        alias: 'CPF'
+                    },
+                    {
+                        name: 'nome_cliente',
+                        alias: 'Nome'
+                    },
+                    {
+                        name: 'email_cliente',
+                        alias: 'Email'
+                    } 
+                ]}
+                actions={[
+                    {
+                        handler: console.log,
+                        icon: <Icon>edit</Icon>
+                    },
+                    {
+                        handler: deleteCustomer,
+                        icon: <Icon>close</Icon>
+                    }
                 ]}
             />
             <CustomerForm 
@@ -75,8 +90,8 @@ export default function Customers() {
                 inputHandler={handleInput(setNewCustomer)}
                 submitHandler={createCustomer}
             >
-                <button class="btn blue darken-1 waves-light" type="submit">Salvar
-                    <i class="material-icons right">send</i>
+                <button className="btn blue darken-1 waves-light" type="submit">Salvar
+                    <i className="material-icons right">send</i>
                 </button>
             </CustomerForm>
         </>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Icon from "./Icon";
+import Row from "./Row";
 /*
 import OrderStatus from "../objects/OrderStatus";
 import CurrencyConverter from "../objects/CurrencyConverter";
@@ -31,17 +32,17 @@ export default function Table({
 
   const getActions = (item) => {
     return (
-      <td className="flex-side actions">
-        {actions.map(action => {
-          return (
-            <div onClick={(event) => {
-              event.stopPropagation();
-              action.handler(item);
-            }}>
-              { action.icon }
-            </div>
-          )
-        })}
+      <td className="valign-wrapper center-align">
+          {actions.map(action => {
+            return (
+              <div className="" onClick={(event) => {
+                event.stopPropagation();
+                action.handler(item);
+              }}>
+                { action.icon }
+              </div>
+            )
+          })}
       </td>
     )
   }
@@ -136,15 +137,17 @@ export default function Table({
         <thead>
           <tr>
           {
-            columns.map(col => <td onClick={() => {
-              setSorter(col.name)
-              if(sorter === col.name) {
-                changeOrder();
-              } else {
-                changeOrder('asc');
-              }
-            }}>
-              <div>
+            columns.map(col => <td 
+              onClick={() => {
+                setSorter(col.name)
+                if(sorter === col.name) {
+                  changeOrder();
+                } else {
+                  changeOrder('asc');
+                }
+              }}
+            >
+              <div className="valign-wrapper center-align">
                 <span>{ col.alias }</span>
                 <span className={ isSorter(col)? 'order-indicator' : 'order-indicator-off'}>
                   { isSorter(col)? getOrderIndicator() : <Icon>unfold_more</Icon>} 
