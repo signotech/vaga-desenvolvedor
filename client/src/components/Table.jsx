@@ -132,7 +132,7 @@ export default function Table({
 
   return (
     <div className={ `table-container ${classes}` }>
-      <table>
+      <table className="responsive-table striped">
         <thead>
           <tr>
           {
