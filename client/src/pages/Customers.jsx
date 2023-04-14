@@ -1,5 +1,6 @@
 import Table from '../components/Table';
 import TextInput from '../components/TextInput';
+import CustomerForm from '../components/CustomerForm';
 import customerServices from '../services/customerServices';
 import { useEffect, useState } from 'react';
 
@@ -13,8 +14,9 @@ export default function Customers() {
     const [customers, setCustomers] = useState([]);
     const [filteredCustomers, setFilteredCustomers] = useState(customers);
     const [filters, setFilters] = useState(customerShape);
+    const [newCustomer, setNewCustomer] = useState(customerShape);
 
-    useEffect(() => setFilteredCustomers(customers), [customers]);
+    useEffect(() => setFilteredCustomers(customers));
 
     useEffect(() => {
         async function fetchFilteredCustomers() {
@@ -40,11 +42,17 @@ export default function Customers() {
         }
     }
 
+    async function createCustomer(formValues) {
+        const createdCustomer = await customerServices.storeCustomer(formValues);
+        setCustomers(prevCustomers => [...prevCustomers, createdCustomer]);
+    }
+
     return (
         <>
-            <TextInput name='cpf_cliente' label='CPF' value={filters.cpf_cliente} handler={handleInput(setFilters)}/>
-            <TextInput name='nome_cliente' label='Nome' value={filters.nome_cliente} handler={handleInput(setFilters)}/>
-            <TextInput name='email_cliente' label='Email' value={filters.email_cliente} handler={handleInput(setFilters)}/>
+            <CustomerForm 
+                shape={filters}
+                inputHandler={handleInput(setFilters)}
+            />
             <Table
                 data={filteredCustomers}
                 columns={[
@@ -61,6 +69,11 @@ export default function Customers() {
                     alias: 'Email'
                 } 
                 ]}
+            />
+            <CustomerForm 
+                shape={newCustomer}
+                inputHandler={handleInput(setNewCustomer)}
+                submitHandler={createCustomer}
             />
         </>
     );
