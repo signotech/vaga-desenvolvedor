@@ -7,7 +7,11 @@ export default function NewProduct() {
     return(
         <> 
             <p className="title">Adicionar produto</p>
-            <ProductForm shape={new Product()}/>
+            <ProductForm shape={new Product()}>
+                <button className="btn blue darken-1 waves-light" type="submit">Salvar
+                    <i className="material-icons right">send</i>
+                </button>
+            </ProductForm>
         </>
     )
 }
