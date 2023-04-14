@@ -16,7 +16,7 @@ export default function Customers() {
     const [filters, setFilters] = useState(customerShape);
     const [newCustomer, setNewCustomer] = useState(customerShape);
 
-    useEffect(() => setFilteredCustomers(customers));
+    useEffect(() => setFilteredCustomers(customers), [customers]);
 
     useEffect(() => {
         async function fetchFilteredCustomers() {

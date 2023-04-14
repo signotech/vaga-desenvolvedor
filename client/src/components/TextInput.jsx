@@ -1,10 +1,9 @@
 export default function TextInput(props) {
     return (
-        <div className={`${props.className || ''}`}>
+        <div className={`input-field ${props.className || ''}`}>
           <input 
             value={props.value} 
             onInput={props.handler} 
-            placeholder={props.placeholder || ''} 
             name={props.name} 
             id={props.name} 
             type="text"
