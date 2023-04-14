@@ -10,6 +10,7 @@ class produtosPedido extends Model {
             sequelize
         });
     }
+
 }
 
 module.exports = produtosPedido;

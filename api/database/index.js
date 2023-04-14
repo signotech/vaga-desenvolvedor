@@ -13,4 +13,12 @@ produto.init(connection);
 pedido.init(connection);
 produtosPedido.init(connection);
 
+cliente.hasMany(pedido, { onDelete: 'CASCADE' });
+
+pedido.hasMany(produtosPedido, { onDelete: 'CASCADE' });
+pedido.belongsTo(cliente);
+
+produtosPedido.belongsTo(pedido);
+produtosPedido.belongsTo(produto);
+
 module.exports = connection;

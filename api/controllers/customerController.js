@@ -17,8 +17,13 @@ module.exports = {
         res.json(singleCustomer);
     },
     async deleteOne(req, res) {
-        const { id } = req.params;
-        await cliente.destroy({ where: { id } });
-        res.json({ success: true, deleted: id});
+        try {
+            const { id } = req.params;
+            await cliente.destroy({ where: { id } });
+            res.json({ success: true, deleted: id});
+        } catch(e) {
+            console.log(e);
+        }
+        
     }
 }

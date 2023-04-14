@@ -6,6 +6,7 @@ module.exports = {
     await queryInterface.createTable('pedidos', { 
       id_cliente_pedido: {
         type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
         allowNull: false,
         references: {
           model: 'clientes',

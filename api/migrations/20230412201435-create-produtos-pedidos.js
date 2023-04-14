@@ -12,6 +12,7 @@ module.exports = {
       },
       id_produto: {
         type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
         references: {
           model: 'produtos',
           key: 'id'
@@ -19,6 +20,7 @@ module.exports = {
       },
       codigo_pedido: {
         type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
         allowNull: false,
         references: {
           model: 'pedidos',

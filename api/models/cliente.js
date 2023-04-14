@@ -10,7 +10,7 @@ class cliente extends Model {
             nome_cliente: Sequelize.STRING(150),
             email_cliente: Sequelize.STRING
         }, {
-            sequelize
+            sequelize,
         });
     }
 }
