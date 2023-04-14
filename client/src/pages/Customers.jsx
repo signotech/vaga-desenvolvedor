@@ -4,9 +4,15 @@ import customerServices from '../services/customerServices';
 import { useEffect, useState } from 'react';
 
 export default function Customers() {
+    const customerShape = {
+        cpf_cliente: '',
+        nome_cliente: '',
+        email_cliente: ''
+    };
+
     const [customers, setCustomers] = useState([]);
     const [filteredCustomers, setFilteredCustomers] = useState(customers);
-    const [filters, setFilters] = useState({});
+    const [filters, setFilters] = useState(customerShape);
 
     useEffect(() => setFilteredCustomers(customers), [customers]);
 
@@ -28,9 +34,15 @@ export default function Customers() {
         fetchCustomers();
     }, [])
 
+    function handleInput(setInput) {
+        return (e) => {
+            setInput(prevForm => ({...prevForm, [e.target.name]: e.target.value }))
+        }
+    }
+
     return (
         <>
-        <TextInput name='teste' label='teste'/>
+        <TextInput name='cpf_cliente' label='CPF' value={filters.cpf_cliente} handler={handleInput(setFilters)}/>
         <Table
             data={filteredCustomers}
             columns={[
