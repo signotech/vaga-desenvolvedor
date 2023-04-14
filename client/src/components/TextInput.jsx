@@ -8,6 +8,8 @@ export default function TextInput(props) {
             name={props.name} 
             id={props.name} 
             type="text"
+            minLength={props.minLength}
+            maxLength={props.maxLength}
           />
           <label htmlFor={props.name}>{props.label}</label>
         </div>

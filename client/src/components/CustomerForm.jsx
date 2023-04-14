@@ -22,6 +22,8 @@ export default function CustomerForm(props) {
                         label='CPF' 
                         value={props.shape.cpf_cliente} 
                         handler={props.inputHandler}
+                        minlength={11}
+                        maxlength={11}
                     />
                 </Row>
                 <Row>
@@ -33,9 +35,9 @@ export default function CustomerForm(props) {
                         handler={props.inputHandler}
                     />
                 </Row>
-                <button class="btn blue darken-1 waves-light" type="submit">Salvar
-                    <i class="material-icons right">send</i>
-                </button>
+                {
+                    props.children
+                }
             </form>
         </>
     )

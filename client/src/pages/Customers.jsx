@@ -74,7 +74,11 @@ export default function Customers() {
                 shape={newCustomer}
                 inputHandler={handleInput(setNewCustomer)}
                 submitHandler={createCustomer}
-            />
+            >
+                <button class="btn blue darken-1 waves-light" type="submit">Salvar
+                    <i class="material-icons right">send</i>
+                </button>
+            </CustomerForm>
         </>
     );
 }
