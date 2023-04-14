@@ -1,4 +1,5 @@
 const cliente = require('../models/cliente');
+const Helpers = require('../helpers/Helpers');
 
 module.exports = {
     async store(req, res) {
@@ -7,7 +8,7 @@ module.exports = {
         return res.json(customer);
     },
     async getSome(req, res) {
-        const filteredCustomers = await cliente.findAll({where: req.query});
+        const filteredCustomers = await cliente.findAll({where: Helpers.formatFilters(req.query)});
         res.json(filteredCustomers);
     },
     async getOne(req, res) {

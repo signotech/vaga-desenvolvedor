@@ -42,24 +42,26 @@ export default function Customers() {
 
     return (
         <>
-        <TextInput name='cpf_cliente' label='CPF' value={filters.cpf_cliente} handler={handleInput(setFilters)}/>
-        <Table
-            data={filteredCustomers}
-            columns={[
-            {
-                name: 'cpf_cliente',
-                alias: 'CPF'
-            },
-            {
-                name: 'nome_cliente',
-                alias: 'Nome'
-            },
-            {
-                name: 'email_cliente',
-                alias: 'Email'
-            } 
-            ]}
-        />
+            <TextInput name='cpf_cliente' label='CPF' value={filters.cpf_cliente} handler={handleInput(setFilters)}/>
+            <TextInput name='nome_cliente' label='Nome' value={filters.nome_cliente} handler={handleInput(setFilters)}/>
+            <TextInput name='email_cliente' label='Email' value={filters.email_cliente} handler={handleInput(setFilters)}/>
+            <Table
+                data={filteredCustomers}
+                columns={[
+                {
+                    name: 'cpf_cliente',
+                    alias: 'CPF'
+                },
+                {
+                    name: 'nome_cliente',
+                    alias: 'Nome'
+                },
+                {
+                    name: 'email_cliente',
+                    alias: 'Email'
+                } 
+                ]}
+            />
         </>
     );
 }
