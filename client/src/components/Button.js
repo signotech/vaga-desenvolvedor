@@ -1,0 +1,26 @@
+import styled from 'styled-components';
+
+export default styled.button`
+  width: 170px;
+  padding: 8px 10px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: ${({ theme }) => theme.colors.main};
+
+  border: 2px solid ${({ theme }) => theme.colors.main};
+  border-radius: 8px;
+  background-color: transparent;
+  cursor: pointer;
+  transition: 0.2s ease;
+
+  &:hover{
+    background-color: ${({ theme }) => theme.colors.main};
+    color: #fff;
+  }
+
+  &:active{
+    background-color: ${({ theme }) => theme.colors.dark};
+    border: 2px solid ${({ theme }) => theme.colors.dark};
+  }
+`;
