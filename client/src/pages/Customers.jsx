@@ -54,6 +54,7 @@ export default function Customers() {
 
     return (
         <>
+            <h3>Buscar clientes</h3>
             <CustomerForm 
                 shape={filters}
                 inputHandler={handleInput(setFilters)}

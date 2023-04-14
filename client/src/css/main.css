@@ -1,0 +1,33 @@
+body {
+    overflow-x: hidden;
+}
+
+table i {
+    cursor: pointer;
+}
+
+table i:hover {
+    color: blue;
+}
+
+thead {
+    user-select: none;
+}
+
+tbody tr:hover {
+    cursor: pointer;
+    background-color: lightgray !important;
+}
+
+nav {
+    padding: 0 1rem 0 1rem;
+}
+
+main {
+    padding: 1rem 0;
+}
+
+.row {
+    margin-bottom: 0;
+}
+

@@ -9,6 +9,8 @@ export default function TextInput(props) {
             type="text"
             minLength={props.minLength}
             maxLength={props.maxLength}
+            data-success={props.successText}
+            data-error={props.errorText}
           />
           <label htmlFor={props.name}>{props.label}</label>
         </div>
