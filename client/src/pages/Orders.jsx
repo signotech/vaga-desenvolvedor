@@ -26,9 +26,9 @@ export default function Orders() {
     }, [filters])
 
     
-    async function deleteOrder({ id }) {
-        const { deleted } = await orderServices.deleteCustomer(id);
-        setOrders(prevCustomers => prevCustomers.filter(customer => customer.id !== Number(deleted)));
+    async function deleteOrder(order) {
+        await orderServices.deleteOrder(id, order.codigo_pedido);
+        setOrders(prevOrders => prevOrders.filter(curOrder => curOrder !== order));
     }
 
     return (
@@ -65,7 +65,7 @@ export default function Orders() {
                     }
                 ]}
             />
-            <Link to="/pedidos/cliente" className="btn blue darken-1 waves-light" type="submit">
+            <Link to={`/pedidos/cliente/${id}/novo`} className="btn blue darken-1 waves-light" type="submit">
                 Novo Pedido
             </Link>
         </>

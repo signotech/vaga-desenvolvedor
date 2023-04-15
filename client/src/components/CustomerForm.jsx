@@ -11,14 +11,14 @@ export default function CustomerForm(props) {
                 <Row>
                     <TextInput 
                         name='nome_cliente' 
-                        className='col s6'
+                        className='col s12 m6'
                         label='Nome' 
                         value={props.shape.nome_cliente} 
                         handler={props.inputHandler}
                     />
                     <TextInput 
                         name='cpf_cliente' 
-                        className='col s6'
+                        className='col s12 m6'
                         label='CPF' 
                         value={props.shape.cpf_cliente} 
                         handler={props.inputHandler}

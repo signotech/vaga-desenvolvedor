@@ -1,1 +1,9 @@
 ☐ Consertar filtros para não fazerem uma requisição cada vez que o usuário digita (possivelmente com debounce ou botão de envio)
+☐ Adicionar required aos campos de texto
+☐ Criar indicativo de ação de salvamento
+☐ Criar rotas e funcionalidade de atualização
+☐ Adicionar as limitações aos inputs de texto
+☐ Adicionar objeto money
+☐ Modificar a tabela de pedidosProdutos para aceitar colunas descrevendo cada produto (nome, preco, quantidade, valor total)
+  Locais para alteração: migrations, modelo, shape, formatter de order do front, talvez orderSerivice, talvez controller
+☐ Mudar a remoção do pedido para apenas cancelá-lo

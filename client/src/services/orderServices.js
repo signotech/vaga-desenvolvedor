@@ -4,17 +4,16 @@ import host from './host';
 const services = {
     async getOrders(filters, id) {
         const response = await axios.get(`${host}/pedidos/${id}?${new URLSearchParams(filters)}`);
-        console.log(response.data);
         return response.data;
     },
 
-    async storeOrders(productData) {
-        const response = await axios.post(`${host}/produtos`, productData);
+    async storeOrders(orderData) {
+        const response = await axios.post(`${host}/pedidos`, orderData);
         return response.data;
     },
 
-    async deleteOrders(productId) {
-        const response = await axios.delete(`${host}/produtos/${productId}`);
+    async deleteOrder(customerId, orderId) {
+        const response = await axios.delete(`${host}/pedidos/${customerId}/${orderId}`);
         return response.data;
     }
 }

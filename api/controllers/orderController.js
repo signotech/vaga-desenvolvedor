@@ -5,6 +5,7 @@ const Helpers = require('../helpers/Helpers');
 module.exports = {
     async store(req, res) {
         const { id_cliente_pedido, valor_pedido, itens } = req.body;
+        console.log(itens);
         const order = await pedido.create({ id_cliente_pedido, valor_pedido });
         await produtosPedido.bulkCreate(itens.map(item => ({ ...item, codigo_pedido: order.codigo_pedido })));
         return res.json({ order, itens });
@@ -28,8 +29,9 @@ module.exports = {
         res.json(singleOrder);
     },
     async deleteOne(req, res) {
-        const { id } = req.params;
-        await pedido.destroy({ where: { id } });
-        res.json({ success: true, deleted: id });
+        const { id_pedido: codigo_pedido } = req.params;
+        console.log('Codigo', codigo_pedido);
+        await pedido.destroy({ where: { codigo_pedido } });
+        res.json({ success: true, deleted: codigo_pedido });
     }
 }

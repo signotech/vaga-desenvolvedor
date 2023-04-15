@@ -3,7 +3,7 @@ import Icon from '../components/Icon';
 import CustomerForm from '../components/CustomerForm';
 import customerServices from '../services/customerServices';
 import { useEffect, useState } from 'react';
-import { useLoaderData, Link } from 'react-router-dom';
+import { useLoaderData, useNavigate, Link } from 'react-router-dom';
 import useForm from '../hooks/useForm';
 import { Customer } from '../Shapes';
 
@@ -12,6 +12,7 @@ export default function Customers() {
     const [customers, setCustomers] = useState(useLoaderData());
     const [filteredCustomers, setFilteredCustomers] = useState(customers);
     const [filters, handleFilterInput] = useForm(new Customer());
+    const navigate = useNavigate();
 
     useEffect(() => setFilteredCustomers(customers), [customers]);
 
@@ -53,6 +54,9 @@ export default function Customers() {
                         alias: 'Email'
                     } 
                 ]}
+                handler={({ id }) => {
+                    navigate(`/pedidos/cliente/${id}`);
+                }}
                 actions={[
                     {
                         handler: console.log,
