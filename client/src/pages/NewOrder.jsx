@@ -8,6 +8,7 @@ import Table from "../components/Table";
 import ReadOnly from "../components/ReadOnly";
 import { Order } from "../Shapes";
 import orderServices from "../services/orderServices";
+import Money from "../values/Money";
 
 
 export default function NewOrder() {
@@ -132,7 +133,7 @@ export default function NewOrder() {
             <div className="col s12">
                 <Row>
                     <div className="col s12 m6">
-                        <ReadOnly value={totalPrice} text="Valor total"/>
+                        <ReadOnly value={new Money(totalPrice).currency} text="Valor total"/>
                     </div>
                     <div className="col s12 m6">
                         <button className="btn col s12 m6" onClick={storeOrder}>
