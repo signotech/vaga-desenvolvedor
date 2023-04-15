@@ -11,7 +11,9 @@ import Root from './pages/Root';
 import Customers from './pages/Customers';
 import NewCustomer from './pages/NewCustomer';
 import customerServices from './services/customerServices';
+import productServices from './services/productServices';
 import NewProduct from './pages/NewProduct';
+import Products from './pages/Products';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +28,15 @@ const router = createBrowserRouter([
       {
         path: '/clientes/novo',
         element: <NewCustomer />
+      },
+      {
+        path: '/clientes/unico/:id',
+        element: <h1>Jobson</h1>
+      },
+      {
+        path: '/produtos',
+        element: <Products />,
+        loader: () => productServices.getProducts()
       },
       {
         path: '/produtos/novo',
