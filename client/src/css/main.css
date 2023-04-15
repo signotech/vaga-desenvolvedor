@@ -2,6 +2,10 @@ body {
     overflow-x: hidden;
 }
 
+table {
+    margin-bottom: 2rem;
+}
+
 table i {
     cursor: pointer;
 }
@@ -37,6 +41,12 @@ main {
 
 .title {
     font-size: 2rem;
+    margin: 0;
+}
+
+.empty {
+    font-size: 1.5rem;
+    padding: 2rem 0;
     margin: 0;
 }
 

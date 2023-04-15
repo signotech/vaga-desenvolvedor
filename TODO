@@ -7,5 +7,8 @@
 ☐ Modificar a tabela de pedidosProdutos para aceitar colunas descrevendo cada produto (nome, preco, quantidade, valor total)
   Locais para alteração: migrations, modelo, shape, formatter de order do front, talvez orderSerivice, talvez controller
 ✔ Mudar a remoção do pedido para apenas cancelá-lo @done(23-04-15 19:09)
-☐ Criar hook para os filtros
+✔ Criar hook para os filtros @done(23-04-15 19:42)
 ☐ Centralizar exportações
+☐ Adicionar confirmação de pedido
+☐ Adicionar pistas visuais aos status dos pedidos
+☐ Adicionar confirmação às exclusões / cancelamentos

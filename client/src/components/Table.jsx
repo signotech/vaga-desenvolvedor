@@ -15,7 +15,8 @@ export default function Table({
   data = [], 
   handler, 
   classes = '' ,
-  actions = []
+  actions = [],
+  emptyText = false
 }) {
   const [sorter, setSorter] = useState('');
   const [order, setOrder] = useState('asc');
@@ -130,41 +131,51 @@ export default function Table({
     }
   }
 
-  return (
-    <div className={ `table-container ${classes}` }>
-      <table className="responsive-table striped">
-        <thead>
-          <tr>
-          {
-            columns.map(col => <td 
-              onClick={() => {
-                setSorter(col.name)
-                if(sorter === col.name) {
-                  changeOrder();
-                } else {
-                  changeOrder('asc');
-                }
-              }}
-            >
-              <div className="valign-wrapper center-align">
-                <span>{ col.alias }</span>
-                <span className={ isSorter(col)? 'order-indicator' : 'order-indicator-off'}>
-                  { isSorter(col)? getOrderIndicator() : <Icon>unfold_more</Icon>} 
-                </span>
-              </div>
-            </td>)
-          }
-          { !!actions.length && <td>Ações</td> }
-          </tr>
-        </thead>
-        <tbody>
-          {
-            getData().map(item => (
-              getItemTR(item)
-            ))
-          }
-        </tbody>
-      </table>
+  const generateTable = () => {
+    return (
+      <div className={`table-container ${classes}` }>
+        <table className="responsive-table striped">
+          <thead>
+            <tr>
+            {
+              columns.map(col => <td 
+                onClick={() => {
+                  setSorter(col.name)
+                  if(sorter === col.name) {
+                    changeOrder();
+                  } else {
+                    changeOrder('asc');
+                  }
+                }}
+              >
+                <div className="valign-wrapper center-align">
+                  <span>{ col.alias }</span>
+                  <span className={ isSorter(col)? 'order-indicator' : 'order-indicator-off'}>
+                    { isSorter(col)? getOrderIndicator() : <Icon>unfold_more</Icon>} 
+                  </span>
+                </div>
+              </td>)
+            }
+            { !!actions.length && <td>Ações</td> }
+            </tr>
+          </thead>
+          <tbody>
+            {
+              getData().map(item => (
+                getItemTR(item)
+              ))
+            }
+          </tbody>
+        </table>
     </div>
+    )
+  }
+
+  return (
+    data.length === 0 && emptyText
+    ? <p className="empty">Nossa, que vazio! As novas informações
+    que você adicionar poderão ser consultadas aqui :)</p> 
+    : generateTable() 
+    
   )
 }
