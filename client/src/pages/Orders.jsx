@@ -28,7 +28,7 @@ export default function Orders() {
     
     async function deleteOrder(order) {
         await orderServices.deleteOrder(id, order.codigo_pedido);
-        setOrders(prevOrders => prevOrders.filter(curOrder => curOrder !== order));
+        setOrders(prevOrders => prevOrders.map(curOrder => curOrder === order? { ...order, status_pedido: 'Cancelado'} : curOrder));
     }
 
     return (

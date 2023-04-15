@@ -29,9 +29,9 @@ module.exports = {
         res.json(singleOrder);
     },
     async deleteOne(req, res) {
+        console.log('hey');
         const { id_pedido: codigo_pedido } = req.params;
-        console.log('Codigo', codigo_pedido);
-        await pedido.destroy({ where: { codigo_pedido } });
+        await pedido.update({ status_pedido: 'Cancelado' } , { where: { codigo_pedido } });
         res.json({ success: true, deleted: codigo_pedido });
     }
 }

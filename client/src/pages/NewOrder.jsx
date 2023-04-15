@@ -74,7 +74,6 @@ export default function NewOrder() {
         }
     }
     
-
     return(
         <>
             <p className="title">Novo pedido</p>

@@ -11,14 +11,14 @@ export default function OrderForm(props) {
                 <Row>
                     <TextInput 
                         name='status_pedido' 
-                        className='col s6'
+                        className='col m6 s12'
                         label='Status' 
                         value={props.shape.status_pedido} 
                         handler={props.inputHandler}
                     />
                     <TextInput 
                         name='data_pedido' 
-                        className='col s6'
+                        className='col m6 s12'
                         label='Data' 
                         value={props.shape.data_pedido} 
                         handler={props.inputHandler}
