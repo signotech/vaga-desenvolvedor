@@ -11,14 +11,14 @@ export default function ProductForm(props) {
                 <Row>
                     <TextInput 
                         name='sku_produto' 
-                        className='col s6'
+                        className='col m6 s12'
                         label='Código' 
                         value={props.shape.sku_produto} 
                         handler={props.inputHandler}
                     />
                     <TextInput 
                         name='titulo_produto' 
-                        className='col s6'
+                        className='col m6 s12'
                         label='Nome' 
                         value={props.shape.titulo_produto} 
                         handler={props.inputHandler}
@@ -27,14 +27,14 @@ export default function ProductForm(props) {
                 <Row>
                     <TextInput 
                         name='preco' 
-                        className='col s6'
+                        className='col m6 s12'
                         label='Preço' 
                         value={props.shape.preco} 
                         handler={props.inputHandler}
                     />
                     <TextInput 
                         name='estoque' 
-                        className='col s6'
+                        className='col m6 s12'
                         label='Estoque' 
                         value={props.shape.estoque} 
                         handler={props.inputHandler}

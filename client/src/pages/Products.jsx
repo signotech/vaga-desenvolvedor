@@ -2,30 +2,20 @@ import Table from '../components/Table';
 import Icon from '../components/Icon';
 import ProductForm from '../components/ProductForm';
 import productServices from '../services/productServices';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useLoaderData, Link } from 'react-router-dom';
-import useForm from '../hooks/useForm';
 import { Product } from '../Shapes';
+import useFilter from '../hooks/useFilter';
 
 
 export default function Products() {
 
     const [products, setProducts] = useState(useLoaderData());
-    const [filteredProducts, setFilteredProducts] = useState(products);
-    const [filters, handleFilterInput] = useForm(new Product());
-    console.log(filteredProducts);
-
-    useEffect(() => setFilteredProducts(products), [products]);
-
-    useEffect(() => {
-        async function fetchFilteredProducts() {
-            const filteredProductsData = await productServices.getProducts(filters);
-            setFilteredProducts(filteredProductsData);
-        }
-
-        fetchFilteredProducts();
-    }, [filters])
-
+    const [filteredProducts, filters, handleFilterInput] = useFilter({
+        originalData: products,
+        formShape: Product,
+        fetcher: productServices.getProducts
+    })
 
     async function deleteProduct({ id }) {
         const { deleted } = await productServices.deleteProduct(id);

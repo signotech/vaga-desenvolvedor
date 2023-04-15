@@ -8,3 +8,4 @@
   Locais para alteração: migrations, modelo, shape, formatter de order do front, talvez orderSerivice, talvez controller
 ✔ Mudar a remoção do pedido para apenas cancelá-lo @done(23-04-15 19:09)
 ☐ Criar hook para os filtros
+☐ Centralizar exportações

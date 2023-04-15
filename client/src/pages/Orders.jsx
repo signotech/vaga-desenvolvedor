@@ -3,28 +3,20 @@ import Icon from '../components/Icon';
 import OrderForm from '../components/OrderForm';
 import orderServices from '../services/orderServices';
 import { Order } from '../Shapes';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useLoaderData, useParams, Link } from 'react-router-dom';
-import useForm from '../hooks/useForm';
+import useFilter from '../hooks/useFilter';
 
 
 export default function Orders() {
-    const [orders, setOrders] = useState(useLoaderData());
-    const [filteredOrders, setFilteredOrders] = useState([]);
-    const [filters, handleFilterInput] = useForm(new Order());
     const { id } = useParams();
-
-    useEffect(() => setFilteredOrders(orders), [orders]);
-
-    useEffect(() => {
-        async function fetchFilteredCustomers() {
-            const ordersData = await orderServices.getOrders(filters, id);
-            setOrders(ordersData);
-        }
-
-        fetchFilteredCustomers();
-    }, [filters])
-
+    const [orders, setOrders] = useState(useLoaderData());
+    const [filteredOrders, filters, handleFilterInput] = useFilter({
+        originalData: orders,
+        formShape: Order,
+        fetcher: orderServices.getOrders,
+        fetcherArgs: [id]
+    });
     
     async function deleteOrder(order) {
         await orderServices.deleteOrder(id, order.codigo_pedido);

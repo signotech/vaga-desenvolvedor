@@ -2,29 +2,20 @@ import Table from '../components/Table';
 import Icon from '../components/Icon';
 import CustomerForm from '../components/CustomerForm';
 import customerServices from '../services/customerServices';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useLoaderData, useNavigate, Link } from 'react-router-dom';
-import useForm from '../hooks/useForm';
+import useFilter from '../hooks/useFilter';
 import { Customer } from '../Shapes';
 
 
 export default function Customers() {
-    const [customers, setCustomers] = useState(useLoaderData());
-    const [filteredCustomers, setFilteredCustomers] = useState(customers);
-    const [filters, handleFilterInput] = useForm(new Customer());
     const navigate = useNavigate();
-
-    useEffect(() => setFilteredCustomers(customers), [customers]);
-
-    useEffect(() => {
-        async function fetchFilteredCustomers() {
-            const customersData = await customerServices.getCustomers(filters);
-            setFilteredCustomers(customersData);
-        }
-
-        fetchFilteredCustomers();
-    }, [filters])
-
+    const [customers, setCustomers] = useState(useLoaderData());
+    const [filteredCustomers, filters, handleFilterInput] = useFilter({
+        originalData: customers,
+        formShape: Customer,
+        fetcher: customerServices.getCustomers
+    })
 
     async function deleteCustomer({ id }) {
         const { deleted } = await customerServices.deleteCustomer(id);
