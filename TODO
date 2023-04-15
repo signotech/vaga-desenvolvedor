@@ -1,0 +1,1 @@
+☐ Consertar filtros para não fazerem uma requisição cada vez que o usuário digita (possivelmente com debounce ou botão de envio)

@@ -6,6 +6,8 @@ router.route('/pedidos')
 
 router.route('/pedidos/:id')
     .get(orderController.getSome)
+
+router.route('/pedidos/:id_cliente/:id_pedido')
     .get(orderController.getOne)
     .delete(orderController.deleteOne);
 

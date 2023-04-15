@@ -15,6 +15,7 @@ import productServices from './services/productServices';
 import NewProduct from './pages/NewProduct';
 import Products from './pages/Products';
 import Orders from './pages/Orders';
+import orderServices from './services/orderServices';
 
 const router = createBrowserRouter([
   {
@@ -31,8 +32,9 @@ const router = createBrowserRouter([
         element: <NewCustomer />
       },
       {
-        path: '/clientes/unico/:id',
-        element: <Orders />
+        path: '/pedidos/cliente/:id',
+        element: <Orders />,
+        loader: ({ params }) => orderServices.getOrders({}, params.id)
       },
       {
         path: '/produtos',

@@ -11,6 +11,7 @@ module.exports = {
     },
     async getSome(req, res) {
         const { id } = req.params;
+        console.log('Query:', req.query);
         const formattedQuery = Helpers.formatFilters(req.query);
         formattedQuery.id_cliente_pedido = id;
         const filteredOrders = await pedido.findAll({ 
