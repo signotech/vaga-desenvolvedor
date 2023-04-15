@@ -14,6 +14,7 @@ import customerServices from './services/customerServices';
 import productServices from './services/productServices';
 import NewProduct from './pages/NewProduct';
 import Products from './pages/Products';
+import Orders from './pages/Orders';
 
 const router = createBrowserRouter([
   {
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/clientes/unico/:id',
-        element: <h1>Jobson</h1>
+        element: <Orders />
       },
       {
         path: '/produtos',

@@ -5,18 +5,13 @@ import customerServices from '../services/customerServices';
 import { useEffect, useState } from 'react';
 import { useLoaderData, Link } from 'react-router-dom';
 import useForm from '../hooks/useForm';
+import { Customer } from '../Shapes';
 
 
 export default function Customers() {
-    const customerShape = {
-        cpf_cliente: '',
-        nome_cliente: '',
-        email_cliente: ''
-    };
-
     const [customers, setCustomers] = useState(useLoaderData());
     const [filteredCustomers, setFilteredCustomers] = useState(customers);
-    const [filters, handleFilterInput] = useForm(customerShape);
+    const [filters, handleFilterInput] = useForm(new Customer());
 
     useEffect(() => setFilteredCustomers(customers), [customers]);
 

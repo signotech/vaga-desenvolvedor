@@ -14,3 +14,12 @@ export class Product {
         this.preco = '';
     }
 }
+
+export class Order {
+    constructor() {
+        this.id_cliente_pedido = null;
+        this.valor_pedido = '';
+        this.data_pedido = '';
+        this.status_pedido = '';
+    }
+}
