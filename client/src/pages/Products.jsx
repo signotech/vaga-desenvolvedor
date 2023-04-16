@@ -7,6 +7,7 @@ import { useLoaderData, useNavigate, Link } from 'react-router-dom';
 import { Product } from '../Shapes';
 import useFilter from '../hooks/useFilter';
 import Title from '../components/Title';
+import Confirm from '../components/Confirm';
 
 
 export default function Products() {
@@ -17,6 +18,7 @@ export default function Products() {
         formShape: Product,
         fetcher: productServices.getProducts
     })
+    const [toConfirm, setToConfirm] = useState(null);
 
     async function deleteProduct({ id }) {
         const { deleted } = await productServices.deleteProduct(id);
@@ -29,6 +31,9 @@ export default function Products() {
 
     return (
         <>
+            <Confirm toggler={toConfirm} confirmFunction={() => deleteProduct(toConfirm)} closeModal={() => setToConfirm(null)}>
+                Deseja deletar este produto?
+            </Confirm>
             <Title>Buscar produtos</Title>
             <ProductForm
                 shape={filters}
@@ -60,7 +65,7 @@ export default function Products() {
                         icon: <Icon>edit</Icon>
                     },
                     {
-                        handler: deleteProduct,
+                        handler: (prod) => setToConfirm(prod),
                         icon: <Icon>close</Icon>
                     }
                 ]}

@@ -8,12 +8,14 @@ import { useLoaderData, useParams, useNavigate, Link } from 'react-router-dom';
 import useFilter from '../hooks/useFilter';
 import Money from '../values/Money';
 import Title from '../components/Title';
+import Confirm from '../components/Confirm';
 
 export default function Orders() {
     const navigate = useNavigate();
     const { id } = useParams();
     const { orders: customerOrders, customer } = useLoaderData();
     const [orders, setOrders] = useState(customerOrders);
+    const [toConfirm, setToConfirm] = useState(null);
     const [filteredOrders, filters, handleFilterInput] = useFilter({
         originalData: orders,
         formShape: Order,
@@ -37,6 +39,13 @@ export default function Orders() {
 
     return (
         <>
+            <Confirm 
+                toggler={toConfirm} 
+                confirmFunction={() => changeOrderStatus('Cancelado')(toConfirm)} 
+                closeModal={() => setToConfirm(null)}
+            >
+                Deseja deletar este pedido?
+            </Confirm>
             <Title canGoBack>Buscar pedidos</Title>
             <OrderForm
                 shape={filters}
@@ -70,7 +79,7 @@ export default function Orders() {
                         icon: <Icon>check</Icon>
                     },
                     {
-                        handler: changeOrderStatus('Cancelado'),
+                        handler: (order) => setToConfirm(order),
                         icon: <Icon>close</Icon>
                     }
                     

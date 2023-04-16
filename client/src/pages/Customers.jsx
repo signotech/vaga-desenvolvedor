@@ -7,6 +7,7 @@ import { useLoaderData, useNavigate, Link } from 'react-router-dom';
 import useFilter from '../hooks/useFilter';
 import { Customer } from '../Shapes';
 import Title from '../components/Title';
+import Confirm from '../components/Confirm';
 
 export default function Customers() {
     const navigate = useNavigate();
@@ -16,6 +17,8 @@ export default function Customers() {
         formShape: Customer,
         fetcher: customerServices.getCustomers
     })
+
+    const [toConfirm, setToConfirm] = useState(null);
 
     async function deleteCustomer({ id }) {
         const { deleted } = await customerServices.deleteCustomer(id);
@@ -28,7 +31,10 @@ export default function Customers() {
 
     return (
         <>
-           <Title>Buscar clientes</Title>
+            <Confirm toggler={toConfirm} confirmFunction={() => deleteCustomer(toConfirm)} closeModal={() => setToConfirm(null)}>
+                Deseja deletar este cliente?
+            </Confirm>
+            <Title>Buscar clientes</Title>
             <CustomerForm 
                 shape={filters}
                 inputHandler={handleFilterInput}
@@ -59,7 +65,7 @@ export default function Customers() {
                         icon: <Icon>edit</Icon>
                     },
                     {
-                        handler: deleteCustomer,
+                        handler: (customer) => setToConfirm(customer),
                         icon: <Icon>close</Icon>
                     }
                 ]}
