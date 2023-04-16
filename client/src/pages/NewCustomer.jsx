@@ -8,15 +8,16 @@ import Title from "../components/Title";
 
 export default function NewCustomer() {
 
-    const [newCustomer, handleNewCustomerInput] = useForm(new Customer());
+    const [newCustomer, handleNewCustomerInput, clearCustomerForm] = useForm(new Customer());
 
     async function createCustomer(formValues) {
         await customerServices.storeCustomer(formValues);
+        clearCustomerForm();
     }
 
     return(
         <> 
-            <Title canGoBack>Adicionar clientes</Title>
+            <Title canGoBack>Adicionar cliente</Title>
             <CustomerForm 
                 shape={newCustomer}
                 inputHandler={handleNewCustomerInput}

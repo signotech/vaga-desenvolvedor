@@ -8,11 +8,13 @@ import { useLoaderData, useParams, Link } from 'react-router-dom';
 import useFilter from '../hooks/useFilter';
 import Money from '../values/Money';
 import Title from '../components/Title';
+import Row from '../components/Row';
 
 
 export default function Orders() {
     const { id } = useParams();
-    const [orders, setOrders] = useState(useLoaderData());
+    const { orders: customerOrders, customer } = useLoaderData();
+    const [orders, setOrders] = useState(customerOrders);
     const [filteredOrders, filters, handleFilterInput] = useFilter({
         originalData: orders,
         formShape: Order,
@@ -27,6 +29,8 @@ export default function Orders() {
         )));
     }
 
+    console.log(customer);
+
     return (
         <>
             <Title canGoBack>Buscar pedidos</Title>
@@ -34,6 +38,7 @@ export default function Orders() {
                 shape={filters}
                 inputHandler={handleFilterInput}
             />
+            <p>Pedidos de: {customer.nome_cliente}</p>
             <Table
                 data={filteredOrders}
                 columns={[

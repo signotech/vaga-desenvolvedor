@@ -5,6 +5,7 @@ body {
 .table-container {
     max-height: 300px;
     overflow-y: auto;
+    margin-bottom: 2rem;
 }
 
 thead {
@@ -12,10 +13,6 @@ thead {
     top: 0;
     left: 0;
     background-color: rgb(255, 255, 255);
-}
-
-table {
-    margin-bottom: 2rem;
 }
 
 table i {
@@ -54,10 +51,15 @@ main {
 
 .title {
     font-size: 2rem;
-    margin: 0;
     display: flex;
     align-items: center;
     gap: 1rem;
+    margin: 0;
+    margin-top: 1rem;
+}
+
+.title.can-go-back {
+    margin: 1rem 0;
 }
 
 .empty {

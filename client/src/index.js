@@ -35,7 +35,14 @@ const router = createBrowserRouter([
       {
         path: '/pedidos/cliente/:id',
         element: <Orders />,
-        loader: ({ params }) => orderServices.getOrders({}, params.id)
+        loader: async ({ params }) => {
+          const orders = await orderServices.getOrders({}, params.id);
+          const customer = await customerServices.getCustomers({ id: params.id });
+          return {
+            orders,
+            customer: customer[0]
+          }
+        }
       },
       {
         path: '/pedidos/cliente/:id/novo',
