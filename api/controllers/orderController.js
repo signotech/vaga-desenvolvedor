@@ -1,6 +1,7 @@
 const Pedido = require('../models/Pedido');
 const PedidoProduto = require('../models/PedidoProduto');
-const Produto = require('../models/Produto')
+const Produto = require('../models/Produto');
+const Cliente = require('../models/Cliente');
 const Helpers = require('../helpers/Helpers');
 
 module.exports = {
@@ -23,6 +24,7 @@ module.exports = {
 
     async getOne(req, res) {
         const { id_pedido } = req.params;
+        console.log(id_pedido);
         const singleOrder = await Pedido.findOne({ 
             where: { codigo_pedido: id_pedido },
             include: [
@@ -32,8 +34,8 @@ module.exports = {
                 }
             ]
         });
-        console.log(singleOrder);
-        res.json(singleOrder);
+        const customer = await Cliente.findOne({ where: { id: singleOrder.id_cliente_pedido } });
+        res.json({ order: singleOrder, customer });
     },
 
     async deleteOne(req, res) {

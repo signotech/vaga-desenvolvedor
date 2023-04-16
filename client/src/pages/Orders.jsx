@@ -4,12 +4,13 @@ import OrderForm from '../components/OrderForm';
 import orderServices from '../services/orderServices';
 import { Order } from '../Shapes';
 import { useState } from 'react';
-import { useLoaderData, useParams, Link } from 'react-router-dom';
+import { useLoaderData, useParams, useNavigate, Link } from 'react-router-dom';
 import useFilter from '../hooks/useFilter';
 import Money from '../values/Money';
 import Title from '../components/Title';
 
 export default function Orders() {
+    const navigate = useNavigate();
     const { id } = useParams();
     const { orders: customerOrders, customer } = useLoaderData();
     const [orders, setOrders] = useState(customerOrders);
@@ -27,6 +28,11 @@ export default function Orders() {
                 curOrder.codigo_pedido === order.codigo_pedido? { ...order, status_pedido: status} : curOrder
             )));
         }
+    }
+
+    function navigateToOrder(customerId, orderId) {
+        console.log();
+        navigate(`/pedidos/cliente/${customerId}/${orderId}`);
     }
 
     return (
@@ -56,17 +62,18 @@ export default function Orders() {
                 ]}
                 actions={[
                     {
-                        handler: changeOrderStatus('Pago'),
-                        icon: <Icon>check</Icon>
+                        handler: (order) => navigateToOrder(order.id_cliente_pedido, order.codigo_pedido),
+                        icon: <Icon>note</Icon>
                     },
                     {
-                        handler: console.log,
-                        icon: <Icon>edit</Icon>
+                        handler: changeOrderStatus('Pago'),
+                        icon: <Icon>check</Icon>
                     },
                     {
                         handler: changeOrderStatus('Cancelado'),
                         icon: <Icon>close</Icon>
                     }
+                    
                 ]}
             />
             <Link to={`/pedidos/cliente/${id}/novo`} className="btn blue darken-1 waves-light" type="submit">

@@ -7,6 +7,11 @@ const services = {
         return response.data;
     },
 
+    async getSingleOrder(params) {
+        const response = await axios.get(`${host}/pedidos/${params.id_cliente}/${params.id_pedido}`);
+        return response.data;
+    },
+
     async storeOrders(orderData) {
         const response = await axios.post(`${host}/pedidos`, orderData);
         return response.data;

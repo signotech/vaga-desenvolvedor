@@ -21,7 +21,7 @@ export default function LoadingButton(props) {
     function renderButton() {
         if(isLoading) {
             return (
-                <button className="col s12 m6 btn loading-btn blue-grey lighten-5 waves-light" type="submit">
+                <button className={`col s12 m6 btn loading-btn ${props.color || 'blue-grey lighten-5 '} waves-light`} type="submit">
                     <Spinner />
                 </button>
             )

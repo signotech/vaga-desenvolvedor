@@ -47,10 +47,19 @@ export default function Table({
     )
   }
 
+  const recursiveAccess = (item, name) => {
+    const layers = name.split('.');
+    if(layers.length === 1) {
+      return item[layers[0]];
+    } else {
+      return recursiveAccess(item[layers[0]], layers.slice(1).join('.'));
+    }
+  }
+
   const orderItemData = (item) => {
     const values = [];
     for(const col of columns) {
-      const itemVal = col.modifier? col.modifier(item[col.name]) : item[col.name];
+      const itemVal = col.modifier? col.modifier(recursiveAccess(item, col.name)) : recursiveAccess(item, col.name);
       values.push(itemVal);
     }
     return values;

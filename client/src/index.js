@@ -17,6 +17,7 @@ import Products from './pages/Products';
 import Orders from './pages/Orders';
 import orderServices from './services/orderServices';
 import NewOrder from './pages/NewOrder';
+import SingleOrder from './pages/SingleOrder';
 
 const router = createBrowserRouter([
   {
@@ -50,12 +51,21 @@ const router = createBrowserRouter([
         loader: () => productServices.getProducts()
       },
       {
+        path: '/pedidos/cliente/:id_cliente/:id_pedido',
+        element: <SingleOrder />,
+        loader: ({ params }) => orderServices.getSingleOrder(params)
+      },
+      {
         path: '/produtos',
         element: <Products />,
         loader: () => productServices.getProducts()
       },
       {
         path: '/produtos/novo',
+        element: <NewProduct />
+      },
+      {
+        path: '/produtos/editar/:id_produto',
         element: <NewProduct />
       }
     ]
