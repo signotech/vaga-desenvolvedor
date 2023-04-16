@@ -20,12 +20,17 @@ import NewOrder from './pages/NewOrder';
 import SingleOrder from './pages/SingleOrder';
 import SingleProduct from './pages/SingleProduct';
 import SingleCustomer from './pages/SingleCustomer';
+import Home from './pages/Home';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
     children: [
+      {
+        path: '/',
+        element: <Home />
+      },
       {
         path: '/clientes',
         element: <Customers />,

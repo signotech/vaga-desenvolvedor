@@ -23,7 +23,7 @@ export default function Navbar() {
         <>
             <nav className='blue darken-1'>
                 <div className="nav-wrapper">
-                    <a href="#!" className="brand-logo">Logo</a>
+                    <Link className="brand-logo" to="/">Su.Gestão</Link>
                     <a href="#" data-target="mobile-demo" className="sidenav-trigger"><i className="material-icons">menu</i></a>
                     <ul className="right hide-on-med-and-down">
                         <NavLinks />

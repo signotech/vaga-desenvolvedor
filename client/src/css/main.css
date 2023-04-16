@@ -123,3 +123,9 @@ main {
 .confirm-text {
     font-size: 18px;
 }
+
+.home-links {
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(250px, 1fr) );
+    gap: 1rem;
+}
