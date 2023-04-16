@@ -7,6 +7,7 @@ router.route('/clientes')
 
 router.route('/clientes/:id')
     .get(customerController.getOne)
+    .put(customerController.updateOne)
     .delete(customerController.deleteOne)
 
 module.exports = router;

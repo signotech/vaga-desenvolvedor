@@ -9,6 +9,7 @@ router.route('/pedidos/:id')
 
 router.route('/pedidos/:id_cliente/:id_pedido')
     .get(orderController.getOne)
+    .put(orderController.updateOne)
     .delete(orderController.deleteOne);
 
 module.exports = router;

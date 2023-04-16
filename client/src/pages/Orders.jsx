@@ -8,8 +8,6 @@ import { useLoaderData, useParams, Link } from 'react-router-dom';
 import useFilter from '../hooks/useFilter';
 import Money from '../values/Money';
 import Title from '../components/Title';
-import Row from '../components/Row';
-
 
 export default function Orders() {
     const { id } = useParams();
@@ -21,15 +19,15 @@ export default function Orders() {
         fetcher: orderServices.getOrders,
         fetcherArgs: [id]
     });
-    
-    async function deleteOrder(order) {
-        await orderServices.deleteOrder(id, order.codigo_pedido);
-        setOrders(prevOrders => prevOrders.map(curOrder => (
-            curOrder.codigo_pedido === order.codigo_pedido? { ...order, status_pedido: 'Cancelado'} : curOrder
-        )));
-    }
 
-    console.log(customer);
+    function changeOrderStatus(status) {
+        return async (order) => {
+            await orderServices.updateOrder(id, order.codigo_pedido, { status_pedido: status});
+            setOrders(prevOrders => prevOrders.map(curOrder => (
+                curOrder.codigo_pedido === order.codigo_pedido? { ...order, status_pedido: status} : curOrder
+            )));
+        }
+    }
 
     return (
         <>
@@ -58,7 +56,7 @@ export default function Orders() {
                 ]}
                 actions={[
                     {
-                        handler: console.log,
+                        handler: changeOrderStatus('Pago'),
                         icon: <Icon>check</Icon>
                     },
                     {
@@ -66,7 +64,7 @@ export default function Orders() {
                         icon: <Icon>edit</Icon>
                     },
                     {
-                        handler: deleteOrder,
+                        handler: changeOrderStatus('Cancelado'),
                         icon: <Icon>close</Icon>
                     }
                 ]}

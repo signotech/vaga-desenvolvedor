@@ -1,6 +1,6 @@
 const { Model, Sequelize } = require('sequelize');
 
-class cliente extends Model {
+class Cliente extends Model {
     static init(sequelize) {
         super.init({
             cpf_cliente: {
@@ -15,4 +15,4 @@ class cliente extends Model {
     }
 }
 
-module.exports = cliente;
+module.exports = Cliente;

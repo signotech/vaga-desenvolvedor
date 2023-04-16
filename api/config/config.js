@@ -10,7 +10,8 @@ module.exports = {
         dialect: process.env.DB_DIALECT,
         logging: true,
         define: {
-            timestamps: false
+            timestamps: false,
+            underscored: true
         }
     }
 };

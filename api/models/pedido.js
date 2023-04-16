@@ -1,6 +1,6 @@
 const { Model, Sequelize } = require('sequelize');
 
-class pedido extends Model {
+class Pedido extends Model {
     static init(sequelize) {
         super.init({
             id_cliente_pedido: Sequelize.INTEGER,
@@ -15,7 +15,7 @@ class pedido extends Model {
                 defaultValue: Sequelize.NOW
             },
             status_pedido: {
-                type: Sequelize.toString(9),
+                type: Sequelize.STRING(9),
                 defaultValue: 'Aberto'
             }
         }, {
@@ -24,4 +24,4 @@ class pedido extends Model {
     }
 }
 
-module.exports = pedido;
+module.exports = Pedido;

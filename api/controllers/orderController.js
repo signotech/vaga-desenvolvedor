@@ -1,37 +1,50 @@
-const pedido = require('../models/pedido');
-const produtosPedido = require('../models/produtosPedido');
+const Pedido = require('../models/Pedido');
+const PedidoProduto = require('../models/PedidoProduto');
+const Produto = require('../models/Produto')
 const Helpers = require('../helpers/Helpers');
 
 module.exports = {
     async store(req, res) {
         const { id_cliente_pedido, valor_pedido, itens } = req.body;
-        console.log(itens);
-        const order = await pedido.create({ id_cliente_pedido, valor_pedido });
-        await produtosPedido.bulkCreate(itens.map(item => ({ ...item, codigo_pedido: order.codigo_pedido })));
+        const order = await Pedido.create({ id_cliente_pedido, valor_pedido });
+        await PedidoProduto.bulkCreate(itens.map(item => ({ ...item, codigo_pedido: order.codigo_pedido })));
         return res.json({ order, itens });
     },
+
     async getSome(req, res) {
         const { id } = req.params;
-        console.log('Query:', req.query);
         const formattedQuery = Helpers.formatFilters(req.query);
         formattedQuery.id_cliente_pedido = id;
-        const filteredOrders = await pedido.findAll({ 
-            where: formattedQuery,
-            attributes: ['id_cliente_pedido', 'codigo_pedido', 'valor_pedido', 'data_pedido', 'status_pedido']
+        const filteredOrders = await Pedido.findAll({ 
+            where: formattedQuery
         });
         res.json(filteredOrders);
     },
+
     async getOne(req, res) {
-        const { id } = req.params;
-        const singleOrder = await pedido.findOne({ 
-            where: { id }
+        const { id_pedido } = req.params;
+        const singleOrder = await Pedido.findOne({ 
+            where: { codigo_pedido: id_pedido },
+            include: [
+                {
+                    model: Produto,
+                    through: PedidoProduto
+                }
+            ]
         });
+        console.log(singleOrder);
         res.json(singleOrder);
     },
+
     async deleteOne(req, res) {
-        console.log('hey');
         const { id_pedido: codigo_pedido } = req.params;
-        await pedido.update({ status_pedido: 'Cancelado' } , { where: { codigo_pedido } });
+        await Pedido.update({ status_pedido: 'Cancelado' } , { where: { codigo_pedido } });
         res.json({ success: true, deleted: codigo_pedido });
+    },
+
+    async updateOne(req, res) {
+        const { id_pedido: codigo_pedido } = req.params;
+        await Pedido.update(req.body , { where: { codigo_pedido } });
+        res.json({ success: true, updated: codigo_pedido });
     }
 }

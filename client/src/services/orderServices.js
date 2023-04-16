@@ -15,6 +15,11 @@ const services = {
     async deleteOrder(customerId, orderId) {
         const response = await axios.delete(`${host}/pedidos/${customerId}/${orderId}`);
         return response.data;
+    },
+
+    async updateOrder(customerId, orderId, updatedData) {
+        const response = await axios.put(`${host}/pedidos/${customerId}/${orderId}`, updatedData);
+        return response.data;
     }
 }
 

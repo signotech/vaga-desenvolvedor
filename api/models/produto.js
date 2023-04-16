@@ -1,8 +1,13 @@
 const { Model, Sequelize } = require('sequelize');
 
-class produto extends Model {
+class Produto extends Model {
     static init(sequelize) {
         super.init({
+            id: {
+                type: Sequelize.INTEGER,
+                primaryKey: true,
+                autoIncrement: true
+            },
             sku_produto: {
                 type: Sequelize.STRING(100),
                 unique: true
@@ -12,8 +17,10 @@ class produto extends Model {
             estoque: Sequelize.INTEGER
         }, {
             sequelize
-        });
+        },
+        
+        );
     }
 }
 
-module.exports = produto;
+module.exports = Produto;
