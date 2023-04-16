@@ -3,21 +3,35 @@ const Helpers = require('../helpers/Helpers');
 
 module.exports = {
     async store(req, res) {
-        const { cpf_cliente, nome_cliente, email_cliente } = req.body;
-        const customer = await Cliente.create({ cpf_cliente, nome_cliente, email_cliente });
-        return res.json(customer);
+        try {
+            const { cpf_cliente, nome_cliente, email_cliente } = req.body;
+            const customer = await Cliente.create({ cpf_cliente, nome_cliente, email_cliente });
+            return res.json(customer);
+        } catch(error) {
+            console.log(error);
+        }
     },
 
     async getSome(req, res) {
-        const filteredCustomers = await Cliente.findAll({where: Helpers.formatFilters(req.query)});
-        res.json(filteredCustomers);
+        try {
+            const filteredCustomers = await Cliente.findAll({where: Helpers.formatFilters(req.query)});
+            res.json(filteredCustomers);
+        } catch(error) {
+            console.log(error);
+        }
+        
     },
 
     async getOne(req, res) {
-        const { id } = req.params;
-        const singleCustomer = await Cliente.findOne({ where: { id }});
-        console.log(singleCustomer);
-        res.json(singleCustomer);
+        try {
+            const { id } = req.params;
+            const singleCustomer = await Cliente.findOne({ where: { id }});
+            console.log(singleCustomer);
+            res.json(singleCustomer);
+        } catch(error) {
+            console.log(error);
+        }
+        
     },
 
     async deleteOne(req, res) {

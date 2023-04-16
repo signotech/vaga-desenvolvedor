@@ -3,20 +3,35 @@ const Helpers = require('../helpers/Helpers');
 
 module.exports = {
     async store(req, res) {
-        const { sku_produto, titulo_produto, preco, estoque } = req.body;
-        const product = await Produto.create({ sku_produto, titulo_produto, preco: parseFloat(preco), estoque });
-        return res.json(product);
+        try {
+            const { sku_produto, titulo_produto, preco, estoque } = req.body;
+            const product = await Produto.create({ sku_produto, titulo_produto, preco: parseFloat(preco), estoque });
+            return res.json(product);
+        } catch(error) {
+            console.log(error);
+        }
+        
     },
 
     async getSome(req, res) {
-        const filteredProducts = await Produto.findAll({ where: Helpers.formatFilters(req.query) });
-        res.json(filteredProducts);
+        try {
+            const filteredProducts = await Produto.findAll({ where: Helpers.formatFilters(req.query) });
+            res.json(filteredProducts);
+        } catch(error) {
+            console.log(error);
+        }
+        
     },
 
     async getOne(req, res) {
-        const { id } = req.params;
-        const singleProduct = await Produto.findOne({ where: { id }});
-        res.json(singleProduct);
+        try {
+            const { id } = req.params;
+            const singleProduct = await Produto.findOne({ where: { id }});
+            res.json(singleProduct);
+        } catch(error) {
+            console.log(error);
+        }
+        
     },
 
     async deleteOne(req, res) {

@@ -38,7 +38,6 @@ export default function Table({
         const chunk = array.slice(i, i + chunkSize);
         chunkedArray.push(chunk);
     }
-    console.log(chunkedArray);
     return chunkedArray;
   }
 

@@ -12,7 +12,6 @@ module.exports = class Helpers {
                 } 
             }
         }
-        console.log(newFilters);
         return newFilters;
     }
 

@@ -33,7 +33,6 @@ export default function Orders() {
     }
 
     function navigateToOrder(customerId, orderId) {
-        console.log();
         navigate(`/pedidos/cliente/${customerId}/${orderId}`);
     }
 
