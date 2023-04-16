@@ -16,6 +16,7 @@ module.exports = {
     async getOne(req, res) {
         const { id } = req.params;
         const singleCustomer = await Cliente.findOne({ where: { id }});
+        console.log(singleCustomer);
         res.json(singleCustomer);
     },
 

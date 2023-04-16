@@ -11,7 +11,7 @@
 ☐ Centralizar exportações
 ✔ Adicionar confirmação de pedido @done(23-04-16 15:03)
 ☐ Adicionar pistas visuais aos status dos pedidos
-☐ Adicionar confirmação às exclusões / cancelamentos
+✔ Adicionar confirmação às exclusões / cancelamentos @done(23-04-16 17:21)
 ☐ Criar seeds
 ☐ Deixar o código mais limpo tornando os componentes mais genéricos (Formulários, páginas de edição)
 ☐ Adicionar error handling
