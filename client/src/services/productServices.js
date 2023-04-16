@@ -7,6 +7,11 @@ const services = {
         return response.data;
     },
 
+    async getSingleProduct(id) {
+        const response = await axios.get(`${host}/produtos/${id}`);
+        return response.data;
+    },
+
     async storeProduct(productData) {
         const response = await axios.post(`${host}/produtos`, productData);
         return response.data;
@@ -14,6 +19,11 @@ const services = {
 
     async deleteProduct(productId) {
         const response = await axios.delete(`${host}/produtos/${productId}`);
+        return response.data;
+    },
+
+    async updateProduct(productId, data) {
+        const response = await axios.put(`${host}/produtos/${productId}`, data);
         return response.data;
     }
 }

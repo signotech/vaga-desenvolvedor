@@ -32,7 +32,7 @@ module.exports = {
     async updateOne(req, res) {
         try {
             const { id } = req.params;
-            await Produto.update(req, body, { where: { id } });
+            await Produto.update(req.body, { where: { id } });
             res.json({ success: true, updated: id });
         } catch(e) {
             console.log(e);

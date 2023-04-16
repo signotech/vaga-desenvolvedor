@@ -14,7 +14,7 @@ export default function TextInput(props) {
             required={props.required}
             disabled={props.disabled}
           />
-          <label htmlFor={props.name}>{props.label}</label>
+          <label className={props.active? 'active' : ''} htmlFor={props.name}>{props.label}</label>
           {props.children}
         </div>
     )

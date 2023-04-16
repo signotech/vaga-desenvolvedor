@@ -3,14 +3,14 @@ import Icon from '../components/Icon';
 import ProductForm from '../components/ProductForm';
 import productServices from '../services/productServices';
 import { useState } from 'react';
-import { useLoaderData, Link } from 'react-router-dom';
+import { useLoaderData, useNavigate, Link } from 'react-router-dom';
 import { Product } from '../Shapes';
 import useFilter from '../hooks/useFilter';
 import Title from '../components/Title';
 
 
 export default function Products() {
-
+    const navigate = useNavigate();
     const [products, setProducts] = useState(useLoaderData());
     const [filteredProducts, filters, handleFilterInput] = useFilter({
         originalData: products,
@@ -21,6 +21,10 @@ export default function Products() {
     async function deleteProduct({ id }) {
         const { deleted } = await productServices.deleteProduct(id);
         setProducts(prevProducts => prevProducts.filter(product => product.id !== Number(deleted)));
+    }
+
+    async function navigateToSingleProduct({ id }) {
+        navigate(`/produtos/editar/${id}`)
     }
 
     return (
@@ -52,7 +56,7 @@ export default function Products() {
                 ]}
                 actions={[
                     {
-                        handler: console.log,
+                        handler: navigateToSingleProduct,
                         icon: <Icon>edit</Icon>
                     },
                     {

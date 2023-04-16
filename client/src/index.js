@@ -18,6 +18,7 @@ import Orders from './pages/Orders';
 import orderServices from './services/orderServices';
 import NewOrder from './pages/NewOrder';
 import SingleOrder from './pages/SingleOrder';
+import SingleProduct from './pages/SingleProduct';
 
 const router = createBrowserRouter([
   {
@@ -66,7 +67,8 @@ const router = createBrowserRouter([
       },
       {
         path: '/produtos/editar/:id_produto',
-        element: <NewProduct />
+        element: <SingleProduct />,
+        loader: ({ params }) => productServices.getSingleProduct(params.id_produto)
       }
     ]
   },

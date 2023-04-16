@@ -1,6 +1,6 @@
 ☐ Consertar filtros para não fazerem uma requisição cada vez que o usuário digita (possivelmente com debounce ou botão de envio)
 ☐ Adicionar required aos campos de texto
-☐ Criar indicativo de ação de salvamento
+✔ Criar indicativo de ação de salvamento @done(23-04-16 15:03)
 ☐ Criar rotas e funcionalidade de atualização
 ☐ Adicionar as limitações aos inputs de texto
 ✔ Adicionar objeto money @done(23-04-15 19:12)
@@ -9,7 +9,7 @@
 ✔ Mudar a remoção do pedido para apenas cancelá-lo @done(23-04-15 19:09)
 ✔ Criar hook para os filtros @done(23-04-15 19:42)
 ☐ Centralizar exportações
-☐ Adicionar confirmação de pedido
+✔ Adicionar confirmação de pedido @done(23-04-16 15:03)
 ☐ Adicionar pistas visuais aos status dos pedidos
 ☐ Adicionar confirmação às exclusões / cancelamentos
 ☐ Criar seeds
