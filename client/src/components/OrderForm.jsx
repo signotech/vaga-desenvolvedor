@@ -4,10 +4,7 @@ import Row from "./Row";
 export default function OrderForm(props) {
     return (
         <>
-            <form className="col s12" onSubmit={(e) => {
-                e.preventDefault();
-                props.submitHandler(props.shape);
-            }}>
+            <form className="col s12" onSubmit={ (e) => e.preventDefault() }>
                 <Row>
                     <TextInput 
                         name='status_pedido' 

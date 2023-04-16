@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useLoaderData, Link } from 'react-router-dom';
 import { Product } from '../Shapes';
 import useFilter from '../hooks/useFilter';
+import Title from '../components/Title';
 
 
 export default function Products() {
@@ -24,7 +25,7 @@ export default function Products() {
 
     return (
         <>
-            <p className="title">Buscar produtos</p>
+            <Title>Buscar produtos</Title>
             <ProductForm
                 shape={filters}
                 inputHandler={handleFilterInput}

@@ -35,12 +35,12 @@ export default function Table({
       <td className="valign-wrapper center-align">
           {actions.map(action => {
             return (
-              <div className="" onClick={(event) => {
+              <span className="valign-wrapper center-align" onClick={(event) => {
                 event.stopPropagation();
                 action.handler(item);
               }}>
                 { action.icon }
-              </div>
+              </span>
             )
           })}
       </td>
@@ -149,7 +149,7 @@ export default function Table({
                 }}
               >
                 <div className="valign-wrapper center-align">
-                  <span>{ col.alias }</span>
+                  <div>{ col.alias }</div>
                   <span className={ isSorter(col)? 'order-indicator' : 'order-indicator-off'}>
                     { isSorter(col)? getOrderIndicator() : <Icon>unfold_more</Icon>} 
                   </span>

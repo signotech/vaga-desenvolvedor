@@ -6,7 +6,7 @@ export default function CustomerForm(props) {
         <>
             <form className="col s12" onSubmit={(e) => {
                 e.preventDefault();
-                props.submitHandler(props.shape);
+                props.submitHandler && props.submitHandler(props.shape);
             }}>
                 <Row>
                     <TextInput 

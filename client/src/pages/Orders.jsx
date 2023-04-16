@@ -6,6 +6,8 @@ import { Order } from '../Shapes';
 import { useState } from 'react';
 import { useLoaderData, useParams, Link } from 'react-router-dom';
 import useFilter from '../hooks/useFilter';
+import Money from '../values/Money';
+import Title from '../components/Title';
 
 
 export default function Orders() {
@@ -20,12 +22,14 @@ export default function Orders() {
     
     async function deleteOrder(order) {
         await orderServices.deleteOrder(id, order.codigo_pedido);
-        setOrders(prevOrders => prevOrders.map(curOrder => curOrder === order? { ...order, status_pedido: 'Cancelado'} : curOrder));
+        setOrders(prevOrders => prevOrders.map(curOrder => (
+            curOrder.codigo_pedido === order.codigo_pedido? { ...order, status_pedido: 'Cancelado'} : curOrder
+        )));
     }
 
     return (
         <>
-            <p className="title">Buscar pedidos</p>
+            <Title canGoBack>Buscar pedidos</Title>
             <OrderForm
                 shape={filters}
                 inputHandler={handleFilterInput}
@@ -43,10 +47,15 @@ export default function Orders() {
                     },
                     {
                         name: 'valor_pedido',
-                        alias: 'Valor'
+                        alias: 'Valor',
+                        modifier: (val) => new Money(val).preCurrency
                     } 
                 ]}
                 actions={[
+                    {
+                        handler: console.log,
+                        icon: <Icon>check</Icon>
+                    },
                     {
                         handler: console.log,
                         icon: <Icon>edit</Icon>

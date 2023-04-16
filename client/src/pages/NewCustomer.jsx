@@ -2,26 +2,29 @@ import useForm from "../hooks/useForm";
 import customerServices from '../services/customerServices';
 import CustomerForm from "../components/CustomerForm";
 import { Customer } from "../Shapes";
+import LoadingButton from "../components/LoadingButton";
+import Icon from "../components/Icon";
+import Title from "../components/Title";
 
 export default function NewCustomer() {
 
     const [newCustomer, handleNewCustomerInput] = useForm(new Customer());
 
     async function createCustomer(formValues) {
-        const createdCustomer = await customerServices.storeCustomer(formValues);
+        await customerServices.storeCustomer(formValues);
     }
 
     return(
         <> 
-            <p className="title">Adicionar cliente</p>
+            <Title canGoBack>Adicionar clientes</Title>
             <CustomerForm 
                 shape={newCustomer}
                 inputHandler={handleNewCustomerInput}
-                submitHandler={createCustomer}
             >
-                <button className="btn blue darken-1 waves-light" type="submit">Salvar
-                    <i className="material-icons right">send</i>
-                </button>
+                <LoadingButton handler={() => createCustomer(newCustomer)}>
+                    <Icon>save</Icon>
+                    Salvar
+                </LoadingButton>
             </CustomerForm>
         </>
     )

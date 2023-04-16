@@ -9,6 +9,8 @@ import ReadOnly from "../components/ReadOnly";
 import { Order } from "../Shapes";
 import orderServices from "../services/orderServices";
 import Money from "../values/Money";
+import LoadingButton from "../components/LoadingButton";
+import Title from "../components/Title";
 
 
 export default function NewOrder() {
@@ -77,10 +79,10 @@ export default function NewOrder() {
     
     return(
         <>
-            <p className="title">Novo pedido</p>
+            <Title canGoBack>Novo pedido</Title>
             <div className="col s12">
                 <Row>
-                    <div class="input-field col s12 m3">
+                    <div className="input-field col s12 m3">
                         <Select 
                             idIndicator="id" 
                             nameIndicator="titulo_produto" 
@@ -93,7 +95,7 @@ export default function NewOrder() {
                     </div>
                     <div className="input-field col s12 m3">
                         <TextInput value={selectedQuantity} handler={changeQuantity} type="number">
-                            <span class="helper-text">Quantidade (max: { maxQuantity })</span>
+                            <span className="helper-text">Quantidade (max: { maxQuantity })</span>
                         </TextInput>
                     </div>
                     <div className="input-field col s12 m3">
@@ -116,7 +118,7 @@ export default function NewOrder() {
                     },
                     {
                         name: 'preco',
-                        alias: 'Preço'
+                        alias: 'Preço',
                     } ,
                     {
                         name: 'quantidade',
@@ -136,9 +138,10 @@ export default function NewOrder() {
                         <ReadOnly value={new Money(totalPrice).currency} text="Valor total"/>
                     </div>
                     <div className="col s12 m6">
-                        <button className="btn col s12 m6" onClick={storeOrder}>
-                            Finalizar
-                        </button>
+                        <LoadingButton handler={storeOrder}>
+                            <Icon>save</Icon>
+                            Salvar
+                        </LoadingButton>
                     </div>
                 </Row>
             </div>

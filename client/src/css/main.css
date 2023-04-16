@@ -2,6 +2,18 @@ body {
     overflow-x: hidden;
 }
 
+.table-container {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+thead {
+    position: sticky;
+    top: 0;
+    left: 0;
+    background-color: rgb(255, 255, 255);
+}
+
 table {
     margin-bottom: 2rem;
 }
@@ -11,16 +23,17 @@ table i {
 }
 
 table i:hover {
-    color: blue;
+    color: #2196f3;
 }
 
 thead {
     user-select: none;
 }
 
+
 tbody tr:hover {
     cursor: pointer;
-    background-color: lightgray !important;
+    background-color: #eceff1 !important;
 }
 
 tr {
@@ -32,7 +45,7 @@ nav {
 }
 
 main {
-    padding: 1rem 0;
+    padding: 1rem;
 }
 
 .row {
@@ -42,6 +55,9 @@ main {
 .title {
     font-size: 2rem;
     margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .empty {
@@ -50,3 +66,17 @@ main {
     margin: 0;
 }
 
+.btn,
+.btn > * {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+
+.loading-btn {
+    transition: all 1s;
+    padding-right: 2rem;
+    padding-left: 2rem;
+}

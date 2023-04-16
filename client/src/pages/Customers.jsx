@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useLoaderData, useNavigate, Link } from 'react-router-dom';
 import useFilter from '../hooks/useFilter';
 import { Customer } from '../Shapes';
-
+import Title from '../components/Title';
 
 export default function Customers() {
     const navigate = useNavigate();
@@ -24,7 +24,7 @@ export default function Customers() {
 
     return (
         <>
-            <p className="title">Buscar clientes</p>
+           <Title>Buscar clientes</Title>
             <CustomerForm 
                 shape={filters}
                 inputHandler={handleFilterInput}
@@ -45,10 +45,11 @@ export default function Customers() {
                         alias: 'Email'
                     } 
                 ]}
-                handler={({ id }) => {
-                    navigate(`/pedidos/cliente/${id}`);
-                }}
                 actions={[
+                    {
+                        handler: ({ id }) => navigate(`/pedidos/cliente/${id}`),
+                        icon: <Icon>shopping_cart</Icon>
+                    },
                     {
                         handler: console.log,
                         icon: <Icon>edit</Icon>
