@@ -5,7 +5,7 @@ export default function Root() {
     return (
         <>
             <Navbar />
-            <main>
+            <main className="container">
                 <Outlet />
             </main>
         </>

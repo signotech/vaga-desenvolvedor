@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Icon from "./Icon";
+import TextInput from "./TextInput";
 /*
 import OrderStatus from "../objects/OrderStatus";
 import CurrencyConverter from "../objects/CurrencyConverter";
@@ -19,9 +20,28 @@ export default function Table({
   emptyText = false
 }) {
   const [sorter, setSorter] = useState('');
+  const [pageSize, setPageSize] = useState(20);
   const [order, setOrder] = useState('asc');
+  const [curPage, setCurPage] = useState(0);
+  const [pageCount, setPageCount] = useState(chunkArray(data, pageSize).length);
 
   
+
+  useEffect(() => {
+    setPageCount(chunkArray(data, pageSize).length);
+  }, [data, pageSize])
+
+  function chunkArray(array, itemsPerPage) {
+    const chunkSize = itemsPerPage;
+    const chunkedArray = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+        const chunk = array.slice(i, i + chunkSize);
+        chunkedArray.push(chunk);
+    }
+    console.log(chunkedArray);
+    return chunkedArray;
+  }
+
   const changeOrder = (order) => {
     if(!order) {
       setOrder(prevOrder => prevOrder === 'asc'? 'desc' : 'asc');
@@ -170,7 +190,7 @@ export default function Table({
           </thead>
           <tbody>
             {
-              getData().map(item => (
+              chunkArray(getData(), pageSize)[curPage].map(item => (
                 getItemTR(item)
               ))
             }
@@ -181,10 +201,24 @@ export default function Table({
   }
 
   return (
-    data.length === 0 && emptyText
-    ? <p className="empty">Nossa, que vazio! As novas informações
-    que você adicionar poderão ser consultadas aqui :)</p> 
-    : generateTable() 
-    
+    <> 
+      { data.length === 0 && emptyText
+      ? <p className="empty">Nossa, que vazio! As novas informações
+      que você adicionar poderão ser consultadas aqui :)</p> 
+      : generateTable()}
+
+      <div className="pagination-container">
+        <div>
+          <TextInput value={pageSize} handler={(e) => setPageSize(Number(e.target.value))} type="number">
+            Items por página
+          </TextInput>
+        </div>
+        <div className="pagination-numbers">
+          { Array(pageCount).fill(0).map((_, i) => (
+            <span className={i === curPage? 'selected' : ''} onClick={() => setCurPage(i)}>{ i + 1 }</span>
+          )) }
+        </div>
+      </div>
+    </>
   )
 }

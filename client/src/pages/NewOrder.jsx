@@ -80,7 +80,7 @@ export default function NewOrder() {
     return(
         <>
             <Title canGoBack>Novo pedido</Title>
-            <div className="col s12">
+            <div className="col s12 new-order-form">
                 <Row>
                     <div className="input-field col s12 m3">
                         <Select 
@@ -91,12 +91,12 @@ export default function NewOrder() {
                         />
                     </div>
                     <div className="input-field col s12 m3">
-                        <ReadOnly value={selectedProduct?.preco} text="Valor do produto" />
-                    </div>
-                    <div className="input-field col s12 m3">
                         <TextInput value={selectedQuantity} handler={changeQuantity} type="number">
                             <span className="helper-text">Quantidade (max: { maxQuantity })</span>
                         </TextInput>
+                    </div>
+                    <div className="input-field col s12 m3">
+                        <ReadOnly value={selectedProduct?.preco} text="Valor do produto" />
                     </div>
                     <div className="input-field col s12 m3">
                         <button className="btn col s12" onClick={addProductToCart}>
@@ -132,7 +132,7 @@ export default function NewOrder() {
                     }
                 ]}
             />
-            <div className="col s12">
+            <div className="col s12 new-order-form">
                 <Row>
                     <div className="col s12 m6">
                         <ReadOnly value={new Money(totalPrice).currency} text="Valor total"/>

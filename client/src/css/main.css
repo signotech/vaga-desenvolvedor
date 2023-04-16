@@ -3,7 +3,7 @@ body {
 }
 
 .table-container {
-    max-height: 300px;
+    max-height: 220px;
     overflow-y: auto;
     margin-bottom: 2rem;
 }
@@ -127,5 +127,40 @@ main {
 .home-links {
     display: grid;
     grid-template-columns: repeat( auto-fit, minmax(250px, 1fr) );
+    gap: 1rem;
+}
+
+
+.new-order-form .input-field {
+    margin: 0;
+}
+
+.new-order-form .btn {
+    margin: 1rem 0;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin: 12px 0px 12px 0px;
+}
+
+.pagination-container span {
+    background-color: #2196f3;
+    padding: 8px 10px;
+    color: white;
+    border-radius: 200px;
+    cursor: pointer;
+}
+
+.pagination-container span.selected {
+    filter: brightness(1.2);
+}
+
+.pagination-numbers {
+    display: flex;
+    align-items: center;
     gap: 1rem;
 }

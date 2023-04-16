@@ -42,6 +42,7 @@ export default function SingleProduct() {
                     {
                         name: 'preco',
                         alias: 'Preço',
+                        modifier: (value) => new Money(value).preCurrency
                     } ,
                     {
                         name: 'PedidoProduto.quantidade',
@@ -56,11 +57,9 @@ export default function SingleProduct() {
             </div>
             <div className='flex-side'>
                 <LoadingButton handler={changeOrderStatus('Pago')}>
-                    <Icon></Icon>
                     Pagar
                 </LoadingButton>
-                <LoadingButton handler={changeOrderStatus('Cancelado')}>
-                    <Icon></Icon>
+                <LoadingButton bgColor="red darken-1" handler={changeOrderStatus('Cancelado')}>
                     Cancelar
                 </LoadingButton> 
             </div>

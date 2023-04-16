@@ -9,7 +9,7 @@ export default function PrevPage() {
     }
 
     return (
-        <button onClick={goToPreviousPage} class="btn-floating light-blue pulse">
+        <button onClick={goToPreviousPage} className="btn-floating light-blue pulse">
             <Icon>arrow_back</Icon>
         </button>
     )

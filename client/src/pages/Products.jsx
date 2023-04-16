@@ -8,6 +8,7 @@ import { Product } from '../Shapes';
 import useFilter from '../hooks/useFilter';
 import Title from '../components/Title';
 import Confirm from '../components/Confirm';
+import Money from '../values/Money';
 
 
 export default function Products() {
@@ -52,7 +53,8 @@ export default function Products() {
                     },
                     {
                         name: 'preco',
-                        alias: 'Preço'
+                        alias: 'Preço',
+                        modifier: (value) => new Money(value).preCurrency
                     } ,
                     {
                         name: 'estoque',
