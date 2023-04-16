@@ -7,6 +7,11 @@ const services = {
         return response.data;
     },
 
+    async getSingleCustomer(id) {
+        const response = await axios.get(`${host}/clientes/${id}`);
+        return response.data;
+    },
+
     async storeCustomer(customerData) {
         const response = await axios.post(`${host}/clientes`, customerData);
         return response.data;
@@ -14,6 +19,11 @@ const services = {
 
     async deleteCustomer(customerId) {
         const response = await axios.delete(`${host}/clientes/${customerId}`);
+        return response.data
+    },
+
+    async updateCustomer(customerId, data) {
+        const response = await axios.put(`${host}/clientes/${customerId}`, data);
         return response.data
     }
 }

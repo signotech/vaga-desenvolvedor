@@ -19,6 +19,7 @@ import orderServices from './services/orderServices';
 import NewOrder from './pages/NewOrder';
 import SingleOrder from './pages/SingleOrder';
 import SingleProduct from './pages/SingleProduct';
+import SingleCustomer from './pages/SingleCustomer';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,11 @@ const router = createBrowserRouter([
       {
         path: '/clientes/novo',
         element: <NewCustomer />
+      },
+      {
+        path: '/clientes/:id_cliente/editar',
+        element: <SingleCustomer />,
+        loader: ({ params }) => customerServices.getSingleCustomer(params.id_cliente)
       },
       {
         path: '/pedidos/cliente/:id',

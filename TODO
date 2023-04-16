@@ -13,3 +13,4 @@
 ☐ Adicionar pistas visuais aos status dos pedidos
 ☐ Adicionar confirmação às exclusões / cancelamentos
 ☐ Criar seeds
+☐ Deixar o código mais limpo tornando os componentes mais genéricos (Formulários, páginas de edição)

@@ -22,6 +22,10 @@ export default function Customers() {
         setCustomers(prevCustomers => prevCustomers.filter(customer => customer.id !== Number(deleted)));
     }
 
+    function navigateToSingleCustomer(customer) {
+        navigate(`/clientes/${customer.id}/editar`);
+    }
+
     return (
         <>
            <Title>Buscar clientes</Title>
@@ -51,7 +55,7 @@ export default function Customers() {
                         icon: <Icon>shopping_cart</Icon>
                     },
                     {
-                        handler: console.log,
+                        handler: navigateToSingleCustomer,
                         icon: <Icon>edit</Icon>
                     },
                     {

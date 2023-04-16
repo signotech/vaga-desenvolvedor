@@ -15,6 +15,7 @@ export default function CustomerForm(props) {
                         label='Nome' 
                         value={props.shape.nome_cliente} 
                         handler={props.inputHandler}
+                        active={props.active}
                     />
                     <TextInput 
                         name='cpf_cliente' 
@@ -24,6 +25,7 @@ export default function CustomerForm(props) {
                         handler={props.inputHandler}
                         minlength={11}
                         maxlength={11}
+                        active={props.active}
                     />
                 </Row>
                 <Row>
@@ -33,6 +35,7 @@ export default function CustomerForm(props) {
                         label='Email' 
                         value={props.shape.email_cliente} 
                         handler={props.inputHandler}
+                        active={props.active}
                     />
                 </Row>
                 {

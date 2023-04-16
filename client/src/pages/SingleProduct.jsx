@@ -6,7 +6,7 @@ import LoadingButton from "../components/LoadingButton";
 import Icon from "../components/Icon";
 import { useLoaderData } from "react-router-dom";
 
-export default function NewProduct() {
+export default function SingleProduct() {
     const loadedData = useLoaderData();
 
     const [product, handleProductInput] = useForm(loadedData);
