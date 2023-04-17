@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/static/css/main.63c509bd.css",
+    "main.js": "/static/js/main.cd1bb1fa.js",
+    "static/media/material-icons-two-tone.woff": "/static/media/material-icons-two-tone.3baa5b8f3469222b822d.woff",
+    "static/media/material-icons-two-tone.woff2": "/static/media/material-icons-two-tone.4ef4218c522f1eb6b5b1.woff2",
+    "static/media/material-icons-round.woff": "/static/media/material-icons-round.5d681e2edae8c60630db.woff",
+    "static/media/material-icons-outlined.woff": "/static/media/material-icons-outlined.f882956fd323fd322f31.woff",
+    "static/media/material-icons-round.woff2": "/static/media/material-icons-round.c380809fd3677d7d6903.woff2",
+    "static/media/material-icons.woff": "/static/media/material-icons.4d73cb90e394b34b7670.woff",
+    "static/media/material-icons-sharp.woff": "/static/media/material-icons-sharp.3a4004a46a653d4b2166.woff",
+    "static/media/material-icons-outlined.woff2": "/static/media/material-icons-outlined.6f420cf17cc0d7676fad.woff2",
+    "static/media/material-icons-sharp.woff2": "/static/media/material-icons-sharp.219aa9140e099e6c72ed.woff2",
+    "static/media/material-icons.woff2": "/static/media/material-icons.0c35d18bf06992036b69.woff2",
+    "index.html": "/index.html",
+    "main.63c509bd.css.map": "/static/css/main.63c509bd.css.map",
+    "main.cd1bb1fa.js.map": "/static/js/main.cd1bb1fa.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.63c509bd.css",
+    "static/js/main.cd1bb1fa.js"
+  ]
+}

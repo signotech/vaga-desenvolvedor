@@ -7,7 +7,7 @@ const customerRouter = require('./routes/customerRoutes.js');
 const productRouter = require('./routes/productRoutes.js');
 const orderRouter = require('./routes/orderRoutes.js');
 
-
+app.use(express.static('public'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
@@ -16,4 +16,4 @@ app.use(customerRouter);
 app.use(productRouter);
 app.use(orderRouter);
 
-app.listen(port, () => console.log(`Listening at ${port}`));
+app.listen(port, () => console.log(`Listening at ${process.env.MYSQL_HOST_IP}`));

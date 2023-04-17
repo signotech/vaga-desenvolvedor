@@ -1,3 +1,5 @@
+Sem tempo de fazer tudo :(
+  
 ☐ Consertar filtros para não fazerem uma requisição cada vez que o usuário digita (possivelmente com debounce ou botão de envio)
 ☐ Adicionar required aos campos de texto
 ✔ Criar indicativo de ação de salvamento @done(23-04-16 15:03)

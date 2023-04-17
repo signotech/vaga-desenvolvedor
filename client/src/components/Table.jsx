@@ -32,13 +32,13 @@ export default function Table({
   }, [data, pageSize])
 
   function chunkArray(array, itemsPerPage) {
-    const chunkSize = itemsPerPage;
+    const chunkSize = itemsPerPage > 0? itemsPerPage : 1;
     const chunkedArray = [];
     for (let i = 0; i < array.length; i += chunkSize) {
         const chunk = array.slice(i, i + chunkSize);
         chunkedArray.push(chunk);
     }
-    return chunkedArray;
+    return chunkedArray.length? chunkedArray : [[]];
   }
 
   const changeOrder = (order) => {

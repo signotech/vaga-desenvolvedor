@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: "mysql:8.0"
+    expose:
+      - "3306"
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_USER="root"
+      - MYSQL_DATABASE="projetoVagaEstagioStoppa"
+      - MYSQL_ALLOW_EMPTY_PASSWORD="yes"
+      - MYSQL_HOST="mysql"
+
+  app:
+    build:
+      context: .
+      dockerfile: "Dockerfile"
+    environment:
+      - DB_USER="root"
+      - DB_NAME="projetoVagaEstagioStoppa"
+      - DB_PWD=''
+      - DB_HOST="mysql"
+      - DB_PORT=3306
+      - DB_DIALECT="mysql"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
