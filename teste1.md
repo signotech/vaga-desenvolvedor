@@ -2,6 +2,14 @@
   <img src="https://site.signoweb.com.br/assets/images/logo-signo.svg" width="20%" />
 </div>
 
+# Instruções de uso
+
+1. Como a integração com o docker não deu totalmente certo, o app é inicializado com os comandos (npm start no client e npm run dev na api)
+2. Um servidor mysql deve estar rodando na porta 3306
+3. npx sequelize-cli db:create
+4. npx sequelize-cli db:migrate
+5. npx sequelize-cli db:seed:all
+
 # Teste para candidatos à vaga de Desenvolvedor
 
 Nesse teste analisaremos seu conhecimento geral e inclusive velocidade de desenvolvimento. Abaixo explicaremos tudo o que será necessário.
