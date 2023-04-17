@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Link } from 'react-router-dom/cjs/react-router-dom';
 import Container from '../../components/Container';
 import Button from '../../components/Button';
 import Select from '../../components/Select';
@@ -11,9 +12,11 @@ export default function OrderPage() {
       <h1>Pedidos</h1>
       <header>
         <h2>3 pedidos</h2>
-        <Button>
-          Novo Pedido
-        </Button>
+        <Link to="/create-orders">
+          <Button>
+            Novo Pedido
+          </Button>
+        </Link>
       </header>
       <input type="text" placeholder="pesquisar pedidos" />
       <div className="orderBy">
