@@ -43,7 +43,7 @@ Devem ser utilizadas as seguintes tecnologias:
 - CSS
 - Javascript
 - Framework Laravel (PHP) ou NodeJS+Express
-- Docker (construção do ambiente de desenvolvimento)
+- Docker (construção do ambiente de desenvolvimento) (Adicional não obrigatório)
 
 ## Entrega
 
