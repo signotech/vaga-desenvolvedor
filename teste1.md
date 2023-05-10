@@ -17,7 +17,7 @@
     <li>DB_user="seu usuario"</li>
     <li>DB_password="sua senha"</li>
     <li>DB_Host="localhost"</li>
-    <li>Auth_secret="cria uma senha para autenticação"</li>
+    <li>Auth_secret="crie uma senha para autenticação"</li>
 </ul>
 
 <hr />
@@ -102,3 +102,6 @@
     npm start
     
 </p>
+
+<h2>Aviso</h2>
+<p>Apenas o usuário administrado podera administrar o site, criar, excluir, editar etc. O usuário comum poderá adicionar itens ao carrinho e finalizar o pedido.</p>
