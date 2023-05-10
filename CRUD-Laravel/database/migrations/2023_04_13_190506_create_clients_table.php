@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nome_cliente',150);
             $table->string('cpf', 11)->unique();
             $table->char('email_cliente',255)->nullable();
+            $table->string('image',150);
         });
     }
 

@@ -23,7 +23,7 @@
         <div>
             
         </div>
-    <form id="PESQUISAR" action="/events/cliente" method="GET">
+    <form id="PESQUISAR" action="/gestao/cliente" method="GET">
         <input type="text" id='search' name='search' placeholder='procurar um cliente...'>
         <label for='search'><ion-icon name="search-sharp"></ion-icon></label>
 
@@ -48,9 +48,11 @@
 </div>
 
 <div id='CREATE'>
+
     <h2>Cadastre um cliente<h2>
-    <form id="CADASTRAR" action="/events/clientes/cadastro" method="POST">
+    <form id="CADASTRAR" action="/gestao/cliente/cadastro" method="POST" enctype="multipart/form-data">
     @csrf
+    
     <div class="input-container">
         <input type="text" class="form-input" id="nome" name="nome" placeholder="Nome do cliente">
         <span class='errors' id='name-error'></span>
@@ -65,10 +67,15 @@
         <input type="text" class="form-input" id="email" name="email" placeholder="E-mail">
         <span class='errors' id='email-error'></span>
     </div>
+    <div class="input-container">
+        <input type="file" class="form-input" id="image" name="image">
+    </div>
     <button type="submit" class="btn1">ENVIAR</button>
 
     </form>
 </div>
+
+
 
 <div class="list-people">
     <table>

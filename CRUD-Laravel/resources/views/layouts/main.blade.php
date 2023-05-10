@@ -57,7 +57,7 @@
 
         <div class="header-item">
             <li>
-                <a href="/events/cliente">
+                <a href="/gestao/cliente">
                     CLIENTES
                 </a>    
             </li>
@@ -76,9 +76,11 @@
         </div>
 
     </div>
-
-
+    @if(session('msg'))
+    <p class="msg">{{session('msg')}}</p>
+    @endif
     @yield('content')
+
 
 
     <div class="footer">

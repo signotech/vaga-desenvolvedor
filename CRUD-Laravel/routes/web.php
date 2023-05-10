@@ -21,7 +21,9 @@ Route::get('/', function (){
 });
 
 route::get('/produtos/{id}', [EventController::class, 'produtos']);
-route::get('/events/cliente', [EventController::class, 'create']);
-route::post('/events/clientes/cadastro', [EventController::class, 'store']);
+
+//GESTÃO CLIENTES
+route::get('/gestao/cliente', [EventController::class, 'create']);
+route::post('/gestao/cliente/cadastro', [EventController::class, 'store']);
 
 

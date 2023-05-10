@@ -31,14 +31,14 @@ class EventController extends Controller
 
         
 
-        return view('events.crud', ['clients' => $clients, 'search' => $search]);
+        return view('gestao.crud', ['clients' => $clients, 'search' => $search]);
     }
 
-    public function events(){
+    public function gestao(){
 
         
 
-        return view('events.crud');
+        return view('gestao.crud');
     }
 
     public function store(Request $request){
@@ -53,11 +53,28 @@ class EventController extends Controller
         $client->cpf = $request->cpf;
         $client->email_cliente = $request->email;
 
+        if($request->hasFile('image') && $request->file('image')->isValid()){
+
+            $requestImage = $request->image;
+            
+            $extension = $requestImage->extension();
+
+            $imageName = md5($requestImage->getClientOriginalName() . strtotime("now") . "." . $extension);
+
+            $requestImage->move(public_path('img/clients'), $imageName);
+
+            $client->image = $imageName;
+        }
+
+
+
         $client->save();
 
         $request = '';
 
-        return $this->create();
+        // return $this->create();
+        return redirect('/gestao/cliente');
+        // ->with('msg', 'SUCESSO!')
     }
 
 
