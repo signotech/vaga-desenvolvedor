@@ -1,0 +1,13 @@
+.footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    background-color: var(--base-color);
+
+    padding: 5px;
+}
+
+.footer h4 {
+    font-size: 1rem;
+}

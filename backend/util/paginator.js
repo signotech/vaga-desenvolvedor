@@ -1,0 +1,1 @@
+module.exports = (total, limit) => Math.ceil(total / limit)
