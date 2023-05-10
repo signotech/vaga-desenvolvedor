@@ -42,23 +42,22 @@
 <p>No arquivo criado, adicione a seguinte linha:
 
     'use strict';
+    
+    module.exports = {
+    async up(queryInterface, Sequelize) {
+        return queryInterface.bulkInsert("Usuarios", [{
+            nome: "Admin",
+            email: "admin@email.com",
+            cpf: "0000000",
+            password: "$2b$10$5RK.Ip7m/DgAfWrg54s0.ehn1jo5DRix/lGgaH1UFcSrwTM5fWg2C",
+            isAdmin: true
+        }])
+    },
 
-/** @type {import('sequelize-cli').Migration} */
-module.exports = {
-  async up(queryInterface, Sequelize) {
-    return queryInterface.bulkInsert("Usuarios", [{
-      nome: "Admin",
-      email: "admin@email.com",
-      cpf: "0000000",
-      password: "$2b$10$5RK.Ip7m/DgAfWrg54s0.ehn1jo5DRix/lGgaH1UFcSrwTM5fWg2C",
-      isAdmin: true
-    }])
-  },
-
-  async down(queryInterface, Sequelize) {
-    return queryInterface.bulkDelete('Users', null, {});
-  }
-};
+    async down(queryInterface, Sequelize) {
+        return queryInterface.bulkDelete('Users', null, {});
+    }
+ };
 
 </p>
 <p>login usuario admin padrão:
