@@ -24,9 +24,9 @@
 <p>Depois, va até a pasta backend e rode o comando npm i</p>
 <p>Depois rode: npx sequelize-cli init</p>
 <p>Altere o arquivo config/config.js para:
+    
     const dotenv =  require("dotenv")
     dotenv.config()
-
     module.exports = {
         development: {
         username: process.env.DB_user,
@@ -37,8 +37,18 @@
     }
 }
 </p>
-<p>Depois: rode o comando npx sequelize-cli db:migrate</p>
-<p>Depois: rode o comando npx sequelize-cli seed:generate --name admin-user-demo</p>
+<p>Depois: rode o comando: 
+    
+    npx sequelize-cli db:migrate
+    
+</p>
+
+<p>Depois: rode o comando: 
+    
+    npx sequelize-cli seed:generate --name admin-user-demo
+    
+</p>
+
 <p>No arquivo criado, adicione a seguinte linha:
 
     'use strict';
@@ -67,13 +77,28 @@
         <li>*Por ser um sistema que não será posto em produção, deixei a senha padrão simples para não haver complicações*</li>
     </ul>
 </p>
-<p>Logo em seguida: npx sequelize-cli db:seed:all</p>
-<p>Por fim, rode npm start</p>
+<p>Logo em seguida: 
+    
+    npx sequelize-cli db:seed:all
+    
+</p>
+<p>Por fim, rode: 
+    
+    npm start
+
+</p>
 
 <h2>Instruções do frontend</h2>
 
 <p>Primeiro de tudo vá a pasta frontend e rode o seguinte comando:</p>
-<p>npm i</p>
+<p>
+    
+    npm i
+    
+</p>
 
 <p>Logo após rode:</p>
-<p>npm start</p>
+
+    npm start
+    
+</p>
