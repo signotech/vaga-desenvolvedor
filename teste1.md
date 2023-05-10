@@ -1,72 +1,80 @@
 <div align="center">
-  <img src="https://site.signoweb.com.br/assets/images/logo-signo.svg" width="20%" />
-</div>
+    <img src="https://site.signoweb.com.br/assets/images/logo-signo.svg" width="20%" />
+  </div>
+  
+<h1>Teste para candidatos à vaga de Desenvolvedor</h1>
 
-# Teste para candidatos à vaga de Desenvolvedor
+<h2>Instruções do backend</h2>
 
-Nesse teste analisaremos seu conhecimento geral e inclusive velocidade de desenvolvimento. Abaixo explicaremos tudo o que será necessário.
+<p>Primeiro de tudo vá até o mySQL workbench e rode o seguinte comando:</p>
+<p>-Create schema "purchase_register"</p>
 
-## Instruções
+<hr />
 
-O desafio consiste em implementar uma aplicação Web utilizando o framework PHP Laravel OU NodeJS + Express, e um banco de dados relacional SQLite, MySQL ou Postgres, a partir de uma modelagem de dados inicial desnormalizada, que deve ser normalizada para a implementação da solução.
+<p>Agora, crie um arquivo chamado .env na pasta backend com os seguintes atributos:</p>
+<ul>
+    <li>DB_name="purchase_register"</li>
+    <li>DB_user="seu usuario"</li>
+    <li>DB_password="sua senha"</li>
+    <li>DB_Host="localhost"</li>
+    <li>Auth_secret="cria uma senha para autenticação"</li>
+</ul>
 
-Você vai criar uma aplicação de cadastro de pedidos de compra, a partir de uma modelagem inicial, com as seguintes funcionalidades:
+<hr />
+<p>Depois, va até a pasta backend e rode o comando npm i</p>
+<p>Depois rode: npx sequelize-cli init</p>
+<p>Altere o arquivo config/config.js para:
+    const dotenv =  require("dotenv")
+    dotenv.config()
 
-- CRUD de clientes.
-- CRUD de produtos.
-- CRUD de pedidos de compra, com status (Em Aberto, Pago ou Cancelado).
-- Cada CRUD:
-  - deve ser filtrável e ordenável por qualquer campo, e possuir paginação de 20 itens.
-  - deve possuir formulários para criação e atualização de seus itens.
-  - deve permitir a exclusão de qualquer item de sua lista, importante conter uma mensagem de confirmação.
-- Barra de navegação entre os CRUDs.
-- Links para os outros CRUDs nas listagens (Ex: link para o detalhe do cliente da compra na lista de pedidos de compra)
+    module.exports = {
+        development: {
+        username: process.env.DB_user,
+        password: process.env.DB_password,
+        database: process.env.DB_name,
+        host: "127.0.0.1",
+        dialect: "mysql"
+    }
+}
+</p>
+<p>Depois: rode o comando npx sequelize-cli db:migrate</p>
+<p>Depois: rode o comando npx sequelize-cli seed:generate --name admin-user-demo</p>
+<p>No arquivo criado, adicione a seguinte linha:
 
-## Modelo de dados
+    'use strict';
 
-A modelagem inicial para a implementação solução é a seguinte:
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+  async up(queryInterface, Sequelize) {
+    return queryInterface.bulkInsert("Usuarios", [{
+      nome: "Admin",
+      email: "admin@email.com",
+      cpf: "0000000",
+      password: "$2b$10$5RK.Ip7m/DgAfWrg54s0.ehn1jo5DRix/lGgaH1UFcSrwTM5fWg2C",
+      isAdmin: true
+    }])
+  },
 
-![](banco.png)
+  async down(queryInterface, Sequelize) {
+    return queryInterface.bulkDelete('Users', null, {});
+  }
+};
 
-Você deve alterar esta modelagem para que a mesma cumpra com as três primeiras formas normais.
+</p>
+<p>login usuario admin padrão:
+    <ul>
+        <li>Email: admin@admin.com</li>
+        <li>Senha: 12345678</li>
+        <li>*Por ser um sistema que não será posto em produção, deixei a senha padrão simples para não haver complicações*</li>
+    </ul>
+</p>
+<p>Logo em seguida: npx sequelize-cli db:seed:all</p>
+<p>Por fim, rode npm start</p>
 
-Além disso, a implementação deste modelo em um banco de dados relacional deve ser realizada levando em consideração os seguintes requisitos:
+<h2>Instruções do frontend</h2>
 
-- O banco de dados deve ser criado utilizando Migrations do framework Laravel, e também utilizar Seeds e Factorys para popular as informações no banco de dados. Se o seu projeto for em NodeJS solicitamos o uso do ORM Sequelize para a criação das migrations.
-- Implementação das validações necessárias na camada que julgar melhor.
+<p>Primeiro de tudo vá a pasta frontend e rode o seguinte comando:</p>
+<p>npm i</p>
 
-## Tecnologias a serem utilizadas
-
-Devem ser utilizadas as seguintes tecnologias:
-
-- HTML
-- CSS
-- Javascript
-- Framework Laravel (PHP) ou NodeJS+Express
-- Docker (construção do ambiente de desenvolvimento) (Adicional não obrigatório)
-
-## Entrega
-
-- Para iniciar o teste, faça um fork deste repositório; **Se você apenas clonar o repositório não vai conseguir fazer push.**
-- Crie uma branch com o seu nome completo;
-- Altere o arquivo teste1.md com as informações necessárias para executar o seu teste (comandos, migrations, seeds, etc);
-- Depois de finalizado, envie-nos o pull request;
-
-## Bônus
-
-- Implementar autenticação de usuário na aplicação.
-- Permitir que o usuário mude o número de itens por página.
-- Permitir deleção em massa de itens nos CRUDs.
-- Implementar aplicação de desconto em alguns pedidos de compra.
-- Implementar a camada de Front-End utilizando a biblioteca javascript Materialize e ser responsiva.
-- API Rest JSON para todos os CRUDS listados acima.
-
-## O que iremos analisar
-
-- Organização do código;
-- Aplicação de design patterns;
-- Separação de módulos e componentes;
-- Legibilidade;
-- Criação do ambiente com Docker.
-
-### Boa sorte!
+<p>Logo após rode:</p>
+<p>npm start</p>
