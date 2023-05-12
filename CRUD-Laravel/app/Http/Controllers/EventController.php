@@ -8,10 +8,6 @@ use App\Models\Client;
 class EventController extends Controller
 {
     
-    public function produtos($id){
-
-    return view('produtos', ['id' => $id]);
-    }
 
     public function create(){
 

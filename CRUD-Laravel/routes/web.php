@@ -14,13 +14,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ProdutosController;
 
 Route::get('/', function (){
 
     return view('menu');
 });
 
-route::get('/produtos/{id}', [EventController::class, 'produtos']);
+//GESTÃO PRODUTOS
+
+route::get('/produtos/{id}', [ProdutosController::class, 'produtos']);
 
 //GESTÃO CLIENTES
 route::get('/gestao/cliente', [EventController::class, 'create']);
