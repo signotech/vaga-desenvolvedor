@@ -39,13 +39,25 @@
             </li>
         </div>
 
+        @guest
         <div class="header-item">
             <li>
-                <a href="/">
+                <a href="/login">
                     ENTRAR
                 </a>    
             </li>
         </div>
+
+        <div class="header-item">
+            <li>
+                <a href="/register">
+                    REGISTRAR
+                </a>    
+            </li>
+        </div>
+        @endguest
+
+
 
         <div class="header-item">
             <li>
@@ -55,6 +67,9 @@
             </li>
         </div>
 
+
+
+        @auth
         <div class="header-item">
             <li>
                 <a href="/gestao/cliente">
@@ -62,6 +77,29 @@
                 </a>    
             </li>
         </div>
+
+        <div class="header-item">
+            <li>
+                <!--mudar nome-->
+                <a href="/dashboard">
+                    DASHBOARD
+                </a>    
+            </li>
+        </div>
+
+        <div class="header-item">
+            <li>
+                <form action="/logout" method="POST">
+                    @csrf
+                    <a href="/logout" 
+                    onclick="event.preventDefault();
+                    this.closest('form').submit();">
+                        SAIR
+                    </a>    
+                </form>
+            </li>
+        </div>
+        @endauth
 
     
         <div class="clear"></div>
