@@ -1,3 +1,6 @@
 **/node_modules
 **/.env
 **/yarn-error.log
+backend/.docker/dbdata
+**/dist
+**/build
