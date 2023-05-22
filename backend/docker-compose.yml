@@ -23,7 +23,7 @@ services:
       - .docker/dbdata:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=docker
-      - POSTGRES_DB=teste
+      - POSTGRES_DB=signoweb
   
   signoweb-pgadmin:
     image: dpage/pgadmin4

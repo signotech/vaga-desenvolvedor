@@ -1,0 +1,101 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Manager {
+  id       Int    @id @default(autoincrement())
+  login    String @unique
+  password String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("managers")
+}
+
+model Client {
+  id    Int     @id @default(autoincrement())
+  nome  String? @db.Char(150)
+  email String  @db.Char(255) @unique
+  cpf   String? @db.Char(11)
+
+  created_at         DateTime            @default(now())
+  updated_at         DateTime            @default(now())
+  JoinClientProducts JoinOrdersClients[]
+
+  @@map("clients")
+}
+
+model Product {
+  id    Int     @id @default(autoincrement())
+  sku   String
+  preco Decimal @db.Decimal(10, 2)
+
+  created_at   DateTime       @default(now())
+  updated_at   DateTime       @default(now())
+  OrderProduct OrderProduct[]
+
+  @@map("products")
+}
+
+model Order {
+  id     Int     @id @default(autoincrement())
+  status Int     @default(0)
+  valor  Decimal @db.Decimal(10, 2)
+
+  created_at         DateTime             @default(now())
+  updated_at         DateTime             @default(now())
+  JoinOrdersProducts JoinOrdersProducts[]
+  JoinClientProducts JoinOrdersClients[]
+
+  @@map("orders")
+}
+
+model OrderProduct {
+  id         Int @id @default(autoincrement())
+  quantidade Int
+  id_produto Int
+
+  product Product @relation(fields: [id_produto], references: [id])
+
+  created_at         DateTime             @default(now())
+  updated_at         DateTime             @default(now())
+  JoinOrdersProducts JoinOrdersProducts[]
+
+  @@map("order_product")
+}
+
+model JoinOrdersProducts {
+  id                  Int @id @default(autoincrement())
+  id_produto_comprado Int
+  id_pedido           Int
+
+  order   Order        @relation(fields: [id_pedido], references: [id])
+  product OrderProduct @relation(fields: [id_produto_comprado], references: [id])
+
+  created_at DateTime @default(now())
+
+  @@map("join_orders_products")
+}
+
+model JoinOrdersClients {
+  id Int @id @default(autoincrement())
+
+  id_cliente Int
+  id_pedido  Int
+
+  order  Order  @relation(fields: [id_pedido], references: [id])
+  client Client @relation(fields: [id_cliente], references: [id])
+
+  created_at DateTime @default(now())
+
+  @@map("join_orders_clients")
+}

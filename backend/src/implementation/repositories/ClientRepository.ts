@@ -1,13 +1,12 @@
 import { IClientRepository } from "@domain/repositories/IClientRepository";
 import { Sequelize } from "sequelize";
-import ClientModel from '@infra/db/models/client'
 import { Client } from "@domain/entities/Client";
 import { CreateClientDTO } from "@domain/dto/clients/CreateClientDTO";
 import { UpdateClientDTO } from "@domain/dto/clients/UpdateClientDTO";
 
 export class ClientRepository implements IClientRepository{
 
-    protected clientModel: ClientModel
+    protected clientModel: any
 
     public async findById(id: number): Promise<Client | null> {
         const client = await this.clientModel.findOne({raw:true,  where:{id}})      
