@@ -9,15 +9,15 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      nome_cliente: {
+      nome: {
         type: Sequelize.STRING(150),
         allowNull:true
       },
-      email_cliente: {
+      email: {
         type: Sequelize.STRING(255),
         allowNull:false
       },
-      cpf_cliente: {
+      cpf: {
         type: Sequelize.STRING(11),
         allowNull:true
       },

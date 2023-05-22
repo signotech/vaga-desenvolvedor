@@ -14,9 +14,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   client.init({
-    nome_cliente: DataTypes.STRING(150),
-    email_cliente: DataTypes.STRING(255),
-    cpf_cliente: DataTypes.STRING(11)
+    nome: DataTypes.STRING(150),
+    email: DataTypes.STRING(255),
+    cpf: DataTypes.STRING(11)
   }, {
     sequelize,
     modelName: 'client',

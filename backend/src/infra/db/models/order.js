@@ -14,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   order.init({
-    data_pedido: DataTypes.DATE(10,2),
-    valor_pedido: DataTypes.DECIMAL,
+    data: DataTypes.DATE,
+    valor: DataTypes.DECIMAL(10,2),
     quantidade: DataTypes.INTEGER,
     id_cliente: DataTypes.INTEGER,
     status: DataTypes.INTEGER
