@@ -1,8 +1,8 @@
 export interface Client{
     id:number
-    nome:string
+    nome:string | null
     email:string
-    cpf:string
+    cpf:string | null
     created_at:Date
     updated_at:Date
 }

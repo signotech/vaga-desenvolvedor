@@ -9,4 +9,5 @@ export interface IClientRepository{
     create(data:CreateClientDTO):Promise<Client>
     update(data:UpdateClientDTO, id:number):Promise<Client>
     delete(id:number):Promise<void>
+    deleteAll():Promise<void>
 }
