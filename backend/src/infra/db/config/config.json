@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "docker",
+    "database": "teste",
+    "host": "signoweb-db",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "docker",
+    "database": "teste-test",
+    "host": "signoweb-db",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "docker",
+    "database": "teste-production",
+    "host": "signoweb-db",
+    "dialect": "postgres"
+  }
+}
