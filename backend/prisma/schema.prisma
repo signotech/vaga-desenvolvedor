@@ -29,7 +29,7 @@ model Client {
 
   created_at         DateTime            @default(now())
   updated_at         DateTime            @default(now())
-  JoinClientProducts JoinOrdersClients[]
+  orders Order[]
 
   @@map("clients")
 }
@@ -53,11 +53,12 @@ model Order {
   status Int     @default(0)
   valor  Decimal @db.Decimal(10, 2)
   desconto Int?
+  id_cliente Int
 
   created_at         DateTime             @default(now())
   updated_at         DateTime             @default(now())
   JoinOrdersProducts JoinOrdersProducts[]
-  JoinClientProducts JoinOrdersClients[]
+  client Client @relation(fields: [id_cliente], references: [id])
 
   @@map("orders")
 }
@@ -87,18 +88,4 @@ model JoinOrdersProducts {
   created_at DateTime @default(now())
 
   @@map("join_orders_products")
-}
-
-model JoinOrdersClients {
-  id Int @id @default(autoincrement())
-
-  id_cliente Int
-  id_pedido  Int
-
-  order  Order  @relation(fields: [id_pedido], references: [id])
-  client Client @relation(fields: [id_cliente], references: [id])
-
-  created_at DateTime @default(now())
-
-  @@map("join_orders_clients")
 }

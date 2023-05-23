@@ -5,7 +5,7 @@ import { AbstractShowAllProducts } from "@domain/use-cases/products/AbstractShow
 import { inject, injectable } from "inversify";
 
 @injectable()
-export abstract class ShowAllProducts extends AbstractShowAllProducts{
+export class ShowAllProducts extends AbstractShowAllProducts{
 
     constructor(
         @inject("ProductRepository")
