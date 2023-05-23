@@ -4,6 +4,7 @@ import { DeleteClientController } from "@infra/controllers/clients/DeleteClientC
 import { ShowAllClientsController } from "@infra/controllers/clients/ShowAllClientsController";
 import { ShowClientByIdController } from "@infra/controllers/clients/ShowClientByIdController";
 import { UpdateClientController } from "@infra/controllers/clients/UpdateClientController";
+import { authMiddleware } from "@infra/middlewares/auth.middleware";
 import { Segments, celebrate } from "celebrate";
 import { Router } from "express";
 import Joi from "joi";
@@ -17,6 +18,8 @@ const createClientController = new CreateClientController()
 const updateClientController = new UpdateClientController()
 const deleteClientController = new DeleteClientController()
 const deleteAllClientsController = new DeleteAllClientsController()
+
+clientRouter.use(authMiddleware)
 
 clientRouter.get("/:id",
     celebrate({

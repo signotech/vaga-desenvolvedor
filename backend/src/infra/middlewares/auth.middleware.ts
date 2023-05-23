@@ -4,15 +4,17 @@ import { NextFunction, Request, Response } from "express";
 
 export const authMiddleware = async(req:Request, res:Response, next:NextFunction) => {
 
-    const token = req.headers.authorization
+    const bearerAuth = req.headers.authorization
 
-    if(!token){
+    if(!bearerAuth){
         throw new AppError("Token de autenticação não encontrado.", 403)
     }
 
-    const tokenValidated = await validateToken(token)
+    const token = bearerAuth.split(" ")[1]
 
-    if(tokenValidated){
+    const tokenValidated = validateToken(token)
+
+    if(!tokenValidated){
         throw new AppError("Token inválido", 403)
     }
 

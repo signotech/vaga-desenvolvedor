@@ -5,29 +5,29 @@ import { prismaClient } from "@infra/db/client";
 import { PrismaClient } from "@prisma/client";
 import { injectable } from "inversify";
 
-@injectable()
-export class ManagerRepository implements IManagerRepository{
 
-    constructor(
-        protected readonly managerModel:PrismaClient['manager']
-    ){
+@injectable()
+export class ManagerRepository implements IManagerRepository {
+    protected managerModel: PrismaClient['manager']
+
+    constructor() {
         this.managerModel = prismaClient.manager
     }
 
     public async findByLogin(login: string): Promise<Manager | null> {
         const manager = await this.managerModel.findFirst({
-            where: {login}
-        })  
+            where: { login }
+        })
 
         return manager
     }
 
     public async register(data: SignUpDTO): Promise<Manager> {
         const manager = await this.managerModel.create({
-           data 
+            data
         })
 
-        return {login:manager.login}
+        return manager
     }
 
 }
