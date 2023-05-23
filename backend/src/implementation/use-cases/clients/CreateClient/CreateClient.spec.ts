@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import { AbstractCreateClient } from "@domain/use-cases/clients/AbstractCreateClient"
 import { CreateClient } from "."
 import { AppError } from "@presentation/errors/AppError"

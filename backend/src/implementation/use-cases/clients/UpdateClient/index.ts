@@ -15,7 +15,7 @@ export class UpdateClient extends AbstractUpdateClient{
         super()
     }
 
-    async execute(data: UpdateClientDTO, id: number): Promise<Client> {
+    public async execute(data: UpdateClientDTO, id: number): Promise<void> {
 
         const clientExists = await this.clientRepository.exists(id)
 
@@ -26,14 +26,13 @@ export class UpdateClient extends AbstractUpdateClient{
         if(data.email){
             const clientWithEmail = await this.clientRepository.emailIsRegistered(data.email)
 
-            if(clientWithEmail?.id !== id){
+            if(clientWithEmail && clientWithEmail?.id !== id){
                 throw new AppError("Não é possível utilizar o email de outro cliente.", 422)
             }
         }
 
-        const client = await this.clientRepository.update(data, id)
+        await this.clientRepository.update(data, id)
 
-        return client
 
 
 

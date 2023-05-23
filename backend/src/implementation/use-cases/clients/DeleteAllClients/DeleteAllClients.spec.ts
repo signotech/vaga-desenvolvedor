@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import { DeleteAllClients } from "."
 
 describe("DeleteAllClients", () => {

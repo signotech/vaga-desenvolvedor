@@ -13,7 +13,7 @@ datasource db {
 model Manager {
   id       Int    @id @default(autoincrement())
   login    String @unique
-  password String
+  senha String
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now())

@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import { AbstractDeleteClient } from "@domain/use-cases/clients/AbstractDeleteClient"
 import { DeleteClient } from "."
 import { AppError } from "@presentation/errors/AppError"

@@ -24,7 +24,12 @@ describe("ShowAllClients", () => {
         //@ts-expect-error defined part of methods
         service = new ShowAllClients(mockClientRepository)
 
-        const result = await service.execute()
+        const request = {
+            take:20,
+            skip:0
+        }
+
+        const result = await service.execute(request)
 
         expect(mockClientRepository.findAll).toBeCalled()
         expect(result).toStrictEqual(expectedOutput)

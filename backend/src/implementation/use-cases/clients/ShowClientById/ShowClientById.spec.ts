@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import { Client } from "@domain/entities/Client";
 import { AbstractShowClientById } from "@domain/use-cases/clients/AbstractShowClientById";
 import { ShowClientById } from ".";

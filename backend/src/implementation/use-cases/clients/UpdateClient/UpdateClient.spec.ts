@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import { AbstractUpdateClient } from "@domain/use-cases/clients/AbstractUpdateClient"
 import { UpdateClient } from "."
 import { AppError } from "@presentation/errors/AppError"
@@ -7,13 +8,6 @@ describe("UpdateClient", () => {
     let service: AbstractUpdateClient
 
     it("should update the data of the client", async () => {
-
-        const expectedOutput = {
-            id: 1,
-            nome: "fake-nome-updated",
-            email: "fake-updated@gmail.com",
-            cpf: "11122233344"
-        }
 
         const clientBeforeUpdate= {
             id:1,
@@ -25,7 +19,7 @@ describe("UpdateClient", () => {
         const mockClientRepository = {
             exists: jest.fn().mockReturnValue(Promise.resolve(true)),
             emailIsRegistered: jest.fn().mockReturnValue(Promise.resolve(clientBeforeUpdate)),
-            update: jest.fn().mockReturnValue(Promise.resolve(expectedOutput))
+            update: jest.fn().mockReturnValue(Promise.resolve())
         }
 
         const request = {
@@ -42,7 +36,6 @@ describe("UpdateClient", () => {
         expect(mockClientRepository.exists).toBeCalled()
         expect(mockClientRepository.emailIsRegistered).toBeCalled()
         expect(mockClientRepository.update).toBeCalled()
-        expect(result).toStrictEqual(expectedOutput)
 
     })
 

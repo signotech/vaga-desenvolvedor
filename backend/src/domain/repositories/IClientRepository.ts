@@ -9,7 +9,7 @@ export interface IClientRepository{
     exists(id:number):Promise<boolean>
     findAll(data:ShowAllDTO):Promise<Client[]>
     create(data:CreateClientDTO):Promise<Client>
-    update(data:UpdateClientDTO, id:number):Promise<Client>
+    update(data:UpdateClientDTO, id:number):Promise<void>
     delete(id:number):Promise<void>
     deleteAll():Promise<void>
 }

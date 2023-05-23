@@ -8,6 +8,6 @@ export abstract class AbstractUpdateClient{
 
     protected abstract clientRepository:IClientRepository
 
-    abstract execute(data:UpdateClientDTO, id:number):Promise<Client>
+    abstract execute(data:UpdateClientDTO, id:number):Promise<void>
 
 }
