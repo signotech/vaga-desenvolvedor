@@ -1,4 +1,4 @@
-import { ShowAllDTO } from "@domain/dto/clients/ShowAllDTO";
+import { ShowAllDTO } from "@domain/dto/ShowAllDTO";
 import { Client } from "@domain/entities/Client";
 import { IClientRepository } from "@domain/repositories/IClientRepository";
 import { injectable } from "inversify";

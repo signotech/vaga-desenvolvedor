@@ -5,7 +5,7 @@ import { UpdateClientDTO } from "@domain/dto/clients/UpdateClientDTO";
 import { PrismaClient } from "@prisma/client";
 import { prismaClient } from "@infra/db/client";
 import { injectable } from "inversify";
-import { ShowAllDTO } from "@domain/dto/clients/ShowAllDTO";
+import { ShowAllDTO } from "@domain/dto/ShowAllDTO";
 
 @injectable()
 export class ClientRepository implements IClientRepository{

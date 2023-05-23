@@ -1,5 +1,5 @@
+import { ShowAllDTO } from "@domain/dto/ShowAllDTO";
 import { CreateClientDTO } from "@domain/dto/clients/CreateClientDTO";
-import { ShowAllDTO } from "@domain/dto/clients/ShowAllDTO";
 import { UpdateClientDTO } from "@domain/dto/clients/UpdateClientDTO";
 import { Client } from "@domain/entities/Client";
 

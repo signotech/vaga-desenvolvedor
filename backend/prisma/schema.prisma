@@ -40,7 +40,6 @@ model Product {
   estoque Int
   sku   String @unique()
   preco Decimal @db.Decimal(10, 2)
-  desconto Int?
 
   created_at   DateTime       @default(now())
   updated_at   DateTime       @default(now())
@@ -53,6 +52,7 @@ model Order {
   id     Int     @id @default(autoincrement())
   status Int     @default(0)
   valor  Decimal @db.Decimal(10, 2)
+  desconto Int?
 
   created_at         DateTime             @default(now())
   updated_at         DateTime             @default(now())
