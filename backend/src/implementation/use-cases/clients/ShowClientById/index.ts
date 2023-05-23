@@ -1,6 +1,7 @@
 import { Client } from "@domain/entities/Client";
 import { IClientRepository } from "@domain/repositories/IClientRepository";
 import { AbstractShowClientById } from "@domain/use-cases/clients/AbstractShowClientById";
+import { AppError } from "@presentation/errors/AppError";
 
 export class ShowClientById extends AbstractShowClientById{
 
@@ -9,13 +10,14 @@ export class ShowClientById extends AbstractShowClientById{
     }
 
     public async execute(id: number): Promise<Client> {
-        const user = this.clientRepository.findById(id)
+        const client = await this.clientRepository.findById(id)
 
-        if(!user){
-            throw new Error('Cliente não encontrado')
+        if(!client){
+            throw new AppError('Cliente não encontrado', 404)
         }
 
-        return user
+
+        return client
     }
 
 }

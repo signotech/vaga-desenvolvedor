@@ -23,10 +23,16 @@ export class ClientRepository implements IClientRepository{
         return clients
     }
 
-    public async emailIsRegistered(email: string): Promise<boolean> {
-        const client = await this.clientModel.findFirst({where:{email}})
+    public async exists(id:number):Promise<boolean>{
+        const client = await this.clientModel.findFirst({where:{id}})
 
         return !!client
+    }
+
+    public async emailIsRegistered(email: string): Promise<Client | null> {
+        const client = await this.clientModel.findFirst({where:{email}})
+
+        return client
     }
 
     public async create(data:CreateClientDTO):Promise<Client>{

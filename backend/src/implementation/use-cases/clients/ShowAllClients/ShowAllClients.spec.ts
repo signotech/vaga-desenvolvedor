@@ -5,7 +5,7 @@ import { ShowAllClients } from "."
 
 describe("ShowAllClients", () => {
 
-    let service:IShowAllClients
+    let service:AbstractShowAllClients
 
     it("should show all clients", async() => {
 

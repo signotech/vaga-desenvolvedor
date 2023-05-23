@@ -1,6 +1,6 @@
 export interface CreateClientDTO{
 
-    name:string
+    nome:string
     email:string
     cpf:string
 
