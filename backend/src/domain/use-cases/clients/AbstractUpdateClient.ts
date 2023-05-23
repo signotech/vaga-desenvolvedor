@@ -4,7 +4,7 @@ import { IClientRepository } from "@domain/repositories/IClientRepository";
 
 export abstract class AbstractUpdateClient{
 
-    abstract clientRepository:IClientRepository
+    protected abstract clientRepository:IClientRepository
 
     abstract execute(data:UpdateClientDTO, id:number):Promise<Client>
 

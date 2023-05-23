@@ -13,9 +13,9 @@ export class ClientRepository implements IClientRepository{
         this.clientModel = prismClient.client
     }
 
-    public async findById(id: number): Promise<Client | null> {
+    public async findById(id: number): Promise<Client> {
         const client = await this.clientModel.findFirst({where:{id}})      
-        return client
+        return client!
     }
 
     public async findAll():Promise<Client[]>{

@@ -3,7 +3,7 @@ import { IClientRepository } from "@domain/repositories/IClientRepository";
 
 export abstract class AbstractShowAllClients{
 
-    abstract clientRepository:IClientRepository
+    protected abstract clientRepository:IClientRepository
 
     abstract execute():Promise<Client[]>
 

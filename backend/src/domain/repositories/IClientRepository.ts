@@ -3,7 +3,7 @@ import { UpdateClientDTO } from "@domain/dto/clients/UpdateClientDTO";
 import { Client } from "@domain/entities/Client";
 
 export interface IClientRepository{
-    findById(id:number):Promise<Client | null>
+    findById(id:number):Promise<Client>
     emailIsRegistered(email:string):Promise<boolean>
     findAll():Promise<Client[]>
     create(data:CreateClientDTO):Promise<Client>

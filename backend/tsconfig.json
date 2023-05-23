@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2016",
+    "target": "es2020",
     "module": "commonjs",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -17,10 +17,12 @@
       "@infra/*": [
         "./src/infra/*"
       ],
-      "@implementation": [
-        "./src/implementation/*",
-      ],
+      "@implementation/*": [
+        "./src/implementation/*"
+      ]
     },
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "resolveJsonModule": true
   }
 }

@@ -4,3 +4,4 @@
 backend/.docker/dbdata
 **/dist
 **/build
+**/coverage
