@@ -36,8 +36,11 @@ model Client {
 
 model Product {
   id    Int     @id @default(autoincrement())
-  sku   String
+  titulo String
+  estoque Int
+  sku   String @unique()
   preco Decimal @db.Decimal(10, 2)
+  desconto Int?
 
   created_at   DateTime       @default(now())
   updated_at   DateTime       @default(now())
