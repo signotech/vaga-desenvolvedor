@@ -1,6 +1,8 @@
+import { Decimal } from "@prisma/client/runtime/binary"
+
 export interface CreateProductDTO{
     titulo:string
-    preco:number
+    preco:Decimal
     estoque:number
     sku: string
 

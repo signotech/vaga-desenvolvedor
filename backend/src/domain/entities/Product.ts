@@ -1,9 +1,12 @@
+import { Decimal } from "@prisma/client/runtime/binary"
+
 export interface Product {
 
     id:number
     titulo:string
-    preco:number
+    preco:Decimal
     estoque:number
     sku: string
-    desconto?:number
+    created_at:Date
+    updated_at:Date
 }

@@ -3,7 +3,7 @@ import { IProductRepository } from "@domain/repositories/IProductRepository";
 import { injectable } from "inversify";
 
 @injectable()
-export abstract class ShowProductById {
+export abstract class AbstractShowProductById {
 
     protected abstract productRepository:IProductRepository
 
