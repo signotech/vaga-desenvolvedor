@@ -52,13 +52,14 @@ model Order {
   id     Int     @id @default(autoincrement())
   status Int     @default(0)
   valor  Decimal @db.Decimal(10, 2)
+  data DateTime @default(now())
   desconto Int?
-  id_cliente Int
+  id_cliente Int?
 
   created_at         DateTime             @default(now())
   updated_at         DateTime             @default(now())
   JoinOrdersProducts JoinOrdersProducts[]
-  client Client @relation(fields: [id_cliente], references: [id])
+  client Client? @relation(fields: [id_cliente], references: [id], onDelete: SetNull)
 
   @@map("orders")
 }
@@ -66,9 +67,9 @@ model Order {
 model OrderProduct {
   id         Int @id @default(autoincrement())
   quantidade Int
-  id_produto Int
+  id_produto Int?
 
-  product Product @relation(fields: [id_produto], references: [id])
+  product Product? @relation(fields: [id_produto], references: [id], onDelete: SetNull)
 
   created_at         DateTime             @default(now())
   updated_at         DateTime             @default(now())
@@ -79,11 +80,11 @@ model OrderProduct {
 
 model JoinOrdersProducts {
   id                  Int @id @default(autoincrement())
-  id_produto_comprado Int
-  id_pedido           Int
+  id_produto_comprado Int?
+  id_pedido           Int?
 
-  order   Order        @relation(fields: [id_pedido], references: [id])
-  product OrderProduct @relation(fields: [id_produto_comprado], references: [id])
+  order   Order?        @relation(fields: [id_pedido], references: [id], onDelete: SetNull)
+  product OrderProduct? @relation(fields: [id_produto_comprado], references: [id], onDelete: SetNull)
 
   created_at DateTime @default(now())
 
