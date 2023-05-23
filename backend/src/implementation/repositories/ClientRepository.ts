@@ -4,7 +4,10 @@ import { CreateClientDTO } from "@domain/dto/clients/CreateClientDTO";
 import { UpdateClientDTO } from "@domain/dto/clients/UpdateClientDTO";
 import { PrismaClient } from "@prisma/client";
 import { prismClient } from "@infra/db/client";
+import { injectable } from "inversify";
+import { ShowAllDTO } from "@domain/dto/clients/ShowAllDTO";
 
+@injectable()
 export class ClientRepository implements IClientRepository{
 
     protected clientModel: PrismaClient['client']
@@ -18,8 +21,11 @@ export class ClientRepository implements IClientRepository{
         return client!
     }
 
-    public async findAll():Promise<Client[]>{
-        const clients = await this.clientModel.findMany()
+    public async findAll({skip,take}:ShowAllDTO):Promise<Client[]>{
+        const clients = await this.clientModel.findMany({
+            skip,
+            take
+        })
         return clients
     }
 

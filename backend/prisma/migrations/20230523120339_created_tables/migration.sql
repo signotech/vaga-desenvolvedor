@@ -12,8 +12,8 @@ CREATE TABLE "managers" (
 -- CreateTable
 CREATE TABLE "clients" (
     "id" SERIAL NOT NULL,
-    "nome" CHAR(150),
-    "email" CHAR(255) NOT NULL,
+    "nome" TEXT,
+    "email" TEXT NOT NULL,
     "cpf" CHAR(11),
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

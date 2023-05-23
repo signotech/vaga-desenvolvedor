@@ -3,10 +3,13 @@ import { Client } from "@domain/entities/Client";
 import { AbstractCreateClient } from "@domain/use-cases/clients/AbstractCreateClient";
 import { ClientRepository } from "@implementation/repositories/ClientRepository";
 import { AppError } from "@presentation/errors/AppError";
+import { inject, injectable } from "inversify";
 
+@injectable()
 export class CreateClient extends AbstractCreateClient{
 
     constructor(
+        @inject("ClientRepository")
         protected clientRepository:ClientRepository
     ){
         super()

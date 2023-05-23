@@ -1,10 +1,13 @@
 import { AbstractDeleteClient } from "@domain/use-cases/clients/AbstractDeleteClient";
 import { ClientRepository } from "@implementation/repositories/ClientRepository";
 import { AppError } from "@presentation/errors/AppError";
+import { inject, injectable } from "inversify";
 
+@injectable()
 export class DeleteClient extends AbstractDeleteClient{
 
     constructor(
+        @inject("ClientRepository")
         protected clientRepository:ClientRepository
     ){
         super()

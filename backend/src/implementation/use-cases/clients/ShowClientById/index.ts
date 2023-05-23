@@ -2,10 +2,14 @@ import { Client } from "@domain/entities/Client";
 import { IClientRepository } from "@domain/repositories/IClientRepository";
 import { AbstractShowClientById } from "@domain/use-cases/clients/AbstractShowClientById";
 import { AppError } from "@presentation/errors/AppError";
+import { inject, injectable } from "inversify";
 
+@injectable()
 export class ShowClientById extends AbstractShowClientById{
 
-    constructor(protected clientRepository:IClientRepository){
+    constructor(
+        @inject("ClientRepository") protected clientRepository:IClientRepository
+        ){
         super()
     }
 

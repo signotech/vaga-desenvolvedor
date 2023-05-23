@@ -2,15 +2,21 @@ import 'reflect-metadata'
 import { Client } from "@domain/entities/Client";
 import { IClientRepository } from "@domain/repositories/IClientRepository";
 import { AbstractShowAllClients } from "@domain/use-cases/clients/AbstractShowAllClients";
+import { inject, injectable } from 'inversify';
+import { ShowAllDTO } from '@domain/dto/clients/ShowAllDTO';
 
-export class ShowAllClients extends AbstractShowAllClients{
+@injectable()
+export class ShowAllClients extends AbstractShowAllClients {
 
-    constructor(protected clientRepository:IClientRepository){
+    constructor(
+        @inject("ClientRepository")
+        protected clientRepository: IClientRepository
+    ) {
         super()
     }
 
-    public async execute(): Promise<Client[]> {
-        const clients = await this.clientRepository.findAll()
+    public async execute(data:ShowAllDTO): Promise<Client[]> {
+        const clients = await this.clientRepository.findAll(data)
         return clients
     }
 

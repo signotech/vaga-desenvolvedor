@@ -3,10 +3,13 @@ import { Client } from "@domain/entities/Client";
 import { IClientRepository } from "@domain/repositories/IClientRepository";
 import { AbstractUpdateClient } from "@domain/use-cases/clients/AbstractUpdateClient";
 import { AppError } from "@presentation/errors/AppError";
+import { inject, injectable } from "inversify";
 
+@injectable()
 export class UpdateClient extends AbstractUpdateClient{
 
     constructor(
+        @inject("ClientRepository")
         protected clientRepository:IClientRepository
     ){
         super()

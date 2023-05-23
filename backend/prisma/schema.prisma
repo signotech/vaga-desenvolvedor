@@ -23,8 +23,8 @@ model Manager {
 
 model Client {
   id    Int     @id @default(autoincrement())
-  nome  String? @db.Char(150)
-  email String  @db.Char(255) @unique
+  nome  String? 
+  email String  @unique
   cpf   String? @db.Char(11)
 
   created_at         DateTime            @default(now())

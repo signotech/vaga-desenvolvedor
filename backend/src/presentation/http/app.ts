@@ -4,11 +4,16 @@ import cors from 'cors'
 import '../container'
 import 'express-async-errors'
 import { AppError } from '@presentation/errors/AppError'
+import router from './routes/router'
+import { errors } from 'celebrate'
 
 const aṕp = express()
 
 aṕp.use(cors())
 aṕp.use(express.json())
+
+aṕp.use(router)
+aṕp.use(errors())
 
 aṕp.use((err:Error, req:Request, res:Response, next:NextFunction) => {
     if(err instanceof AppError){
