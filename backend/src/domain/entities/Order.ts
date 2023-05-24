@@ -13,7 +13,7 @@ export interface Order {
     updated_at: Date
 
     JoinOrdersProducts: {
-        product:OrderProduct | null
+        product:OrderProduct 
     }[]
 
     client: Client | null

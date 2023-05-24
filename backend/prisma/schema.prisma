@@ -67,24 +67,24 @@ model Order {
 model OrderProduct {
   id         Int @id @default(autoincrement())
   quantidade Int
-  id_produto Int?
+  id_produto Int
 
-  product Product? @relation(fields: [id_produto], references: [id], onDelete: SetNull)
+  product Product @relation(fields: [id_produto], references: [id], onDelete: Cascade)
 
   created_at         DateTime             @default(now())
   updated_at         DateTime             @default(now())
-  JoinOrdersProducts JoinOrdersProducts[]
+  JoinOrdersProducts JoinOrdersProducts[] 
 
   @@map("order_product")
 }
 
 model JoinOrdersProducts {
   id                  Int @id @default(autoincrement())
-  id_produto_comprado Int?
-  id_pedido           Int?
+  id_produto_comprado Int
+  id_pedido           Int
 
-  order   Order?        @relation(fields: [id_pedido], references: [id], onDelete: SetNull)
-  product OrderProduct? @relation(fields: [id_produto_comprado], references: [id], onDelete: SetNull)
+  order   Order        @relation(fields: [id_pedido], references: [id], onDelete: Cascade)
+  product OrderProduct @relation(fields: [id_produto_comprado], references: [id], onDelete: Cascade)
 
   created_at DateTime @default(now())
 

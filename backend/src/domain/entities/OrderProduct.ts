@@ -3,6 +3,6 @@ import { Product } from "./Product"
 export interface OrderProduct{
     id:number
     quantidade:number
-    id_produto:number | null
-    product:Product | null
+    id_produto:number 
+    product:Product 
 }

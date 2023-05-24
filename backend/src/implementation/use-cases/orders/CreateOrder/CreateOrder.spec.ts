@@ -66,7 +66,6 @@ describe("CreateOrder", () => {
                 id:1,
                 quantidade:1
             }],
-            valor: new Decimal(10.50),
             status: 0,
             data: date,
             id_cliente: 1
@@ -96,7 +95,6 @@ describe("CreateOrder", () => {
                 id:1,
                 quantidade: 1
             }],
-            valor: new Decimal(10.50),
             status: 0,
             data: date,
             id_cliente: 1
@@ -123,7 +121,6 @@ describe("CreateOrder", () => {
                 id:1,
                 quantidade: 1
             }],
-            valor: new Decimal(10.50),
             status: 0,
             data: date,
             id_cliente: 1
@@ -162,7 +159,6 @@ describe("CreateOrder", () => {
                 id:1,
                 quantidade: 6
             }],
-            valor: new Decimal(10.50),
             status: 0,
             data: date,
             id_cliente: 1

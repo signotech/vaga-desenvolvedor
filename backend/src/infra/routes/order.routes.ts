@@ -49,30 +49,25 @@ orderRouter.post("/",
                     quantidade: Joi.number().integer().required()
                 })
             ).required(),
-            valor: Joi.number().required(),
             id_cliente: Joi.number().integer().required(),
-            desconto: Joi.number().integer().required(),
+            desconto: Joi.number().integer().required().max(100).min(0),
             data: Joi.date().required(),
-            status: Joi.number().integer().required()
+            status: Joi.number().integer().required().min(0).max(2)
         }
     }),
     createOrderController.handle
 )
 
-orderRouter.put("/",
+orderRouter.put("/:id",
     celebrate({
         [Segments.BODY]: {
-            ids_produtos: Joi.array().items(
-                Joi.object({
-                    id: Joi.number().integer().required(),
-                    quantidade: Joi.number().integer().required()
-                })
-            ).optional(),
-            price: Joi.number().optional(),
-            id_cliente: Joi.number().integer().optional(),
-            desconto: Joi.number().integer().optional(),
+            desconto: Joi.number().integer().optional().max(100).min(0),
             data: Joi.date().optional(),
-            status: Joi.number().integer().optional()
+            status: Joi.number().integer().optional().min(0).max(2),
+            id_cliente: Joi.number().integer()
+        },
+        [Segments.PARAMS]:{
+            id: Joi.number().integer().required()
         }
     }),
     updateOrderController.handle

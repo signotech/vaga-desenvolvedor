@@ -37,6 +37,7 @@ export class CreateOrder extends AbstractCreateOrder{
         }
 
         const orderProductsIds:number[] = []
+        let totalValue = 0
 
         for(const product of data.ids_produtos){
 
@@ -59,10 +60,13 @@ export class CreateOrder extends AbstractCreateOrder{
             const createdOrderProduct = await this.orderProductRepository.create({quantidade:product.quantidade, id_produto: product.id})
 
             orderProductsIds.push(createdOrderProduct.id)
+
+            totalValue += Number(productData?.preco!) * product.quantidade
         }
 
         const createOrderDTO = {
             ...data,
+            valor: totalValue,
             ids_produtos: orderProductsIds
         }
 

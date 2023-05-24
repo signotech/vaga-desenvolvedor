@@ -66,10 +66,6 @@ export class OrderRepository implements IOrderRepository {
 
     public async create({ id_cliente, ids_produtos, data, status, valor, desconto }: CreateOrderDTO): Promise<Order> {
 
-        console.log(ids_produtos)
-
-        const ids_to_connect = ids_produtos.map(id => ({ id }))
-
         const order = await this.orderModel.create({
             data: {
                 data,

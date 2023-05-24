@@ -12,7 +12,6 @@ export interface IRequest{
         id:number,
         quantidade:number
     }[],
-    valor: Decimal
     desconto?: number
     status:number
     data: Date
