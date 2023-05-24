@@ -13,7 +13,7 @@ git clone https://github.com/tomazcx/vaga-desenvolvedor.git
 ```
 
 
-2. Acesse a pasta da API
+2. Acesse a pasta da API:
 
 
 ```bash
@@ -21,13 +21,13 @@ cd test/
 cd backend/
 ```
 
-3. Crie um arquivo .env com base no arquivo .env.exmaple. Defina uma string aleatória para o secret do JWT e o tempo de expiração de 1d
- e adicione a seguinte URL para a variável DATABASE_URL
+3. Crie um arquivo .env com base no arquivo .env.example. Defina uma string aleatória para o secret do JWT e o tempo de expiração de 1d.
+Por fim, adicione a seguinte URL para a variável DATABASE_URL:
 
 "postgresql://postgres:docker@signoweb-db:5432/signoweb?schema=public"
 
 
-4. Inicie o contâiner docker
+4. Inicie o contâiner docker:
 
 
 ```bash
@@ -35,7 +35,7 @@ docker-compose up
 ```
 
 
-5. Execute o bash do contâiner da api
+5. Execute o bash do contâiner da api:
 
 
 ```bash
@@ -43,7 +43,7 @@ docker exec -it signoweb-api bash
 ```
 
 
-6. Execute o arquivo seed das tabelas clients e products
+6. Execute o arquivo seed das tabelas clients e products:
 
 
 ```bash
@@ -51,7 +51,7 @@ yarn prisma db seed
 ```
 
 
-7. Execute os testes
+7. Execute os testes:
 
 
 ```bash
@@ -101,7 +101,7 @@ Para aplicar os princípios da arquitetura limpa, o projeto foi separado nas seg
 - Infra: Camada de infraestrutura, onde está o cliente que faz acesso ao banco de dados juntamente com o arquivo de seed e as migrations (contidas junto com o schema no diretório prisma, no root do back-end). Além disso, os controllers HTTP e as rotas para cada módulo com validações de requisição.
 - Presentation: Camada de apresentação, onde está o arquivo de inicialização do servidor e a implementação das rotas.
 
-A aplicação foi projetada dessa forma a fim de desenvolver um sistema escalável, organizado, limpo e desacoplado. Dessa forma, fazendo com que seja manutenível e de fácil compreensão.
+A aplicação foi projetada dessa forma a fim de desenvolver um sistema escalável, organizado, limpo e desacoplado. Fazendo com que, dessa forma, seja manutenível e de fácil compreensão.
 
 ## Testes
 
