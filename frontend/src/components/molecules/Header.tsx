@@ -1,4 +1,4 @@
-import { SidebarMobile } from "@components/atoms/SidebarMobile"
+import { SidebarMobile } from "@components/molecules/SidebarMobile"
 
 export const Header = () => {
 

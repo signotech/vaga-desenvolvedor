@@ -1,5 +1,6 @@
 import { SidebarButton } from "@components/atoms/SidebarButton"
-import { House, Person, ShoppingBag, ShoppingCartSimple, UserCircle } from "phosphor-react"
+import { House, Person, ShoppingBag, ShoppingCartSimple, SignOut, UserCircle } from "phosphor-react"
+import { SignOutAlert } from "./SignOutAlert"
 
 export const Sidebar = () => {
 
@@ -14,7 +15,12 @@ export const Sidebar = () => {
                 <SidebarButton text='Clientes' href={"/clients"} icon={<Person size={32} className='text-white' />} />
                 <SidebarButton text='Produtos' href={"/products"} icon={<ShoppingBag size={32} className='text-white' />} />
                 <SidebarButton text='Pedidos' href={"/orders"} icon={<ShoppingCartSimple size={32} className='text-white' />} />
-
+                <SignOutAlert button={
+                    <div className="p-4 w-full flex items-center gap-2 justify-start text-white  hover:bg-blue-500 transition-colors">
+                        <SignOut className='text-white' size={32} />
+                        <span className='text-lg font-semibold'>Sair</span>
+                    </div>
+                } />
             </div>
         </aside>
 

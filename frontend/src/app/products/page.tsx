@@ -1,6 +1,7 @@
 'use client'
 import { RecentSelect } from "@components/atoms/RecentSelect";
 import { SearchInput } from "@components/atoms/SearchInput";
+import { StatusSelect } from "@components/atoms/StatusSelect";
 import { DashboardLayout } from "@components/models/DashboardLayout";
 import { ProductItem } from "@components/molecules/ProductItem";
 
@@ -12,6 +13,7 @@ export default function Products() {
                 <h1 className=" text-xl lg:text-2xl">Produtos</h1>
                 <div className="w-full flex lg:flex-row flex-col gap-4">
                     <RecentSelect />
+                    <StatusSelect />
                     <SearchInput placeholder="Pesquisar por nome ou por SKU..." />
                 </div>
                 <div className="flex-col gap-8">

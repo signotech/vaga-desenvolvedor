@@ -1,7 +1,7 @@
-import { MobileSidebarButton } from '@components/molecules/MobileSidebarButton'
+import { MobileSidebarButton } from '@components/atoms/MobileSidebarButton'
 import * as Dialog from '@radix-ui/react-dialog'
-import Link from 'next/link'
 import { List, X } from 'phosphor-react'
+import { SignOutAlert } from './SignOutAlert'
 
 export const SidebarMobile = () => {
 
@@ -22,10 +22,10 @@ export const SidebarMobile = () => {
                         <MobileSidebarButton text='Clientes' href={'/clients'} />
                         <MobileSidebarButton text='Produtos' href={'/products'} />
                         <MobileSidebarButton text='Pedidos' href={'/orders'} />
-
+                        <SignOutAlert button={
+                             <div className='w-full border-b border-black pb-2 hover:bg-gray-300 transition-colors text-left'>Sair</div>
+                        } />
                     </div>
-
-
                 </Dialog.Content>
             </Dialog.Portal>
 
