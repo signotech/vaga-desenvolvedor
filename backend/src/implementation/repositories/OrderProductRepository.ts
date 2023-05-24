@@ -1,7 +1,9 @@
 import { CreateOrderProductDTO } from "@domain/dto/orders/CreateOrderProductDTO";
+import { OrderProduct } from "@domain/entities/OrderProduct";
 import { IOrderProductRepository } from "@domain/repositories/IOrderProductRepository";
 import { prismaClient } from "@infra/db/client";
-import { OrderProduct, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
+
 
 export class OrderProductRepository implements IOrderProductRepository{
 
