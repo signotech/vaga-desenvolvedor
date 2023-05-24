@@ -5,7 +5,10 @@ import { Order } from "@domain/entities/Order";
 import { IOrderRepository } from "@domain/repositories/IOrderRepository";
 import { prismaClient } from "@infra/db/client";
 import { PrismaClient } from "@prisma/client";
+import { Decimal } from "@prisma/client/runtime/binary";
+import { injectable } from "inversify";
 
+@injectable()
 export class OrderRepository implements IOrderRepository {
 
     protected readonly orderModel: PrismaClient['order']
@@ -56,22 +59,36 @@ export class OrderRepository implements IOrderRepository {
     }
 
     public async exists(id: number): Promise<boolean> {
-        const order = await this.orderModel.findFirst({where:{id}})
+        const order = await this.orderModel.findFirst({ where: { id } })
 
         return !!order
     }
 
     public async create({ id_cliente, ids_produtos, data, status, valor, desconto }: CreateOrderDTO): Promise<Order> {
+
+        console.log(ids_produtos)
+
+        const ids_to_connect = ids_produtos.map(id => ({ id }))
+
         const order = await this.orderModel.create({
             data: {
                 data,
                 valor,
                 desconto,
-                id_cliente,
                 status,
                 JoinOrdersProducts: {
-                    connect: ids_produtos.map(id => ({ id }))
+                    create: ids_produtos.map(id => ({
+                        product: {
+                            connect: { id }
+                        }
+                    }))
+                },
+                client: {
+                    connect: {
+                        id: id_cliente
+                    }
                 }
+
             },
             include: {
                 client: true,
@@ -90,15 +107,15 @@ export class OrderRepository implements IOrderRepository {
         return order
     }
 
-    public async update(data: UpdateOrderDTO,id:number): Promise<void> {
+    public async update(data: UpdateOrderDTO, id: number): Promise<void> {
         await this.orderModel.update({
-            where: {id},
+            where: { id },
             data
-        }) 
+        })
     }
 
     public async delete(id: number): Promise<void> {
-        await this.orderModel.delete({where:{id}})
+        await this.orderModel.delete({ where: { id } })
     }
 
     public async deleteAll(): Promise<void> {

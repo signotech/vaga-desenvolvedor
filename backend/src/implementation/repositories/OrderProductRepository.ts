@@ -3,8 +3,9 @@ import { OrderProduct } from "@domain/entities/OrderProduct";
 import { IOrderProductRepository } from "@domain/repositories/IOrderProductRepository";
 import { prismaClient } from "@infra/db/client";
 import { PrismaClient } from "@prisma/client";
+import { injectable } from "inversify";
 
-
+@injectable()
 export class OrderProductRepository implements IOrderProductRepository{
 
     protected readonly orderProductModel:PrismaClient['orderProduct']
