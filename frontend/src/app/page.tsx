@@ -1,9 +1,13 @@
-import Image from 'next/image'
+'use client'
+import { MainHome } from '@components/organisms/MainHome'
+import { Header } from '@components/molecules/Header'
+import { DashboardLayout } from '@components/models/DashboardLayout'
 
 export default function Home() {
   return (
-    <main>
-
-    </main>
+    <DashboardLayout>
+      <MainHome />
+    </DashboardLayout>
   )
+
 }

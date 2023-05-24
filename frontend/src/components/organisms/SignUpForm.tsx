@@ -1,6 +1,6 @@
 import { TitleForm } from "@components/atoms/TitleForm"
 import { Button } from "@components/atoms/Button"
-import { Input } from "@components/molecules/Input"
+import { Input } from "@components/atoms/Input"
 import Link from "next/link"
 import { LockSimple, SignIn, UserCircle } from "phosphor-react"
 
