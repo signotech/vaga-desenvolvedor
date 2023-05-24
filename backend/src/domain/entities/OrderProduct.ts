@@ -1,8 +1,8 @@
 import { Product } from "./Product"
 
-export interface OrdeProduct{
+export interface OrderProduct{
     id:number
     quantidade:number
-    id_produto:number 
-    produto:Product
+    id_produto:number | null
+    product:Product | null
 }

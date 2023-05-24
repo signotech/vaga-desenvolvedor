@@ -9,7 +9,7 @@ export interface IOrderRepository{
     findById(id:number):Promise<Order | null>
     exists(id:number):Promise<boolean>
     create(data:CreateOrderDTO):Promise<Order>
-    update(data:UpdateOrderDTO):Promise<void>
+    update(data:UpdateOrderDTO,id:number):Promise<void>
     delete(id:number):Promise<void>
     deleteAll():Promise<void>
 

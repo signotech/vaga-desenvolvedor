@@ -1,7 +1,6 @@
 import { CreateOrderProductDTO } from "@domain/dto/orders/CreateOrderProductDTO";
-import { OrdeProduct } from "@domain/entities/OrderProduct";
+import { OrderProduct } from "@domain/entities/OrderProduct";
 
 export interface IOrderProductRepository{
-
-    create(data: CreateOrderProductDTO):Promise<OrdeProduct>
+    create(data: CreateOrderProductDTO):Promise<OrderProduct>
 }

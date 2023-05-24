@@ -9,7 +9,7 @@ export class ShowAllProducts extends AbstractShowAllProducts{
 
     constructor(
         @inject("ProductRepository")
-        private productRepository:IProductRepository
+        protected productRepository:IProductRepository
     ){
        super() 
     }

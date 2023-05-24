@@ -6,7 +6,7 @@ import { injectable } from "inversify";
 @injectable()
 export abstract class AbstractShowAllProducts{
 
-    protected abstract productsRepository:IProductRepository
+    protected abstract productRepository:IProductRepository
 
     abstract execute(data:ShowAllDTO):Promise<Product[]>
 
