@@ -23,7 +23,6 @@ type Page = {
 
 export const MainProducts = () => {
 
-
     const [products, setProducts] = useState<Product[]>([])
     const [page, setPage] = useState(1)
     const [pagesArray, setPagesArray] = useState<Page[]>([])
@@ -49,7 +48,7 @@ export const MainProducts = () => {
 
     useEffect(() => {
         getAllProducts()
-    })
+    },[quantity])
 
     useEffect(() => {
         getProductsWithPagination()

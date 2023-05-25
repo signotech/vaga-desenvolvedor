@@ -18,9 +18,12 @@ type OrderProduct = {
     quantidade: number
 }
 
-export const AddOrderProductForm = () => {
+type AddOrderProductsForm = {
+    orderProducts: OrderProduct[],
+    setOrderProducts: any
+}
 
-    const [orderProducts, setOrderProducts] = useState<OrderProduct[]>([])
+    export const AddOrderProductForm:React.FC<AddOrderProductsForm> = ({orderProducts, setOrderProducts}) => {
 
     const { register, handleSubmit, formState: { errors } } = useForm<FormOrderProduct>({
         resolver: zodResolver(formOrderProductSchema)
@@ -32,7 +35,7 @@ export const AddOrderProductForm = () => {
             alert("Produto já inserido.")
             return
         }
-        setOrderProducts(prevState => ([...prevState, data])) 
+        setOrderProducts((prevState:OrderProduct[]) => ([...prevState, data])) 
     }
 
     const remover = (id:number) => {
@@ -68,7 +71,6 @@ export const AddOrderProductForm = () => {
             <div className="flex flex-col gap-2">
                 {orderProducts.map(orderProduct => <OrderProduct remover={remover} key={orderProduct.id} id={orderProduct.id} quantidade={orderProduct.quantidade} />)}
             </div>
-            <Button text="Cadastrar" />
 
         </>
 

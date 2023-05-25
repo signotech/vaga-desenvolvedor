@@ -8,8 +8,8 @@ export const MainHome = () => {
             <h2 className='text-lg lg:text-xl text-center'>Aqui, você pode cadastrar e gerenciar clientes, produtos e pedidos</h2>
             <div className='flex gap-4 mt-8'>
                 <LinkButton text='Clientes' href={'/clients'} />
-                <LinkButton text='Produtos' href={'/clients'} />
-                <LinkButton text='Pedidos' href={'/clients'} />
+                <LinkButton text='Produtos' href={'/products'} />
+                <LinkButton text='Pedidos' href={'/orders'} />
             </div>
         </section>
 

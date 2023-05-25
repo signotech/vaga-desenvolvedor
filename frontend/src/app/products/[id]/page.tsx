@@ -105,7 +105,7 @@ const Product = () => {
         </DashboardLayout>
     ) : (
         <DashboardLayout>
-            <h1 className="text-2xl mx-auto col-span-10 text-center w-full">Cliente não encontrado!</h1>
+            <h1 className="text-2xl mx-auto col-span-10 text-center w-full">Produto não encontrado!</h1>
         </DashboardLayout>
 
     )

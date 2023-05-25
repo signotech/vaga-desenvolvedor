@@ -45,12 +45,13 @@ export const MainClients = () => {
     const getClientsWithPagination = useCallback(async () => {
         const numToSkip = (page - 1) * quantity
         const response = await api.get(`/client?take=${quantity}&skip=${numToSkip}`)
+
         setClients(response.data)
     }, [page, quantity])
 
     useEffect(() => {
         getAllClients()
-    })
+    }, [quantity])
 
     useEffect(() => {
         getClientsWithPagination()
