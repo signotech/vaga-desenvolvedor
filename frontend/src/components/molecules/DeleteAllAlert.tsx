@@ -1,12 +1,28 @@
 import { BUTTON_TYPE, Button } from '@components/atoms/Button'
 import * as AlertDialog from '@radix-ui/react-alert-dialog'
+import { api } from '@utils/api'
+import { useRouter } from 'next/navigation'
 
 type DeleteAllAlert = {
     button: React.ReactNode,
-    entityToDelete:string
+    entityToDelete:string,
+    endpointApi:string,
+    refetch: () => void
 }
 
-export const DeleteAllAlert:React.FC<DeleteAllAlert> = ({button, entityToDelete}) => {
+export const DeleteAllAlert:React.FC<DeleteAllAlert> = ({button, entityToDelete, endpointApi, refetch}) => {
+
+    const router = useRouter()
+
+    const deleteRequest = async() => {
+        try{
+            await api.delete(endpointApi)
+            refetch()
+        }catch(err){
+            alert(err)
+            router.push('/sign-in') 
+        }
+    }
 
     return (
         <AlertDialog.Root>
@@ -21,7 +37,7 @@ export const DeleteAllAlert:React.FC<DeleteAllAlert> = ({button, entityToDelete}
                             <Button text='Cancelar' buttonType={BUTTON_TYPE.GRAY} />
                         </AlertDialog.Cancel>
                         <AlertDialog.Action className='w-full'>
-                            <Button text='Confirmar' buttonType={BUTTON_TYPE.RED} />
+                            <Button text='Confirmar' buttonType={BUTTON_TYPE.RED} onClick={() => deleteRequest()} />
                         </AlertDialog.Action>
                     </div>
                 </AlertDialog.Content>

@@ -9,7 +9,7 @@ import { DeleteAllAlert } from "@components/molecules/DeleteAllAlert"
 import { api } from "@utils/api"
 import { CaretLeft, CaretRight } from "phosphor-react"
 import { useAppSelector } from "../../hooks/useAppSelector"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 type Client = {
     id: number
@@ -33,28 +33,28 @@ export const MainClients = () => {
 
     const getAllClients = async () => {
         const response = await api.get(`/client?take=${100}&skip=${0}`)
-        const numberOfPages = Math.round(response.data.length / quantity)
+        const numberOfPages = Math.ceil(response.data.length / quantity)
         let newArrayOfPages = []
-        for (let i = 0; i <= numberOfPages; i++) {
+        for (let i = 0; i < numberOfPages; i++) {
             newArrayOfPages.push({ id: i + 1 })
         }
         setPagesArray(newArrayOfPages)
     }
 
 
-    const getClientsWithPagination = async (page: number, quantity: number) => {
+    const getClientsWithPagination = useCallback(async () => {
         const numToSkip = (page - 1) * quantity
         const response = await api.get(`/client?take=${quantity}&skip=${numToSkip}`)
         setClients(response.data)
-    }
+    }, [page, quantity])
 
     useEffect(() => {
         getAllClients()
     })
 
     useEffect(() => {
-        getClientsWithPagination(page, quantity)
-    }, [page, quantity])
+        getClientsWithPagination()
+    }, [page, quantity, getClientsWithPagination])
 
     const nextPage = () => {
         if (page + 1 <= pagesArray.length) {
@@ -78,15 +78,15 @@ export const MainClients = () => {
             <div className="flex justify-between items-center flex-col lg:flex-row gap-4">
                 <PageTitle text="Clientes" />
                 <div className="flex gap-4 w-[600px] max-w-full">
-                    <DeleteAllAlert button={<Button text="Deletar todos" buttonType={BUTTON_TYPE.RED} />} entityToDelete="clientes" />
-                    <CreateClientDialog />
+                    <DeleteAllAlert refetch={getClientsWithPagination}  endpointApi="/client" button={<Button text="Deletar todos" buttonType={BUTTON_TYPE.RED} />} entityToDelete="clientes" />
+                    <CreateClientDialog refetch={getClientsWithPagination} />
                 </div>
             </div>
             <div className="w-full flex lg:flex-row flex-col gap-4">
-                <RecentSelect />
                 <SearchInput onChange={e => setNameFilter(e.target.value)} placeholder="Pesquisar por nome..." />
+                <PaginationInput setPage={setPage} setQuantityFun={setQuantity} />
+
             </div>
-            <PaginationInput setQuantityFun={setQuantity} />
 
             <span>Clique no cliente para editar ou deletar.</span>
             <div className="flex-col gap-8">
