@@ -7,6 +7,8 @@ import { EnvelopeSimple, IdentificationCard, Person, X } from "phosphor-react"
 import { useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { z } from "zod"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type CreateClientDialog = {
     refetch: () => void
@@ -30,6 +32,7 @@ export const CreateClientDialog:React.FC<CreateClientDialog> = ({refetch}) => {
     const handleCreateClient:SubmitHandler<FormSchema> = async(data) => {
         try{
             await api.post('/client', data)
+            toast("Cliente adicionado!")
             refetch()
         }catch(err:any){
             setReqError(err.response.data.message)
@@ -43,6 +46,7 @@ export const CreateClientDialog:React.FC<CreateClientDialog> = ({refetch}) => {
             <Dialog.Portal>
                 <Dialog.Overlay className='bg-black/40 inset-0 fixed z-0 h-screen w-screen' />
                 <Dialog.Content className='fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 max-w-[600px] bg-white flex flex-col p-8 rounded-lg'>
+                    <ToastContainer />
                     <div className="flex justify-between mb-4 items-center">
                         <Dialog.Title className='text-xl lg:text-2xl font-semibold'>Adicionar cliente</Dialog.Title>
                         <Dialog.Close>
