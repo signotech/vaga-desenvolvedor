@@ -1,11 +1,11 @@
 import { BUTTON_TYPE, Button } from "@components/atoms/Button"
+import { PageTitle } from "@components/atoms/PageTitle"
 import { PaginationInput } from "@components/atoms/PaginationInput"
 import { RecentSelect } from "@components/atoms/RecentSelect"
 import { StatusSelect } from "@components/atoms/StatusSelect"
 import { CreateOrderDialog } from "@components/molecules/CreateOrderDialog"
 import { DeleteAllAlert } from "@components/molecules/DeleteAllAlert"
 import { OrderItem } from "@components/molecules/OrderItem"
-import { ProductItem } from "@components/molecules/ProductItem"
 import { CaretLeft, CaretRight } from "phosphor-react"
 
 export const MainOrders = () => {
@@ -13,7 +13,7 @@ export const MainOrders = () => {
     return (
         <section className="lg:col-span-10 flex flex-col p-4 lg:p-16 gap-12">
             <div className="flex justify-between items-center flex-col lg:flex-row gap-4">
-                <h1 className=" text-xl lg:text-2xl text-left w-full">Pedidos</h1>
+                <PageTitle text="Pedidos" />
                 <div className="flex gap-4 w-[600px] max-w-full">
                     <DeleteAllAlert button={<Button text="Deletar todos" buttonType={BUTTON_TYPE.RED} />} entityToDelete="pedidos" />
                     <CreateOrderDialog />

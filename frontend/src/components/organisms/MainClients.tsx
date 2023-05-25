@@ -1,4 +1,5 @@
 import { BUTTON_TYPE, Button } from "@components/atoms/Button"
+import { PageTitle } from "@components/atoms/PageTitle"
 import { PaginationInput } from "@components/atoms/PaginationInput"
 import { RecentSelect } from "@components/atoms/RecentSelect"
 import { SearchInput } from "@components/atoms/SearchInput"
@@ -12,7 +13,7 @@ export const MainClients = () => {
     return (
         <section className="lg:col-span-10 flex flex-col p-4 lg:p-16 gap-12">
             <div className="flex justify-between items-center flex-col lg:flex-row gap-4">
-                <h1 className=" text-xl lg:text-2xl text-left w-full">Clientes</h1>
+                <PageTitle text="Clientes" />
                 <div className="flex gap-4 w-[600px] max-w-full">
                     <DeleteAllAlert button={<Button text="Deletar todos" buttonType={BUTTON_TYPE.RED} />} entityToDelete="clientes" />
                     <CreateClientDialog />

@@ -1,9 +1,13 @@
 import { InputHTMLAttributes } from "react"
 
-export const AddProductInput:React.FC<InputHTMLAttributes<HTMLInputElement>> = ({...rest}) => {
+type AddOrderProductInput = {
+    register:any
+} & InputHTMLAttributes<HTMLInputElement>
+
+export const AddProductInput:React.FC<AddOrderProductInput> = ({register, ...rest}) => {
 
     return(
-        <input {...rest} className="rounded-lg p-2 text-gray-300 bg-gray-200" />
+        <input {...register(rest.name, {valueAsNumber: true})} {...rest} className="rounded-lg p-2 text-gray-800 bg-gray-200" />
     )
 
 }
