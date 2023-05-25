@@ -5,7 +5,7 @@ import { SignOutAlert } from "./SignOutAlert"
 export const Sidebar = () => {
 
     return (
-        <aside className='col-span-2 h-screen bg-blue-400 hidden lg:flex flex-col items-center gap-8 text-white pt-12'>
+        <aside className='col-span-2 min-h-screen bg-blue-400 hidden lg:flex flex-col items-center gap-8 text-white pt-12'>
             <div className='flex flex-col items-center gap-4'>
                 <UserCircle className='text-white' size={128} />
                 <span className='text-2xl font-semibold'>Seja bem vindo!</span>

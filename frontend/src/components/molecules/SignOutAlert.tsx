@@ -1,12 +1,16 @@
 import { BUTTON_TYPE, Button } from '@components/atoms/Button'
 import * as AlertDialog from '@radix-ui/react-alert-dialog'
 import { SignOut } from 'phosphor-react'
+import { useAppDispatch } from '../../hooks/useAppDispatch'
+import { setSignOut } from '@store/user/user-reducer'
 
 type SignOutAlert = {
     button: React.ReactNode
 }
 
 export const SignOutAlert: React.FC<SignOutAlert> = ({button}) => {
+
+    const dispatch = useAppDispatch()
 
     return (
         <AlertDialog.Root>
@@ -23,7 +27,7 @@ export const SignOutAlert: React.FC<SignOutAlert> = ({button}) => {
                             <Button text='Cancelar' buttonType={BUTTON_TYPE.RED} />
                         </AlertDialog.Cancel>
                         <AlertDialog.Action className='w-full'>
-                            <Button text='Confirmar' />
+                            <Button onClick={() => dispatch(setSignOut())} text='Confirmar' />
                         </AlertDialog.Action>
                     </div>
                 </AlertDialog.Content>

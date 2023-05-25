@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.5",
+    "axios": "^1.4.0",
+    "react-redux": "^8.0.5",
+    "redux": "^4.2.1",
+    "redux-persist": "^6.0.0"
+  }
+}

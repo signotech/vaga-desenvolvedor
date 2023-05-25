@@ -32,6 +32,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@types/react-alert": "^7.0.2"
-  }
+    "@types/react-alert": "^7.0.2",
+    "@types/redux-persist": "^4.3.1"
+  } 
 }
