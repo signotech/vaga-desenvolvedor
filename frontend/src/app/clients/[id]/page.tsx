@@ -49,6 +49,11 @@ const Client = () => {
         try {
             const response = await api.get(`/client/${params.id}`)
             setClient(response.data)
+            reset({
+                nome: response.data.nome,
+                email: response.data.email,
+                cpf: response.data.cpf
+            })
         } catch (err) {
             setNotFound(true)
         }
@@ -56,12 +61,8 @@ const Client = () => {
 
     useEffect(() => {
         getClientData()
-        reset({
-            nome: client?.nome,
-            email: client?.email,
-            cpf: client?.cpf
-        })
-    })
+        console.log(client)
+    }, [])
 
 
     const handleUpdateClient: SubmitHandler<FormSchema> = async (data) => {
@@ -98,7 +99,7 @@ const Client = () => {
         </DashboardLayout>
     ) : (
         <DashboardLayout>
-            <h1 className="text-2xl mx-auto text-center w-full">Cliente não encontrado!</h1>
+            <h1 className="text-2xl col-span-10 mx-auto text-center w-full">Cliente não encontrado!</h1>
         </DashboardLayout>
     )
 

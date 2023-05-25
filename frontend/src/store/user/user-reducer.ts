@@ -20,7 +20,6 @@ export const userSlice = createSlice({
             state.authenticated = true
 		},
         setSignOut(state){
-			api.defaults.headers.common["Authorization"] = null
             state.token = null
             state.authenticated = false
         }

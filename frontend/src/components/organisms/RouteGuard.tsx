@@ -16,31 +16,17 @@ export const RouteGuard = ({ children }: RouteGuard) => {
     const dispatch = useAppDispatch()
     const [authorized, setIsAuthorized] = useState(false)
 
-    const validateToken = useCallback(async () => {
-        try {
-            await api.post("/auth/validate", { token })
-            setIsAuthorized(true)
-            api.defaults.headers.common["Authorization"] = `Bearer: ${token}`
-        } catch (err) {
-            dispatch(setSignOut())
-            router.push("/sign-in")
-        }
-    }, [router, token, dispatch])
 
-    useEffect(() => {
-        if (!authenticated || !token) {
-            setIsAuthorized(false)
-            router.push("/sign-in")
-            return
-        }
-        validateToken()
-        
-    }, [token, authenticated, validateToken, router])
+    if(!token || !authenticated){
+        router.push('/sign-in')
+		api.defaults.headers.common["Authorization"] = null
+        return null
+    }
+
+    api.defaults.headers.common["Authorization"] = `Bearer: ${token}`
 
 
-    return authorized ? (
-        children
-    ) : <h1 className="text-black text-center text-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">Carregando...</h1>
+    return <>{children}</>
 
 
 

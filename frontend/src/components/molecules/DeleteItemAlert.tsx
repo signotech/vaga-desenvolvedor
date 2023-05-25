@@ -35,8 +35,8 @@ export const DeleteItemAlert: React.FC<DeleteItemAlert> = ({ button, entityToDel
                         <AlertDialog.Cancel className='w-full'>
                             <Button text='Cancelar' buttonType={BUTTON_TYPE.GRAY} />
                         </AlertDialog.Cancel>
-                        <AlertDialog.Action className='w-full' onClick={() => handleDelete()}>
-                            <Button text='Confirmar' buttonType={BUTTON_TYPE.RED} />
+                        <AlertDialog.Action className='w-full' >
+                            <Button text='Confirmar' onClick={() => handleDelete()} buttonType={BUTTON_TYPE.RED} />
                         </AlertDialog.Action>
                     </div>
                 </AlertDialog.Content>
