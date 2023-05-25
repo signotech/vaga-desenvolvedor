@@ -21,9 +21,9 @@ export const CreateClientDialog = () => {
                     </div>
                     <Dialog.Description className='mb-8 text-sm lg:text-md'>Preencha os campos do formulário para registrar um novo cliente.</Dialog.Description>
                     <form className="flex flex-col gap-4">
-                        <Input name="nome" id="nome" placeholder="Nome" type="text" ><Person className="text-wite" size={24} /></Input>
-                        <Input name="email" id="email" type="email" placeholder="Email" ><EnvelopeSimple className="text-wite" size={24} /></Input>
-                        <Input name="cpf" id="cpf" type="text" placeholder="CPF" ><IdentificationCard className="text-wite" size={24} /></Input>
+                        <Input name="nome" id="nome" placeholder="Nome" type="text" ><Person className="text-gray-500" size={24} /></Input>
+                        <Input name="email" id="email" type="email" placeholder="Email" ><EnvelopeSimple className="text-gray-500" size={24} /></Input>
+                        <Input name="cpf" id="cpf" type="text" placeholder="CPF" ><IdentificationCard className="text-gray-500" size={24} /></Input>
                         <Button text="Cadastrar" />
                     </form>
                 </Dialog.Content>

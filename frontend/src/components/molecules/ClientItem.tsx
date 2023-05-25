@@ -9,7 +9,6 @@ export const ClientItem = () => {
                 <span className="col-span-3 text-left"><span className="lg:hidden">Nome:</span> Tomaz Xavier</span>
                 <span className="col-span-3 text-left"><span className="lg:hidden">Email:</span> tomazcx06@gmail.com</span>
                 <span className="col-span-3 text-left"><span className="lg:hidden">CPF:</span> 092904489-46</span>
-
             </div>
         </ClientDataDialog>
     )
