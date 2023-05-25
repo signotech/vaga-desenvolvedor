@@ -1,0 +1,33 @@
+// modal.scss
+
+.modal {
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    height: 25vh;
+    margin-top: 25vh;
+    width: 61%;
+    margin-left: 15vw;
+}
+ 
+  
+  .modal h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .modal button {
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    color: #000000;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .modal button:hover {
+    background-color: #000000;
+    color: #ffffff;
+  }
+  

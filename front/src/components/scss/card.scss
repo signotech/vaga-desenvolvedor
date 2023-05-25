@@ -1,0 +1,49 @@
+body {
+    font-family: "Averta CY", sans-serif;
+
+}
+
+.card-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10vh;
+    
+    .button-card{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-left: 70px;
+        margin-bottom: 10px;
+        height: 30px;
+        width: 56%;
+        padding: 5px;
+        background: #455fb4;
+        border-radius: 12px
+    }
+    .img-plus{
+        height: 40px;
+        margin-bottom: 65px;
+    }
+    .span-card-list{
+        color: red;
+        
+    }
+}
+
+.card {
+    background: #FFFFFF;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    width: 90%;
+    margin-bottom: 20px;
+    
+
+    p {
+        margin-left: 10px;
+    }
+
+    h3 {
+        margin-left: 10px;
+    }
+}

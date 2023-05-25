@@ -1,0 +1,19 @@
+.input-filter-vagas {
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    overflow-x: hidden;
+    width: 60%;
+    left: 20%;
+    height: 50px;
+    background: #FFFFFF;
+    border: 1px solid #C2C5C9;
+    border-radius: 12px;
+    margin-top: 50px;
+}
+
+input::placeholder {
+    color: gray;
+    font-size: 14px;
+    padding-left: 10px;
+  }
