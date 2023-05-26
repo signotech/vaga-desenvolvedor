@@ -34,7 +34,7 @@
                 <li>
                     <span class="font-bold uppercase">
                         Bem Vindo {{ auth()->user()->name }}
-                        ({{ (auth()->user()->role == 'employer' ? 'Empregador' : auth()->user()->role == 'candidate') ? 'Candidato' : 'Admin' }})
+                        ({{ auth()->user()->role }})
                     </span>
                 </li>
                 @if (auth()->user()->role == 'employer')
