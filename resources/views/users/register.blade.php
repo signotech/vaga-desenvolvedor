@@ -58,7 +58,7 @@
                         <input id="clt" name="role" value="employer" type="radio" checked />
                     </label>
                     <label class="mt-px cursor-pointer select-none font-light text-gray-700" for="html">
-                        Employer
+                        Empregador
                     </label>
                 </div>
                 <div class="inline-flex items-center">
@@ -67,7 +67,7 @@
                         <input id="candidate" name="role" value="candidate" type="radio" />
                     </label>
                     <label class="mt-px cursor-pointer select-none font-light text-gray-700" for="html">
-                        Candidate
+                        Candidato
                     </label>
                 </div>
 
