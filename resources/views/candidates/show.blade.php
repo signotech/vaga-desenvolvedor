@@ -28,7 +28,7 @@
 
             <x-card class="mt-4 p-2 flex space-x-6">
                 <a href="/candidates/{{ $candidate->id }}/edit">
-                    <i class="fa-solid fa-pencil"></i> Edit
+                    <i class="fa-solid fa-pencil"></i> Editar
                 </a>
 
                 <form method="POST" action="/candidates/{{ $candidate->id }}">
