@@ -9,3 +9,4 @@
 - Apenas o empregador pode gerenciar vagas e postar novas vagas ou pausar uma vaga
 - Apenas o candidato pode se candidatar a vagas
 - Para rodar os testes: `sail php artisan test`
+- Para pausar uma vaga, deve-se logar como empregador, selecionar uma vaga e clicar em editar, no formulário haverá um 'checkbox' para pausar a vaga.
