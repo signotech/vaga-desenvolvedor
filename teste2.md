@@ -28,7 +28,7 @@ Sua aplicação deve possuir:
 
 ## Banco de dados
 
-- O banco de dados deve ser criado utilizando Migrations do framework Laravel, e também utilizar Seeds e Factorys para popular as informações no banco de dados.
+- O banco de dados deve ser criado utilizando migrations, e também utilizar Seeds e Factorys para popular as informações no banco de dados.
 
 ## Tecnologias a serem utilizadas
 
@@ -37,7 +37,7 @@ Devem ser utilizadas as seguintes tecnologias:
 - HTML
 - CSS
 - Javascript
-- Framework Laravel (PHP)
+- Framework Laravel (PHP) OU NodeJS + ReactJS
 - Docker (construção do ambiente de desenvolvimento)
 - Mysql, Postgres ou SQLite
 
@@ -59,9 +59,9 @@ Devem ser utilizadas as seguintes tecnologias:
 
 - Organização do código;
 - Aplicação de design patterns;
-- Aplicação de testes;
+- Aplicação de testes; (diferencial, não obrigatório)
 - Separação de módulos e componentes;
 - Legibilidade;
-- Criação do ambiente com Docker.
+- Criação do ambiente com Docker. (diferencial, não obrigatório)
 
 ### Boa sorte!
