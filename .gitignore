@@ -3,4 +3,5 @@ dist/
 yarn.lock
 .env
 .vscode
-.*lock*
+*lock*
+
