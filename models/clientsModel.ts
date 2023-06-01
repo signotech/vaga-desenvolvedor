@@ -1,29 +1,35 @@
-const Sequelize = require('sequelize')
-const database = require('../db')
+const Sequelize = require("sequelize");
+import sequelize from "../src/data_source";
 
-const Client = database.define('client', {
-   id:{
-      type:Sequelize.INTERGER,
+const Client = sequelize.define("client", {
+   id: {
+      type: Sequelize.INTEGER,
       autoIncrement: true,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
    },
-   name: {
-      type:Sequelize.STRING(150),
+   name_client: {
+      type: Sequelize.STRING(150),
       allowNull: false,
    },
-   cpf: {
-      type:Sequelize.STRING(11),
+   cpf_client: {
+      type: Sequelize.STRING(11),
       allowNull: false,
-      unique: true
+      unique: true,
    },
-   email: {
-      type:Sequelize.STRING(11),
+   email_client: {
+      type: Sequelize.STRING(255),
       allowNull: false,
-      unique: true
+      unique: true,
    },
-   password:{
-      type:Sequelize.STRING(150),
-      allowNull: false
+   createdAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
    },
-})
+   updatedAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
+   },
+});
+
+export default Client;

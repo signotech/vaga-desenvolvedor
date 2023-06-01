@@ -2,7 +2,7 @@ require('dotenv').config()
 
 const PORT = parseInt(process.env.PORT);
 
-module.exports=
+   module.exports=
 {
    "development": {
       "username": process.env.DB_USER,
