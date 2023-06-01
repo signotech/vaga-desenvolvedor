@@ -21,5 +21,9 @@ const Client = database.define('client', {
       type:Sequelize.STRING(11),
       allowNull: false,
       unique: true
-   }
+   },
+   password:{
+      type:Sequelize.STRING(150),
+      allowNull: false
+   },
 })
