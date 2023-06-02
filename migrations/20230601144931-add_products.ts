@@ -12,7 +12,7 @@ async up (queryInterface, Sequelize) {
       },
       title_product: {
          type: Sequelize.STRING(100),
-         allowNull: false
+         allowNull: false,
       },
       sku_product: {
          type: Sequelize.STRING(100),
@@ -21,7 +21,7 @@ async up (queryInterface, Sequelize) {
       price_product: {
          type: Sequelize.DECIMAL(10, 2) ,
          allowNull: false,
-         unique: true
+   
       },
       stock_product:{
          type:Sequelize.INTEGER,

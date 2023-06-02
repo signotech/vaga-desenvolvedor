@@ -12,7 +12,6 @@ const Products = sequelize.define("products", {
    title_product: {
       type: Sequelize.STRING(100),
       allowNull: false,
-      unique: true
    },
    sku_product: {
       type: Sequelize.STRING(100),
