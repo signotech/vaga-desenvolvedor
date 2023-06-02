@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 import sequelize from "../src/data_source";
 
-const ProductOrder = sequelize.define("product_order", {
+const Order = sequelize.define("product_orders", {
    id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
@@ -38,4 +38,4 @@ const ProductOrder = sequelize.define("product_order", {
    },
 });
 
-export default ProductOrder
+export default Order

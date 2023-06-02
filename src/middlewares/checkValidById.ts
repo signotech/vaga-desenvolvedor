@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { AppError } from "../error/error";
 import Client from "../../models/clientsModel";
 import Products from "../../models/productsModel";
+import Order from "../../models/productsOrderModel";
 
 const checkValidId = async (
    req: Request,
@@ -25,6 +26,14 @@ const checkValidId = async (
 
       if (!getProducts) {
          throw new AppError("Product not found", 404);
+      }
+   }
+
+   if (routPath == "/order") {
+      const getOrder = await Order.findByPk(Id);
+
+      if (!getOrder) {
+         throw new AppError("Order not found", 404);
       }
    }
 

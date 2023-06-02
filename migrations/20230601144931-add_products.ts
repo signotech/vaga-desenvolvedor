@@ -40,7 +40,7 @@ async up (queryInterface, Sequelize) {
          allowNull: true,
          unique: true,
          references: {
-            model: 'product_order', 
+            model: 'product_orders', 
             key: 'id' 
          },
          onUpdate: 'CASCADE', 
