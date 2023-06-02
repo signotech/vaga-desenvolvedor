@@ -1,31 +1,34 @@
 const Sequelize = require("sequelize");
-const database = require("../config/config");
+import sequelize from "../src/data_source";
 
-const Admin = database.define("admin_user", {
+const Admin = sequelize.define("admin_users", {
    id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
       allowNull: false,
       primaryKey: true,
    },
-   request_code: {
-      type: Sequelize.INTEGER,
-   },
-   request_date: {
-      type: Sequelize.DATE,
-   },
-   request_status: {
-      type: Sequelize.STRING(20),
-      defaultValue: "Em Aberto",
-   },
-   client_id: {
-      type: Sequelize.INTEGER,
+   email_user: {
+      type: Sequelize.STRING(255),
       allowNull: false,
-      references: {
-         model: "clients",
-         key: "id",
-      },
-      onUpdate: "CASCADE",
-      onDelete: "CASCADE",
+      unique: true,
+   },
+   password_user: {
+      type: Sequelize.STRING(150),
+      allowNull: false,
+   },
+   is_admin: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: true,
+   },
+   createdAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
+   },
+   updatedAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
    },
 });
+
+export default Admin
