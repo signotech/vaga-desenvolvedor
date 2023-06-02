@@ -1,10 +1,17 @@
 import Order from '../../../models/productsOrderModel';
+import { AppError } from '../../error/error';
+import { TdeleteSchema } from '../../interfaces/massDelete.interfaces';
 
-   const deleteOrderService = async (orderId:number):Promise<void> => {
+   const deleteOrderService = async (bodyParams:TdeleteSchema ):Promise<void> => {
+      const { massDelete } = bodyParams;
 
-      const getOrder = await Order.findByPk(orderId);
-
-      await getOrder.destroy()
+      if(massDelete.length == 0 ){
+         throw new AppError("send id required", 404)
+      }
+   
+      await Order.destroy({
+         where: { id: massDelete },
+      });
 
    }
 

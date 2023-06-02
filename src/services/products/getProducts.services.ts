@@ -1,9 +1,15 @@
 import Products from '../../../models/productsModel';
 import { TProductResponse } from '../../interfaces/products/products.interfaces';
 
-   const getProductService = async ():Promise<TProductResponse[]> => {
+   const getProductService = async (queryParams:any):Promise<TProductResponse[]> => {
 
-      const getClient:TProductResponse[] = await Products.findAll();
+      const page: number = parseInt(queryParams.page);
+      const perPage: number = parseInt(queryParams.perPage);
+   
+      const getClient:TProductResponse[] = await Products.findAll({
+         offset: (page - 1) * perPage,
+         limit: perPage,
+      });
 
       return getClient
    }

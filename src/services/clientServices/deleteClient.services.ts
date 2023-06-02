@@ -1,11 +1,20 @@
-import Client from '../../../models/clientsModel'
+import Client from "../../../models/clientsModel";
+import { AppError } from "../../error/error";
+import { TdeleteSchema } from "../../interfaces/massDelete.interfaces";
 
-   const deleteClientService = async (clientId:number):Promise<void> => {
+const deleteClientService = async (
+   bodyParams: TdeleteSchema
+): Promise<void> => {
+   
+   const { massDelete } = bodyParams;
 
-      const getClient = await Client.findByPk(clientId);
-
-      await getClient.destroy()
-
+   if (massDelete.length == 0) {
+      throw new AppError("send id required", 404);
    }
 
-export default deleteClientService
+   await Client.destroy({
+      where: { id: massDelete },
+   });
+};
+
+export default deleteClientService;

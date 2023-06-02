@@ -1,11 +1,17 @@
-import Client from '../../../models/clientsModel'
-import { TClientResponse } from '../../interfaces/clientInterface/client.interface';
+import Client from "../../../models/clientsModel";
+import { TClientResponse } from "../../interfaces/clientInterface/client.interface";
 
-   const getClientService = async ():Promise<TClientResponse[]> => {
+const getClientService = async (queryParams:any): Promise<TClientResponse[]> => {
 
-      const getClient:TClientResponse[] = await Client.findAll();
+   const page: number = parseInt(queryParams.page);
+   const perPage: number = parseInt(queryParams.perPage);
 
-      return getClient
-   }
+   const getClient: TClientResponse[] = await Client.findAll({
+      offset: (page - 1) * perPage,
+      limit: perPage,
+   });
 
-export default getClientService
+   return getClient;
+};
+
+export default getClientService;

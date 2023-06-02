@@ -7,8 +7,10 @@ const getOrder = async (
    req: Request,
    res: Response
 ): Promise<Response> => {
-   
-   const getOrder:TOrderResponse[] = await getOrderService()
+
+   const queryParams = req.query;
+
+   const getOrder:TOrderResponse[] = await getOrderService(queryParams)
 
    return res.status(200).json(getOrder);
 };

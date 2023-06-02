@@ -6,8 +6,9 @@ const getProducts = async (
    req: Request,
    res: Response
 ): Promise<Response> => {
-   
-   const getProducts:TProductResponse[] =  await getProductService() 
+   const queryParams = req.query;
+
+   const getProducts:TProductResponse[] =  await getProductService(queryParams) 
 
    return res.status(200).json(getProducts);
 };

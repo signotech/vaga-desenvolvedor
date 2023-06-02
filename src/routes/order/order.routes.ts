@@ -1,17 +1,17 @@
 import { Router } from "express";
 import { deleteOrder, getOrder, postOrder, updateOrder } from "../../controllers/order";
-import validBodySchema from "../../middlewares/validBodySchemas";
 import { orderSchemaRequest, updateOrderRequest } from "../../schemas/order/order.schemas";
-import { checkValidId } from "../../middlewares";
+import { checkValidId, validBodySchemas } from "../../middlewares";
+import { deleteSchema } from "../../schemas/massDelete.schema";
 
 const orderRoutes: Router = Router();
 
-orderRoutes.post("",validBodySchema(orderSchemaRequest),postOrder);
+orderRoutes.post("",validBodySchemas(orderSchemaRequest),postOrder);
 
 orderRoutes.get("",getOrder);
 
-orderRoutes.patch("/:id",checkValidId,validBodySchema(updateOrderRequest), updateOrder);
+orderRoutes.patch("/:id",checkValidId,validBodySchemas(updateOrderRequest), updateOrder);
 
-orderRoutes.delete("/:id",checkValidId,deleteOrder);
+orderRoutes.delete("",validBodySchemas(deleteSchema),deleteOrder);
 
 export default orderRoutes;

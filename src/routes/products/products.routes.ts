@@ -17,6 +17,7 @@ import {
    checkValidId,
    validBodySchemas,
 } from "../../middlewares";
+import { deleteSchema } from "../../schemas/massDelete.schema";
 
 const productsRoutes: Router = Router();
 
@@ -34,6 +35,6 @@ productsRoutes.patch("/:id",
    updateProduct
 );
 
-productsRoutes.delete("/:id", checkValidId, deleteProduct);
+productsRoutes.delete("",validBodySchemas(deleteSchema) , deleteProduct);
 
 export default productsRoutes;

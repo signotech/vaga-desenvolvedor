@@ -1,13 +1,14 @@
 import { Request, Response } from "express";
 import deleteOrderService from "../../services/order/deleteOrder.services";
+import { TdeleteSchema } from "../../interfaces/massDelete.interfaces";
 
 const deleteOrder = async (
    req: Request,
    res: Response
 ): Promise<Response> => {
-   const orderId: number = parseInt(req.params.id);
+   const bodyParams:TdeleteSchema = req.body
 
-   await deleteOrderService(orderId)
+   await deleteOrderService(bodyParams)
 
    return res.status(204).send();
 };

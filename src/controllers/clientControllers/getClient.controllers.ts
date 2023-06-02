@@ -7,8 +7,9 @@ const getClient = async (
    req: Request,
    res: Response
 ): Promise<Response> => {
-   
-   const getClients:TClientResponse[] =  await getClientService()
+   const queryParams = req.query;
+
+   const getClients:TClientResponse[] =  await getClientService(queryParams)
 
    return res.status(200).json(getClients);
 };
