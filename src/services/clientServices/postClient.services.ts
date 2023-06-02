@@ -1,4 +1,3 @@
-import { promises } from 'dns';
 import Client from '../../../models/clientsModel'
 import { TClientRequest, TClientResponse } from '../../interfaces/clientInterface/client.interface';
 

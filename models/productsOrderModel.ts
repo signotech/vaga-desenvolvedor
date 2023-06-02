@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
-const database = require("../config/config");
+import sequelize from "../src/data_source";
 
-const ProductOrder = database.define("product_order", {
+const ProductOrder = sequelize.define("product_order", {
    id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
@@ -17,6 +17,14 @@ const ProductOrder = database.define("product_order", {
    request_status: {
       type: Sequelize.STRING(20),
       defaultValue: "Em Aberto",
+   },
+   createdAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
+   },
+   updatedAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
    },
    client_id: {
       type: Sequelize.INTEGER,

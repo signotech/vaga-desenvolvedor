@@ -1,21 +1,39 @@
 import { Router } from "express";
-import { postClient, getClient, updateClient, deleteClient } from "../../controllers/clientControllers";
-import validBodySchema from "../../middlewares/validBodySchemas";
-import { clientSchemaRequest, updateClientSchemaRequest } from "../../schemas/clientSchemas/client.schemas";
-import { checkDuplicateValues, checkValidId } from "../../middlewares/clientMiddlewares";
 
+import {
+   postClient,
+   getClient,
+   updateClient,
+   deleteClient,
+} from "../../controllers/clientControllers";
 
+import {
+   clientSchemaRequest,
+   updateClientSchemaRequest,
+} from "../../schemas/clientSchemas/client.schemas";
+
+import {
+   checkDuplicateValues,
+   checkValidId,
+   validBodySchemas,
+} from "../../middlewares";
 
 const clientRoutes: Router = Router();
 
-// CRUD without relationships
-
-clientRoutes.post("",checkDuplicateValues,validBodySchema(clientSchemaRequest),postClient);
+clientRoutes.post("",
+   checkDuplicateValues,
+   validBodySchemas(clientSchemaRequest),
+   postClient
+);
 
 clientRoutes.get("", getClient);
 
-clientRoutes.patch("/:id",checkValidId,validBodySchema(updateClientSchemaRequest),updateClient);
+clientRoutes.patch("/:id",
+   checkValidId,
+   validBodySchemas(updateClientSchemaRequest),
+   updateClient
+);
 
-clientRoutes.delete("/:id",checkValidId,deleteClient);
+clientRoutes.delete("/:id", checkValidId, deleteClient);
 
 export default clientRoutes;

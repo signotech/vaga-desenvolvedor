@@ -1,8 +1,8 @@
 
 const Sequelize = require("sequelize");
-const database = require("../config/config");
+import sequelize from "../src/data_source";
 
-const Products = database.define("products", {
+const Products = sequelize.define("products", {
    id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
@@ -11,7 +11,8 @@ const Products = database.define("products", {
    },
    title_product: {
       type: Sequelize.STRING(100),
-      allowNull: false
+      allowNull: false,
+      unique: true
    },
    sku_product: {
       type: Sequelize.STRING(100),
@@ -20,11 +21,19 @@ const Products = database.define("products", {
    price_product: {
       type: Sequelize.DECIMAL(10, 2) ,
       allowNull: false,
-      unique: true
+
    },
    stock_product:{
       type:Sequelize.INTEGER,
       allowNull: false
+   },
+   createdAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
+   },
+   updatedAt: {
+      type: Sequelize.DATE,
+      allowNull: false,
    },
    product_order_id: {
       type: Sequelize.INTEGER,

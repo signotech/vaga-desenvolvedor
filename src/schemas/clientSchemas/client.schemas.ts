@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const clientSchema = z.object({
-   id: z.number(),
+   id: z.number().int(),
    name_client: z.string().max(150),
    cpf_client: z.string().max(11),
    email_client: z.string().email().max(255),
@@ -15,8 +15,6 @@ const clientSchemaRequest = clientSchema.omit({
    updatedAt: true,
 });
 
-const updateClientSchemaRequest = clientSchema
-   .omit({ id: true,})
-   .partial();
+const updateClientSchemaRequest = clientSchema.omit({ id: true }).partial();
 
-export {clientSchema, clientSchemaRequest, updateClientSchemaRequest}
+export { clientSchema, clientSchemaRequest, updateClientSchemaRequest };

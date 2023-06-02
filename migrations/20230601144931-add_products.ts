@@ -27,6 +27,14 @@ async up (queryInterface, Sequelize) {
          type:Sequelize.INTEGER,
          allowNull: false
       },
+      createdAt: {
+         type: Sequelize.DATE,
+         allowNull: false,
+      },
+      updatedAt: {
+         type: Sequelize.DATE,
+         allowNull: false,
+      },
       product_order_id: {
          type: Sequelize.INTEGER,
          allowNull: true,

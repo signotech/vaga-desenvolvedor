@@ -5,6 +5,6 @@ import { loginSchemas } from "../../schemas/login/login.schemas";
 
 const loginRoutes: Router = Router();
 
-loginRoutes.post("",validBodySchema(loginSchemas),loginPost);
+loginRoutes.post("", validBodySchema(loginSchemas), loginPost);
 
 export default loginRoutes;
