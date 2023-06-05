@@ -1,5 +1,7 @@
 import FormLogin from "../../components/Form/FormLogin";
 import NavBarLogin from "../../components/Header/NavBarLogin";
+import LoginDescription from "../../components/LoginDescription";
+import { MainStyled } from "./styled";
 
 const LoginPage = () => {
    return (
@@ -8,9 +10,10 @@ const LoginPage = () => {
             <NavBarLogin />
          </header>
 
-         <main className="container max-width-1200">
+         <MainStyled className="container max-width-1200">
+            <LoginDescription></LoginDescription>
             <FormLogin />
-         </main>
+         </MainStyled>
       </>
    );
 };

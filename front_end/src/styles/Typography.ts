@@ -9,22 +9,22 @@ export const GlobalTypography = createGlobalStyle`
    color: var(--grey-0);
 }
 .Title.one{
-   font-size: 1.5rem;
+   font-size: 1.6rem;
    font-weight: 600;
    letter-spacing: 0.10rem;
    color: var(--grey-0);
 }
 
 .Title.two{
-   font-size: 1.3rem;
+   font-size: 1.5rem;
    font-weight: 400;
-   color: var(--grey-0);
+   color: var(--grey-2);
 }
 
 .Title.three{
-   font-size: 1rem;
-   font-weight: 400;
-   color: var(--grey-0);
+   font-size: 1.3rem;
+   font-weight: 600;
+   color: var(--grey-3);
 }
 
 .Headline{
@@ -35,7 +35,7 @@ export const GlobalTypography = createGlobalStyle`
 .label{
    font-size: 0.90rem;
    font-weight: 400;
-   color: var(--grey-0);
+   color: var(--label-text-color);
 }
 
 .Headline.Bold{

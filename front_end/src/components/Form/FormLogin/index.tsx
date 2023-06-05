@@ -5,6 +5,8 @@ import { loginSchema } from "./validation";
 import { useContext } from "react";
 import { LoginContext } from "../../../contexts/login";
 import { iUserLogin } from "../../../contexts/login/@types";
+import { FormStyled } from "./styled";
+import { ButtonLogin } from "../../../styles/buttons";
 
 const FormLogin = () => {
    const { userLogin } = useContext(LoginContext);
@@ -21,7 +23,8 @@ const FormLogin = () => {
 
       
    return (
-      <form onSubmit={handleSubmit(submit)}>
+      <FormStyled onSubmit={handleSubmit(submit)}>
+
          <Inputs
             type="email"
             label="Digite o seu E-mail"
@@ -37,8 +40,8 @@ const FormLogin = () => {
             error={errors.password_user}
          />
 
-         <button type="submit">Login</button>
-      </form>
+         <ButtonLogin  type="submit">Login</ButtonLogin>
+      </FormStyled>
    );
 };
 
