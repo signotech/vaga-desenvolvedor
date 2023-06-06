@@ -12,8 +12,9 @@ const Router = () => (
       </Route>
 
       <Route path="/Protected" element={<ProtectedRoutes />}>
-         <Route path="/Protected/Dashboard" element={<DashboardPage/>} />
-         <Route path="/Protected/infoPage" element={<InfoPage/>} />
+         <Route path="/Protected/Dashboard" element={<DashboardPage />} />
+
+         <Route path="/Protected/infoPage" element={<InfoPage />} />
       </Route>
    </Routes>
 );

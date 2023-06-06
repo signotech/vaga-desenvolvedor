@@ -22,6 +22,8 @@ import { createGlobalStyle } from 'styled-components';
    --label-text-color:#1976d2;
 
    --button-color-login:#1976d2;
+
+   --names-item-collections:#1976d2;
 }
 
    button{

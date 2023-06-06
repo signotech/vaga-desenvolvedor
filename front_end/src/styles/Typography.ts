@@ -38,17 +38,12 @@ export const GlobalTypography = createGlobalStyle`
    color: var(--label-text-color);
 }
 
-.Headline.Bold{
-   font-size: 1rem;
-   font-weight: 700;
-   color: var(--grey-0);
+.Title.Collections{
+   font-size: 2rem;
+   font-weight: 400;
+   color: var(--grey-3);
 }
 
-.Headline.Italic{
-   font-size: 1rem;
-   font-weight: 600;
-   color: var(--grey-0);
-   font-style: italic;
-}
+
 
 `
