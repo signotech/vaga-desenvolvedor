@@ -5,7 +5,9 @@ export interface iDefaultProviderProps {
 
 export interface iClientsContext {
    clients: iClients[]
+   pageClients: string
    getClients: () => Promise<void>
+   setPageClients: React.Dispatch<React.SetStateAction<string>>
 }
 
 export interface iClients {

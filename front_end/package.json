@@ -10,7 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
     "@hookform/resolvers": "^3.1.0",
+    "@mui/material": "^5.13.4",
     "axios": "^1.4.0",
     "jwt-decode": "^3.1.2",
     "materialize-css": "^1.0.0-rc.2",

@@ -1,10 +1,20 @@
-import { Link } from "react-router-dom";
 import { UlStyled } from "./styled";
+import { ButtonNavMob } from "../../../styles/buttons";
+import { useContext } from "react";
+import { DashboardPageContext } from "../../../contexts/dashboardPage";
 
-interface iMenuOpenProps  {
-   isMenuOpen:boolean
+interface iMenuOpenProps {
+   isMenuOpen: boolean;
 }
-const MobileMenu = ({isMenuOpen}:iMenuOpenProps) => {
+const MobileMenu = ({ isMenuOpen }: iMenuOpenProps) => {
+   
+
+   const {setSelectList} = useContext(DashboardPageContext)
+
+   const valueButton = (event:any) => {
+
+      setSelectList(event.value);
+   };
 
    return (
       <UlStyled
@@ -12,16 +22,25 @@ const MobileMenu = ({isMenuOpen}:iMenuOpenProps) => {
          id="mobile-nav"
       >
          <li>
-            <Link to="/dashboard">Clientes</Link>
+            <ButtonNavMob value="products" onClick={(event) => valueButton(event.target)}>
+               Produtos
+            </ButtonNavMob>
          </li>
          <li>
-            <Link to="/profile">Produtos</Link>
+            <ButtonNavMob value="clients" onClick={(event) => valueButton(event.target)}>
+               Clientes
+            </ButtonNavMob>
          </li>
          <li>
-            <Link to="/settings">Nº Pedido </Link>
+            <ButtonNavMob value="orders" onClick={(event) => valueButton(event.target)}>
+               Pedidos
+            </ButtonNavMob>
+         </li>
+         <li>
+            <ButtonNavMob>Sair</ButtonNavMob>
          </li>
       </UlStyled>
    );
 };
 
-export default MobileMenu
+export default MobileMenu;

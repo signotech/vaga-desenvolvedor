@@ -4,6 +4,7 @@ import PublicRoutes from "../pages/PublicRoutes";
 import ProtectedRoutes from "../pages/ProtectdRoutes";
 import DashboardPage from "../pages/DashboardPage";
 import InfoPage from "../pages/InfosPage";
+import { DashboardPageProvide } from "../contexts/dashboardPage";
 
 const Router = () => (
    <Routes>
@@ -12,7 +13,14 @@ const Router = () => (
       </Route>
 
       <Route path="/Protected" element={<ProtectedRoutes />}>
-         <Route path="/Protected/Dashboard" element={<DashboardPage />} />
+         <Route
+            path="/Protected/Dashboard"
+            element={
+               <DashboardPageProvide>
+                  <DashboardPage />
+               </DashboardPageProvide>
+            }
+         />
 
          <Route path="/Protected/infoPage" element={<InfoPage />} />
       </Route>

@@ -5,6 +5,14 @@ export interface iDefaultProviderProps {
 export interface iOrdersContext {
    orders: iOrders[]
    getOrders: () => Promise<void>
+   setPage: React.Dispatch<React.SetStateAction<string>>
+   page: string
+   deleteOrders: (data: dataDelete) => Promise<void>
+
+}
+
+export interface dataDelete {
+   massDelete:number
 }
 
 export interface iOrders {

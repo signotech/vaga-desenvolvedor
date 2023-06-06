@@ -7,6 +7,7 @@ export const LiStyled = styled.li`
    gap: 1rem;
    border-left: 0.5rem solid red;
    border-radius: 0.5rem;
+   position: relative;
    
 
    div{
@@ -23,4 +24,9 @@ export const LiStyled = styled.li`
       }
    }
 
+   i{
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+   }
 `;

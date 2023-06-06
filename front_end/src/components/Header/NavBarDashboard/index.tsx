@@ -1,38 +1,50 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import MobileMenu from '../MobileMenu';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import MobileMenu from "../MobileMenu";
+import { ButtonNav } from "../../../styles/buttons";
+import { UlStyled } from "./styled";
 const NavBarDashboard = () => {
-
    const [isMenuOpen, setMenuOpen] = useState(false);
-   
-   const opemMenu = () =>{
-      setMenuOpen(!isMenuOpen)
-   }
+
+   const opemMenu = () => {
+      setMenuOpen(!isMenuOpen);
+   };
    return (
       <>
          <nav className="light-blue darken-4">
             <div className="nav-wrapper container max-width-1200">
-               <Link to="/" className="brand-logo">
+               <Link to="/Protected/Dashboard" className="brand-logo">
                   Kali System
                </Link>
-               <a href="#!" className="sidenav-trigger" data-target="mobile-menu" onClick={opemMenu}>
-                  <i className=" Tiny material-icons ">{isMenuOpen ? "close" : "drag_handle"}</i>
+               <a
+                  href="#!"
+                  className="sidenav-trigger"
+                  data-target="mobile-menu"
+                  onClick={opemMenu}
+               >
+                  <i className=" Tiny material-icons ">
+                     {isMenuOpen ? "close" : "drag_handle"}
+                  </i>
                </a>
-               <ul className="right hide-on-med-and-down">
+
+               <UlStyled className="right hide-on-med-and-down">
                   <li>
-                     <Link to="/dashboard">Dashboard</Link>
+                     <ButtonNav>Produtos</ButtonNav>
                   </li>
                   <li>
-                     <Link to="/profile">Profile</Link>
+                     <ButtonNav>Clientes</ButtonNav>
                   </li>
                   <li>
-                     <Link to="/settings">Settings</Link>
+                     <ButtonNav>Pedidos</ButtonNav>
                   </li>
-               </ul>
+                  <li>
+                     <ButtonNav>Sair</ButtonNav>
+                  </li>
+               </UlStyled>
             </div>
          </nav>
 
-      < MobileMenu isMenuOpen={isMenuOpen}/>
+         <MobileMenu isMenuOpen={isMenuOpen} />
       </>
    );
 };
