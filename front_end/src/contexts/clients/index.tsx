@@ -1,14 +1,21 @@
 import { createContext, useState } from "react";
-import { dataDelete, iClients, iClientsContext, iDefaultProviderProps } from "./@types";
 import { api } from "../../services/api";
+import { AxiosResponse } from "axios";
+import { toast } from "react-toastify";
+import {
+   dataDelete,
+   iClientCreate,
+   iClientUpdate,
+   iClients,
+   iClientsContext,
+   iDefaultProviderProps,
+} from "./@types";
 
 export const ClientsContext = createContext({} as iClientsContext);
 
 export const ClientsProvide = ({ children }: iDefaultProviderProps) => {
-
    const [clients, setClients] = useState<iClients[]>([]);
    const [pageClients, setPageClients] = useState<string>("1");
-
 
    const getClients = async () => {
       try {
@@ -22,22 +29,58 @@ export const ClientsProvide = ({ children }: iDefaultProviderProps) => {
       }
    };
 
-         const deleteClients = async (data:dataDelete) => {
+   const deleteClients = async (data: dataDelete) => {
+      const { massDelete } = data;
 
-      const {massDelete} = data
-      
       try {
+         const response = await api.put(`/client`, data);
 
-         const response = await api.put(`/client`,data);
-         
-         const newOrderList = clients.filter((client:iClients) => client.id !== massDelete);
-         
+         const newOrderList = clients.filter(
+            (client: iClients) => client.id !== massDelete
+         );
+
          setClients(newOrderList);
+      } catch (error) {
+         console.error(error);
+      }
+   };
+
+   const editClient = async (data: iClientUpdate,id:number) => {
+
+      try {
+         const response: AxiosResponse<iClients> = await api.patch(
+            `/client/${id}`,
+            data
+         );
+
+         const newOrderList = clients.map((client) => {
+            if (client.id == id) {
+               return { ...client, ...response.data };
+            } else {
+               return client;
+            }
+         });
+         setClients(newOrderList);
+
+         toast.success("Cliente editado com sucesso");
+      } catch (error) {
+         console.error(error);
+      }
+   };
+
+   const createClients = async (data:iClientCreate) => {
+
+      try {
+         const response:AxiosResponse<iClients> = await api.post("/client", data);
+
+         setClients([...clients, response.data]);
 
       } catch (error) {
          console.error(error);
       }
    };
+
+
 
    return (
       <ClientsContext.Provider
@@ -46,7 +89,9 @@ export const ClientsProvide = ({ children }: iDefaultProviderProps) => {
             getClients,
             setPageClients,
             pageClients,
-            deleteClients
+            deleteClients,
+            createClients,
+            editClient
          }}
       >
          {children}

@@ -29,4 +29,10 @@ export const LiStyled = styled.li`
       top: 1rem;
       right: 1rem;
    }
+
+   .icon__edit{
+      position: absolute;
+      top: 4rem;
+      right: 1rem;
+   }
 `;

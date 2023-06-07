@@ -1,18 +1,19 @@
 import { ButtonItems } from "../../../styles/buttons";
 import { LiStyled } from "./styled";
 import ModalDelete from "../../modals/modalDelete";
-import { useState,useContext } from "react";
+import { useState, useContext } from "react";
 import { iProducts } from "../../../contexts/products/@types";
 import { ProductsContext } from "../../../contexts/products";
+import ModalEdit from "../../modals/modalEdit";
 
 interface iProductProps {
    product: iProducts;
 }
 const ProductItems = ({ product }: iProductProps) => {
-
-   const { deleteProducts } = useContext(ProductsContext);
+   const { deleteProducts} = useContext(ProductsContext);
 
    const [opemModal, setOpemModal] = useState(false);
+   const [opemModalEdit, setOpemModalEdit] = useState(false);
 
    const {
       id,
@@ -56,7 +57,14 @@ const ProductItems = ({ product }: iProductProps) => {
                   delete_forever
                </i>
             </button>
-
+            <button>
+               <i
+                  className="material-icons icon__edit"
+                  onClick={() => setOpemModalEdit(!opemModalEdit)}
+               >
+                  edit
+               </i>
+            </button>
             <ButtonItems>Mais infomações</ButtonItems>
          </LiStyled>
 
@@ -66,6 +74,14 @@ const ProductItems = ({ product }: iProductProps) => {
                setOpemModal={setOpemModal}
                id={id}
                requestDelete={deleteProducts}
+            />
+         )}
+
+         {opemModalEdit && (
+            <ModalEdit
+               opemModalEdit={opemModalEdit}
+               setOpemModalEdit={setOpemModalEdit}
+               id={id}
             />
          )}
       </>

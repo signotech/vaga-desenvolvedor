@@ -23,6 +23,11 @@ export const LiStyled = styled.li`
          }
       }
    }
+   .icon__edit{
+      position: absolute;
+      top: 4rem;
+      right: 1rem;
+   }
 
    i{
       position: absolute;

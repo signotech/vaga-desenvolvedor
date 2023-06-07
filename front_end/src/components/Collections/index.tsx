@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import Items from "../itemsCollections/OrderItems";
 import { OrderContext } from "../../contexts/order";
 import { iOrders } from "../../contexts/order/@types";
 import { UlStyled } from "./styled";

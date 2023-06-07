@@ -12,7 +12,7 @@ import { dataDelete } from "../../../contexts/order/@types";
 interface imodalProps {
    opemModal:boolean
    setOpemModal:React.Dispatch<React.SetStateAction<boolean>>
-   id:number
+   id: number
    requestDelete: (data: dataDelete) => Promise<void>
 }
 
@@ -30,7 +30,7 @@ const ModalDelete = ({opemModal,setOpemModal,id,requestDelete}:imodalProps) => {
 
 
 
-   const handleClose = () => {
+   const modalClose = () => {
       setOpemModal(!opemModal);
    };
 
@@ -51,16 +51,16 @@ const ModalDelete = ({opemModal,setOpemModal,id,requestDelete}:imodalProps) => {
             open={opemModal}
             TransitionComponent={Transition}
             keepMounted
-            onClose={handleClose}
+            onClose={modalClose}
             aria-describedby="alert-dialog-slide-description"
          >
             <DialogContent >
                <DialogContentText id="alert-dialog-slide-description" sx={{ fontWeight: 'bold',fontSize:"1.2rem",color: '#004182',}}>
-                  Deseja mesmo deletar esse Pedido ? 
+                  Essa ação é irreversível! Deseja mesmo continuar?
                </DialogContentText>
             </DialogContent>
             <DialogActions>
-               <Button onClick={handleClose} size="medium" variant="contained">Voltar</Button>
+               <Button onClick={modalClose} size="medium" variant="contained">Voltar</Button>
                <Button onClick={() => submitDelete()} color="error" size="medium" variant="contained">Deletar</Button>
             </DialogActions>
          </Dialog>

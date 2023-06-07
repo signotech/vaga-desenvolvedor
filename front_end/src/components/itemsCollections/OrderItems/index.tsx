@@ -8,6 +8,7 @@ import { ProductsContext } from "../../../contexts/products";
 import { iProducts } from "../../../contexts/products/@types";
 import ModalDelete from "../../modals/modalDelete";
 import { OrderContext } from "../../../contexts/order";
+import ModalEdit from "../../modals/modalEdit";
 
 interface iorderProps {
    order: iOrders;
@@ -15,22 +16,22 @@ interface iorderProps {
 const OrderItems = ({ order }: iorderProps) => {
    const { clients } = useContext(ClientsContext);
    const { products } = useContext(ProductsContext);
-   const {deleteOrders} = useContext(OrderContext)
-   
+   const { deleteOrders } = useContext(OrderContext);
+
    const [opemModal, setOpemModal] = useState(false);
+   const [opemModalEdit, setOpemModalEdit] = useState(false);
 
-   const {request_code,id,request_status,request_date,client_id} = order
+   const { request_code, id, request_status, request_date, client_id } = order;
 
-   const client = clients.find(
-      (client: iClients) => client.id === client_id
-   );
-   
+   const client = clients.find((client: iClients) => client.id === client_id);
+
    const productList = products.find(
       (product: iProducts) => product.product_order_id === order.id
    );
 
    return (
       <>
+         
          <LiStyled className="collection-item grey lighten-3">
             <div>
                <p>
@@ -66,7 +67,14 @@ const OrderItems = ({ order }: iorderProps) => {
                   delete_forever
                </i>
             </button>
-
+            <button>
+               <i
+                  className="material-icons icon__edit"
+                  onClick={() => setOpemModalEdit(!opemModalEdit)}
+               >
+                  edit
+               </i>
+            </button>
             <ButtonItems>Mais infomações</ButtonItems>
          </LiStyled>
 
@@ -74,8 +82,15 @@ const OrderItems = ({ order }: iorderProps) => {
             <ModalDelete
                opemModal={opemModal}
                setOpemModal={setOpemModal}
-               id={order.id}
+               id={id}
                requestDelete={deleteOrders}
+            />
+         )}
+         {opemModalEdit && (
+            <ModalEdit
+               opemModalEdit={opemModalEdit}
+               setOpemModalEdit={setOpemModalEdit}
+               id={id}
             />
          )}
       </>

@@ -8,36 +8,18 @@ export const GlobalTypography = createGlobalStyle`
    letter-spacing: 0.10rem;
    color: var(--grey-0);
 }
-.Title.one{
-   font-size: 1.6rem;
-   font-weight: 600;
-   letter-spacing: 0.10rem;
-   color: var(--grey-0);
-}
 
-.Title.two{
-   font-size: 1.5rem;
-   font-weight: 400;
-   color: var(--grey-2);
-}
-
-.Title.three{
-   font-size: 1.3rem;
-   font-weight: 600;
-   color: var(--grey-3);
-}
-
-.Headline{
-   font-size: 0.75rem;
-   font-weight: 400;
-   color: var(--grey-400);
-}
 .label{
    font-size: 0.90rem;
    font-weight: 400;
    color: var(--label-text-color);
 }
 
+.Title.Modal{
+   font-size: 1.6rem;
+   font-weight: 600;
+   color: var(--label-text-color);
+}
 .Title.Collections{
    font-size: 2rem;
    font-weight: 400;

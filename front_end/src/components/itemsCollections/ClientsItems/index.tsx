@@ -5,16 +5,18 @@ import ModalDelete from "../../modals/modalDelete";
 import { useContext, useState } from "react";
 import { iClients } from "../../../contexts/clients/@types";
 import { ClientsContext } from "../../../contexts/clients";
+import ModalEdit from "../../modals/modalEdit";
 
 interface iClientProps {
-   client:iClients ;
+   client: iClients;
 }
-const ClientItems = ({ client }: iClientProps ) => {
-
+const ClientItems = ({ client }: iClientProps) => {
    const [opemModal, setOpemModal] = useState(false);
+   const [opemModalEdit, setOpemModalEdit] = useState(false);
+
    const { deleteClients } = useContext(ClientsContext);
 
-   const {cpf_client,email_client,id,createdAt,name_client} = client
+   const { cpf_client, email_client, id, createdAt, name_client } = client;
    return (
       <>
          <LiStyled className="collection-item grey lighten-3">
@@ -44,6 +46,14 @@ const ClientItems = ({ client }: iClientProps ) => {
                   delete_forever
                </i>
             </button>
+            <button>
+               <i
+                  className="material-icons icon__edit"
+                  onClick={() => setOpemModalEdit(!opemModalEdit)}
+               >
+                  edit
+               </i>
+            </button>
 
             <ButtonItems>Mais infomações</ButtonItems>
          </LiStyled>
@@ -56,8 +66,15 @@ const ClientItems = ({ client }: iClientProps ) => {
                requestDelete={deleteClients}
             />
          )}
+         {opemModalEdit && (
+            <ModalEdit
+               opemModalEdit={opemModalEdit}
+               setOpemModalEdit={setOpemModalEdit}
+               id={id}
+            />
+         )}
       </>
    );
 };
 
-export default ClientItems ;
+export default ClientItems;
