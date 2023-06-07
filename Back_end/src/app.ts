@@ -5,10 +5,11 @@ import clientRoutes from "./routes/clientRoute/client.routes"
 import loginRoutes from "./routes/login/login.routes"
 import productsRoutes from "./routes/products/products.routes"
 import orderRoutes from "./routes/order/order.routes"
-
+import cors from "cors"
 const app:Application = express()
 
 app.use(express.json())
+app.use(cors())
 
 app.use('/client',clientRoutes)
 

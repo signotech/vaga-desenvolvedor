@@ -17,7 +17,7 @@ import {
    checkValidId,
    validBodySchemas,
 } from "../../middlewares";
-import { deleteSchema } from "../../schemas/massDelete.schema";
+
 
 const clientRoutes: Router = Router();
 
@@ -35,6 +35,6 @@ clientRoutes.patch("/:id",
    updateClient
 );
 
-clientRoutes.delete("",validBodySchemas(deleteSchema),deleteClient);
+clientRoutes.put("",deleteClient);
 
 export default clientRoutes;
