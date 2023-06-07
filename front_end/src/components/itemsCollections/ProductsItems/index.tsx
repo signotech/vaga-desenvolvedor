@@ -1,15 +1,27 @@
 import { ButtonItems } from "../../../styles/buttons";
 import { LiStyled } from "./styled";
 import ModalDelete from "../../modals/modalDelete";
-import { useState } from "react";
+import { useState,useContext } from "react";
 import { iProducts } from "../../../contexts/products/@types";
+import { ProductsContext } from "../../../contexts/products";
 
 interface iProductProps {
-   product:iProducts ;
+   product: iProducts;
 }
-const ProductItems = ({ product }: iProductProps ) => {
+const ProductItems = ({ product }: iProductProps) => {
+
+   const { deleteProducts } = useContext(ProductsContext);
 
    const [opemModal, setOpemModal] = useState(false);
+
+   const {
+      id,
+      price_product,
+      sku_product,
+      title_product,
+      stock_product,
+      createdAt,
+   } = product;
 
    return (
       <>
@@ -17,23 +29,23 @@ const ProductItems = ({ product }: iProductProps ) => {
             <div>
                <p>
                   <span>Produto: </span>
-                  {product.title_product}
+                  {title_product}
                </p>
                <p>
                   <span>SKU: </span>
-                  {product.sku_product}
+                  {sku_product}
                </p>
                <p>
                   <span>Preço: </span>
-                  {product.price_product}
+                  {price_product}
                </p>
                <p>
                   <span>Estoque: </span>
-                  {product.stock_product}
+                  {stock_product}
                </p>
                <p>
                   <span>Data de cadastro: </span>
-                  {product.createdAt}
+                  {createdAt}
                </p>
             </div>
             <button>
@@ -48,11 +60,12 @@ const ProductItems = ({ product }: iProductProps ) => {
             <ButtonItems>Mais infomações</ButtonItems>
          </LiStyled>
 
-         {opemModal && ( 
+         {opemModal && (
             <ModalDelete
                opemModal={opemModal}
                setOpemModal={setOpemModal}
-               id={product.id}
+               id={id}
+               requestDelete={deleteProducts}
             />
          )}
       </>

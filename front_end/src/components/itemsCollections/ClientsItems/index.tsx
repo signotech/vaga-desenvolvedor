@@ -2,8 +2,9 @@ import { ButtonItems } from "../../../styles/buttons";
 import { LiStyled } from "./styled";
 
 import ModalDelete from "../../modals/modalDelete";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { iClients } from "../../../contexts/clients/@types";
+import { ClientsContext } from "../../../contexts/clients";
 
 interface iClientProps {
    client:iClients ;
@@ -11,26 +12,28 @@ interface iClientProps {
 const ClientItems = ({ client }: iClientProps ) => {
 
    const [opemModal, setOpemModal] = useState(false);
+   const { deleteClients } = useContext(ClientsContext);
 
+   const {cpf_client,email_client,id,createdAt,name_client} = client
    return (
       <>
          <LiStyled className="collection-item grey lighten-3">
             <div>
                <p>
                   <span>Cliente: </span>
-                  {client?.name_client}
+                  {name_client}
+               </p>
+               <p>
+                  <span>Email: </span>
+                  {email_client}
                </p>
                <p>
                   <span>CPF: </span>
-                  {client.cpf_client}
-               </p>
-               <p>
-                  <span>Preço: </span>
-                  {client.email_client}
+                  {cpf_client}
                </p>
                <p>
                   <span>Data do cadastro: </span>
-                  {client.createdAt}
+                  {createdAt}
                </p>
             </div>
             <button>
@@ -49,7 +52,8 @@ const ClientItems = ({ client }: iClientProps ) => {
             <ModalDelete
                opemModal={opemModal}
                setOpemModal={setOpemModal}
-               id={client.id}
+               id={id}
+               requestDelete={deleteClients}
             />
          )}
       </>

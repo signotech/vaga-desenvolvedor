@@ -1,6 +1,10 @@
 export interface iDefaultProviderProps {
    children: React.ReactNode;
 }
+export interface dataDelete {
+   massDelete:number
+}
+
 
 export interface iProducts{
    id: number,
@@ -16,4 +20,5 @@ export interface iProducts{
 export interface iProductsContext {
    getProducts: () => Promise<void>
    products: iProducts[]
+   deleteProducts: (data: dataDelete) => Promise<void>
 }

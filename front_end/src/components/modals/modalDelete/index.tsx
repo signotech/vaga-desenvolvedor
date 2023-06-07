@@ -6,8 +6,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
-import { useContext} from "react";
-import { OrderContext } from "../../../contexts/order";
 import React from "react";
 import { dataDelete } from "../../../contexts/order/@types";
 
@@ -15,9 +13,10 @@ interface imodalProps {
    opemModal:boolean
    setOpemModal:React.Dispatch<React.SetStateAction<boolean>>
    id:number
+   requestDelete: (data: dataDelete) => Promise<void>
 }
 
-const ModalDelete = ({opemModal,setOpemModal,id}:imodalProps) => {
+const ModalDelete = ({opemModal,setOpemModal,id,requestDelete}:imodalProps) => {
 
    const Transition = React.forwardRef(function Transition(
       props: TransitionProps & {
@@ -29,7 +28,6 @@ const ModalDelete = ({opemModal,setOpemModal,id}:imodalProps) => {
    });
    
 
-   const {deleteOrders} = useContext(OrderContext)
 
 
    const handleClose = () => {
@@ -42,7 +40,7 @@ const ModalDelete = ({opemModal,setOpemModal,id}:imodalProps) => {
          massDelete:id
       }
 
-      deleteOrders(data)
+      requestDelete(data)
 
       setOpemModal(!opemModal)
    }

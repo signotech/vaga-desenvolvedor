@@ -7,6 +7,7 @@ import { iClients } from "../../../contexts/clients/@types";
 import { ProductsContext } from "../../../contexts/products";
 import { iProducts } from "../../../contexts/products/@types";
 import ModalDelete from "../../modals/modalDelete";
+import { OrderContext } from "../../../contexts/order";
 
 interface iorderProps {
    order: iOrders;
@@ -14,12 +15,16 @@ interface iorderProps {
 const OrderItems = ({ order }: iorderProps) => {
    const { clients } = useContext(ClientsContext);
    const { products } = useContext(ProductsContext);
-
+   const {deleteOrders} = useContext(OrderContext)
+   
    const [opemModal, setOpemModal] = useState(false);
 
+   const {request_code,id,request_status,request_date,client_id} = order
+
    const client = clients.find(
-      (client: iClients) => client.id === order.client_id
+      (client: iClients) => client.id === client_id
    );
+   
    const productList = products.find(
       (product: iProducts) => product.product_order_id === order.id
    );
@@ -42,15 +47,15 @@ const OrderItems = ({ order }: iorderProps) => {
                </p>
                <p>
                   <span>Codigo: </span>
-                  {order.request_code}
+                  {request_code}
                </p>
                <p>
                   <span>Data: </span>
-                  {order.request_date}
+                  {request_date}
                </p>
                <p>
                   <span>Status: </span>
-                  {order.request_status}
+                  {request_status}
                </p>
             </div>
             <button>
@@ -70,6 +75,7 @@ const OrderItems = ({ order }: iorderProps) => {
                opemModal={opemModal}
                setOpemModal={setOpemModal}
                id={order.id}
+               requestDelete={deleteOrders}
             />
          )}
       </>

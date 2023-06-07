@@ -2,12 +2,16 @@ export interface iDefaultProviderProps {
    children: React.ReactNode;
 }
 
+export interface dataDelete {
+   massDelete:number
+}
 
 export interface iClientsContext {
    clients: iClients[]
    pageClients: string
    getClients: () => Promise<void>
    setPageClients: React.Dispatch<React.SetStateAction<string>>
+   deleteClients: (data: dataDelete) => Promise<void>
 }
 
 export interface iClients {

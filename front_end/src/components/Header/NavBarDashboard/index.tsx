@@ -1,14 +1,24 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import MobileMenu from "../MobileMenu";
 import { ButtonNav } from "../../../styles/buttons";
 import { UlStyled } from "./styled";
+import { DashboardPageContext } from "../../../contexts/dashboardPage";
 const NavBarDashboard = () => {
    const [isMenuOpen, setMenuOpen] = useState(false);
 
    const opemMenu = () => {
       setMenuOpen(!isMenuOpen);
    };
+
+   const {setSelectList} = useContext(DashboardPageContext)
+
+   const valueButton = (event:any) => {
+
+      setSelectList(event.value);
+   };
+
+   
    return (
       <>
          <nav className="light-blue darken-4">
@@ -29,13 +39,13 @@ const NavBarDashboard = () => {
 
                <UlStyled className="right hide-on-med-and-down">
                   <li>
-                     <ButtonNav>Produtos</ButtonNav>
+                     <ButtonNav  value="products" onClick={(event) => valueButton(event.target)}>Produtos</ButtonNav>
                   </li>
                   <li>
-                     <ButtonNav>Clientes</ButtonNav>
+                     <ButtonNav value="clients"  onClick={(event) => valueButton(event.target)}>Clientes</ButtonNav>
                   </li>
                   <li>
-                     <ButtonNav>Pedidos</ButtonNav>
+                     <ButtonNav value="orders" onClick={(event) => valueButton(event.target)}>Pedidos</ButtonNav>
                   </li>
                   <li>
                      <ButtonNav>Sair</ButtonNav>

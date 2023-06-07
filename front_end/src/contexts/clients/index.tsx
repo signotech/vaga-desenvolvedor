@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { iClients, iClientsContext, iDefaultProviderProps } from "./@types";
+import { dataDelete, iClients, iClientsContext, iDefaultProviderProps } from "./@types";
 import { api } from "../../services/api";
 
 export const ClientsContext = createContext({} as iClientsContext);
@@ -22,6 +22,22 @@ export const ClientsProvide = ({ children }: iDefaultProviderProps) => {
       }
    };
 
+         const deleteClients = async (data:dataDelete) => {
+
+      const {massDelete} = data
+      
+      try {
+
+         const response = await api.put(`/client`,data);
+         
+         const newOrderList = clients.filter((client:iClients) => client.id !== massDelete);
+         
+         setClients(newOrderList);
+
+      } catch (error) {
+         console.error(error);
+      }
+   };
 
    return (
       <ClientsContext.Provider
@@ -29,7 +45,8 @@ export const ClientsProvide = ({ children }: iDefaultProviderProps) => {
             clients,
             getClients,
             setPageClients,
-            pageClients
+            pageClients,
+            deleteClients
          }}
       >
          {children}
