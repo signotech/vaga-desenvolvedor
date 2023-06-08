@@ -20,7 +20,7 @@ export const OrderProvide = ({ children }: iDefaultProviderProps) => {
    const getOrders = async () => {
       try {
          const response: AxiosResponse<iOrders[]> = await api.get(
-            `/order?page=${page}&perPage=20`
+            `/order?page=${page}&perPage=20&id=DESC`
          );
 
          setOrders(response.data);
@@ -69,7 +69,8 @@ export const OrderProvide = ({ children }: iDefaultProviderProps) => {
       }
    };
 
-   const createClients = async (data: iOrderCreate) => {
+   const createOrder = async (data: iOrderCreate) => {
+
       try {
          const response: AxiosResponse<iOrders> = await api.post(
             "/order",
@@ -77,6 +78,8 @@ export const OrderProvide = ({ children }: iDefaultProviderProps) => {
          );
 
          setOrders([...orders, response.data]);
+
+         toast.success("Pedido cadastrado com sucesso");
       } catch (error) {
          console.error(error);
       }
@@ -91,7 +94,7 @@ export const OrderProvide = ({ children }: iDefaultProviderProps) => {
             page,
             deleteOrders,
             editOrders,
-            createClients,
+            createOrder,
          }}
       >
          {children}

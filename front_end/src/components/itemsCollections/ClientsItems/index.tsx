@@ -1,11 +1,11 @@
 import { ButtonItems } from "../../../styles/buttons";
 import { LiStyled } from "./styled";
 
-import ModalDelete from "../../modals/modalDelete";
+import ModalDelete from "../../modals/ModalDelete";
 import { useContext, useState } from "react";
 import { iClients } from "../../../contexts/clients/@types";
 import { ClientsContext } from "../../../contexts/clients";
-import ModalEdit from "../../modals/modalEdit";
+import ModalEdit from "../../modals/ModalEdit";
 
 interface iClientProps {
    client: iClients;

@@ -10,7 +10,7 @@ import { DashboardPageContext } from "../../contexts/dashboardPage";
 
 const DashboardPage = () => {
    const { getOrders, page } = useContext(OrderContext);
-   const { getClients, pageClients } = useContext(ClientsContext);
+   const { getClients, pageClients,setClients} = useContext(ClientsContext);
    const { getProducts } = useContext(ProductsContext);
    const {selectList} = useContext(DashboardPageContext)
 
@@ -25,7 +25,7 @@ const DashboardPage = () => {
       getClients();
       getOrders();
       getProducts();
-   }, [page, pageClients]);
+   }, [page, pageClients, selectList,setClients]);
 
    return (
       <>

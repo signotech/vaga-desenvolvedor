@@ -28,6 +28,7 @@ export interface iProductCreate{
    sku_product: string,
    price_product: number,
    stock_product: number,
+   product_order_id:number | undefined
 }
 
 export interface iProductsContext {

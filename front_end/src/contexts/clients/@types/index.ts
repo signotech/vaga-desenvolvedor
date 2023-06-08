@@ -14,6 +14,7 @@ export interface iClientsContext {
    deleteClients: (data: dataDelete) => Promise<void>
    createClients: (data: iClientCreate) => Promise<void>
    editClient: (data: iClientUpdate, id: number) => Promise<void>
+   setClients: React.Dispatch<React.SetStateAction<iClients[]>>
 }
 
 export interface iClients {

@@ -1,7 +1,6 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { OrderContext } from "../../contexts/order";
 import { iOrders } from "../../contexts/order/@types";
-import { UlStyled } from "./styled";
 import { ClientsContext } from "../../contexts/clients";
 import { ProductsContext } from "../../contexts/products";
 import { iClients } from "../../contexts/clients/@types";
@@ -10,31 +9,90 @@ import OrderItems from "../itemsCollections/OrderItems";
 import ClientItems from "../itemsCollections/ClientsItems";
 import ProductItems from "../itemsCollections/ProductsItems";
 import { DashboardPageContext } from "../../contexts/dashboardPage";
+import Button from "@mui/material/Button";
+import ModalCreateClient from "../modals/ModalCreateClient";
+import ModalCreateOrder from "../modals/ModalCreateOrder";
+import ModalCreateProduct from "../modals/ModalCreateProducts";
+import { UlStyled } from "./styled";
 
 const Collections = () => {
    const { orders } = useContext(OrderContext);
    const { clients } = useContext(ClientsContext);
    const { products } = useContext(ProductsContext);
-   const {selectList} = useContext(DashboardPageContext)
+   const { selectList } = useContext(DashboardPageContext);
+
+   const [opemModalCreate, setOpemModalCreate] = useState(false);
+   const [opemModalOrder, setOpemModalOrder] = useState(false);
+   const [opemModalProduct, setOpemModalProduct] = useState(false);
 
    return (
       <>
+         <h2 className="Title Collections">Ultimos Pedidos</h2>
+         <h3 className="Title Modal">Cadastrar</h3>
+
          <UlStyled className="collection with-header ">
-            <h2 className="Title Collections">Ultimos Pedidos</h2>
+            {selectList === "orders" && (
+               <div>
+                  <Button
+                     onClick={() => setOpemModalOrder(!opemModalOrder)}
+                     size="medium"
+                     variant="contained"
+                     sx={{width:'25%'}}
+                  >
+                     Pedido
+                  </Button>
+                  {orders.map((order: iOrders) => (
+                     <OrderItems key={order.id} order={order} />
+                  ))}
+               </div>
+            )}
 
-            {selectList === "orders" && orders.map((order: iOrders) => (
-               <OrderItems key={order.id} order={order} />
-            ))}
+            {selectList === "clients" && (
+               <div>
+                  <Button
+                     onClick={() => setOpemModalCreate(!opemModalCreate)}
+                     size="medium"
+                     variant="contained"
+                     sx={{width:'25%'}}
+                  >
+                     Cliente
+                  </Button>
+                  {clients.map((client: iClients) => (
+                     <ClientItems key={client.id} client={client} />
+                  ))}
+               </div>
+            )}
 
-            {selectList === "clients" && clients.map((client: iClients) => (
-               <ClientItems key={client.id} client={client} />
-            ))}
-
-            {selectList === "products" && products.map((product: iProducts) => (
-               <ProductItems key={product.id} product={product} />
-            ))}
-
+            {selectList === "products" && (
+               <div>
+                  <Button
+                     onClick={() => setOpemModalProduct(!opemModalProduct)}
+                     size="medium"
+                     variant="contained"
+                     sx={{width:'25%'}}
+                  >
+                     Produto
+                  </Button>
+                  {products.map((product: iProducts) => (
+                     <ProductItems key={product.id} product={product} />
+                  ))}
+               </div>
+            )}
          </UlStyled>
+
+         <ModalCreateClient
+            opemModalCreate={opemModalCreate}
+            setOpemModalCreate={setOpemModalCreate}
+         />
+         <ModalCreateOrder
+            opemModalOrder={opemModalOrder}
+            setOpemModalOrder={setOpemModalOrder}
+         />
+
+         <ModalCreateProduct
+            opemModalProduct={opemModalProduct}
+            setOpemModalProduct={setOpemModalProduct}
+         />
       </>
    );
 };

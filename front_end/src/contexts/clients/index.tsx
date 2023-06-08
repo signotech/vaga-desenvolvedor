@@ -14,13 +14,14 @@ import {
 export const ClientsContext = createContext({} as iClientsContext);
 
 export const ClientsProvide = ({ children }: iDefaultProviderProps) => {
+   
    const [clients, setClients] = useState<iClients[]>([]);
    const [pageClients, setPageClients] = useState<string>("1");
 
    const getClients = async () => {
       try {
          const response = await api.get(
-            `/client?page=${pageClients}&perPage=20`
+            `/client?page=${pageClients}&perPage=20&id=DESC`
          );
 
          setClients(response.data);
@@ -70,11 +71,13 @@ export const ClientsProvide = ({ children }: iDefaultProviderProps) => {
 
    const createClients = async (data:iClientCreate) => {
 
+
       try {
          const response:AxiosResponse<iClients> = await api.post("/client", data);
 
          setClients([...clients, response.data]);
 
+         toast.success("Cliente cadastrado com sucesso")
       } catch (error) {
          console.error(error);
       }
@@ -91,7 +94,8 @@ export const ClientsProvide = ({ children }: iDefaultProviderProps) => {
             pageClients,
             deleteClients,
             createClients,
-            editClient
+            editClient,
+            setClients
          }}
       >
          {children}

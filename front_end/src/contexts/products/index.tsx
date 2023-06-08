@@ -22,7 +22,7 @@ export const ProductsProvide = ({ children }: iDefaultProviderProps) => {
    const getProducts = async () => {
       try {
          const response: AxiosResponse<iProducts[]> = await api.get(
-            `/products?page=${page}&perPage=20`
+            `/products?page=${page}&perPage=20&id=DESC`
          );
 
          setProducts(response.data);
@@ -80,6 +80,8 @@ export const ProductsProvide = ({ children }: iDefaultProviderProps) => {
          );
 
          setProducts([...products, response.data]);
+
+         toast.success("Produto Criado com sucesso");
       } catch (error) {
          console.error(error);
       }

@@ -1,16 +1,16 @@
 import { ButtonItems } from "../../../styles/buttons";
 import { LiStyled } from "./styled";
-import ModalDelete from "../../modals/modalDelete";
+import ModalDelete from "../../modals/ModalDelete";
 import { useState, useContext } from "react";
 import { iProducts } from "../../../contexts/products/@types";
 import { ProductsContext } from "../../../contexts/products";
-import ModalEdit from "../../modals/modalEdit";
+import ModalEdit from "../../modals/ModalEdit";
 
 interface iProductProps {
    product: iProducts;
 }
 const ProductItems = ({ product }: iProductProps) => {
-   const { deleteProducts} = useContext(ProductsContext);
+   const { deleteProducts } = useContext(ProductsContext);
 
    const [opemModal, setOpemModal] = useState(false);
    const [opemModalEdit, setOpemModalEdit] = useState(false);

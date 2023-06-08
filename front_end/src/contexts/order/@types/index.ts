@@ -9,7 +9,7 @@ export interface iOrdersContext {
    page: string
    deleteOrders: (data: dataDelete) => Promise<void>
    editOrders: (data: iOrderUpdate, id: number) => Promise<void>
-   createClients: (data: iOrderCreate) => Promise<void>
+   createOrder: (data: iOrderCreate) => Promise<void>
 
 }
 
@@ -32,7 +32,7 @@ export interface iOrderUpdate {
 }
 export interface iOrderCreate {
    request_status:string
-   client_id:number
+   client_id:number | undefined
    request_code:number
    request_date:string
 }
