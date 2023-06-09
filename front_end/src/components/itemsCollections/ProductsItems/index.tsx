@@ -1,4 +1,3 @@
-import { ButtonItems } from "../../../styles/buttons";
 import { LiStyled } from "./styled";
 import ModalDelete from "../../modals/ModalDelete";
 import { useState, useContext } from "react";
@@ -24,6 +23,8 @@ const ProductItems = ({ product }: iProductProps) => {
       createdAt,
    } = product;
 
+   const formatDate = new Date(createdAt).toLocaleDateString()
+
    return (
       <>
          <LiStyled className="collection-item grey lighten-3">
@@ -46,7 +47,7 @@ const ProductItems = ({ product }: iProductProps) => {
                </p>
                <p>
                   <span>Data de cadastro: </span>
-                  {createdAt}
+                  {formatDate}
                </p>
             </div>
             <button>

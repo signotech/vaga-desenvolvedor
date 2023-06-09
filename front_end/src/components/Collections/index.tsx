@@ -17,7 +17,7 @@ import { UlStyled } from "./styled";
 
 const Collections = () => {
    const { getOrders, page, orders } = useContext(OrderContext);
-   const { getClients, pageClients, clients } = useContext(ClientsContext);
+   const { getClients, pageClients, clients,createClients } = useContext(ClientsContext);
    const { getProducts, products } = useContext(ProductsContext);
    const { selectList} = useContext(DashboardPageContext);
 

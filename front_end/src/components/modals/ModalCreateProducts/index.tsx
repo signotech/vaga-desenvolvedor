@@ -1,5 +1,5 @@
 import Dialog from "@mui/material/Dialog";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import { FormCreateStyled } from "./styled";
@@ -14,6 +14,7 @@ import Autocompletes from "../../Form/Autocomplete";
 import { iClients } from "../../../contexts/clients/@types";
 import { iOrders } from "../../../contexts/order/@types";
 import { OrderContext } from "../../../contexts/order";
+import { toast } from "react-toastify";
 
 interface iModalProps {
    opemModalProduct: boolean;
@@ -24,9 +25,10 @@ const ModalCreateProduct = ({
    opemModalProduct,
    setOpemModalProduct,
 }: iModalProps) => {
-   const { createProducts } = useContext(ProductsContext);
-   const {clients} = useContext(ClientsContext)
-   const {orders} = useContext(OrderContext)
+
+   const { createProducts,getProducts,products } = useContext(ProductsContext);
+   const { clients } = useContext(ClientsContext);
+   const { orders } = useContext(OrderContext);
 
    const {
       register,
@@ -39,31 +41,42 @@ const ModalCreateProduct = ({
    };
 
    const submit: SubmitHandler<iProductCreate> = (data) => {
-
-      const checkId = data.product_order_id !== undefined ? data.product_order_id.toString() : "";
+      
+      const checkId = data.product_order_id !== undefined? data.product_order_id.toString(): "";
 
       const client = clients.find(
          (client: iClients) => client.name_client == checkId
       );
 
       const orderId = orders.find(
-         (order: iOrders) => order.client_id == client?.id)
+         (order: iOrders) => order.client_id == client?.id
+      );
 
-      const productOrder:number | undefined = orderId?.id
+      if (!orderId) {
+         toast.error("Esse Cliente não possui pedido aberto");
+      }
+
+      const productOrder: number | undefined = orderId?.id;
 
       const sku = new Date().getMilliseconds().toString();
 
       const newData = {
          ...data,
-         product_order_id:productOrder,
-         sku_product:`SKU${sku}`
-      }
+         product_order_id: productOrder,
+         sku_product: `SKU${sku}`,
+      };
 
-      createProducts(newData)
+      createProducts(newData);
 
-      modalClose()
+      modalClose();
    };
 
+   useEffect(() => {
+   
+      return () => {
+         getProducts()
+      };
+   }, [products]); 
    return (
       <>
          <Dialog
@@ -72,9 +85,8 @@ const ModalCreateProduct = ({
             onClose={modalClose}
             aria-describedby="alert-dialog-slide-description"
          >
-            <h3 className="Title Modal">Cadastrar Produto</h3>
-
             <FormCreateStyled onSubmit={handleSubmit(submit)}>
+               <h3 className="Title Modal">Cadastrar Produto</h3>
                <Inputs
                   type="text"
                   label="Nome:"

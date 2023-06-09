@@ -4,6 +4,7 @@ import { useContext, useState } from "react";
 import { iClients } from "../../../contexts/clients/@types";
 import { ClientsContext } from "../../../contexts/clients";
 import ModalEdit from "../../modals/ModalEdit";
+import { date } from "yup";
 
 
 interface iClientProps {
@@ -15,10 +16,10 @@ const ClientItems = ({ client }: iClientProps) => {
 
    const { deleteClients } = useContext(ClientsContext);
 
-
    const { cpf_client, email_client, id, createdAt, name_client } = client;
 
-
+   const formatDate = new Date(createdAt).toLocaleDateString()
+      
    return (
       <>
          <LiStyled className="collection-item grey lighten-3">
@@ -37,7 +38,7 @@ const ClientItems = ({ client }: iClientProps) => {
                </p>
                <p>
                   <span>Data do cadastro: </span>
-                  {createdAt}
+                  {formatDate}
                </p>
             </div>
             <button>

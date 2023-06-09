@@ -11,8 +11,9 @@ export const LoginProvider = ({ children }: iDefaultProviderProps) => {
 
    const token = localStorage.getItem('@kaliSystem:token');
 
-
    const [user, setUser] = useState<iUser | null>(null);
+   const [load, setLoad] = useState(false);
+
    const navigate = useNavigate()
 
    useEffect(() => {
@@ -24,14 +25,19 @@ export const LoginProvider = ({ children }: iDefaultProviderProps) => {
             const userid = jwt_decode<string>(token);
 
             try {
+               setLoad(false)
+
                const response = await api.get(`/login/${userid.sub}`);
 
                setUser(response.data);
 
                navigate('/Protected/Dashboard')
 
+
             } catch (error) {
                console.error(error);
+            }finally{
+               setLoad(true);
             }
          };
 
@@ -66,7 +72,7 @@ export const LoginProvider = ({ children }: iDefaultProviderProps) => {
    };
 
    return (
-      <LoginContext.Provider value={{ userLogin,user,userLogout }}>
+      <LoginContext.Provider value={{ userLogin,user,userLogout,load }}>
          {children}
       </LoginContext.Provider>
    );

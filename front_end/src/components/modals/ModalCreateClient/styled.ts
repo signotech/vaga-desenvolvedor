@@ -8,14 +8,13 @@ export const FormCreateStyled = styled.form`
    height: 34rem;
    padding: 1rem;
 
-   h2{
+   h3{
       padding-left: 0.8rem;
    }
 
    @media (min-width: 800px) {
-      width: 26rem;
-      height: 37rem;
-      gap: 1rem;
+      width: 25rem;
+      height: 32rem;
       justify-content: center;
    }
 `;

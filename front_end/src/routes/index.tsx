@@ -3,10 +3,13 @@ import LoginPage from "../pages/LoginPage";
 import PublicRoutes from "../pages/PublicRoutes";
 import ProtectedRoutes from "../pages/ProtectdRoutes";
 import DashboardPage from "../pages/DashboardPage";
-import InfoPage from "../pages/InfosPage";
 import { DashboardPageProvide } from "../contexts/dashboardPage";
 
-const Router = () => (
+
+
+const Router = () => {
+   
+   return(
    <Routes>
       <Route path="/" element={<PublicRoutes />}>
          <Route path="/" element={<LoginPage />} />
@@ -17,14 +20,12 @@ const Router = () => (
             path="/Protected/Dashboard"
             element={
                <DashboardPageProvide>
-                  <DashboardPage />
+                     <DashboardPage />
                </DashboardPageProvide>
             }
          />
-
-         <Route path="/Protected/infoPage" element={<InfoPage />} />
       </Route>
    </Routes>
-);
+)};
 
 export default Router;

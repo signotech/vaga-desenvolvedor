@@ -5,17 +5,17 @@ export const FormCreateStyled = styled.form`
    display: flex;
    flex-direction: column;
    width: 22rem;
-   height: 34rem;
+   height: 39rem;
    padding: 1rem;
 
-   h2{
-      padding-left: 0.8rem;
+   h3{
+      padding-left: 0.5rem;
    }
 
    @media (min-width: 800px) {
-      width: 26rem;
-      height: 37rem;
-      gap: 1rem;
+      width: 28rem;
+      height: 41rem;
+      gap: 0.5rem;
       justify-content: center;
    }
 `;

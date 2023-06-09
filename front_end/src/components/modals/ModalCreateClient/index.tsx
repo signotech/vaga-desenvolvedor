@@ -1,5 +1,5 @@
 import Dialog from "@mui/material/Dialog";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import { ClientsContext } from "../../../contexts/clients";
@@ -21,7 +21,7 @@ const ModalCreateClient = ({
    setOpemModalCreate,
 }: iModalProps) => {
 
-   const { createClients} = useContext(ClientsContext);
+   const { createClients,getClients,clients} = useContext(ClientsContext);
 
    const {
       register,
@@ -40,6 +40,13 @@ const ModalCreateClient = ({
       modalClose();
    };
 
+   useEffect(() => {
+   
+      return () => {
+         getClients()
+      };
+   }, [clients]); 
+
    return (
       <>
          <Dialog
@@ -48,9 +55,11 @@ const ModalCreateClient = ({
             onClose={modalClose}
             aria-describedby="alert-dialog-slide-description"
          >
-            <h3 className="Title Modal">Cadastrar Cliente</h3>
 
             <FormCreateStyled onSubmit={handleSubmit(submit)}>
+
+            <h3 className="Title Modal">Cadastrar Cliente</h3>
+            
                <Inputs
                   type="text"
                   label="Nome:"

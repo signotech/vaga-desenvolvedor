@@ -1,5 +1,5 @@
 import Dialog from "@mui/material/Dialog";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -22,7 +22,7 @@ const ModalCreateOrder = ({
    opemModalOrder,
    setOpemModalOrder,
 }: iModalProps) => {
-   const { createOrder } = useContext(OrderContext);
+   const { createOrder,getOrders,orders } = useContext(OrderContext);
    const { clients } = useContext(ClientsContext);
 
    const {
@@ -36,6 +36,7 @@ const ModalCreateOrder = ({
    };
 
    const submit: SubmitHandler<iOrderCreate> = (data) => {
+
       const checkId =
          data.client_id !== undefined ? data.client_id.toString() : "";
 
@@ -57,6 +58,13 @@ const ModalCreateOrder = ({
 
       modalClose();
    };
+   
+   useEffect(() => {
+   
+      return () => {
+         getOrders()
+      };
+   }, [orders]); 
 
    return (
       <>
@@ -66,9 +74,9 @@ const ModalCreateOrder = ({
             onClose={modalClose}
             aria-describedby="alert-dialog-slide-description"
          >
-            <h3 className="Title Modal">Cadastrar Cliente</h3>
 
             <FormCreateStyled onSubmit={handleSubmit(submit)}>
+            <h3 className="Title Modal">Cadastrar Cliente</h3>
                <Selects
                   id="request_status"
                   label="Status do pedido"
