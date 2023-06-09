@@ -1,0 +1,115 @@
+#h2{
+  font-family: Tahoma, sans-serif;
+  text-shadow: 1px 1px 1px rgb(0, 0, 0);
+}
+
+#clock{
+  background-color: rgb(218,26,44);
+  color: rgb(255, 255, 255);
+}
+
+#clock:hover{
+  background-color: rgb(255, 255, 255);
+  color: rgb(218,26,44);
+}
+
+#btnFiltrar,
+#cadastrarCliente,
+#previous,
+#next,
+#ordenar {
+  background-color: rgb(218, 26, 44);
+}
+
+a {
+  color: rgb(218, 26, 44);
+}
+
+a:hover {
+  color: rgb(51, 0, 0);
+}
+
+
+.nav-wrapper {
+  color: #000000;
+  background-color: rgb(218, 26, 44);
+}
+  
+.nav-wrapper a {
+  color: rgb(218, 26, 44);
+}
+  
+.nav-wrapper a:not(#btnFiltrar):not(#cadastrarPedido):not(#previous):not(#next):not(#ordenar):not(#imagemlogo):hover {
+  color: #ffffff; 
+  background-color: #ff0000; 
+}
+
+#imagemlogo{
+  color: #ffffff;
+}
+
+#imagemlogo img {
+height: 100%;
+width: 144px;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+body {
+  font-family: "Helvetica", sans-serif;
+}
+
+body {
+  position: relative;
+}
+  
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://ablerproduction.blob.core.windows.net/ats/uploads/company_page/header_image/2743/72ea1gaU.png?sp=r&st=2023-05-23T16:50:37Z&se=2025-01-02T00:50:37Z&spr=https&sv=2022-11-02&sr=c&sig=0ZdS0mRF%2B5%2BNsIA1ClzL2sjuh%2FMYfSFTStx0gHj7qNI%3D');
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+#imagemlogo {
+  display: flex;
+  align-items: center;
+}
+
+#imagemlogo img {
+  margin-right: 10px;
+}
+
+#h2{
+  color: rgb(41, 0, 0);
+}
+
+/* Estilos para o scroll do elemento */
+body::-webkit-scrollbar {
+  width: 12px; /* Largura do scroll */
+}
+
+body::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Cor do fundo da área do scroll */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: rgb(218, 26, 44); /* Cor da barra do scroll */
+  border-radius: 6px; /* Arredondamento das bordas da barra */
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(236, 108, 120); /* Cor da barra do scroll ao passar o mouse */
+}
+
+.card-custom {
+  height: 200px; /*altura do card*/
+}

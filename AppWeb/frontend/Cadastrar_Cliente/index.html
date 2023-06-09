@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Produto</title>
+    
+    <!-- Compiled and minified CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper #ffffff white" >
+            
+            <a href="/frontend/vitrine/index.html" class="brand-logo center imagem-logo" id="imagemlogo">
+                <img src="https://site.signoweb.com.br/assets/images/logo-signo.svg" alt="Descrição da imagem">
+            </a>
+            
+            <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="/frontend/Cadastrar_Cliente/index.html">Cliente</a></li>
+                <li><a href="/frontend/Cadastrar_Produto/index.html">Produtos</a></li>
+                <li><a href="/frontend/Pedidos_Compra/">Pedidos de Compra</a></li>
+                <li><a href="#" id="sair">Sair</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <ul id="slide-out" class="sidenav">
+        <li><a href="/frontend/Cadastrar_Cliente/index.html">Cliente</a></li>
+        <li><a href="/frontend/Cadastrar_Produto/index.html">Produtos</a></li>
+        <li><a href="/frontend/Pedidos_Compra/">Pedidos de Compra</a></li>
+        <li><a href="#" id="sair">Sair</a></li>
+    </ul>
+    <br>
+    <a class="waves-effect waves-light btn" id="clock"><i class="material-icons left">access_time</i>Seu Token Expira em <span id="tempo-restante"></span></a>
+<br>
+<br>
+
+<h2 class="center-align" id="h2">Clientes</h2>
+
+<div class="container">
+    <!-- Modal 1 Criar -->
+    <div>
+        <div class="">
+            <div class="right-align">
+                <div class="input-field small-input">
+                    <input id="filtro" type="text">
+                    <label for="">Filtrar por Nome, Cpf ou Email</label>
+                </div>
+                <button class="btn waves-effect waves-light" id="btnFiltrar">Filtrar</button>
+            </div>
+        </div>
+        <div class="">
+            <a class="waves-effect waves-light btn modal-trigger left-align" href="#modal1" id="cadastrarCliente">Cadastrar Cliente</a>
+        </div>
+    </div>
+
+    <br>
+    <br>
+    <!-- Modal 1 -->
+    <div id="modal1" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <div class="center-align">
+                <h4>Cadastrar Cliente</h4>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col s12 m6 offset-m3">
+                        <form id="cadastroForm">
+                            <div class="input-field">
+                                <input id="nome" type="text" name="nome" required>
+                                <label for="nome">Nome</label>
+                            </div>
+                            <div class="input-field">
+                                <input id="cpf" type="text" name="cpf" required>
+                                <label for="cpf">Cpf</label>
+                            </div>
+                            <div class="input-field">
+                                <input id="email" type="email" name="email" required>
+                                <label for="email">Email</label>
+                            </div>
+                            <div class="center">
+                                <button class="btn waves-effect waves-light" type="submit">Sim</button>
+                                    <a href="/frontend/Cadastrar_Cliente/index.html" id="btnNao" class="modal-close btn red">Não</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--modal 2 Editar-->
+    <div id="modal2" class="modal modal-fixed-footer">
+        <div class="modal-content" style="overflow: hidden;">
+            <div class="center-align">
+                <h4>Editar Cliente</h4>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col s12 m6 offset-m3">
+                        <form id="cadastroForm2">
+                            <input type="hidden" id="clienteId" name="clienteId">
+    
+                            <label for="nome2">Nome</label><br>
+                            <input id="nome2" type="text" name="nome2" required>
+                            
+                            <label for="cpf2">Cpf</label><br>
+                            <input id="cpf2" type="text" name="cpf2" required>
+                        
+                            <label for="email2">Email</label><br>
+                            <input id="email2" type="email" name="email2" required>
+                            <br>
+                            <div class="center">
+                                <button class="btn waves-effect waves-light" type="submit">Sim</button>
+                                    <a href="/frontend/Cadastrar_Cliente/index.html" id="btnNao" class="modal-close btn red">Não</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--modal 3 Deletar-->
+    <div id="modal3" class="modal modal-fixed-footer">
+        <div class="modal-content" style="overflow: hidden;">
+            <div class="center-align">
+                <h4>Deseja mesmo excluir o(a) Cliente</h4>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col s12 m6 offset-m3">
+                        <form id="deleteForm">
+                            <input type="hidden" id="clienteId3" name="clienteId3">
+                            <label for="x"></label><br>
+                            <label for="nome3">Nome</label><br>
+                            <input id="nome3" type="text" name="nome3" required>
+                            
+                            <label for="cpf3">Cpf</label><br>
+                            <input id="cpf3" type="text" name="cpf3" required>
+                        
+                            <label for="email3">Email</label><br>
+                            <input id="email3" type="email" name="email3" required>
+                            
+                            <div class="center">
+                                <button class="btn waves-effect waves-light" type="submit">Sim</button>
+                                <a href="/frontend/Cadastrar_Cliente/index.html" id="btnNao" class="modal-close btn red">Não</a>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div id="pagination" class="right-align">
+            <button id="previous" class="waves-effect waves-light btn">Anterior</button>
+            <button id="next" class="waves-effect waves-light btn">Próximo</button>
+        </div>
+     <!--filtro digito-->   
+     <div><input id="itemsporpagina" type="number" min="1" value="20" class="right-align"></div>
+     <div class="row">
+        <div class="col s4">
+          <p>
+            <label>
+              <input type="checkbox" id="ordenar-checkbox" />
+              <span>Ordenar Nome</span>
+            </label>
+          </p>
+        </div>
+        <div class="col s4">
+          <p>
+            <label>
+              <input type="checkbox" id="ordenar-checkbox2" />
+              <span>Ordenar Cpf</span>
+            </label>
+          </p>
+        </div>
+        <div class="col s4">
+          <p>
+            <label>
+              <input type="checkbox" id="ordenar-checkbox3" />
+              <span>Ordenar Email</span>
+            </label>
+          </p>
+        </div>
+      </div>
+      
+      <!--Tabela-->
+        <table id="clientes-table" class="striped responsive-table">
+            <thead>
+                <tr class="center-align">
+                    <th class="center-align">Nome </th>
+                    <th class="center-align">Cpf</th>
+                    <th class="center-align">Email</th>
+                    <th class="center-align">Ações</th>
+                </tr>
+            </thead>
+            <tbody id="clientes-table-body" class="center-align">
+                
+            </tbody>
+        </table>
+        
+        <div class="contact-container__action--image center-align">
+            <img src="https://site.signoweb.com.br/assets/images/team-spirit.svg" alt="">
+        </div>
+
+<!-- Referência ao arquivo materialize.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/frontend/Cadastrar_Cliente/script.js"></script>
+
+<link rel="stylesheet" href="/frontend/Cadastrar_Cliente/style.css">
+</div>
+<br>
+<br>
+<br>
+
+</body>
+</html>

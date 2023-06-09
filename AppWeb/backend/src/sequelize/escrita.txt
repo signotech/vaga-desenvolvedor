@@ -1,0 +1,21 @@
+Tabela"Clientes"
+id (primary key)
+nome (varchar 150)
+cpf (char 11, unique, not null)
+email (varchar 255)
+
+Tabela "Produtos":
+id (primary key)
+sku (varchar 100)
+titulo (varchar 100, not null)
+preco (decimal 10)
+estoque (int)
+
+Tabela "Pedidos":
+id (primary key)
+codigo_pedido (int)
+cliente_id (foreign key para a tabela "Clientes")
+produto_id (foreign key para a tabela "Produtos")
+data_pedido (datetime)
+status (varchar, com os valores "Em Aberto", "Pago" ou "Cancelado")
+

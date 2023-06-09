@@ -1,0 +1,54 @@
+#h2{
+    font-family: Tahoma, sans-serif;
+    color: rgb(218,26,44);
+    text-shadow: 1px 1px 5px rgb(0, 0, 0);
+
+  }
+#h2:hover{
+font-family: Tahoma, sans-serif;
+color: rgb(255, 255, 255);
+text-shadow: 1px 1px 5px rgb(255, 243, 244);
+
+}
+
+#btnlogin{
+    background-color: rgb(218,26,44);
+    color: rgb(255, 255, 255);
+}
+
+#btnlogin:hover{
+    background-color: rgb(255, 255, 255);
+    color: rgb(218,26,44);
+}
+
+body {
+    background-image: url("https://ablerproduction.blob.core.windows.net/ats/uploads/company_page/header_image/2743/72ea1gaU.png?sp=r&st=2023-05-23T16:50:37Z&se=2025-01-02T00:50:37Z&spr=https&sv=2022-11-02&sr=c&sig=0ZdS0mRF%2B5%2BNsIA1ClzL2sjuh%2FMYfSFTStx0gHj7qNI%3D");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#cadastroform {
+    background-color: rgba(255, 255, 255, 0.651);
+    text-shadow: 1px 1px 5px rgb(255, 157, 157);
+    border-radius: 15px;
+    
+}
+
+#inputform{
+    color: rgb(218,26,44);
+    font-size: 20px;
+}
+#x {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#link{
+    color: black;
+}
+#link:hover{
+    color:rgb(218,26,44); 
+    
+}

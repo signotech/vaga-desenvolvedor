@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Produto</title>
+    <!-- Compiled and minified CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper #ffffff white" >
+            
+            <a href="/frontend/vitrine/index.html" class="brand-logo center imagem-logo" id="imagemlogo">
+                <img src="https://site.signoweb.com.br/assets/images/logo-signo.svg" alt="Descrição da imagem">
+            </a>
+            
+            <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="/frontend/Cadastrar_Cliente/index.html">Cliente</a></li>
+                <li><a href="/frontend/Cadastrar_Produto/index.html">Produtos</a></li>
+                <li><a href="/frontend/Pedidos_Compra/">Pedidos de Compra</a></li>
+                <li><a href="#" id="sair">Sair</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <ul id="slide-out" class="sidenav">
+        <li><a href="/frontend/Cadastrar_Cliente/index.html">Cliente</a></li>
+        <li><a href="/frontend/Cadastrar_Produto/index.html">Produtos</a></li>
+        <li><a href="/frontend/Pedidos_Compra/">Pedidos de Compra</a></li>
+        <li><a href="#" id="sair">Sair</a></li>
+    </ul>
+    <br>
+    <a class="waves-effect waves-light btn" id="clock"><i class="material-icons left">access_time</i>Seu Token Expira em <span id="tempo-restante"></span></a>
+<br>
+<br>
+<h2 class="center-align" id="h2">Produtos</h2>
+
+<div class="container">
+    <!-- Modal Trigger -->
+    <div>
+        <div class="">
+            <div class="right-align">
+                <div class="input-field small-input">
+                    <input id="filtro" type="text">
+                    <label for="filtro">Filtrar por Sku, Titulo ou Preço</label>
+                </div>
+                <button class="btn waves-effect waves-light" id="btnFiltrar">Filtrar</button>
+            </div>
+        </div>
+        <div class="">
+            <a class="waves-effect waves-light btn modal-trigger left-align" href="#modal1" id="cadastrarProduto">Cadastrar Produto</a>
+        </div>
+    </div>
+    
+    <br>
+    <br>
+    <!-- Modal 1 Criar -->
+    <div id="modal1" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <div class="center-align">
+                <h4>Cadastrar Produto</h4>
+            </div>
+            <div class="container">
+                <div class="col s12 m6 offset-m3">
+                    <form id="cadastroForm">
+                        <div class="input-field">
+                            <input id="sku" type="text" name="sku" required>
+                            <label for="sku">Sku</label>
+                        </div>
+                        <div class="input-field">
+                            <input id="titulo" type="text" name="titulo" required>
+                            <label for="titulo">Titulo</label>
+                        </div>
+                        <div class="input-field">
+                            <input id="preco" type="number" name="preco" step="0.01" required>
+                            <label for="preco">Preço</label>
+                        </div>
+                        <div class="input-field">
+                            <input id="estoque" type="number" name="estoque" step="1" required>
+                            <label for="estoque">Estoque</label>
+                        </div>
+                        <div class="center">
+                            <button class="btn waves-effect waves-light" type="submit">Sim</button>
+                            <a href="/frontend/Cadastrar_Produto/index.html" id="btnNao" class="modal-close btn red">Não</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--modal 2 Editar-->
+    <div id="modal2" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <div class="center-align">
+                <h4>Editar Produto</h4>
+            </div>
+            <div class="container">
+                <div class="col s12 m6 offset-m3">
+                    <form id="editForm">
+                            <input type="hidden" id="produtoId2" name="produtoId2">
+                            <label for="sku2">Sku</label>
+                            <input id="sku2" type="text" name="sku2" required>
+                            
+                        
+                            <label for="titulo2">Titulo</label>
+                            <input id="titulo2" type="text" name="titulo2" required>
+                            
+                            <div class="row">
+                                <div class="col s6">
+                                  <label for="preco2">Preço</label>
+                                  <input id="preco2" type="number" name="preco2" step="0.01" required>
+                                </div>
+                                <div class="col s6">
+                                  <label for="estoque2">Estoque</label>
+                                  <input id="estoque2" type="number" name="estoque2" step="1" required>
+                                </div>
+                              </div>
+                            
+                            
+                        
+                            
+                            
+                        
+                              <div class="center">
+                                <button class="btn waves-effect waves-light" type="submit">Sim</button>
+                                <a href="/frontend/Cadastrar_Produto/index.html" id="btnNao" class="modal-close btn red">Não</a>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--modal 3 Deletar -->
+    <div id="modal3" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <div class="center-align">
+                <h4>Deletar Produto</h4>
+            </div>
+            <div class="container">
+                <div class="col s12 m6 offset-m3">
+                    <form id="deleteForm">
+                        <input type="hidden" id="produtoId3" name="produtoId3">
+                        <label for="sku3">Sku</label>
+                        <input id="sku3" type="text" name="sku3" required>
+                                                   
+                        <label for="titulo3">Titulo</label>
+                        <input id="titulo3" type="text" name="titulo3" required>
+                                             
+                        <div class="row">
+                            <div class="col s6">
+                              <label for="preco3">Preço</label>
+                              <input id="preco3" type="number" name="preco3" step="0.01" required>
+                            </div>
+                            <div class="col s6">
+                              <label for="estoque3">Estoque</label>
+                              <input id="estoque3" type="number" name="estoque3" step="1" required>
+                            </div>
+                          </div>                       
+
+                        <div class="center">
+                            <button class="btn waves-effect waves-light" type="submit">Sim</button>
+                            <a href="/frontend/Cadastrar_Produto/index.html" id="btnNao" class="modal-close btn red">Não</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="pagination" class="right-align">
+        <button id="previous" class="waves-effect waves-light btn">Anterior</button>
+        <button id="next" class="waves-effect waves-light btn">Próximo</button>
+    </div>
+        
+        <!--filtro digito-->   
+     <div><input id="itemsporpagina" type="number" min="1" value="20" class="right-align"></div>
+     <div class="row">
+        <div class="col s3">
+          <p>
+            <label>
+              <input type="checkbox" id="ordenar-checkbox" />
+              <span>Ordenar Sku</span>
+            </label>
+          </p>
+        </div>
+        <div class="col s3">
+          <p>
+            <label>
+              <input type="checkbox" id="ordenar-checkbox2" />
+              <span>Ordenar Titulo</span>
+            </label>
+          </p>
+        </div>
+        <div class="col s3">
+          <p>
+            <label>
+              <input type="checkbox" id="ordenar-checkbox3" />
+              <span>Ordenar Preço</span>
+            </label>
+          </p>
+        </div>
+        <div class="col s3">
+            <p>
+              <label>
+                <input type="checkbox" id="ordenar-checkbox4" />
+                <span>Ordenar Estoque</span>
+              </label>
+            </p>
+          </div>
+      </div>
+      <!--Tabela-->
+        <table id="clientes-table" class="striped responsive-table">
+            <thead>
+                <tr class="center-align">
+                    <th class="center-align">Sku</th>
+                    <th class="center-align">Titulo</th>
+                    <th class="center-align">Preço</th>
+                    <th class="center-align">Estoque</th>
+                    <th class="center-align">Ações</th>
+                </tr>
+            </thead>
+            <tbody id="produtos-table-body" class="center-align"></tbody>
+        </table>
+        
+        <div class="contact-container__action--image center-align">
+            <img src="https://site.signoweb.com.br/assets/images/team-spirit.svg" alt="">
+        </div>
+    
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<!-- Referência ao arquivo materialize.js -->
+<script src="/frontend/Cadastrar_Produto/script.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="./style.css">
+
+</div>
+<br>
+<br>
+<br>
+
+</body>
+</html>
