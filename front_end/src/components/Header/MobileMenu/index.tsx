@@ -2,12 +2,14 @@ import { UlStyled } from "./styled";
 import { ButtonNavMob } from "../../../styles/buttons";
 import { useContext } from "react";
 import { DashboardPageContext } from "../../../contexts/dashboardPage";
+import { LoginContext } from "../../../contexts/login";
 
 interface iMenuOpenProps {
    isMenuOpen: boolean;
 }
 const MobileMenu = ({ isMenuOpen }: iMenuOpenProps) => {
    
+   const {userLogout} = useContext(LoginContext)
 
    const {setSelectList} = useContext(DashboardPageContext)
 
@@ -37,7 +39,7 @@ const MobileMenu = ({ isMenuOpen }: iMenuOpenProps) => {
             </ButtonNavMob>
          </li>
          <li>
-            <ButtonNavMob>Sair</ButtonNavMob>
+            <ButtonNavMob onClick={userLogout} >Sair</ButtonNavMob>
          </li>
       </UlStyled>
    );

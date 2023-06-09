@@ -7,7 +7,7 @@ import { ProductsContext } from "../../../contexts/products";
 import ModalEdit from "../../modals/ModalEdit";
 
 interface iProductProps {
-   product: iProducts;
+   product: iProducts 
 }
 const ProductItems = ({ product }: iProductProps) => {
    const { deleteProducts } = useContext(ProductsContext);
@@ -65,7 +65,6 @@ const ProductItems = ({ product }: iProductProps) => {
                   edit
                </i>
             </button>
-            <ButtonItems>Mais infomações</ButtonItems>
          </LiStyled>
 
          {opemModal && (

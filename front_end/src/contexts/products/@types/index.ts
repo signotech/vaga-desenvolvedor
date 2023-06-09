@@ -32,6 +32,7 @@ export interface iProductCreate{
 }
 
 export interface iProductsContext {
+   setProducts: React.Dispatch<React.SetStateAction<iProducts[]>>
    getProducts: () => Promise<void>
    products: iProducts[]
    deleteProducts: (data: dataDelete) => Promise<void>

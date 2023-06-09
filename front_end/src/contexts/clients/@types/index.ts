@@ -18,6 +18,7 @@ export interface iClientsContext {
 }
 
 export interface iClients {
+   client_id: string;
    id:number
    name_client:string
    cpf_client:string

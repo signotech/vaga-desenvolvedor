@@ -10,7 +10,7 @@ import { FormOrderStyled } from "./styled";
 import Selects from "../Selects";
 
 interface iFormProps {
-   id: number;
+   id: number 
    modalClose: () => void;
 }
 const FormEditOrder = ({ id, modalClose }: iFormProps) => {

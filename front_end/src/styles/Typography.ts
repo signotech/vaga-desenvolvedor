@@ -20,10 +20,16 @@ export const GlobalTypography = createGlobalStyle`
    font-weight: 600;
    color: var(--label-text-color);
 }
+
+.description.Login{
+   font-size: 1.3rem;
+   font-weight: 400;
+   color: var(--grey-200);
+}
 .Title.Collections{
    font-size: 2rem;
    font-weight: 400;
-   color: var(--grey-3);
+   color: var(--grey-300);
 }
 
 

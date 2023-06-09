@@ -95,6 +95,7 @@ export const OrderProvide = ({ children }: iDefaultProviderProps) => {
             deleteOrders,
             editOrders,
             createOrder,
+            setOrders
          }}
       >
          {children}

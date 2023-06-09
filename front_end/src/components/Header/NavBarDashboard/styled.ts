@@ -9,5 +9,4 @@ export const UlStyled = styled.ul`
    align-items: center;
    margin-top: 1rem;
 
-
 `;

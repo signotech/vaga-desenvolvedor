@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react";
 import { api } from "../../services/api";
 import { OrderContext } from "../order";
 import { toast } from "react-toastify";
-import {  AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import {
    dataDelete,
    iDefaultProviderProps,
@@ -47,9 +47,7 @@ export const ProductsProvide = ({ children }: iDefaultProviderProps) => {
       }
    };
 
-   const editProducts = async (data: iProductsUpdate,id:number) => {
-
-
+   const editProducts = async (data: iProductsUpdate, id: number) => {
       try {
          const response: AxiosResponse<iProducts> = await api.patch(
             `/products/${id}`,
@@ -87,10 +85,16 @@ export const ProductsProvide = ({ children }: iDefaultProviderProps) => {
       }
    };
 
-
    return (
       <ProductsContext.Provider
-         value={{ products, getProducts, deleteProducts,editProducts,createProducts }}
+         value={{
+            products,
+            getProducts,
+            deleteProducts,
+            editProducts,
+            createProducts,
+            setProducts,
+         }}
       >
          {children}
       </ProductsContext.Provider>

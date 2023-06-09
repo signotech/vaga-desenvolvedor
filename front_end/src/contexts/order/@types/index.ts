@@ -10,6 +10,7 @@ export interface iOrdersContext {
    deleteOrders: (data: dataDelete) => Promise<void>
    editOrders: (data: iOrderUpdate, id: number) => Promise<void>
    createOrder: (data: iOrderCreate) => Promise<void>
+   setOrders: React.Dispatch<React.SetStateAction<iOrders[]>>
 
 }
 

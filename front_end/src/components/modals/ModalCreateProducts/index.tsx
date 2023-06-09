@@ -45,7 +45,6 @@ const ModalCreateProduct = ({
       const client = clients.find(
          (client: iClients) => client.name_client == checkId
       );
-         console.log(client)
 
       const orderId = orders.find(
          (order: iOrders) => order.client_id == client?.id)

@@ -4,9 +4,9 @@ import Inputs from "../Inputs";
 import { loginSchema } from "./validation";
 import { useContext } from "react";
 import { LoginContext } from "../../../contexts/login";
-import { iUserLogin } from "../../../contexts/login/@types";
 import { FormStyled } from "./styled";
 import { ButtonLogin } from "../../../styles/buttons";
+import { iUserLogin } from "../../../contexts/login/@types";
 
 const FormLogin = () => {
    const { userLogin } = useContext(LoginContext);

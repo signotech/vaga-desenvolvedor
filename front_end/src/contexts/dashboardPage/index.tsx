@@ -6,12 +6,13 @@ export const DashboardPageContext = createContext({} as iDashboardPageContext);
 
 export const DashboardPageProvide = ({ children }: iDefaultProviderProps) => {
 
-   const [selectList,setSelectList] = useState<string>('orders')
+   const [selectList,setSelectList] = useState<string>('clients')
 
-
+   const [opemModalInfo, setOpemModaInfo] = useState(false);
+   
    return (
       <DashboardPageContext.Provider
-         value={{selectList,setSelectList}}
+         value={{selectList,setSelectList,opemModalInfo,setOpemModaInfo}}
       >
          {children}
       </DashboardPageContext.Provider>

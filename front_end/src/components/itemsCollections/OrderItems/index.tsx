@@ -50,7 +50,6 @@ const OrderItems = ({ order }: iorderProps) => {
                   edit
                </i>
             </button>
-            <ButtonItems>Mais infomações</ButtonItems>
          </LiStyled>
 
          {opemModal && (

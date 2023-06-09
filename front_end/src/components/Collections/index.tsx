@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { OrderContext } from "../../contexts/order";
 import { iOrders } from "../../contexts/order/@types";
 import { ClientsContext } from "../../contexts/clients";
@@ -16,14 +16,28 @@ import ModalCreateProduct from "../modals/ModalCreateProducts";
 import { UlStyled } from "./styled";
 
 const Collections = () => {
-   const { orders } = useContext(OrderContext);
-   const { clients } = useContext(ClientsContext);
-   const { products } = useContext(ProductsContext);
-   const { selectList } = useContext(DashboardPageContext);
+   const { getOrders, page, orders } = useContext(OrderContext);
+   const { getClients, pageClients, clients } = useContext(ClientsContext);
+   const { getProducts, products } = useContext(ProductsContext);
+   const { selectList} = useContext(DashboardPageContext);
 
    const [opemModalCreate, setOpemModalCreate] = useState(false);
    const [opemModalOrder, setOpemModalOrder] = useState(false);
    const [opemModalProduct, setOpemModalProduct] = useState(false);
+   
+   
+   useEffect(() => {
+
+      if (selectList == "products") {
+         getProducts();
+      }
+      if (selectList == "orders") {
+         getOrders();
+      }
+      getClients()
+      getOrders()
+      getProducts();
+   }, [page, pageClients, selectList]);
 
    return (
       <>
@@ -37,7 +51,7 @@ const Collections = () => {
                      onClick={() => setOpemModalOrder(!opemModalOrder)}
                      size="medium"
                      variant="contained"
-                     sx={{width:'25%'}}
+                     sx={{ width: "25%" }}
                   >
                      Pedido
                   </Button>
@@ -53,12 +67,15 @@ const Collections = () => {
                      onClick={() => setOpemModalCreate(!opemModalCreate)}
                      size="medium"
                      variant="contained"
-                     sx={{width:'25%'}}
+                     sx={{ width: "25%" }}
                   >
                      Cliente
                   </Button>
                   {clients.map((client: iClients) => (
-                     <ClientItems key={client.id} client={client} />
+                     <ClientItems
+                        key={client.id}
+                        client={client}
+                     />
                   ))}
                </div>
             )}
@@ -69,7 +86,7 @@ const Collections = () => {
                      onClick={() => setOpemModalProduct(!opemModalProduct)}
                      size="medium"
                      variant="contained"
-                     sx={{width:'25%'}}
+                     sx={{ width: "25%" }}
                   >
                      Produto
                   </Button>
@@ -80,19 +97,26 @@ const Collections = () => {
             )}
          </UlStyled>
 
-         <ModalCreateClient
-            opemModalCreate={opemModalCreate}
-            setOpemModalCreate={setOpemModalCreate}
-         />
-         <ModalCreateOrder
-            opemModalOrder={opemModalOrder}
-            setOpemModalOrder={setOpemModalOrder}
-         />
+         {opemModalCreate && (
+            <ModalCreateClient
+               opemModalCreate={opemModalCreate}
+               setOpemModalCreate={setOpemModalCreate}
+            />
+         )}
+         {opemModalOrder && (
+            <ModalCreateOrder
+               opemModalOrder={opemModalOrder}
+               setOpemModalOrder={setOpemModalOrder}
+            />
+         )}
 
-         <ModalCreateProduct
-            opemModalProduct={opemModalProduct}
-            setOpemModalProduct={setOpemModalProduct}
-         />
+         {opemModalProduct && (
+            <ModalCreateProduct
+               opemModalProduct={opemModalProduct}
+               setOpemModalProduct={setOpemModalProduct}
+            />
+         )}
+
       </>
    );
 };

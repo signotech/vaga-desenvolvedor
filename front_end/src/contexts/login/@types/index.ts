@@ -5,6 +5,7 @@ export interface iDefaultProviderProps {
 export interface IloginContext{
    userLogin: (data: iUserLogin) => Promise<void>
    user: iUser | null
+   userLogout: () => void
 }
 
 export interface iUser {

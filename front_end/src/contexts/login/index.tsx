@@ -59,9 +59,14 @@ export const LoginProvider = ({ children }: iDefaultProviderProps) => {
       }
    };
 
+   const userLogout = () => {
+      setUser(null);
+      localStorage.clear();
+      navigate('/');
+   };
 
    return (
-      <LoginContext.Provider value={{ userLogin,user}}>
+      <LoginContext.Provider value={{ userLogin,user,userLogout }}>
          {children}
       </LoginContext.Provider>
    );
