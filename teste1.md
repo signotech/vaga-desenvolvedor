@@ -62,8 +62,8 @@ PORT= 3333
 ```
 npm run sequelize
 ```
-2. Em seguida, será criado uma base de dados MYSQL com o nome `crud´ e suas respectivas tabelas.
-3. Recomendo não alterar o nome ```MYSQL_DB=crud´´´  do .env pois o script está configurado parac riar um database com o nome proposto.
+2. Em seguida, será criado uma base de dados MYSQL com o nome `crud` e suas respectivas tabelas.
+3. Recomendo não alterar o nome ``` MYSQL_DB=crud``` do .env pois o script está configurado parac riar um database com o nome proposto.
 
 ### Execução
 1. Dentro da pasta backend execute o comando:
