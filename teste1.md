@@ -13,11 +13,11 @@ Este é o meu projeto Api/Aplicação web utilizando Nodejs.
 Certifique-se de ter o Node.js instalado em sua máquina.
 
 ### Instalação
-1. Clone o repositório 
+1. Clone o repositório.
 ```
 git clone -b Gabriel-Leiria-Epifanio-Rodrigues https://github.com/Leiriads/vaga-desenvolvedor.git
 ```
-2. Navegue até o diretório do projeto clonado 
+2. Navegue até o diretório do projeto clonado.
 ``` 
 cd AppWeb
 ```
@@ -35,16 +35,15 @@ para abrir o vscode. No vscode deve conter apenas as pastas backend e frontend.
  ``` 
  cd backend
  ```
-7. O comando a seguir só vai funcionar dentro da pasta backend.
-8. Execute o comando 
+7. O comando seguirá funcionando dentro da pasta backend, em seguida o execute.
+8. O mesmo irá instalar todas as dependências da API do projeto.
 ```
 npm install
 ``` 
-9. Este comando irá instalar todas as dependências da Api do projeto.
 
 
-### Configuração do Banco de Dados
-### Variáveis de Ambiente
+### CONFIGURAÇÃO DO BANCO DE DADOS
+### Variáveis de ambiente
 Edite o arquivo ```.env ``` na raiz do projeto conforme o necessário, deixei setado como configurei no meu computador.
 1. Obs: Na pasta do sequelize está fixo para utilizar apenas o Mysql.
 
@@ -59,52 +58,51 @@ PORT= 3333
 ```
 
 ## Criando o Banco de Dados
-1. Dentro do diretório backend Execute o comando a seguir, porém certifique-se que seu MYSQL esteja ativo.
+1. Dentro do diretório backend, execute o comando a seguir e certifique-se que o MySQL esteja ativo.
 ```
 npm run sequelize
 ```
-2. Esse comando roda um script que cria uma base de dados Mysql com nome `crud` e suas tabelas.
-3. Recomendo não alterar o nome  ```MYSQÇ_DB=crud ``` do .env pois o script ja esta setado para criar um database com esse nome.
+2. Em seguida, será criado uma base de dados MYSQL com o nome `crud´ e suas respectivas tabelas.
+3. Recomendo não alterar o nome ```MYSQL_DB=crud´´´  do .env pois o script está configurado parac riar um database com o nome proposto.
 
 ### Execução
-1. Dentro da pasta backend Execute o comando:
+1. Dentro da pasta backend execute o comando:
  ```
  npm start
  ```
 2. Irá iniciar o servidor do backend (API).
 3. O servidor estará em execução na porta especificada no arquivo `.env` ou 3333 caso ocorra algum erro no .env .
 
-### Execução em modo de Desenvolvimento
-1. Dentro da pasta backend Execute o comando: 
+### Execução em modo de desenvolvimento
+1. Dentro da pasta backend execute o comando: 
 ```
 npm run dev
 ``` 
-2. Este comando irá iniciar o servidor no modo de desenvolvimento.
-3. O servidor reiniciará automaticamente sempre que houver alterações nos arquivos.
+2. O mesmo irá iniciar o servidor em modo de desenvolvimento e reiniciará automaticamente sempre que houver alterações nos arquivos.
 
 ### Endpoints
-1. Os endpoits da API estarrão disponíveis em http://localhost:3333/{rotas}
-2. Porém as rotas estão com Middlewares de autenticação de usuário via token JWT para acesso das mesmas.
+1. Os endpoits da API estarão disponíveis em http://localhost:3333/{rotas}.
+2. As rotas estão com Middlewares de autenticação de usuário via token JWT para acesso das mesmas.
 3. Exemplo de rotas : 
 ```
 http://localhost:3333/produtos
 http://localhost:3333/pedidos
 http://localhost:3333/clientes
 ```
-## Executando o Frontend
+## EXECUTANDO O FRONTEND
 
-1. Instale  o plugin LiveServer no seu Vscode
-2. Dentro da pasta Frontend procure o arquivo `index.html` que não está dentro de nenhuma pasta.
-### Ao abrir o liveserver no Vscode deve-se deixar o vscode como a imagem abaixo. Sómente com as pastas backend e frontend para nao bugar os links de redirecionamento. 
+1. Instale  o plugin LiveServer no seu Vscode.
+2. Dentro da pasta Front End procure o arquivo `index.html` que não está dentro de nenhuma pasta.
+### Ao abrir o liveserver no Vscode deve-se deixar o mesmo como a imagem abaixo, somente com as pastas backend e frontend para nao bugar os links de redirecionamento. 
 ![vscode](https://github.com/Leiriads/vaga-desenvolvedor/assets/89768557/fcfd40bf-8f81-48b4-8421-06470de75713)
 
 3. Clique com o botão direito sobre o mesmo e abra com a extenção LiveServer.
-4. Ele deve abrir o seu navegador na pagina de Login.
-5. Não esqueça de ligar a Api antes de acessar o frontend.
-6. O mesmo está configurado para buscar os dados na api através do localhost.
+4. O nevagador será aberto na página de login.
+5. Certifique-se que a API esteja ligada antes de acessar o Front End.
+6. Os dados serão buscados via API através do localhost.
 
 
-## Recursos uilizados
+## RECURSOS UTILIZADOS
 
 - [Express](https://expressjs.com/) - Framework para construção de aplicações web.
 - [Sequelize](https://sequelize.org/) - ORM para manipulação do banco de dados.
@@ -119,7 +117,7 @@ http://localhost:3333/clientes
 
 
 ## Comentário
-Agradeço a equipe por me disponibilizar este teste! o mesmo contribuiu para a minha evolução e aprendizado. #Dev
+Agradeço a equipe por me disponibilizar este teste! O mesmo contribuiu para a minha evolução e aprendizado. #Dev
 
 ## Licença
 # Signotech.
