@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { TClientResponse, updateRequest } from "../../interfaces/clientInterface/client.interface";
+import { TClientResponse, TClienetupdateRequest } from "../../interfaces/clientInterface/client.interface";
 import updateClientService from "../../services/clientServices/updateClient.services";
 
 const updateClient = async (
@@ -7,7 +7,7 @@ const updateClient = async (
    res: Response
 ): Promise<Response> => {
    const clientId: number = parseInt(req.params.id);
-   const bodyData:updateRequest  = req.body
+   const bodyData:TClienetupdateRequest  = req.body
 
    const newClient:TClientResponse = await updateClientService(bodyData,clientId)
 

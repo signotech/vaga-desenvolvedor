@@ -1,9 +1,9 @@
 import Client from "../../../models/clientsModel";
 import { AppError } from "../../error/error";
-import { TdeleteSchema } from "../../interfaces/massDelete.interfaces";
+
 
 const deleteClientService = async (
-   bodyParams: TdeleteSchema
+   bodyParams:any
 ): Promise<void> => {
    
    const { massDelete } = bodyParams;

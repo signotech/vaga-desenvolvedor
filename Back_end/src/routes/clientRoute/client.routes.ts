@@ -15,6 +15,7 @@ import {
 import {
    checkDuplicateValues,
    checkValidId,
+   convertNullValues,
    validBodySchemas,
 } from "../../middlewares";
 
@@ -31,6 +32,7 @@ clientRoutes.get("", getClient);
 
 clientRoutes.patch("/:id",
    checkValidId,
+   convertNullValues,
    validBodySchemas(updateClientSchemaRequest),
    updateClient
 );

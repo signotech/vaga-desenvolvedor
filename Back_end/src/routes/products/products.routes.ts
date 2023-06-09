@@ -15,6 +15,7 @@ import {
 import {
    checkDuplicateProduts,
    checkValidId,
+   convertNullValues,
    validBodySchemas,
 } from "../../middlewares";
 
@@ -31,6 +32,7 @@ productsRoutes.get("", getProducts);
 
 productsRoutes.patch("/:id",
    checkValidId,
+   convertNullValues,
    validBodySchemas(updateProductRequest),
    updateProduct
 );

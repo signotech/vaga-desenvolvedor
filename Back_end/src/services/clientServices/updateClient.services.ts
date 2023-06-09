@@ -1,7 +1,7 @@
 import Client from '../../../models/clientsModel'
-import { TClientResponse, updateRequest } from '../../interfaces/clientInterface/client.interface';
+import { TClientResponse, TClienetupdateRequest} from '../../interfaces/clientInterface/client.interface';
 
-   const updateClientService = async (bodyParams:updateRequest, clientId:number):Promise<TClientResponse> => {
+   const updateClientService = async (bodyParams:TClienetupdateRequest, clientId:number):Promise<TClientResponse> => {
 
 
       const getClient = await Client.findByPk(clientId);

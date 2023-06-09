@@ -1,9 +1,9 @@
 import Products from "../../../models/productsModel";
 import { AppError } from "../../error/error";
-import { TdeleteSchema } from "../../interfaces/massDelete.interfaces";
+
 
 const deleteProductsService = async (
-   bodyParams: TdeleteSchema
+   bodyParams:any
 ): Promise<void> => {
    
    const { massDelete } = bodyParams;
