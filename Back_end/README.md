@@ -10,6 +10,9 @@
 - Bcryptjs
 - Cors
 - SGBD = PostgreSQL
+#
+
+### Apos clonar o repositorio instale as dependencias do projeto com o comando `npm install`
 
 ## Configuração do banco de dados; 
 - Crie um aquivo .env e configure o banco de dados desejado seguindo o exemplo abaixo;
