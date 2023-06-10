@@ -14,10 +14,10 @@
 - Yup
 
  
-## Comandos para inicialização da aplicação; 
 
-- Para iniciar localmente;
-  - `npm run dev`
+## Link da aplicação na vercel: `front-end-pink-one.vercel.app`
+
+## Todas as rotas foram configuradas para usar a ` baseURL: 'http://localhost:3000'`
 
 ## Usuario Admin 
   - usuario principal da aplicação;   
