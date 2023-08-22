@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Front-End/style/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+    <title>Editar Clientes</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/Main"><h1>Planejamento de Recursos Empresariais</h1></a>
+            <ul>
+                <a href="/Clientes"><li>Clientes</li></a>
+                <a href="/Produtos"><li>Produtos</li></a>
+                <a href="/Pedidos"><li>Pedidos</li></a>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article class="article-cadastrar">
+            <h1>Editar Cliente</h1>
+            <hr>
+            <div id="form-editCliente">
+            </div>
+        </article>
+    </main>
+    <script src="/Front-End/script/index.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const clienteId = urlParams.get("clienteId");
+        function editCliente() {
+            $.ajax({
+                url: `http://localhost:8080/dadosClientes/${clienteId}`,
+                type: "GET",
+                success: function (cliente) {
+                    var nome = cliente.nome;
+                    var email = cliente.email;
+                    var telefone = cliente.telefone;
+                    var cpf = cliente.cpf;
+                    var formulario = `
+                        <form action='/editClientes' method='post'>
+                            <div>
+                                <input type="text" name="id" id="id" class="invisivel" value='${clienteId}' required>
+                            </div>
+                            <div>
+                                <label for='nome'>Nome: </label>
+                                <input type='text' name='nome' id='nome' placeholder='Nome' value='${nome}' required>
+                            </div>
+                            <div>
+                                <label for='email'>Email: </label>
+                                <input type='email' name='email' id='email' placeholder='novoemail@gmail.com' value='${email}' required>
+                            </div>
+                            <div>
+                                <label for='telefone'>Telefone: </label>
+                                <input type='text' name='telefone' id='telefone' placeholder='xx xxxxx-xxxx' pattern='[0-9]{2} [0-9]{5}-[0-9]{4}' maxlength='13' value='${telefone}' required onkeypress="$(this).mask('(00) 0000-00009')">
+                            </div>
+                            <div>
+                                <label for='cpf'>CPF: </label>
+                                <input type='text' name='cpf' id='cpf' placeholder='xxx.xxx.xxx-xx' pattern='[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}' maxlength='14' value='${cpf}' required onkeypress="$(this).mask('000.000.000-00');">
+                            </div>
+                            <button type='button' class='btn-enviar'>Salvar</button>
+                        </form><hr>`;
+                    $("#form-editCliente").html(formulario);
+                },
+                error: function () {
+                    console.log("Erro ao recuperar os dados do cliente.");
+                }
+            });
+        };
+    
+        editCliente();
+
+        $(document).on('click', '.btn-enviar', function() {
+            var lista = []
+            $.ajax({
+                url: "http://localhost:8080/dadosClientes",
+                type: "POST",
+                success: function (response) {
+                    response.clientes.forEach(function (cliente) {
+                        if (cliente.cpf === $("#cpf").val() && cliente.ID != clienteId) {
+                            alert("Este CPF já foi cadastrado!");
+                            lista.push(cliente.cpf);
+                        }
+
+                        if (lista.length === 0) {
+                            $('form').submit();
+                        }
+                    });
+                },
+                error: function (status, error) {
+                        console.error(error);
+                }
+            });  
+        });
+    </script>
+</body>
+</html>

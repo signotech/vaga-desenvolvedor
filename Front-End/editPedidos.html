@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Front-End/style/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <title>Editar Pedidos</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/Main"><h1>Planejamento de Recursos Empresariais</h1></a>
+            <ul>
+                <a href="/Clientes"><li>Clientes</li></a>
+                <a href="/Produtos"><li>Produtos</li></a>
+                <a href="/Pedidos"><li>Pedidos</li></a>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article class="article-cadastrar">
+            <h1>Editar Pedido</h1>
+            <hr>
+            <div id="form-editPedido">
+            </div>
+        </article>
+    </main>
+
+    <script src="/Front-End/script/index.js"></script>
+    
+    <script>
+        function editPedido() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const pedidoId = urlParams.get("pedidoId");
+
+            $.ajax({
+                url: `http://localhost:8080/dadosPedidos/${pedidoId}`,
+                type: "GET",
+                success: function (pedido) {
+                    var cliente = pedido.cliente;
+                    var produto = pedido.produto;
+                    var quantidade = pedido.quantidade;
+                    var desconto = pedido.desconto;
+                    var valor = pedido.valor;
+                    var status = pedido.status;
+                    var formulario = `
+                        <form action="/editPedidos" method="post">
+                            <div>
+                                <input type='text' name='id' id='id' value="${pedidoId}" class='invisivel'>
+                            </div>
+                            <div>
+                                <input type="text" name="valor" id="valor" value="${valor}" class='invisivel'>
+                            </div>
+                            <div>
+                                <label for="cliente">Cliente: </label>
+                                <select name="cliente" id="cliente" required>
+                                    <option id='clienteSelecionado' value="${cliente}">${cliente}</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="produto">Produto: </label>
+                                <select name="produto" id="produto" required>
+                                    <option id='produtoSelecionado' value="${produto}">${produto}</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="quantidade">Quantidade: </label>
+                                <input type="number" name="quantidade" id="quantidade" placeholder="quantidade" min="0" required value="${quantidade}">
+                            </div>
+                            <div>
+                                <label for="desconto">Desconto: </label>
+                                <input type="number" name="desconto" id="desconto" value='${desconto}'>
+                            </div>
+                            <div>
+                                <label for="valor">Valor: </label>
+                                <input type="text" name="valorVis" id="valorVis" disabled>
+                            </div>
+
+                            <div>
+                                <label for="status">Status: </label>
+                                <select name="status" id="status">
+                                    <option value="Em aberto" ${status === "Em aberto" ? "selected" : ""}>🔵 EM ABERTO 🔵</option>
+                                    <option value="Concluido" ${status === "Concluido" ? "selected" : ""}>🟢 CONCLUÍDO 🟢</option>
+                                    <option value="Cancelada" ${status === "Cancelada" ? "selected" : ""}>🔴 CANCELADA 🔴</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn-enviar">Salvar</button>
+                        </form><hr>`;
+                    $("#form-editPedido").html(formulario);
+                },
+                error: function (status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        $.ajax({
+                url: "http://localhost:8080/dadosProdutos",
+                type: "POST",
+                success: function (response) {
+                    $("#produto").empty();
+                    response.produtos.forEach(function(produto) {
+                        var produtoOpt = $("<option>").val(produto.titulo).text(produto.titulo).attr("data-preco", produto.preco);
+                        $("#produto").append(produtoOpt);
+                    });
+                },
+                error: function (status, error) {
+                    console.error(error);
+                }
+            });
+
+            $.ajax({
+                url: "http://localhost:8080/dadosClientes",
+                type: "POST",
+                success: function (response) {
+                    $("#cliente").empty();
+                    response.clientes.forEach(function(cliente) {
+                        var ClienteOpt = $("<option>").val(cliente.nome).text(cliente.nome);
+                        $("#cliente").append(ClienteOpt);
+                    });
+                },
+                error: function (status, error) {
+                    console.error(error);
+                }
+            });
+
+        function calculateTotalValue() {
+            var quantidade = $("#quantidade").val() || 0;
+            var desconto = parseFloat($("#desconto").val()) || 0;
+            var precoProduto = parseFloat($("#produto option:selected").attr("data-preco")) || 0;
+
+            $("#desconto").attr("max", `${precoProduto * quantidade}`)
+
+            var valorTotal = (precoProduto * quantidade) - desconto;
+
+            console.log(quantidade, desconto, valorTotal);
+
+            $("#valorVis").val("R$ " + valorTotal.toFixed(2).replace(".", ","));
+            $("#valor").val("R$ " + valorTotal.toFixed(2).replace(".", ","));
+        };
+
+        $("#produto", "#quantidade", "#desconto").on("input", function () {
+            calculateTotalValue();
+        });
+
+        $(document).ready(function () {
+            editPedido();
+        });
+    </script>
+</body>
+</html>

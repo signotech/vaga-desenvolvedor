@@ -1,0 +1,250 @@
+/* GERAL */
+@charset "UTF-8";
+
+@font-face {
+    font-family: Fonte;
+    src: url(../Fontes/Kanit-Light.ttf);
+}
+
+
+* {
+    font-family: Fonte , monospace;
+    margin: 0px;
+    padding: 0px;
+
+    overflow-x: hidden;
+}
+
+.invisivel {
+    display: none;
+}
+
+nav{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: #007dfe;
+    height: 8vh;
+    width: 100vw;
+    margin-bottom: 2vh;
+}
+
+nav > a > h1 {
+    color: #fff;
+}
+
+.div-nav {
+    width: 80vw;
+}
+
+h1 {
+    color: #007dfe;
+}
+
+ul {
+    display: flex;
+    width: 30vw;
+    justify-content: space-around;
+}
+
+ul > li {
+    color: #fff;
+    padding: 3px;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+a:hover {
+    opacity: 0.7;
+}
+
+button {
+    color: #007dfe;
+    background-color: #fff;
+
+    padding: 4px;
+    border: 2px solid #007dfe;
+    border-radius: 5px;
+
+    transition: 0.2s;
+}
+
+button:hover {
+    color: #fff;
+    background-color: #007dfe;
+}
+
+label > select {
+    display: inline-block;
+}
+
+label > input {
+    display: inline;
+    margin-bottom: 10px;
+}
+
+.botao-cadastrar {
+    margin-top: 2vh;
+}
+
+.botao-excluir {
+    color: #ff0000;
+    border: 2px solid #ff0000;
+    transition: 0.2s;
+}
+
+.botao-excluir:hover {
+    background-color: #ff0000;
+    color: #fff;
+}
+
+.div-botoes {
+    display: flex;
+}
+
+hr {
+    border: 1px solid #007dfe;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+
+table {
+    width: 80vw;
+    margin: auto;
+    border: 2px solid #007dfe;
+    text-align: justify;
+}
+
+th {
+    color: #fff;
+    background-color: #007dfe;
+    border: 2px solid #007dfe;
+}
+
+.article-cadastrar {
+    margin: auto;
+    width: 80vw;
+}
+
+.article-tabela {
+    margin: auto;
+    width: 80vw;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+}
+
+.form-invisivel{
+    display: inline;
+}
+
+form > div {
+    margin-right: 10px;
+}
+
+label {
+    color: #007dfe;
+}
+
+input, select {
+    display: block;
+    color: #007dfe;
+    background-color: #fff;
+
+    padding: 4px;
+    border: 2px solid #007dfe;
+    border-radius: 5px;
+}
+
+#idExcluir {
+    display: inline;
+    display: none;
+}
+
+/* MAIN.HTML */
+
+.main-index {
+    display: flex;
+    justify-content: space-around;
+}
+
+.article-index {
+    margin: 10px;
+    width: 30vw;
+    text-align: center;
+
+    border: 2px solid #007dfe;
+    border-radius: 10px;
+
+    transition: transform 250ms;
+}
+
+.article-index:hover {
+    transform: translateY(-10px);
+    opacity: 100%;
+}
+
+.article-index > h1 {
+    color: #fff;
+    background-color: #007dfe;
+}
+
+.article-index > img {
+    width: 25vw;
+}
+
+@media screen and (max-width: 800px) {
+    h1 {
+        font-size: 18px;
+    } 
+
+    nav {
+        display: block;
+        text-align: center;
+    }
+
+    .logo {
+        display: inline-block;
+        font-size: 24px;
+    }
+
+    ul {
+        margin: auto;
+        display: flex;
+        width: 80vw;
+        justify-content: space-around;
+    }
+
+    .article-tabela {
+        width: 98vw;
+    }
+
+    .main-index {
+        display: block;
+    }
+
+    .article-index {
+        margin: auto;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        width: 70vw;
+    }
+
+    .article-index > img {
+        width: 68vw;
+    }
+
+    form {
+        display: block;
+    }
+
+    form > div {
+        margin-bottom: 20px;
+    }
+}

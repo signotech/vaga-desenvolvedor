@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Front-End/style/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <title>Editar Produtos</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/Main"><h1>Planejamento de Recursos Empresariais</h1></a>
+            <ul>
+                <a href="/Clientes"><li>Clientes</li></a>
+                <a href="/Produtos"><li>Produtos</li></a>
+                <a href="/Pedidos"><li>Pedidos</li></a>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article class="article-cadastrar">
+            <h1>Editar Produto</h1>
+            <hr>
+            <div id="form-editProduto">
+            </div>
+        </article>
+    </main>
+    <script src="/Front-End/script/index.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const produtoId = urlParams.get("produtoId");
+        
+        function editProduto() {
+            $.ajax({
+                url: `http://localhost:8080/dadosProdutos/${produtoId}`,
+                type: "GET",
+                success: function (produto) {
+                    var titulo = produto.titulo;
+                    var estoque = produto.estoque;
+                    var preco = produto.preco;
+                    var sku = produto.sku;
+                    var formulario = `
+                        <form action="/editProdutos" method="post">
+                        <div>
+                            <input type="text" name="id" id="id" class="invisivel" value='${produtoId}' required>
+                        </div>
+                        <div>
+                            <label for="titulo">Titulo: </label>
+                            <input type="text" name="titulo" id="titulo" placeholder="Nome do Produto" value='${titulo}' required>
+                        </div>
+
+                        <div>
+                            <label for="estoque">Em estoque:</label>
+                            <input type="number" name="estoque" id="estoque" placeholder="Em Estoque" value='${estoque}' min="0" required>
+                        </div>
+
+                        <div>
+                            <label for="preco">Preço: </label>
+                            <input type="number" name="preco" id="preco" placeholder="Preço" step=".01" value='${preco}' min="0" required>
+                        </div>  
+
+                        <div>
+                            <label for="sku">SKU: </label>
+                            <input type="text" name="sku" id="sku" placeholder="SKU" value='${sku}' required>
+                        </div>
+
+                        <button type="button" class="btn-enviar">Salvar</button>
+                    </form><hr>`;
+                    $("#form-editProduto").html(formulario);
+                },
+                error: function () {
+                    console.log("Erro ao recuperar os dados do produto.");
+                }
+            });
+        };
+    
+        editProduto();
+
+        $(document).on('click', '.btn-enviar', function() {
+            var lista = []
+            $.ajax({
+                url: `http://localhost:8080/dadosProdutos`,
+                type: "POST",
+                success: function (response) {
+                    response.produtos.forEach(function (produto) {
+                        if (produto.sku == $("#sku").val() && produto.ID != produtoId) {
+                            alert("Este SKU já foi cadastrado!");
+                            lista.push(produto.sku);
+                        }
+
+                        if (lista.length === 0) {
+                            $('form').submit();
+                        }
+                    });
+                },
+                error: function (status, error) {
+                        console.error(error);
+                }
+            });  
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Front-End/style/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <title>Cadastrar Produtos</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/Main"><h1>Planejamento de Recursos Empresariais</h1></a>
+            <ul>
+                <a href="/Clientes"><li>Clientes</li></a>
+                <a href="/Produtos"><li>Produtos</li></a>
+                <a href="/Pedidos"><li>Pedidos</li></a>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article class="article-cadastrar">
+            <h1>Cadastrar Produto</h1>
+            <hr>
+            <div class="form-cadastro">
+                <form action="/rotaProdutos" method="post">
+                    <div>
+                        <label for="titulo">Titulo: </label>
+                        <input type="text" name="titulo" id="titulo" placeholder="Nome do Produto" required>
+                    </div>
+
+                    <div>
+                        <label for="estoque">Em estoque:</label>
+                        <input type="number" name="estoque" id="estoque" min="0" placeholder="Em Estoque" min="0" required>
+                    </div>
+
+                    <div>
+                        <label for="preco">Preço: </label>
+                        <input type="number" name="preco" id="preco" placeholder="Preço" step=".01" min="0" required>
+                    </div>  
+
+                    <div>
+                        <label for="sku">SKU: </label>
+                        <input type="text" name="sku" id="sku" placeholder="SKU" required>
+                    </div>
+
+                    <button type="button" class="btn-enviar">Cadastrar Produto</button>
+                </form>
+                <hr>
+            </div>
+        </article>
+    </main>
+    <script src="/Front-End/script/index.js"></script>
+    <script>
+        $(".btn-enviar").on('click', function() {
+            var lista = []
+            $.ajax({
+                url: "http://localhost:8080/dadosProdutos",
+                type: "POST",
+                success: function (response) {
+                    response.produtos.forEach(function (produto) {
+                        if (produto.sku === $("#sku").val()) {
+                            alert("Este SKU já foi cadastrado!");
+                            lista.push(produto.sku);
+                        }
+
+                        if (lista.length === 0) {
+                            $('form').submit();
+                        }
+                    });
+                },
+                error: function (status, error) {
+                        console.error(error);
+                }
+            });  
+        });
+    </script>
+</body>
+</html>
