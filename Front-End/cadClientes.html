@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Front-End/style/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+    <title>Cadastrar Clientes</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/Main"><h1>Planejamento de Recursos Empresariais</h1></a>
+            <ul>
+                <a href="/Clientes"><li>Clientes</li></a>
+                <a href="/Produtos"><li>Produtos</li></a>
+                <a href="/Pedidos"><li>Pedidos</li></a>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article class="article-cadastrar">
+            <h1>Cadastrar Cliente</h1>
+            <hr>
+            <div class="form-cadastro">
+                <form action="/rotaClientes" method="post">
+                    <div>
+                        <label for="nome">Nome: </label>
+                        <input type="text" name="nome" id="nome" placeholder="Nome do Cliente" required>
+                    </div>
+
+                    <div>
+                        <label for="email">Email:</label>
+                        <input type="email" name="email" id="email" placeholder="emailcliente@gmail.com" required>
+                    </div>
+
+                    <div>
+                        <label for="telefone">Telefone:</label>
+                        <input type="text" name="telefone" id="telefone" placeholder="(00) 00000-0000" maxlength="15" required onkeypress="$(this).mask('(00) 00000-0009')">
+                    </div>
+
+                    <div>
+                        <label for="cpf">CPF:</label>
+                        <input type="text" name="cpf" id="cpf" placeholder="xxx.xxx.xxx-xx" maxlength="14" required onkeypress="$(this).mask('000.000.000-00');">
+                    </div>
+
+                    <button type="button" class="btn-enviar">Cadastrar</button>
+                </form>
+                <hr>
+            </div>
+        </article>
+    </main>
+    <script src="/Front-End/script/index.js"></script>
+    <script>
+        $(".btn-enviar").on('click', function() {
+            var lista = []
+            $.ajax({
+                url: "http://localhost:8080/dadosClientes",
+                type: "POST",
+                success: function (response) {
+                    response.clientes.forEach(function (cliente) {
+                        if (cliente.cpf === $("#cpf").val()) {
+                            alert("Este CPF já foi cadastrado!");
+                            lista.push(cliente.cpf);
+                        }
+
+                        if (lista.length === 0) {
+                            $('form').submit();
+                        }
+                    });
+                },
+                error: function (status, error) {
+                        console.error(error);
+                }
+            });  
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <!DOCTYPE html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="//cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="/Front-End/style/style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+        <title>Produtos</title>
+    </head>
+<body>
+    <header>
+        <nav>
+            <a href="/Main"><h1>Planejamento de Recursos Empresariais</h1></a>
+            <ul>
+                <a href="/Clientes"><li>Clientes</li></a>
+                <a href="/Produtos"><li>Produtos</li></a>
+                <a href="/Pedidos"><li>Pedidos</li></a>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <article class="article-tabela">
+            <a href="/cadProdutos"><button class="btn-cad">Cadastrar Produto</button></a>
+            <hr>
+            <table id="produtosTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>TITULO</th>
+                        <th>ESTOQUE</th>
+                        <th>PREÇO</th>
+                        <th>SKU</th>
+                        <th>✏️</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaProdutos"></tbody>
+            </table>
+        </article>
+    </main>
+    <script src="/Front-End/script/completar-tabela.js"></script>
+    <script src="//cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script src="/Front-End/script/index.js"></script>
+</body>
+</html>
