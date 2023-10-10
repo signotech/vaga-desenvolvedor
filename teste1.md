@@ -1,4 +1,4 @@
-<div align="center">
+<div align="center" style="width: 100%; background-color: #000; padding: 20px;">
   <img src="https://signotech.com.br/assets/images/logo.png" width="20%" />
 </div>
 
