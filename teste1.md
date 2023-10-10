@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://signoweb.com.br/site/assets/images/logo-signo.svg" width="20%" />
+  <img src="https://signotech.com.brassets/images/logo.png" width="20%" />
 </div>
 
 # Teste para candidatos à vaga de Desenvolvedor
