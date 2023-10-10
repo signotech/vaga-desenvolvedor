@@ -1,5 +1,5 @@
-<div align="center" style="width: 100%; background-color: #000; padding: 20px;">
-  <img src="https://signotech.com.br/assets/images/logo.png" width="20%" />
+<div align="center" style="background: #000;">
+  <img src="https://signotech.com.br/assets/images/logo-preta.png" width="20%" />
 </div>
 
 # Teste para candidatos à vaga de Desenvolvedor
