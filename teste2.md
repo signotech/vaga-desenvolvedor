@@ -1,6 +1,7 @@
 <div align="center">
   <img src="https://signotech.com.br/assets/images/logo-preta.png" width="20%" />
 </div>
+
 # Teste para candidatos à vaga de Desenvolvedor
 
 Olá caro desenvolvedor, nesse teste analisaremos seu conhecimento geral e inclusive velocidade de desenvolvimento. Abaixo explicaremos tudo o que será necessário.
