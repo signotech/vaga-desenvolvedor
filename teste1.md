@@ -1,4 +1,4 @@
-<div align="center" style="background: #000;">
+<div align="center">
   <img src="https://signotech.com.br/assets/images/logo-preta.png" width="20%" />
 </div>
 
