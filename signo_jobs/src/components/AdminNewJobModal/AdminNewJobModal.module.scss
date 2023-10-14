@@ -1,0 +1,9 @@
+.open_button_box {
+  display: flex;
+  justify-content: flex-end;
+
+  button {
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+}

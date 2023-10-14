@@ -1,0 +1,15 @@
+.action_btns {
+  display: flex;
+  justify-content: flex-end;
+  width: 40%;
+
+  svg {
+    font-size: 2rem;
+    margin-right: 1.5%;
+
+    &:hover {
+      transform: scale(1.1);
+      cursor: pointer;
+    }
+  }
+}
