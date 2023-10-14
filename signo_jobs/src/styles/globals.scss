@@ -1,0 +1,78 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+body {
+  background: rgb(205, 44, 114);
+  background: radial-gradient(
+    circle,
+    rgb(211, 21, 103) -15%,
+    rgb(14, 27, 197) 100%
+  );
+
+  main {
+    min-height: 83vh;
+  }
+
+  hr {
+    color: white;
+    border: 2px solid white;
+  }
+
+  form {
+    input,
+    label,
+    select,
+    textarea {
+      width: 100%;
+    }
+
+    text-align: center;
+
+    p {
+      cursor: pointer;
+    }
+
+    label {
+      margin-bottom: 2.5%;
+      font-weight: bold;
+      text-transform: uppercase;
+      text-align: left;
+
+      input {
+        padding: 1%;
+        outline: none;
+      }
+
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      select {
+        padding: 2%;
+        text-align: center;
+      }
+
+      textarea {
+        resize: none;
+        padding: 1%;
+      }
+
+      .error-message {
+        color: red;
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
+
+footer {
+  width: 100%;
+  margin-top: 2%;
+  color: white;
+}

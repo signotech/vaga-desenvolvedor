@@ -1,0 +1,43 @@
+.card_job {
+  width: 100%;
+  background-color: white;
+  padding: 1.5%;
+  border-radius: 17px;
+  margin-bottom: 2%;
+
+  .type {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+
+    span {
+      background-color: black;
+      color: white;
+      padding: 0 10px;
+      border-radius: 7px;
+    }
+  }
+
+  .salary {
+    text-align: right;
+    margin-right: 5%;
+  }
+
+  button {
+    background-color: greenyellow;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 7px;
+    padding: 1%;
+
+    &:hover {
+      transform: scale(1.02);
+      cursor: pointer;
+    }
+  }
+}
+
+.action_buttons {
+  display: flex;
+  justify-content: flex-end;
+}

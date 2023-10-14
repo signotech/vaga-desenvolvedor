@@ -1,67 +1,116 @@
-<div align="center">
-  <img src="https://signotech.com.br/assets/images/logo-preta.png" width="20%" />
-</div>
+# Projeto Signo Jobs
 
-# Teste para candidatos à vaga de Desenvolvedor
+Projeto desenvolvido como desafio para vaga de desenvolvedor junior,
+o projeto é um portal de vagas que permite tanto ao candidato se
+candidatar a vaga quanto ao Empregador fornecer oportunidades.
 
-Olá caro desenvolvedor, nesse teste analisaremos seu conhecimento geral e inclusive velocidade de desenvolvimento. Abaixo explicaremos tudo o que será necessário.
+## Estrutura do Projeto
 
-## Instruções
+Aqui você encontra a pasta `/signo_jobs`, essa é a pasta onde o projeto foi criado.
+Então para a descrição do projeto, que está abaixo, vamos usar como root a pasta do projeto (`/signo_jobs`).
 
-O desafio consiste em implementar uma aplicação web utilizando o framework PHP Laravel, um banco de dados relacional (Mysql, Postgres ou SQLite), que terá como finalidade a inscrição de candidatos a uma oportunidade de emprego.
+- ## `/`
 
-Sua aplicação deve possuir:
+  Na base do projeto você pode encontrar os arquivos de configuração do projeto e as pastas onde
+  contém a aplicação, aqui podemos ver o arquivo `sequelize.js`, que foi usado para configurar e popular nosso banco de dados.
 
-- CRUD de vagas:
-  - Criar, editar, excluir e listar vagas.
-  - A vaga pode ser CLT, Pessoa Jurídica ou Freelancer.
-- CRUD de candidatos:
-  - Criar, editar, excluir e listar candidatos.
-- Um cadidato pode se inscrever em uma ou mais vagas.
-- Deve ser ser possível "pausar" a vaga, evitando a inscrição de candidatos.
-- Cada CRUD:
-  - Deve ser filtrável e ordenável por qualquer campo, e possuir paginação de 20 itens.
-  - Deve possuir formulários para criação e atualização de seus itens.
-  - Deve permitir a deleção de qualquer item de sua lista.
-  - Implementar validações de campos obrigatórios e tipos de dados.
-- Testes unitários e de unidade.
+- ## `/public`
 
-## Banco de dados
+  Aqui temos todos os arquivos estáticos da nossa aplicação.
 
-- O banco de dados deve ser criado utilizando migrations, e também utilizar Seeds e Factorys para popular as informações no banco de dados.
+- ## `/postgres-data`
 
-## Tecnologias a serem utilizadas
+  Essa pasta é criada automaticamente, ela é basicamente nosso banco de dados local.
 
-Devem ser utilizadas as seguintes tecnologias:
+- ## `/node_modules`
 
-- HTML
-- CSS
-- Javascript
-- Framework Laravel (PHP) OU NodeJS + ReactJS
-- Docker (construção do ambiente de desenvolvimento)
-- Mysql, Postgres ou SQLite
+  Essa pasta guarda todas as bibliotecas e pacotes instalados para que a aplicação rode.
 
-## Entrega
+- ## `/src`
 
-- Para iniciar o teste, faça um fork deste repositório; **Se você apenas clonar o repositório não vai conseguir fazer push.**
-- Crie uma branch com o seu nome completo;
-- Altere o arquivo teste2.md com as informações necessárias para executar o seu teste (comandos, migrations, seeds, etc);
-- Depois de finalizado, envie-nos o pull request;
+  Aqui é de fato onde organizamos o código de nossa aplicação.
 
-## Bônus
+- ## `/src/components`
 
-- API Rest JSON para todos os CRUDS listados acima.
-- Permitir deleção em massa de itens nos CRUDs.
-- Permitir que o usuário mude o número de itens por página.
-- Implementar autenticação de usuário na aplicação.
+  Aqui você pode encontrar todos os componentes JSX de nossa aplicação.
 
-## O que iremos analisar
+- ## `/src/__tests__`
 
-- Organização do código;
-- Aplicação de design patterns;
-- Aplicação de testes; (diferencial, não obrigatório)
-- Separação de módulos e componentes;
-- Legibilidade;
-- Criação do ambiente com Docker. (diferencial, não obrigatório)
+  Os testes realizados em `Jest` da aplicação ficam nessa pasta.
 
-### Boa sorte!
+- ## `/src/hooks`
+
+  Hooks personalizados ajudam aplicação ficar mais organizada, aqui é onde você encontra os hooks personalizados dessa aplicação.
+
+- ## `/src/interfaces`
+
+  Para uma tipagem de qualidade a aplicação de interfaces é essêncial, nessa pasta estão guardados nossas interfaces/types.
+
+- ## `/src/styles`
+
+  Aqui é onde deixamos nossas folhas de estilo globais.
+
+- ## `/src/utils`
+
+  Como o nome já diz, a pasta utils guarda todos os blocos de códigos que podem ajudar em diversas
+  partes da aplicação, seguindo um conceito de código DRY.
+
+- ## `/src/schemas`
+
+  Nossa aplicação tem os dados válidados pela biblioteca `Zod`, para fazer essa validação construimos `Schemas`, que você pode encontrar nessa pasta.
+
+- ## `/src/pages`
+
+  O NextJS possui um sistemas de rotas próprio, então essa pasta serve como um guia para as rotas da aplicação, aqui você encontra nossas rotas.
+
+- ## `/src/pages/api`
+
+  Da mesma forma que as nossas `pages`, tudo que estiver dentro dessa pasta é considerado uma rota, mas a diferença que ela serve a nossa api, então aqui estão as rotas de nossa API.
+
+- ## `/src/server`
+  A pasta `server` é onde está o nosso código do back-end, nela você pode encontrar, controllers, services, models, nossas migrations e seeders do banco de dados e também a pasta config que guarda arquivos de configuração para validação das rotas e de autenticação, também da conexão com o banco de dados.
+
+## Tecnologias
+
+- **Database:** Postgres
+- **ORM:** Sequelize
+- **Framework:** NextJS
+- **Testes:** Jest
+- **Ambiente:** NodeJS
+- **CSS/Pre-processador:** Sass
+- **Conteinerização:** Docker + DockerCompose
+- **Validations:** Zod
+
+# Como rodar o projeto
+
+O projeto que é feito em NextJS tem uma dependência que é seu banco de dados em Postgres.
+
+Para que tenhamos a melhor experiência, é necessário que tenha instalado na maquina a ferramenta `Docker`,
+ela vai permitir que os containers da aplicação trabalhem em harmonia e inicializar nosso banco de dados.
+
+Para isto, certifique-se da instalação da ferramenta, após navegue via terminal até a pasta
+`/signo_jobs`, e então, digite o seguinte comando em seu terminal: `docker-compose up -d`
+
+para nosso banco de dados funcionar é necessário rodar o seguinte comando: `docker-compose up -d`, depois
+para popular o banco `npm run database:init`, agora podemos iniciar a aplicação: `npm run dev`.
+
+## Comandos
+
+- `docker-compose up -d`
+- `npm run database:init`
+- `npm run dev`
+
+\*\ caso já tenha populado o banco e quer destruir os dados, certifique que o container está rodando e digite o seguinde comando no terminal: `npm run database:destroy`
+
+você já pode ver a aplicação rodando em: http://localhost:3000
+
+# API
+
+Todo o Back-End da aplicação é servido via API Rest, as respostas em JSON facilitam
+a comunicação com o Front que utiliza React com NextJS.
+
+O projeto usa a Biblioteca `Zod` para validar os dados, então em caso de erro, existe um padrão
+de resposta para as rotas, o status de erro padrão é o `500` e no corpo da resposta contém um
+objeto com uma chave `error` que guarda o motivo do erro.
+
+...Em Breve Documentação da API.
