@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://signotech.com.br/assets/images/logo-preta.png" width="20%" />
+  <img src="https://signotech.com.br/wp-content/uploads/2023/03/SignoTech.webp" width="20%" />
 </div>
 
 # Teste para candidatos à vaga de Desenvolvedor
