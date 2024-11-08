@@ -54,6 +54,8 @@ Devem ser utilizadas as seguintes tecnologias:
 - Permitir deleção em massa de itens nos CRUDs.
 - Permitir que o usuário mude o número de itens por página.
 - Implementar autenticação de usuário na aplicação.
+- Documentação da API (usando Swagger ou Postman)
+- Deploy dentro do docker
 
 ## O que iremos analisar
 
