@@ -97,10 +97,15 @@ class ClienteController extends Controller {
             'cpf' => $request->cpf,
         ]);
 
-        return redirect()->route('clientes.index')->with('sucesso', 'Cliente editado com sucesso.');
+        return redirect()->route('clientes.index')->with('sucesso', 'Cliente editado com sucesso!');
     }
     
     public function destroy($id): RedirectResponse {
-        return redirect()->route('clientes.index');
+
+        $cliente = Cliente::findOrFail($id);
+
+        $cliente->delete();
+
+        return redirect()->route('clientes.index')->with('sucesso', 'Cliente excluído com sucesso!');
     }
 }

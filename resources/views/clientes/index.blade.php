@@ -32,7 +32,7 @@
                         <a href="{{ route('clientes.edit', $cliente->id) }}">
                             <button>Editar</button>
                         </a>
-                        <form action="{{ route('clientes.destroy', $cliente->id) }}" method="post" style="display: inline">
+                        <form action="{{ route('clientes.destroy', $cliente->id) }}" method="post" onsubmit="return confirmDelete(event);" style="display: inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit">Excluir</button>

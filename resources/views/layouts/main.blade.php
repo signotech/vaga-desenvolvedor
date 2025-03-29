@@ -19,5 +19,14 @@
 
     @yield('content')
 
+    <script>
+        function confirmDelete(event) {
+            event.preventDefault();
+    
+            if (confirm("Tem certeza que deseja excluir este registro?")) {
+                event.target.submit();
+            }
+        }
+    </script>
 </body>
 </html>
