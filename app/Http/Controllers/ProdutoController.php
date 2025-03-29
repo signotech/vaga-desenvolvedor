@@ -29,7 +29,10 @@ class ProdutoController extends Controller {
     }
 
     public function show($id): View {
-        return view('produtos.show');
+
+        $produto = Produto::findOrFail($id);
+
+        return view('produtos.show', compact('produto'));
     }
 
     public function edit($id): View {
