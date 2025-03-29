@@ -25,7 +25,7 @@ class ProdutoController extends Controller {
 
         Produto::create($request->validated());
 
-        return redirect()->route('produtos.index')->with('sucesso', 'Cliente criado com sucesso!');
+        return redirect()->route('produtos.index')->with('sucesso', 'Produto criado com sucesso!');
     }
 
     public function show($id): View {
@@ -36,11 +36,18 @@ class ProdutoController extends Controller {
     }
 
     public function edit($id): View {
-        return view('produtos.edit');
+
+        $produto = Produto::findOrFail($id);
+
+        return view('produtos.edit', compact('produto'));
     }
 
     public function update(ProdutoRequest $request, $id): RedirectResponse {
-        return redirect()->route('produtos.index');
+
+        $produto = Produto::findOrFail($id);
+        $produto->update($request->validated());
+
+        return redirect()->route('produtos.index')->with('sucesso', 'Produto editado com sucesso!');
     }
     
     public function destroy($id): RedirectResponse {
