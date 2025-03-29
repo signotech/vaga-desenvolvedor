@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProdutoRequest;
 use App\Models\Produto;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -20,8 +21,11 @@ class ProdutoController extends Controller {
         return view('produtos.create');
     }
 
-    public function store(Request $request): RedirectResponse {
-        return redirect()->route('produtos.index');
+    public function store(ProdutoRequest $request): RedirectResponse {
+
+        Produto::create($request->validated());
+
+        return redirect()->route('produtos.index')->with('sucesso', 'Cliente criado com sucesso!');
     }
 
     public function show($id): View {
@@ -32,7 +36,7 @@ class ProdutoController extends Controller {
         return view('produtos.edit');
     }
 
-    public function update(Request $request, $id): RedirectResponse {
+    public function update(ProdutoRequest $request, $id): RedirectResponse {
         return redirect()->route('produtos.index');
     }
     

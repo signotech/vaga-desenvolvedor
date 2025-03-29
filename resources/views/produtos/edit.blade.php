@@ -15,14 +15,14 @@
         
         <br><br>
         <label for="preco">Preço: </label>
-        <input type='number' name="preco" value="{{ old('preco', $produto->preco) }}">
+        <input type='number' name="preco" min="0.01" step="0.01" value="{{ old('preco', $produto->preco) }}">
         @error('preco')
             <p style="color: red;">{{ $message }}</p>
         @enderror
         
         <br><br>
         <label for="estoque">Estoque: </label>
-        <input type="number" name="estoque" value="{{ old('estoque', $produto->estoque) }}">
+        <input type="number" name="estoque" min="0" value="{{ old('estoque', $produto->estoque) }}">
         @error('estoque')
             <p style="color: red;">{{ $message }}</p>
         @enderror
