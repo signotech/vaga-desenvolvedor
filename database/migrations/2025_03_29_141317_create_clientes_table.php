@@ -15,7 +15,6 @@ return new class extends Migration {
             $table->string('cpf', 11)->unique();
             $table->string('email', 255)->unique();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

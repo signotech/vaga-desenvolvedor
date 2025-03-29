@@ -17,7 +17,6 @@ return new class extends Migration {
             $table->foreignId('cliente_id')->constrained('clientes')->onDelete('cascade');
             $table->enum('status', $statusPedido)->default('Em Aberto');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

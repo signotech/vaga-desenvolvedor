@@ -16,7 +16,6 @@ return new class extends Migration {
             $table->integer('estoque');
             $table->string('codigo_sku', 16)->unique();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

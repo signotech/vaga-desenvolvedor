@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ClienteRequest;
 use App\Models\Cliente;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -20,34 +21,9 @@ class ClienteController extends Controller {
         return view('clientes.create');
     }
 
-    public function store(Request $request): RedirectResponse {
+    public function store(ClienteRequest $request): RedirectResponse {
 
-        $request->validate(
-            [
-                'nome' => 'required|min:4|max:100',
-                'email' => 'required|email|max:255',
-                'cpf' => 'required|min:11|max:11'
-            ],
-            [
-                'nome.required' => 'O nome é obrigatório.',
-                'nome.min' => 'O nome deve ter no mínimo :min caracteres.',
-                'nome.max' => 'O nome deve ter no máximo :max caracteres.',
-
-                'email.required' => 'O e-mail é obrigatório.',
-                'email.email' => 'O e-mail deve ser válido.',
-                'email.max' => 'O e-mal deve ter no máximo :max caracteres.',
-
-                'cpf.required' => 'O CPF é obrigatório.',
-                'cpf.min' => 'O CPF deve ter no mínimo :min caracteres.',
-                'cpf.max' => 'O CPF deve ter no máximo :max caracteres.',
-            ]
-        );
-
-        $cliente = Cliente::create([
-            'nome' => $request->nome,
-            'email' => $request->email,
-            'cpf' => $request->cpf,
-        ]);
+        Cliente::create($request->validated());
 
         return redirect()->route('clientes.index')->with('sucesso', 'Cliente criado com sucesso!');
     }
@@ -66,36 +42,10 @@ class ClienteController extends Controller {
         return view('clientes.edit', compact('cliente'));
     }
 
-    public function update(Request $request, $id): RedirectResponse {
-        
-        $request->validate(
-            [
-                'nome' => 'required|min:4|max:100',
-                'email' => 'required|email|max:255',
-                'cpf' => 'required|min:11|max:11'
-            ],
-            [
-                'nome.required' => 'O nome é obrigatório.',
-                'nome.min' => 'O nome deve ter no mínimo :min caracteres.',
-                'nome.max' => 'O nome deve ter no máximo :max caracteres.',
-
-                'email.required' => 'O e-mail é obrigatório.',
-                'email.email' => 'O e-mail deve ser válido.',
-                'email.max' => 'O e-mal deve ter no máximo :max caracteres.',
-
-                'cpf.required' => 'O CPF é obrigatório.',
-                'cpf.min' => 'O CPF deve ter no mínimo :min caracteres.',
-                'cpf.max' => 'O CPF deve ter no máximo :max caracteres.',
-            ]
-        );
+    public function update(ClienteRequest $request, $id): RedirectResponse {
 
         $cliente = Cliente::findOrFail($id);
-        
-        $cliente->update([
-            'nome' => $request->nome,
-            'email' => $request->email,
-            'cpf' => $request->cpf,
-        ]);
+        $cliente->update($request->validated());
 
         return redirect()->route('clientes.index')->with('sucesso', 'Cliente editado com sucesso!');
     }

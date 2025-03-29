@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Pedido extends Model {
     
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $table = 'pedidos';
     protected $fillable = ['cliente_id', 'status'];
