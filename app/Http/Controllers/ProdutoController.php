@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Produto;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ProdutoController extends Controller {
     
-    public function index() {
-        return view('produtos.index');
+    public function index(): View {
+
+        $produtos = Produto::all();
+
+        return view('produtos.index', compact('produtos'));
     }
 
     public function create(): View {

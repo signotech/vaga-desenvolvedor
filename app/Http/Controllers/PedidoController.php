@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pedido;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class PedidoController extends Controller {
     
-    public function index() {
-        return view('pedidos.index');
+    public function index(): View {
+
+        $pedidos = Pedido::all();
+
+        return view('pedidos.index', compact('pedidos'));
     }
 
     public function create(): View {

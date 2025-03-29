@@ -15,11 +15,11 @@
     <input type="text" name="cpf" value="{{ old('cpf', $cliente->cpf) }}" readonly>
 
     <br><br>
-    <label for="cpf">Criado em: </label>
+    <label for="created_at">Criado em: </label>
     <input type="text" value="{{ old('cpf', $cliente->created_at) }}" readonly>
 
     <br><br>
-    <label for="cpf">Editado em: </label>
+    <label for="updated_at">Editado em: </label>
     <input type="text" value="{{ old('cpf', $cliente->updated_at) }}" readonly>
 
 @endsection
