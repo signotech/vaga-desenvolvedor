@@ -53,7 +53,6 @@ class ClienteController extends Controller {
     public function destroy($id): RedirectResponse {
 
         $cliente = Cliente::findOrFail($id);
-
         $cliente->delete();
 
         return redirect()->route('clientes.index')->with('sucesso', 'Cliente excluído com sucesso!');

@@ -51,6 +51,10 @@ class ProdutoController extends Controller {
     }
     
     public function destroy($id): RedirectResponse {
-        return redirect()->route('produtos.index');
+
+        $produto = Produto::findOrFail($id);
+        $produto->delete();
+
+        return redirect()->route('produtos.index')->with('sucesso', 'Produto excluído com sucesso!');
     }
 }
