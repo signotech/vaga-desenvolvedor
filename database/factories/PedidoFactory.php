@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Cliente;
 use App\Models\Pedido;
 use App\Models\Produto;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,8 +19,9 @@ class PedidoFactory extends Factory {
      */
     public function definition(): array {
         return [
-            'cliente_id' => Cliente::factory(),
-            'Status' => $this->faker->randomElement(['Em Aberto', 'Pago', 'Cancelado'])
+            'cliente_id' => Cliente::inRandomOrder()->first()->id ?? Cliente::factory()->create()->id,
+            'Status' => $this->faker->randomElement(['Em Aberto', 'Pago', 'Cancelado']),
+            'created_at' => Carbon::now()->subDays(rand(1, 30)),
         ];
     }
 
