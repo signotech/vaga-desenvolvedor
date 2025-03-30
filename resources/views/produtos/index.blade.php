@@ -42,13 +42,17 @@
             <option value="codigo_sku" {{ request()->input('ordem_por') == 'codigo_sku' ? 'selected' : '' }}>Código SKU</option>
         </select>
 
-        <label for="ordem">Direção:</label>
+        <label for="ordem">Ordem:</label>
         <select name="ordem">
             <option value="asc" {{ request()->input('ordem') == 'asc' ? 'selected' : '' }}>Crescente</option>
             <option value="desc" {{ request()->input('ordem') == 'desc' ? 'selected' : '' }}>Decrescente</option>
         </select>
 
         <button type="submit">Filtrar</button>
+
+        <button type="button" onclick="window.location='{{ route('produtos.index') }}'">
+            Resetar Filtros
+        </button>
     </form>
 
     <br><br>

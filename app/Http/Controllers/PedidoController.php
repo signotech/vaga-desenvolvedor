@@ -12,11 +12,52 @@ use Illuminate\Http\Request;
 
 class PedidoController extends Controller {
     
-    public function index(): View {
+    public function index(Request $request): View {
 
-        $pedidos = Pedido::with('cliente')->get();
+        $clientes = Cliente::all();
+        $produtos = Produto::all();
 
-        return view('pedidos.index', compact('pedidos'));
+        $ordemPor = $request->input('ordem_por', 'id');
+        $ordem = $request->input('ordem', 'asc');
+
+        $pedidosQuery = Pedido::with(['cliente', 'produtos']);
+
+        $filtroId = $request->input('id');
+        $filtroCliente = $request->input('cliente_id');
+        $filtroStatus = $request->input('status');
+        $filtroData = $request->input('data');
+        $filtroProduto = $request->input('produto_id');
+        // $filtroValor = $request->input('valor');
+
+        if ($filtroId) {
+            $pedidosQuery->where('id', '=', $filtroId);
+        }
+        if ($filtroCliente) {
+            $pedidosQuery->where('cliente_id', '=', $filtroCliente);
+        }
+        if ($filtroStatus) {
+            $pedidosQuery->where('status', '=', $filtroStatus);
+        }
+        if ($filtroData) {
+            $pedidosQuery->whereDate('created_at', '=', $filtroData);
+        }
+        if ($filtroProduto) {
+            $pedidosQuery->whereHas('produtos', function ($query) use ($filtroProduto) {
+                $query->where('produtos.id', $filtroProduto);
+            });
+        }
+
+        if ($ordemPor === 'cliente') {
+            $pedidosQuery->join('clientes', 'pedidos.cliente_id', '=', 'clientes.id')
+                         ->orderBy('clientes.nome', $ordem)
+                         ->select('pedidos.*');
+        } else {
+            $pedidosQuery->orderBy($ordemPor, $ordem);
+        }
+
+        $pedidos = $pedidosQuery->orderBy($ordemPor, $ordem)->paginate(20);
+
+        return view('pedidos.index', compact('pedidos', 'clientes', 'produtos'));
     }
 
     public function create(): View {
