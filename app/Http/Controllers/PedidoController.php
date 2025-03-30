@@ -121,7 +121,10 @@ class PedidoController extends Controller {
 
     public function show($id): View {
         
-        $pedido = Pedido::with(['cliente', 'produtos'])->findOrFail($id);
+        $pedido = Pedido::with(['cliente', 'produtos' => function($query) {
+            $query->withPivot('quantidade_produto', 'valor_produto');
+        }])->findOrFail($id);
+    
         return view('pedidos.show', compact('pedido'));
     }
 
