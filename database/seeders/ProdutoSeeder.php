@@ -11,6 +11,6 @@ class ProdutoSeeder extends Seeder {
      * Run the database seeds.
      */
     public function run(): void {
-        Produto::factory()->count(200)->create();
+        Produto::factory()->count(100)->create();
     }
 }

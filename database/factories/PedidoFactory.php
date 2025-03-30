@@ -20,7 +20,7 @@ class PedidoFactory extends Factory {
     public function definition(): array {
         return [
             'cliente_id' => Cliente::inRandomOrder()->first()->id ?? Cliente::factory()->create()->id,
-            'Status' => $this->faker->randomElement(['Em Aberto', 'Pago', 'Cancelado']),
+            'status' => $this->faker->randomElement(['Em Aberto', 'Pago', 'Cancelado']),
             'created_at' => Carbon::now()->subDays(rand(1, 30)),
         ];
     }
@@ -28,13 +28,24 @@ class PedidoFactory extends Factory {
     public function configure() {
         return $this->afterCreating(function (Pedido $pedido) {
 
-            $produtos = Produto::inRandomOrder()->limit(rand(1, 5))->get();
+            $produtos = Produto::where('estoque', '>', 0)->inRandomOrder()->limit(rand(1, 3))->get();
 
+            $valorTotal = 0;
             foreach ($produtos as $produto) {
+
+                $quantidade = rand(1, min(5, $produto->estoque));
+                $valorProduto = $produto->preco * $quantidade;
+
                 $pedido->produtos()->attach($produto->id, [
-                    'quantidade_produto' => rand(1, 10)
+                    'quantidade_produto' => $quantidade,
+                    'valor_produto' => $valorProduto,
                 ]);
+
+                $produto->decrement('estoque', $quantidade);
+                $valorTotal+=$valorProduto;
             }
+
+            $pedido->update(['valor_total' => $valorTotal]);
         });
     }
 }
