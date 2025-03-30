@@ -48,6 +48,16 @@
             <option value="desc" {{ request()->input('ordem') == 'desc' ? 'selected' : '' }}>Decrescente</option>
         </select>
 
+        <label for="itens_por_pagina">Itens por página:</label>
+        <select name="itens_por_pagina" id="itens_por_pagina">
+            <option value="10" {{ request()->input('itens_por_pagina') == '10' ? 'selected' : '' }}>10</option>
+            <option value="20" {{ request()->input('itens_por_pagina') == '20' || !request()->has('itens_por_pagina') ? 'selected' : '' }}>20</option>
+            <option value="50" {{ request()->input('itens_por_pagina') == '50' ? 'selected' : '' }}>50</option>
+            <option value="100" {{ request()->input('itens_por_pagina') == '100' ? 'selected' : '' }}>100</option>
+        </select>
+
+        <br>
+
         <button type="submit">Filtrar</button>
 
         <button type="button" onclick="window.location='{{ route('produtos.index') }}'">
@@ -97,7 +107,7 @@
     </table>
 
     <div>
-        {{ $produtos->links('pagination::bootstrap-4') }}
+        {{ $produtos->appends(request()->except('page'))->links('pagination::bootstrap-4') }}
     </div>
 
 @endsection

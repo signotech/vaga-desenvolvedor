@@ -28,6 +28,10 @@
         </select>
         <br>
 
+        <label for="valor">Filtrar por Valor:</label>
+        <input type="number" step="0.01" name="valor" value="{{ request()->input('valor') }}">
+        <br>
+
         <label for="status">Filtrar por Status:</label>
         <select name="status">
             <option value="">Todos</option>
@@ -65,6 +69,16 @@
             <option value="asc" {{ request()->input('ordem') == 'asc' ? 'selected' : '' }}>Crescente</option>
             <option value="desc" {{ request()->input('ordem') == 'desc' ? 'selected' : '' }}>Decrescente</option>
         </select>
+
+        <label for="itens_por_pagina">Itens por página:</label>
+        <select name="itens_por_pagina" id="itens_por_pagina">
+            <option value="10" {{ request()->input('itens_por_pagina') == '10' ? 'selected' : '' }}>10</option>
+            <option value="20" {{ request()->input('itens_por_pagina') == '20' || !request()->has('itens_por_pagina') ? 'selected' : '' }}>20</option>
+            <option value="50" {{ request()->input('itens_por_pagina') == '50' ? 'selected' : '' }}>50</option>
+            <option value="100" {{ request()->input('itens_por_pagina') == '100' ? 'selected' : '' }}>100</option>
+        </select>
+
+        <br>
 
         <button type="submit">Filtrar</button>
 
@@ -115,7 +129,7 @@
     </table>
 
     <div>
-        {{ $pedidos->links('pagination::bootstrap-4') }}
+        {{ $pedidos->appends(request()->except('page'))->links('pagination::bootstrap-4') }}
     </div>
 
 @endsection

@@ -19,6 +19,7 @@ class PedidoController extends Controller {
 
         $ordemPor = $request->input('ordem_por', 'id');
         $ordem = $request->input('ordem', 'asc');
+        $itensPorPagina = $request->input('itens_por_pagina', 20);
 
         $pedidosQuery = Pedido::with(['cliente', 'produtos']);
 
@@ -27,13 +28,16 @@ class PedidoController extends Controller {
         $filtroStatus = $request->input('status');
         $filtroData = $request->input('data');
         $filtroProduto = $request->input('produto_id');
-        // $filtroValor = $request->input('valor');
+        $filtroValor = $request->input('valor');
 
         if ($filtroId) {
             $pedidosQuery->where('id', '=', $filtroId);
         }
         if ($filtroCliente) {
             $pedidosQuery->where('cliente_id', '=', $filtroCliente);
+        }
+        if ($filtroValor) {
+            $pedidosQuery->where('valor_total', '=', $filtroValor);
         }
         if ($filtroStatus) {
             $pedidosQuery->where('status', '=', $filtroStatus);
@@ -55,7 +59,7 @@ class PedidoController extends Controller {
             $pedidosQuery->orderBy($ordemPor, $ordem);
         }
 
-        $pedidos = $pedidosQuery->orderBy($ordemPor, $ordem)->paginate(20);
+        $pedidos = $pedidosQuery->orderBy($ordemPor, $ordem)->paginate($itensPorPagina);
 
         return view('pedidos.index', compact('pedidos', 'clientes', 'produtos'));
     }

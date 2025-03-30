@@ -14,6 +14,7 @@ class ProdutoController extends Controller {
 
         $ordemPor = $request->input('ordem_por', 'id');
         $ordem = $request->input('ordem', 'asc');
+        $itensPorPagina = $request->input('itens_por_pagina', 20);
 
         $filtroId = $request->input('id');
         $filtroTitulo = $request->input('titulo');
@@ -39,7 +40,7 @@ class ProdutoController extends Controller {
             $produtosQuery->where('codigo_sku', 'like', '%' . $filtroCodigoSku . '%');
         }
 
-        $produtos = $produtosQuery->orderBy($ordemPor, $ordem)->paginate(20);
+        $produtos = $produtosQuery->orderBy($ordemPor, $ordem)->paginate($itensPorPagina);
 
         return view('produtos.index', compact('produtos'));
     }

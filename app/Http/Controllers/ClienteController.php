@@ -14,6 +14,7 @@ class ClienteController extends Controller {
 
         $ordemPor = $request->input('ordem_por', 'id');
         $ordem = $request->input('ordem', 'asc');
+        $itensPorPagina = $request->input('itens_por_pagina', 20);
 
         $filtroId = $request->input('id');
         $filtroNome = $request->input('nome');
@@ -35,7 +36,7 @@ class ClienteController extends Controller {
             $clientesQuery->where('cpf', 'like', '%' . $filtroCpf . '%');
         }
 
-        $clientes = $clientesQuery->orderBy($ordemPor, $ordem)->paginate(20);
+        $clientes = $clientesQuery->orderBy($ordemPor, $ordem)->paginate($itensPorPagina);
 
         return view('clientes.index', compact('clientes'));
     }
