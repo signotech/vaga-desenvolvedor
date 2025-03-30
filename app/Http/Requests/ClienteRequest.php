@@ -23,7 +23,7 @@ class ClienteRequest extends FormRequest
         return [
             'nome' => 'required|min:4|max:100',
             'email' => 'required|email|max:255',
-            'cpf' => 'required|min:11|max:11'
+            'cpf' => 'required|digits:11'
         ];
     }
 
@@ -39,8 +39,7 @@ class ClienteRequest extends FormRequest
             'email.max' => 'O e-mail deve ter no máximo :max caracteres.',
 
             'cpf.required' => 'O CPF é obrigatório.',
-            'cpf.min' => 'O CPF deve ter no mínimo :min caracteres.',
-            'cpf.max' => 'O CPF deve ter no máximo :max caracteres.',
+            'cpf.digits' => 'O CPF deve ter apenas números e :digits caracteres.',
         ];
     }
 
