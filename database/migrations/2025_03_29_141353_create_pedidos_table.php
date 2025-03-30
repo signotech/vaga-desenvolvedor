@@ -15,6 +15,7 @@ return new class extends Migration {
         Schema::create('pedidos', function (Blueprint $table) use ($statusPedido) {
             $table->id()->autoIncrement();
             $table->foreignId('cliente_id')->constrained('clientes')->onDelete('cascade');
+            $table->decimal('valor_total', 10, 2)->default(0);
             $table->enum('status', $statusPedido)->default('Em Aberto');
             $table->timestamps();
         });

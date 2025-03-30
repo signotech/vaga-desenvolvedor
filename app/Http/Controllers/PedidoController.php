@@ -72,14 +72,45 @@ class PedidoController extends Controller {
 
         $dados = $request->validated();
 
+        // verifica se há estoque suficiente
+        $erroEstoque = $this->verificarEstoqueSuficiente($dados['produtos'], $dados['quantidades']);
+        if ($erroEstoque) {
+            return redirect()->back()->withErrors(['produtos' => $erroEstoque['erro']])->withInput();
+        }
+
+        // cria o pedido
         $pedido = Pedido::create([
             'cliente_id' => $dados['cliente_id'],
-            'status' => $dados['status']
+            'status' => $dados['status'],
+            'valor_total' => 0,
         ]);
 
+        $valorTotal = 0;
         foreach ($dados['produtos'] as $i => $produto_id) {
-            $pedido->produtos()->attach($produto_id, ['quantidade_produto' => $dados['quantidades'][$i]]);
+
+            // calcula o valor total do produto
+            $produto = Produto::find($produto_id);
+            $quantidade = $dados['quantidades'][$i];
+            $valorProduto = $produto->preco * $quantidade;
+
+            // retira a quantidade do estoque
+            $produto->estoque -= $quantidade;
+            $produto->save();
+
+            // adiciona o valor do produto ao valor total
+            $valorTotal+= $valorProduto;
+
+            // adiciona o produto ao pedido
+            $pedido->produtos()->attach(
+                $produto_id, [
+                    'quantidade_produto' => $quantidade,
+                    'valor_produto' => $valorProduto,
+            ]);
         }
+
+        // atualiza o valor total do pedido
+        $pedido->valor_total = $valorTotal;
+        $pedido->save();
 
         return redirect()->route('pedidos.index')->with('sucesso', 'Pedido criado com sucesso!');
     }
@@ -104,16 +135,52 @@ class PedidoController extends Controller {
         $dados = $request->validated();
         $pedido = Pedido::findOrFail($id);
 
+        // devolve o estoque do produto
+        foreach ($pedido->produtos as $produto) {
+
+            $quantidadeAnterior = $produto->pivot->quantidade_produto;
+
+            $produto->estoque += $quantidadeAnterior;
+            $produto->save();
+        }
+
+        // verifica se há estoque suficiente
+        $erroEstoque = $this->verificarEstoqueSuficiente($dados['produtos'], $dados['quantidades']);
+        if ($erroEstoque) {
+            return redirect()->back()->withErrors(['produtos' => $erroEstoque['erro']])->withInput();
+        }
+
         $pedido->update([
             'cliente_id' => $dados['cliente_id'],
             'status' => $dados['status'],
         ]);
 
+        // desanexa os produtos do pedido
         $pedido->produtos()->detach();
 
+        $valorTotal =0;
         foreach ($dados['produtos'] as $i => $produto_id) {
-            $pedido->produtos()->attach($produto_id, ['quantidade_produto' => $dados['quantidades'][$i]]);
+            $produto = Produto::find($produto_id);
+            $quantidade = $dados['quantidades'][$i];
+            $valorProduto = $produto->preco * $quantidade;
+    
+            // retira do estoque a quantidade do produto
+            $produto->estoque -= $quantidade;
+            $produto->save();
+    
+            // adiciona o valor do produto ao valor total
+            $valorTotal += $valorProduto;
+    
+            // adiciona o produto ao pedido
+            $pedido->produtos()->attach($produto_id, [
+                'quantidade_produto' => $quantidade,
+                'valor_produto' => $valorProduto,
+            ]);
         }
+
+        // atualiza o valor total do pedido
+        $pedido->valor_total = $valorTotal;
+        $pedido->save();
 
         return redirect()->route('pedidos.index')->with('sucesso', 'Pedido atualizado com sucesso!');
     }
@@ -122,8 +189,33 @@ class PedidoController extends Controller {
     public function destroy($id): RedirectResponse {
         
         $pedido = Pedido::findOrFail($id);
+
+        // devolve o estoque do produto
+        foreach ($pedido->produtos as $produto) {
+
+            $quantidadeAnterior = $produto->pivot->quantidade_produto;
+
+            $produto->estoque += $quantidadeAnterior;
+            $produto->save();
+        }
+
         $pedido->delete();
 
         return redirect()->route('pedidos.index')->with('sucesso', 'Pedido excluído com sucesso!');
+    }
+
+    private function verificarEstoqueSuficiente(array $produtos, array $quantidades) {
+
+        foreach ($produtos as $i => $produto_id) {
+            
+            $produto = Produto::find($produto_id);
+            $quantidade = $quantidades[$i];
+
+            if ($produto->estoque < $quantidade) {
+                return ['erro' => 'Produto ' . $produto->título . ' não tem estoque suficiente.'];
+            }
+
+            return null;
+        }
     }
 }

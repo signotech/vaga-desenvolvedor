@@ -80,6 +80,7 @@
             <tr>
                 <th>Código</th>
                 <th>Cliente</th>
+                <th>Valor</th>
                 <th>Status</th>
                 <th>Data</th>
                 <th>Ações</th>
@@ -91,6 +92,7 @@
                 <tr>
                     <td>{{ $pedido->id }}</td>
                     <td><a href="{{ route('clientes.show', $pedido->cliente->id) }}">{{ $pedido->cliente->nome }}</a></td>
+                    <td>{{ $pedido->valor_total }}</td>
                     <td>{{ $pedido->status }}</td>
                     <td>{{ $pedido->created_at }}</td>
                     <td>

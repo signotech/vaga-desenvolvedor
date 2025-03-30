@@ -9,7 +9,7 @@
     <h3>Produtos:</h3>
     <ul>
         @foreach($pedido->produtos as $produto)
-            <li><a href="{{ route('produtos.show', $produto->id) }}">{{ $produto->titulo }}</a> - Quantidade: {{ $produto->pivot->quantidade_produto }} - R$ {{ number_format($produto->preco, 2, ',', '.') }}</li>
+            <li><a href="{{ route('produtos.show', $produto->id) }}">{{ $produto->titulo }}</a> - Quantidade: {{ $produto->pivot->quantidade_produto }} - R$ {{ number_format($produto->pivot->valor_produto, 2, ',', '.') }}</li>
         @endforeach
     </ul>
 
