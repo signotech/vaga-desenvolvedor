@@ -33,14 +33,14 @@ class PedidoController extends Controller {
 
         $pedido = Pedido::create([
             'cliente_id' => $dados['cliente_id'],
-            'status' => $dados['status'] //'Em Aberto'
+            'status' => $dados['status']
         ]);
 
         foreach ($dados['produtos'] as $i => $produto_id) {
             $pedido->produtos()->attach($produto_id, ['quantidade_produto' => $dados['quantidades'][$i]]);
         }
 
-        return redirect()->route('pedidos.index')->with('sucess', 'Pedido criado com sucesso!');
+        return redirect()->route('pedidos.index')->with('sucesso', 'Pedido criado com sucesso!');
     }
 
     public function show($id): View {
@@ -50,14 +50,39 @@ class PedidoController extends Controller {
     }
 
     public function edit($id): View {
-        return view('pedidos.edit');
+
+        $pedido = Pedido::with('produtos')->findOrFail($id);
+        $clientes = Cliente::all();
+        $produtos = Produto::all();
+
+        return view('pedidos.edit', compact('pedido', 'clientes', 'produtos'));
     }
 
-    public function update(PedidoRequest $request, $id): RedirectResponse {
-        return redirect()->route('pedidos.index');
+    public function update(PedidoRequest $request, $id) {
+
+        $dados = $request->validated();
+        $pedido = Pedido::findOrFail($id);
+
+        $pedido->update([
+            'cliente_id' => $dados['cliente_id'],
+            'status' => $dados['status'],
+        ]);
+
+        $pedido->produtos()->detach();
+
+        foreach ($dados['produtos'] as $i => $produto_id) {
+            $pedido->produtos()->attach($produto_id, ['quantidade_produto' => $dados['quantidades'][$i]]);
+        }
+
+        return redirect()->route('pedidos.index')->with('sucesso', 'Pedido atualizado com sucesso!');
     }
+
     
     public function destroy($id): RedirectResponse {
-        return redirect()->route('pedidos.index');
+        
+        $pedido = Pedido::findOrFail($id);
+        $pedido->delete();
+
+        return redirect()->route('pedidos.index')->with('sucesso', 'Pedido excluído com sucesso!');
     }
 }

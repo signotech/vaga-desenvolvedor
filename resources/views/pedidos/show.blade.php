@@ -13,4 +13,7 @@
         @endforeach
     </ul>
 
+    <h3>Criado em: {{ $pedido->created_at }}</h3>
+    <h3>Atualizado em: {{ $pedido->updated_at }}</h3>
+
 @endsection
