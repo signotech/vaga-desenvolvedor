@@ -67,10 +67,13 @@
             @foreach ($clientes as $cliente)
                 <tr>
                     <td>{{ $cliente->id }}</td>
-                    <td><a href="{{ route('clientes.show', $cliente->id) }}">{{ $cliente->nome }}</a></td>
+                    <td>{{ $cliente->nome }}</td>
                     <td>{{ $cliente->email }}</td>
                     <td>{{ $cliente->cpf }}</td>
                     <td>
+                        <a href="{{ route('clientes.show', $cliente->id) }}">
+                            <button>Visualizar</button>
+                        </a>
                         <a href="{{ route('clientes.edit', $cliente->id) }}">
                             <button>Editar</button>
                         </a>

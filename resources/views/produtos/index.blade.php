@@ -73,11 +73,14 @@
             @foreach ($produtos as $produto)
                 <tr>
                     <td>{{ $produto->id }}</td>
-                    <td><a href="{{ route('produtos.show', $produto->id) }}">{{ $produto->titulo }}</a></td>
+                    <td>{{ $produto->titulo }}</td>
                     <td>{{ $produto->preco }}</td>
                     <td>{{ $produto->estoque }}</td>
                     <td>{{ $produto->codigo_sku }}</td>
                     <td>
+                        <a href="{{ route('produtos.show', $produto->id) }}">
+                            <button>Visualizar</button>
+                        </a>
                         <a href="{{ route('produtos.edit', $produto->id) }}">
                             <button>Editar</button>
                         </a>

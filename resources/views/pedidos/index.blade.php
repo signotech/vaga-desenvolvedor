@@ -89,11 +89,14 @@
 
             @foreach ($pedidos as $pedido)
                 <tr>
-                    <td><a href="{{ route('pedidos.show', $pedido->id) }}">{{ $pedido->id }}</a></td>
-                    <td>{{ $pedido->cliente->nome }}</td>
+                    <td>{{ $pedido->id }}</td>
+                    <td><a href="{{ route('clientes.show', $pedido->cliente->id) }}">{{ $pedido->cliente->nome }}</a></td>
                     <td>{{ $pedido->status }}</td>
                     <td>{{ $pedido->created_at }}</td>
                     <td>
+                        <a href="{{ route('pedidos.show', $pedido->id) }}">
+                            <button>Visualizar</button>
+                        </a>
                         <a href="{{ route('pedidos.edit', $pedido->id) }}">
                             <button>Editar</button>
                         </a>

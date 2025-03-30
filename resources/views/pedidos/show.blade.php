@@ -3,13 +3,13 @@
 @section('content')
     <h1>Detalhes do Pedido</h1>
 
-    <h3>Cliente: {{ $pedido->cliente->nome }}</h3>
+    <h3>Cliente: <a href="{{ route('clientes.show', $pedido->cliente->id) }}">{{ $pedido->cliente->nome }}</a></h3>
     <h4>Status: {{ $pedido->status }}</h4>
 
     <h3>Produtos:</h3>
     <ul>
         @foreach($pedido->produtos as $produto)
-            <li>{{ $produto->titulo }} - Quantidade: {{ $produto->pivot->quantidade_produto }} - R$ {{ number_format($produto->preco, 2, ',', '.') }}</li>
+            <li><a href="{{ route('produtos.show', $produto->id) }}">{{ $produto->titulo }}</a> - Quantidade: {{ $produto->pivot->quantidade_produto }} - R$ {{ number_format($produto->preco, 2, ',', '.') }}</li>
         @endforeach
     </ul>
 
