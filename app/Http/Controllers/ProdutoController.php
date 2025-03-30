@@ -10,9 +10,36 @@ use Illuminate\Http\Request;
 
 class ProdutoController extends Controller {
     
-    public function index(): View {
+    public function index(Request $request): View {
 
-        $produtos = Produto::all();
+        $ordemPor = $request->input('ordem_por', 'id');
+        $ordem = $request->input('ordem', 'asc');
+
+        $filtroId = $request->input('id');
+        $filtroTitulo = $request->input('titulo');
+        $filtroPreco = $request->input('preco');
+        $filtroEstoque = $request->input('estoque');
+        $filtroCodigoSku = $request->input('codigo_sku');
+
+        $produtosQuery = Produto::query();
+
+        if ($filtroId) {
+            $produtosQuery->where('id', '=', $filtroId);
+        }
+        if ($filtroTitulo) {
+            $produtosQuery->where('titulo', 'like', '%' . $filtroTitulo . '%');
+        }
+        if ($filtroPreco) {
+            $produtosQuery->where('preco', '=', $filtroPreco);
+        }
+        if ($filtroEstoque) {
+            $produtosQuery->where('estoque', '=', $filtroEstoque);
+        }
+        if ($filtroCodigoSku) {
+            $produtosQuery->where('codigo_sku', 'like', '%' . $filtroCodigoSku . '%');
+        }
+
+        $produtos = $produtosQuery->orderBy($ordemPor, $ordem)->paginate(20);
 
         return view('produtos.index', compact('produtos'));
     }

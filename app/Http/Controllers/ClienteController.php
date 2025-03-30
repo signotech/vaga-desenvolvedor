@@ -12,30 +12,30 @@ class ClienteController extends Controller {
     
     public function index(Request $request): View {
 
-        $orderBy = $request->input('order_by', 'id');
-        $direction = $request->input('direction', 'asc');
+        $ordemPor = $request->input('ordem_por', 'id');
+        $ordem = $request->input('ordem', 'asc');
 
-        $filterId = $request->input('id');
-        $filterNome = $request->input('nome');
-        $filterEmail = $request->input('email');
-        $filterCpf = $request->input('cpf');
+        $filtroId = $request->input('id');
+        $filtroNome = $request->input('nome');
+        $filtroEmail = $request->input('email');
+        $filtroCpf = $request->input('cpf');
 
         $clientesQuery = Cliente::query();
         
-        if ($filterId) {
-            $clientesQuery->where('id', '=', $filterId);
+        if ($filtroId) {
+            $clientesQuery->where('id', '=', $filtroId);
         }
-        if ($filterNome) {
-            $clientesQuery->where('nome', 'like', '%' . $filterNome . '%');
+        if ($filtroNome) {
+            $clientesQuery->where('nome', 'like', '%' . $filtroNome . '%');
         }
-        if ($filterEmail) {
-            $clientesQuery->where('email', 'like', '%' . $filterEmail . '%');
+        if ($filtroEmail) {
+            $clientesQuery->where('email', 'like', '%' . $filtroEmail . '%');
         }
-        if ($filterCpf) {
-            $clientesQuery->where('cpf', 'like', '%' . $filterCpf . '%');
+        if ($filtroCpf) {
+            $clientesQuery->where('cpf', 'like', '%' . $filtroCpf . '%');
         }
 
-        $clientes = $clientesQuery->orderBy($orderBy, $direction)->paginate(20);
+        $clientes = $clientesQuery->orderBy($ordemPor, $ordem)->paginate(20);
 
         return view('clientes.index', compact('clientes'));
     }

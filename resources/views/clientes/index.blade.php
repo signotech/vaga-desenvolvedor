@@ -29,18 +29,18 @@
         <input type="text" name="cpf" value="{{ request()->input('cpf') }}"/>
         <br>
 
-        <label for="order_by">Ordenar por:</label>
-        <select name="order_by">
-            <option value="id" {{ request()->input('order_by') == 'id' ? 'selected' : '' }}>Código</option>
-            <option value="nome" {{ request()->input('order_by') == 'nome' ? 'selected' : '' }}>Nome</option>
-            <option value="email" {{ request()->input('order_by') == 'email' ? 'selected' : '' }}>E-mail</option>
-            <option value="cpf" {{ request()->input('order_by') == 'cpf' ? 'selected' : '' }}>CPF</option>
+        <label for="ordem_por">Ordenar por:</label>
+        <select name="ordem_por">
+            <option value="id" {{ request()->input('ordem_por') == 'id' ? 'selected' : '' }}>Código</option>
+            <option value="nome" {{ request()->input('ordem_por') == 'nome' ? 'selected' : '' }}>Nome</option>
+            <option value="email" {{ request()->input('ordem_por') == 'email' ? 'selected' : '' }}>E-mail</option>
+            <option value="cpf" {{ request()->input('ordem_por') == 'cpf' ? 'selected' : '' }}>CPF</option>
         </select>
 
-        <label for="direction">Direção:</label>
-        <select name="direction">
-            <option value="asc" {{ request()->input('direction') == 'asc' ? 'selected' : '' }}>Crescente</option>
-            <option value="desc" {{ request()->input('direction') == 'desc' ? 'selected' : '' }}>Decrescente</option>
+        <label for="ordem">Direção:</label>
+        <select name="ordem">
+            <option value="asc" {{ request()->input('ordem') == 'asc' ? 'selected' : '' }}>Crescente</option>
+            <option value="desc" {{ request()->input('ordem') == 'desc' ? 'selected' : '' }}>Decrescente</option>
         </select>
 
         <button type="submit">Filtrar</button>
