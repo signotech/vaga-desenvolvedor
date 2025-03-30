@@ -1,35 +1,43 @@
 @extends('layouts.main')
 
 @section('content')
-    <h3>Editar Cliente</h3>
 
-    <form action="{{ route('clientes.update', $cliente->id) }}" method="post">
-        @csrf
-        @method('PUT')
+    <div class="container mt-5">
+        <h3 class="text-center mb-4">Editar Cliente</h3>
 
-        <label for="nome">Nome: </label>
-        <input type="text" name="nome" value="{{ old('nome', $cliente->nome) }}">
-        @error('nome')
-            <p style="color: red;">{{ $message }}</p>
-        @enderror
-        
-        <br><br>
-        <label for="email">E-mail: </label>
-        <input type='email' name="email" value="{{ old('email', $cliente->email) }}">
-        @error('email')
-            <p style="color: red;">{{ $message }}</p>
-        @enderror
-        
-        <br><br>
-        <label for="cpf">CPF: </label>
-        <input type="text" name="cpf" maxlength="11" value="{{ old('cpf', $cliente->cpf) }}">
-        @error('cpf')
-            <p style="color: red;">{{ $message }}</p>
-        @enderror
+        <!-- Formulário de Criação de Cliente -->
+        <form action="{{ route('clientes.update', $cliente->id) }}" method="post">
+            @csrf
+            @method('PUT')
 
-        <br><br>
-        <button type="submit">Editar</button>
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome</label>
+                <input type="text" name="nome" value="{{ old('nome', $cliente->nome) }}" class="form-control">
+                @error('nome')
+                    <div class="alert alert-danger mt-2">{{ $message }}</div>
+                @enderror
+            </div>
 
-    </form>
+            <div class="mb-3">
+                <label for="email" class="form-label">E-mail</label>
+                <input type="email" name="email" value="{{ old('email', $cliente->email) }}" class="form-control">
+                @error('email')
+                    <div class="alert alert-danger mt-2">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="cpf" class="form-label">CPF</label>
+                <input type="text" name="cpf" maxlength="11" value="{{ old('cpf', $cliente->cpf) }}" class="form-control">
+                @error('cpf')
+                    <div class="alert alert-danger mt-2">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary">Editar</button>
+            </div>
+        </form>
+    </div>
 
 @endsection
