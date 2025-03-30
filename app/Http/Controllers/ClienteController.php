@@ -10,9 +10,32 @@ use Illuminate\Http\Request;
 
 class ClienteController extends Controller {
     
-    public function index(): View {
+    public function index(Request $request): View {
 
-        $clientes = Cliente::all();
+        $orderBy = $request->input('order_by', 'id');
+        $direction = $request->input('direction', 'asc');
+
+        $filterId = $request->input('id');
+        $filterNome = $request->input('nome');
+        $filterEmail = $request->input('email');
+        $filterCpf = $request->input('cpf');
+
+        $clientesQuery = Cliente::query();
+        
+        if ($filterId) {
+            $clientesQuery->where('id', '=', $filterId);
+        }
+        if ($filterNome) {
+            $clientesQuery->where('nome', 'like', '%' . $filterNome . '%');
+        }
+        if ($filterEmail) {
+            $clientesQuery->where('email', 'like', '%' . $filterEmail . '%');
+        }
+        if ($filterCpf) {
+            $clientesQuery->where('cpf', 'like', '%' . $filterCpf . '%');
+        }
+
+        $clientes = $clientesQuery->orderBy($orderBy, $direction)->paginate(20);
 
         return view('clientes.index', compact('clientes'));
     }

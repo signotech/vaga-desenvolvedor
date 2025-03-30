@@ -21,7 +21,7 @@
         
         <br><br>
         <label for="cpf">CPF</label>
-        <input type="text" name="cpf" value="{{ old('cpf') }}">
+        <input type="text" name="cpf" maxlength="11" value="{{ old('cpf') }}">
         @error('cpf')
             <p style="color: red;">{{ $message }}</p>
         @enderror
