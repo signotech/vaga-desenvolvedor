@@ -53,24 +53,12 @@
                 <a href="{{ route('pedidos.edit', $pedido->id) }}" class="btn btn-primary">Editar</a>
             
                 <!-- Formulário de Excluir -->
-                <form action="{{ route('pedidos.destroy', $pedido->id) }}" method="post" onsubmit="return confirmDelete(event);" style="display: inline;">
+                {{-- <form action="{{ route('pedidos.destroy', $pedido->id) }}" method="post" onsubmit="return confirmDelete(event);">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Excluir</button>
-                </form>
+                </form> --}}
             </div>
         </form>
     </div>
-
-    <!-- Script de Confirmação de Exclusão -->
-    <script>
-        function confirmDelete(event) {
-            event.preventDefault();
-
-            if (confirm("Tem certeza que deseja excluir este pedido?")) {
-                event.target.submit();
-            }
-        }
-    </script>
-
 @endsection

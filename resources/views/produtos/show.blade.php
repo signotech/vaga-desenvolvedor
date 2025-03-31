@@ -51,15 +51,4 @@
             </form>
         </div>
 
-    <!-- Script de Confirmação de Exclusão -->
-    <script>
-        function confirmDelete(event) {
-            event.preventDefault();
-
-            if (confirm("Tem certeza que deseja excluir este produto?")) {
-                event.target.submit();
-            }
-        }
-    </script>
-
 @endsection
