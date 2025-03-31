@@ -14,8 +14,8 @@ class PedidoController extends Controller {
     
     public function index(Request $request): View {
 
-        $clientes = Cliente::all();
-        $produtos = Produto::all();
+        $clientes = Cliente::orderBy('nome', 'asc')->get();
+        $produtos = Produto::orderBy('titulo', 'asc')->get();
 
         $ordemPor = $request->input('ordem_por', 'id');
         $ordem = $request->input('ordem', 'asc');
@@ -26,7 +26,8 @@ class PedidoController extends Controller {
         $filtroId = $request->input('id');
         $filtroCliente = $request->input('cliente_id');
         $filtroStatus = $request->input('status');
-        $filtroData = $request->input('data');
+        $filtroDataMinima = $request->input('data_minima');
+        $filtroDataMaxima = $request->input('data_maxima');
         $filtroProduto = $request->input('produto_id');
         $filtroValor = $request->input('valor');
 
@@ -42,8 +43,11 @@ class PedidoController extends Controller {
         if ($filtroStatus) {
             $pedidosQuery->where('status', '=', $filtroStatus);
         }
-        if ($filtroData) {
-            $pedidosQuery->whereDate('created_at', '=', $filtroData);
+        if ($filtroDataMinima) {
+            $pedidosQuery->whereDate('created_at', '>=', $filtroDataMinima);
+        }
+        if ($filtroDataMaxima) {
+            $pedidosQuery->whereDate('created_at', '<=', $filtroDataMaxima);
         }
         if ($filtroProduto) {
             $pedidosQuery->whereHas('produtos', function ($query) use ($filtroProduto) {
@@ -66,8 +70,8 @@ class PedidoController extends Controller {
 
     public function create(): View {
 
-        $clientes = Cliente::all();
-        $produtos = Produto::all();
+        $clientes = Cliente::orderBy('nome', 'asc')->get();
+        $produtos = Produto::orderBy('titulo', 'asc')->get();
 
         return view('pedidos.create', compact('clientes', 'produtos'));
     }
@@ -131,8 +135,8 @@ class PedidoController extends Controller {
     public function edit($id): View {
 
         $pedido = Pedido::with('produtos')->findOrFail($id);
-        $clientes = Cliente::all();
-        $produtos = Produto::all();
+        $clientes = Cliente::orderBy('nome', 'asc')->get();
+        $produtos = Produto::orderBy('titulo', 'asc')->get();
 
         return view('pedidos.edit', compact('pedido', 'clientes', 'produtos'));
     }

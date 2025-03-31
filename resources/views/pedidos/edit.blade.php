@@ -1,72 +1,97 @@
 @extends('layouts.main')
 
 @section('content')
-    <h1>Editar Pedido</h1>
 
-    <form action="{{ route('pedidos.update', $pedido->id) }}" method="POST">
-        @csrf
-        @method('PUT')  <!-- Método PUT para atualização -->
+    <div class="container mt-5">
+        <h3 class="text-center mb-4">Editar Pedido</h3>
 
-        <label for="cliente_id">Cliente:</label>
-        <select name="cliente_id" id="cliente_id">
-            <option value="">Selecione um Cliente</option>
-            @foreach($clientes as $cliente)
-                <option value="{{ $cliente->id }}" {{ $cliente->id == $pedido->cliente_id ? 'selected' : '' }}>
-                    {{ $cliente->nome }}
-                </option>
-            @endforeach
-        </select>
-        @error('cliente_id')
-            <p style="color: red;">{{ $message }}</p>
-        @enderror
+        <div class="card p-4 shadow-sm">
+            <form action="{{ route('pedidos.update', $pedido->id) }}" method="POST">
+                @csrf
+                @method('PUT')
 
-        <br><br>
+                @error('produtos.*')
+                    <div class="alert alert-danger mt-2">{{ $message }}</div>
+                @enderror
+                @error('produtos')
+                    <div class="alert alert-danger mt-2">{{ $message }}</div>
+                @enderror
+                @error('quantidades.*')
+                    <div class="alert alert-danger mt-2">{{ $message }}</div>
+                @enderror
 
-        <label for="status">Status:</label>
-        <select name="status" id="status">
-            <option value="Em Aberto" {{ $pedido->status == 'Em Aberto' ? 'selected' : '' }}>Em Aberto</option>
-            <option value="Pago" {{ $pedido->status == 'Pago' ? 'selected' : '' }}>Pago</option>
-            <option value="Cancelado" {{ $pedido->status == 'Cancelado' ? 'selected' : '' }}>Cancelado</option>
-        </select>
-        @error('status')
-            <p style="color: red;">{{ $message }}</p>
-        @enderror
-
-        <br><br>
-
-        <label>Produtos:</label>
-        <div id="produtos-container">
-            @foreach($pedido->produtos as $index => $produto)
-                <div class="produto-item">
-                    <select name="produtos[]">
-                        <option value="">Selecione um Produto</option>
-                        @foreach($produtos as $produtoOp)
-                            <option value="{{ $produtoOp->id }}" {{ $produtoOp->id == $produto->id ? 'selected' : '' }}>
-                                {{ $produtoOp->titulo }} - R$ {{ number_format($produtoOp->preco, 2, ',', '.') }}
+                <!-- Cliente -->
+                <div class="mb-3">
+                    <label for="cliente_id" class="form-label">Cliente</label>
+                    <select name="cliente_id" id="cliente_id" class="form-select">
+                        <option value="">Selecione um Cliente</option>
+                        @foreach($clientes as $cliente)
+                            <option value="{{ $cliente->id }}" {{ old('cliente_id', $pedido->cliente_id) == $cliente->id ? 'selected' : '' }}>
+                                {{ $cliente->nome }}
                             </option>
                         @endforeach
                     </select>
-                    @error('produtos.*')
-                        <p style="color: red;">{{ $message }}</p>
+                    @error('cliente_id')
+                        <div class="alert alert-danger mt-2">{{ $message }}</div>
                     @enderror
-
-                    <input type="number" name="quantidades[]" placeholder="Quantidade" min="1" value="{{ $pedido->produtos[$index]->pivot->quantidade_produto }}">
-                    @error('quantidades.*')
-                        <p style="color: red;">{{ $message }}</p>
-                    @enderror
-
-                    <button type="button" class="remove-produto" onclick="removerProduto(this)">X</button>
                 </div>
-            @endforeach
+
+                <!-- Status -->
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status</label>
+                    <select name="status" id="status" class="form-select">
+                        <option value="Em Aberto" {{ old('status', $pedido->status) == 'Em Aberto' ? 'selected' : '' }}>Em Aberto</option>
+                        <option value="Pago" {{ old('status', $pedido->status) == 'Pago' ? 'selected' : '' }}>Pago</option>
+                        <option value="Cancelado" {{ old('status', $pedido->status) == 'Cancelado' ? 'selected' : '' }}>Cancelado</option>
+                    </select>
+                    @error('status')
+                        <div class="alert alert-danger mt-2">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <!-- Produtos -->
+                <div class="mb-3">
+                    <label for="produtos" class="form-label">Produtos</label>
+                    <div id="produtos-container">
+                        @foreach($pedido->produtos as $index => $produto)
+                            <div class="produto-item d-flex align-items-center mt-2">
+                                <!-- Produto Select -->
+                                <div class="me-2" style="flex: 1;">
+                                    <select name="produtos[]" class="form-select">
+                                        <option value="">Selecione um Produto</option>
+                                        @foreach($produtos as $produtoOp)
+                                            <option value="{{ $produtoOp->id }}" {{ $produtoOp->id == $produto->id ? 'selected' : '' }}>
+                                                {{ $produtoOp->id }} - 
+                                                {{ $produtoOp->titulo }} - 
+                                                R$ {{ number_format($produtoOp->preco, 2, ',', '.') }} -
+                                                Quant. {{ $produtoOp->estoque }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Quantidade Input -->
+                                <div class="me-2" style="flex: 1;">
+                                    <input type="number" name="quantidades[]" class="form-control" placeholder="Quantidade" min="1" value="{{ $pedido->produtos[$index]->pivot->quantidade_produto }}">
+                                </div>
+
+                                <!-- Remover Button -->
+                                <div>
+                                    <button type="button" class="remove-produto btn btn-danger" onclick="removerProduto(this)">Remover Produto</button>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <button type="button" id="add-produto" class="btn btn-primary mt-3">Adicionar Produto</button>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="{{ route('pedidos.index') }}" class="btn btn-secondary">Voltar</a>
+                    <button type="submit" class="btn btn-success">Editar</button>
+                </div>
+            </form>
         </div>
-
-        <br>
-        <button type="button" id="add-produto">Adicionar Produto</button>
-
-        <br><br>
-
-        <button type="submit">Atualizar Pedido</button>
-    </form>
+    </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -82,9 +107,10 @@
         });
 
         function removerProduto(botao) {
+            const produtoItem = botao.closest('.produto-item');
             const produtos = document.querySelectorAll(".produto-item");
             if (produtos.length > 1) {
-                botao.parentElement.remove();
+                produtoItem.remove();
             }
         }
     </script>

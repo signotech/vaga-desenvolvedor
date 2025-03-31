@@ -70,6 +70,16 @@
             </div>
             
             <div class="row mt-3">
+                <div class="col-md-3">
+                    <label for="itens_por_pagina" class="form-label">Itens por página:</label>
+                    <select name="itens_por_pagina" id="itens_por_pagina" class="form-select">
+                        <option value="10" {{ request()->input('itens_por_pagina') == '10' ? 'selected' : '' }}>10</option>
+                        <option value="20" {{ request()->input('itens_por_pagina') == '20' || !request()->has('itens_por_pagina') ? 'selected' : '' }}>20</option>
+                        <option value="50" {{ request()->input('itens_por_pagina') == '50' ? 'selected' : '' }}>50</option>
+                        <option value="100" {{ request()->input('itens_por_pagina') == '100' ? 'selected' : '' }}>100</option>
+                    </select>
+                </div>
+
                 <div class="col-md-3 d-flex align-items-end">
                     <button type="submit" class="btn btn-success w-100">Filtrar</button>
                 </div>

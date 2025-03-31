@@ -44,7 +44,7 @@
 
                 <div class="d-flex justify-content-between">
                     <a href="{{ route('produtos.index') }}" class="btn btn-secondary">Voltar</a>
-                    <button type="submit" class="btn btn-primary">Editar</button>
+                    <button type="submit" class="btn btn-success">Editar</button>
                 </div>
             </form>
         </div>
