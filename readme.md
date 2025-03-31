@@ -40,6 +40,8 @@ Siga os passos abaixo para rodar o sistema localmente:
 1 - Clonar o repositório:
 ```bash
 git clone https://github.com/eduardoranucci/vaga-desenvolvedor.git
+cd vaga-desenvolvedor
+git switch EduardoHenriqueRanucciMoreira
 ```
 
 2 - Instale as dependências do Laravel
