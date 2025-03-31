@@ -90,7 +90,7 @@
                         <th>Nome</th>
                         <th>E-mail</th>
                         <th>CPF</th>
-                        <th>Ações</th>
+                        <th style="text-align: center">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -100,7 +100,7 @@
                             <td>{{ $cliente->nome }}</td>
                             <td>{{ $cliente->email }}</td>
                             <td>{{ $cliente->cpf }}</td>
-                            <td>
+                            <td style="text-align: center">
                                 <a href="{{ route('clientes.show', $cliente->id) }}" class="btn btn-info btn-sm">Visualizar</a>
                                 <a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-warning btn-sm">Editar</a>
                                 <form action="{{ route('clientes.destroy', $cliente->id) }}" method="post" onsubmit="return confirmDelete(event);" style="display: inline">

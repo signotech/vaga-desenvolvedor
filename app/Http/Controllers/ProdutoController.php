@@ -18,7 +18,8 @@ class ProdutoController extends Controller {
 
         $filtroId = $request->input('id');
         $filtroTitulo = $request->input('titulo');
-        $filtroPreco = $request->input('preco');
+        $filtroPrecoMinimo = $request->input('preco_minimo');
+        $filtroPrecoMaximo = $request->input('preco_maximo');
         $filtroEstoque = $request->input('estoque');
         $filtroCodigoSku = $request->input('codigo_sku');
 
@@ -30,8 +31,11 @@ class ProdutoController extends Controller {
         if ($filtroTitulo) {
             $produtosQuery->where('titulo', 'like', '%' . $filtroTitulo . '%');
         }
-        if ($filtroPreco) {
-            $produtosQuery->where('preco', '=', $filtroPreco);
+        if ($filtroPrecoMinimo) {
+            $produtosQuery->where('preco', '>=', $filtroPrecoMinimo);
+        }
+        if ($filtroPrecoMaximo) {
+            $produtosQuery->where('preco', '<=', $filtroPrecoMaximo);
         }
         if ($filtroEstoque) {
             $produtosQuery->where('estoque', '=', $filtroEstoque);
