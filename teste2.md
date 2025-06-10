@@ -8,7 +8,7 @@ Olá caro desenvolvedor, nesse teste analisaremos seu conhecimento geral e inclu
 
 ## Instruções
 
-O desafio consiste em implementar uma aplicação web utilizando o framework PHP Laravel, um banco de dados relacional (Mysql, Postgres ou SQLite), que terá como finalidade a inscrição de candidatos a uma oportunidade de emprego.
+O desafio consiste em implementar uma aplicação web utilizando o framework PHP Laravel ou NodeJS, um banco de dados relacional (Mysql, Postgres ou SQLite), que terá como finalidade a inscrição de candidatos a uma oportunidade de emprego.
 
 Sua aplicação deve possuir:
 
