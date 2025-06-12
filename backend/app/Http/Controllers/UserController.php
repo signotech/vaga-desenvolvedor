@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Services\UserService;
+use Illuminate\Support\Facades\Log;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
-class CandidateController extends Controller
+class UserController extends Controller
 {
     protected $service;
 
@@ -22,7 +26,13 @@ class CandidateController extends Controller
     public function store(Request $request)
     {
         $user = $this->service->create($request->all());
-        return response()->json($user, 201);
+
+        $token = JWTAuth::fromUser($user);
+
+        return response()->json([
+            'user' => $user,
+            'token' => $token,
+        ], 201);
     }
 
     public function show($id)
