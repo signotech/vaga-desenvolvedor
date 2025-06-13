@@ -1,5 +1,5 @@
 import { apiRequest } from './api.js';
-import { renderLayout } from './layout.js';
+import { renderLayout } from './layout.js?v=timestamp';
 import { renderTable } from './tables/customTable.js';
 
 renderLayout();

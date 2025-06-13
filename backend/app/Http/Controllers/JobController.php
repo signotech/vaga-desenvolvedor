@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\JobService;
 use Illuminate\Http\Request;
 use App\Models\Job;
+use Illuminate\Support\Facades\DB;
 
 
 class JobController extends Controller
@@ -75,6 +76,22 @@ class JobController extends Controller
         $this->jobService->delete($id);
 
         return response()->json(['message' => 'Job deleted.']);
+    }
+
+        public function applicationsCount()
+    {
+        $counts = DB::table('applications')
+            ->select('job_id', DB::raw('COUNT(*) as applications_count'))
+            ->groupBy('job_id')
+            ->get()
+            ->keyBy('job_id');
+
+        $result = [];
+        foreach ($counts as $job_id => $data) {
+            $result[$job_id] = $data->applications_count;
+        }
+
+        return response()->json($result);
     }
 
 }

@@ -26,13 +26,14 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('refresh', [AuthController::class, 'refresh']);
 
     Route::apiResource('jobs', JobController::class);
+    Route::get('applications-count', [JobController::class, 'applicationsCount']);
 
     Route::get('users', [UserController::class, 'index']);
     Route::get('users/{user}', [UserController::class, 'show']);
     Route::put('users/{user}', [UserController::class, 'update']);
     Route::delete('users/{user}', [UserController::class, 'destroy']);
     Route::get('candidates', [UserController::class, 'candidates']);
-     Route::get('employers', [UserController::class, 'employers']);
+    Route::get('employers', [UserController::class, 'employers']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

@@ -9,12 +9,19 @@ async function handleLogin(event) {
   };
 
   try {
-    console.log("Dados enviados para o login:", credentials);
-
     const response = await apiRequest('login', 'POST', credentials);
-    console.log("Resposta do servidor:", response);
+
     if (response.token) {
       localStorage.setItem('token', response.token);
+
+      const user = await apiRequest('me', 'GET', null, true);
+
+      if (user && user.user_type !== undefined) {
+        localStorage.setItem('user_type', user.user_type);
+      } else {
+        localStorage.setItem('user_type', '');
+      }
+
       alert('Login realizado com sucesso!');
       window.location.href = '/pages/dashboard.html';
     } else {

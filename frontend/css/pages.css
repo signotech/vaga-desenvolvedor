@@ -168,6 +168,10 @@ z-index: 1000;
 display: none;
 }
 
+.hidden{
+display: none;
+}
+
 .modal-content {
 background: white;
 padding: 30px;
@@ -237,5 +241,102 @@ color: #888;
 .action-icon:hover {
   color: #000;
 }
+
+.modal-content.large {
+  width: 80%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.visualizar-bloco {
+  background-color: #f9f9f9;
+  padding: 20px 24px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.visualizar-item {
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.visualizar-item strong {
+  color: #222;
+}
+
+.centered {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.btn-primario {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  border: none;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+.btn-primario:hover {
+  background-color: #449c47;
+}
+
+.formulario-admin {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.input-texto,
+.input-select {
+  padding: 10px 12px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.input-texto:focus,
+.input-select:focus {
+  border-color: #007bff;
+}
+
+.label {
+  font-weight: bold;
+  margin-top: 8px;
+  color: #333;
+}
+
+.toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.btn-primario {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  border: none;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+.btn-primario:hover {
+  background-color: #449c47;
+}
+
+
 
 

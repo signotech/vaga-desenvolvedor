@@ -23,6 +23,7 @@ export function renderLayout() {
 
   document.getElementById('logout-btn').addEventListener('click', () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user_type');
     window.location.href = '/index.html';
   });
 }

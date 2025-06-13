@@ -14,6 +14,7 @@ async function handleRegister(event) {
     const response = await apiRequest('users', 'POST', user);
     if (response.token) {
       localStorage.setItem('token', response.token);
+      localStorage.setItem('user_type', response.user_type || '');
       alert('Cadastro realizado com sucesso!');
       window.location.href = '/pages/dashboard.html';
     } else {

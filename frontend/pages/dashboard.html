@@ -17,18 +17,7 @@
 <body>
  <div class="container">
     <h1>Vagas Disponíveis</h1>
-    <table id="jobs-table">
-      <thead>
-        <tr>
-          <th>Título</th>
-          <th>Salário</th>
-          <th>Empresa</th>
-          <th>Modalidade</th>
-          <th style="text-align: center;">Ações</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <table id="jobs-table"></table>
   </div>
 
   <button class="floating-button" id="add-job">
@@ -58,11 +47,71 @@
     </div>
     </div>
 
+    <!-- Modal Visualizar Vaga -->
+<div id="modal-view" class="modal hidden">
+  <div class="modal-content large">
+    <span class="close-btn" id="close-visualizar">&times;</span>
+    <h2 id="visualizar-titulo">Detalhes da Vaga</h2>
+
+    <!-- VISÃO CANDIDATO -->
+    <div id="visualizar-user1" class="visualizar-bloco hidden">
+      <p class="visualizar-item"><strong>Título:</strong> <span id="v-title"></span></p>
+      <p class="visualizar-item"><strong>Salário:</strong> <span id="v-salary"></span></p>
+      <p class="visualizar-item"><strong>Empresa:</strong> <span id="v-company"></span></p>
+      <p class="visualizar-item"><strong>Modalidade:</strong> <span id="v-type"></span></p>
+      <div class="centered">
+        <button id="btn-candidatar" class="btn-primario">Candidatar-se</button>
+      </div>
+    </div>
+
+
+    <!-- VISÃO ADMIN -->
+  <div id="visualizar-user2" class="visualizar-bloco hidden">
+    <form id="form-edit-admin" class="formulario-admin">
+      <input type="text" id="edit-title" class="input-texto" placeholder="Título da vaga" required />
+      <input type="number" id="edit-salary" class="input-texto" placeholder="Salário" required />
+      <input type="text" id="edit-company" class="input-texto" placeholder="Empresa" />
+
+      <label for="edit-type" class="label">Modalidade</label>
+      <select id="edit-type" class="input-select" required>
+        <option value="">Selecione...</option>
+        <option value="CLT">CLT</option>
+        <option value="PJ">PJ</option>
+        <option value="Freelance">Freelance</option>
+      </select>
+
+      <div class="toggle-container">
+        <input type="checkbox" id="paused" />
+        <label for="paused">Vaga Pausada</label>
+      </div>
+
+      <div class="centered">
+        <button type="submit" class="btn-primario">Salvar Alterações</button>
+      </div>
+    </form>
+
+      <h3>Candidatos Inscritos</h3>
+      <table id="tabela-candidatos" class="display">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Data da Candidatura</th>
+          </tr>
+        </thead>
+        <tbody id="candidatos-body">
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
 
   <script>
     lucide.createIcons();
   </script>
 
-    <script type="module" src="../js/job.js"></script>
+    <script type="module" src="../js/job.js?v=timestamp"></script>
 </body>
 </html>
