@@ -29,7 +29,7 @@ class JobPolicy
      */
     public function create(User $user): bool
     {
-        return $user->user_type === 2
+        return $user->user_type === 2;
     }
 
     /**
@@ -37,7 +37,7 @@ class JobPolicy
      */
     public function update(User $user, Job $job): bool
     {
-        return $user->user_type === 2
+        return $user->user_type === 2;
     }
 
     /**
@@ -45,7 +45,7 @@ class JobPolicy
      */
     public function delete(User $user, Job $job): bool
     {
-        return $user->user_type === 2
+        return $user->user_type === 2;
     }
 
     /**

@@ -8,8 +8,8 @@ let editandoId = null;
 
 async function carregarAdmins() {
   const tbody = document.querySelector('#admins-table tbody');
-  if ($.fn.DataTable.isDataTable('#candidates-table')) {
-    $('#candidates-table').DataTable().destroy();
+  if ($.fn.DataTable.isDataTable('#admins-table')) {
+    $('#admins-table').DataTable().destroy();
   }
 
   tbody.innerHTML = '';

@@ -229,3 +229,13 @@ color: #888;
   height: 24px;
 }
 
+.action-icon {
+  cursor: pointer;
+  margin: 0 6px;
+  color: #555;
+}
+.action-icon:hover {
+  color: #000;
+}
+
+

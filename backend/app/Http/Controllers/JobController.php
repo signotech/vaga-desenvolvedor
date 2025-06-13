@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Services\JobService;
 use Illuminate\Http\Request;
+use App\Models\Job;
+
 
 class JobController extends Controller
 {
@@ -31,8 +33,13 @@ class JobController extends Controller
             'paused' => 'boolean'
         ]);
 
-        return response()->json($this->jobService->create($validated), 201);
+        $job = $this->jobService->create($validated);
+
+        return response()->json([
+            'job' => $job
+        ], 201);
     }
+
 
     public function show($id)
     {
@@ -41,14 +48,33 @@ class JobController extends Controller
 
     public function update(Request $request, $id)
     {
+        $job = Job::findOrFail($id);
         $this->authorize('update', $job);
-        return response()->json($this->jobService->update($id, $request->all()));
+
+        $validated = $request->validate([
+            'title' => 'required|string',
+            'salary' => 'required|numeric',
+            'company' => 'required|string',
+            'type' => 'required|in:CLT,PJ,Freelance',
+            'paused' => 'boolean'
+        ]);
+
+        $job = $this->jobService->update($id, $validated);
+
+        return response()->json([
+            'job' => $job
+        ]);
     }
+
 
     public function destroy($id)
     {
+        $job = Job::findOrFail($id);
         $this->authorize('delete', $job);
+
         $this->jobService->delete($id);
+
         return response()->json(['message' => 'Job deleted.']);
     }
+
 }
