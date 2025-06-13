@@ -201,7 +201,7 @@ document.getElementById('form-edit-admin').addEventListener('submit', async (e) 
 });
 
 
-function abrirModalVisualizar(job) {
+async function abrirModalVisualizar(job) {
   const modal = document.getElementById('modal-view');
   modal.classList.remove('hidden');
 
@@ -225,6 +225,28 @@ function abrirModalVisualizar(job) {
     document.getElementById('edit-type').value = job.type;
     document.getElementById('paused').checked = job.paused;
 
+      try {
+      const candidatos = await apiRequest(`jobs/${job.id}/applicants`, 'GET', null, true);
+
+      const tbody = document.querySelector('#tabela-candidatos tbody');
+      tbody.innerHTML = '';
+
+      candidatos.forEach(c => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${c.name}</td>
+          <td>${c.email}</td>
+          <td>${new Date(c.created_at).toLocaleString('pt-BR')}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+       renderTable('#tabela-candidatos');
+
+    } catch (error) {
+      console.error('Erro ao carregar candidatos:', error);
+      alert('Erro ao carregar a lista de candidatos.');
+    }
   }
 }
 

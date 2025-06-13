@@ -94,4 +94,19 @@ class JobController extends Controller
         return response()->json($result);
     }
 
+    public function getApplicantsByJob($jobId)
+{
+        $job = Job::findOrFail($jobId);
+
+        $applicants = DB::table('applications')
+            ->join('users', 'applications.user_id', '=', 'users.id')
+            ->where('applications.job_id', $jobId)
+            ->select('users.name', 'users.email', 'applications.created_at')
+            ->orderBy('applications.created_at', 'desc')
+            ->get();
+
+        return response()->json($applicants);
+}
+
+
 }

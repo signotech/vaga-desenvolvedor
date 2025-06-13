@@ -32,7 +32,7 @@
 
         <form id="modal-form">
             <input type="text" id="title" placeholder="Título da vaga" required />
-            <input type="number" id="salary" placeholder="Salário" required />
+            <input type="number"  required step="0.01" id="salary" placeholder="Salário" required />
             <input type="text" id="company" placeholder="Empresa" />
             <label for="type">Modalidade</label>
             <select id="type" required>
@@ -69,7 +69,7 @@
   <div id="visualizar-user2" class="visualizar-bloco hidden">
     <form id="form-edit-admin" class="formulario-admin">
       <input type="text" id="edit-title" class="input-texto" placeholder="Título da vaga" required />
-      <input type="number" id="edit-salary" class="input-texto" placeholder="Salário" required />
+      <input type="number" required step="0.01" id="edit-salary" class="input-texto" placeholder="Salário" required />
       <input type="text" id="edit-company" class="input-texto" placeholder="Empresa" />
 
       <label for="edit-type" class="label">Modalidade</label>
