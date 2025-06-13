@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <title>Lista de Administradores</title>
+    <link rel="stylesheet" href="../css/pages.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" />
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+
+</head>
+<body>
+ <div class="container">
+    <h1>Administradores</h1>
+    <table id="admins-table">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+          <th style="text-align: center;">Ações</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <button class="floating-button" id="add-admin">
+    <i data-lucide="plus"></i>
+  </button>
+
+  <!-- Modal -->
+    <div id="modal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-btn" id="close-modal">&times;</span>
+        <h2 id="modal-title">Título do Modal</h2>
+
+        <form id="modal-form">
+            <input type="text" id="name" placeholder="Nome" required />
+            <input type="email" id="email" placeholder="Email" required />
+            <input type="password" id="password" placeholder="Senha" />
+            <input type="password" id="password_confirmation" placeholder="Confirme a senha" />
+            <button type="submit">Salvar</button>
+        </form>
+    </div>
+    </div>
+
+
+  <script>
+    lucide.createIcons();
+  </script>
+
+    <script type="module" src="../js/admins.js?v=timestamp"></script>
+</body>
+</html>

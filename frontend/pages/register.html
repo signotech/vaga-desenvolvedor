@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cadastro</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="card-title-container">
+        <h1 class="card-title">Cadastro de Usuário</h1>
+    </div>
+    <form id="register-form">
+      <input type="text" id="name" placeholder="Nome" required />
+      <input type="email" id="email" placeholder="E-mail" required />
+      <input type="password" id="password" placeholder="Senha" required />
+      <input type="password_confirmation" id="password_confirmation" placeholder="Confirme sua senha" required />
+      <button type="submit">Cadastrar</button>
+    </form>
+    <p>Já tem conta? <a href="../index.html">Fazer login</a></p>
+  </div>
+  <script type="module" src="../js/register.js?v=timestamp"></script>
+</body>
+</html>

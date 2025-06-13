@@ -1,69 +1,115 @@
-<div align="center">
-  <img src="https://signotech.com.br/wp-content/uploads/2023/03/SignoTech.webp" width="20%" />
-</div>
+# 📦 CRUD de vagas de emprego
+Este projeto é uma aplicação web desenvolvida em **PHP Artisan + Javascript**, com gerenciamento de vagas e de usuários, autenticação de usuário, possibilidade de se candidatar a vagas e documentação via **Swagger**. Os testes são realizados com **PHP Unit**.
 
-# Teste para candidatos à vaga de Desenvolvedor
+---
 
-Olá caro desenvolvedor, nesse teste analisaremos seu conhecimento geral e inclusive velocidade de desenvolvimento. Abaixo explicaremos tudo o que será necessário.
+## 🚀 Como rodar o projeto
 
-## Instruções
+### 1. Configurar as variáveis para o banco de dados
+Copie o .env.example para .env na pasta raiz do projeto
 
-O desafio consiste em implementar uma aplicação web utilizando o framework PHP Laravel ou NodeJS, um banco de dados relacional (Mysql, Postgres ou SQLite), que terá como finalidade a inscrição de candidatos a uma oportunidade de emprego.
+```bash
+cp .env.example .env
+```
 
-Sua aplicação deve possuir:
+### 2. Buildar o docker-compose na pasta raiz do projeto
 
-- CRUD de vagas:
-  - Criar, editar, excluir e listar vagas.
-  - A vaga pode ser CLT, Pessoa Jurídica ou Freelancer.
-- CRUD de candidatos:
-  - Criar, editar, excluir e listar candidatos.
-- Um cadidato pode se inscrever em uma ou mais vagas.
-- Deve ser ser possível "pausar" a vaga, evitando a inscrição de candidatos.
-- Cada CRUD:
-  - Deve ser filtrável e ordenável por qualquer campo, e possuir paginação de 20 itens.
-  - Deve possuir formulários para criação e atualização de seus itens.
-  - Deve permitir a deleção de qualquer item de sua lista.
-  - Implementar validações de campos obrigatórios e tipos de dados.
-- Testes unitários e de unidade.
+```bash
+  docker compose up -d --build
+```
 
-## Banco de dados
+>   Dependendo da versão do docker o comando pode ser docker-compose up -d --build
 
-- O banco de dados deve ser criado utilizando migrations, e também utilizar Seeds e Factorys para popular as informações no banco de dados.
 
-## Tecnologias a serem utilizadas
+### 3. Entrar no container do backend_app
 
-Devem ser utilizadas as seguintes tecnologias:
+```bash
+docker exec -it backend_app bash
+```
 
-- HTML
-- CSS
-- Javascript
-- Framework Laravel (PHP) OU NodeJS + ReactJS
-- Docker (construção do ambiente de desenvolvimento)
-- Mysql, Postgres ou SQLite
+### 4. Instalar as dependências do PHP (composer)
 
-## Entrega
+```bash
+composer install
+```
+### 5. Configurar as variáveis de ambiente
+Copie o .env.example para .env e .env.test
 
-- Para iniciar o teste, faça um fork deste repositório; **Se você apenas clonar o repositório não vai conseguir fazer push.**
-- Crie uma branch com o seu nome completo;
-- Altere o arquivo teste2.md com as informações necessárias para executar o seu teste (comandos, migrations, seeds, etc);
-- Depois de finalizado, envie-nos o pull request;
+```bash
+cp .env.example .env
+cp .env.example .env.test
+```
 
-## Bônus
+### 6. Gerar a chave da aplicação para os ambientes (app key)
 
-- API Rest JSON para todos os CRUDS listados acima.
-- Permitir deleção em massa de itens nos CRUDs.
-- Permitir que o usuário mude o número de itens por página.
-- Implementar autenticação de usuário na aplicação.
-- Documentação da API (usando Swagger ou Postman)
-- Deploy dentro do docker
+```bash
+php artisan key:generate
+php artisan key:generate --env=.env.test
+```
+---
 
-## O que iremos analisar
+### 7. Gerar a chave JWT (JWT secret)
 
-- Organização do código;
-- Aplicação de design patterns;
-- Aplicação de testes; (diferencial, não obrigatório)
-- Separação de módulos e componentes;
-- Legibilidade;
-- Criação do ambiente com Docker. (diferencial, não obrigatório)
+```bash
+php artisan jwt:secret
+```
+>   Para o ambiente de teste, copie o JWT_SECRET para o .env.teste ou configure manualmente
+---
 
-### Boa sorte!
+### 8. (opcional) Rodar testes automatizados
+
+```bash
+php artisan test
+```
+---
+
+### 9. Rodar as migrations e seeders (base limpa)
+
+```bash
+php artisan migrate:fresh --seed
+```
+---
+
+
+### 10. Gerar documentação Swagger
+
+```bash
+php artisan l5-swagger:generate
+```
+
+### 11. Dar permissão para a pasta storage dentro do container
+
+```bash
+chown -R www-data:www-data /var/www/html/storage
+chown -R www-data:www-data /var/www/html/bootstrap/cache
+chmod -R 775 /var/www/html/storage
+chmod -R 775 /var/www/html/bootstrap/cache
+```
+
+### 12. Acessar a aplicação
+Agora basta acessar http://localhost:3000/ e criar uma conta ou utilizar uma das duas default criadas com o seeder
+
+User - Candidato: Pode ver as vagas abertas e se candidatar a elas.
+> email: candidate@email.com / senha: 123456
+
+User - Administrador: Pode gerenciar vagas e usuários
+> email: adm@adm.com / senha: 123456
+
+---
+
+## 📄 Documentação da API
+
+A documentação da API está disponível através do **Swagger**.
+
+### Acesse no endpoint:
+
+```
+/api/documentation/
+```
+
+A documentação inclui:
+- Descrição dos endpoints
+- Parâmetros e exemplos
+- Schemas de resposta
+
+---
