@@ -5,6 +5,7 @@ import { renderTable } from './tables/customTable.js';
 renderLayout();
 
 let editandoId = null;
+let vagasAplicadas = [];
 const userType = localStorage.getItem('user_type') || '';
 
 async function carregarVagas() {
@@ -93,11 +94,25 @@ async function carregarVagas() {
       });
     });
 
-
   } catch (err) {
     console.error('Erro ao carregar vagas:', err);
   }
 }
+
+async function checarVagasAplicadas(){
+  if(userType !== '1') return;
+  try {
+    const response = await apiRequest('jobs/applied/list', 'GET', null, true);
+    if (response.success) {
+      vagasAplicadas = response.job_ids || [];
+    } 
+  } catch (error) {
+    console.error('Erro ao verificar candidaturas:', error);
+    alert('Erro inesperado ao verificar candidaturas.');
+  }
+}
+
+checarVagasAplicadas();
 
 function abrirModalCriacao() {
   editandoId = null;
@@ -167,7 +182,6 @@ document.getElementById('form-edit-admin').addEventListener('submit', async (e) 
   const company = document.getElementById('edit-company').value.trim();
   const type = document.getElementById('edit-type').value.trim();
   const paused = document.getElementById('paused').checked;
-  console.log('PAUSADO', paused)
 
   if (!title || !salary || !company || !type) {
     alert('Todos os campos são obrigatórios.');
@@ -181,8 +195,6 @@ document.getElementById('form-edit-admin').addEventListener('submit', async (e) 
     type,
     paused
   };
-
-  console.log('Payload:', payload);
 
   try {
     let response;
@@ -202,6 +214,7 @@ document.getElementById('form-edit-admin').addEventListener('submit', async (e) 
 
 
 async function abrirModalVisualizar(job) {
+  
   const modal = document.getElementById('modal-view');
   modal.classList.remove('hidden');
 
@@ -213,6 +226,21 @@ async function abrirModalVisualizar(job) {
     document.getElementById('v-salary').textContent = Number(job.salary).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     document.getElementById('v-company').textContent = job.company;
     document.getElementById('v-type').textContent = job.type;
+
+    const faixa = document.getElementById('tag-applyed');
+    const btn = document.getElementById('btn-candidatar');
+
+    if (vagasAplicadas.includes(job.id)) {
+      faixa.classList.remove('hidden');
+      btn.disabled = true;
+      btn.textContent = 'Já Candidatado';
+      btn.classList.add('btn-apply-disabled', 'cursor-not-allowed');
+    } else {
+      faixa.classList.add('hidden');
+      btn.disabled = false;
+      btn.textContent = 'Candidatar-se';
+      btn.classList.remove('btn-apply-disabled', 'cursor-not-allowed');
+    }
   }
 
   if (userType === '2') {
@@ -250,12 +278,34 @@ async function abrirModalVisualizar(job) {
   }
 }
 
-document.getElementById('close-visualizar').addEventListener('click', () => {
+async function candidatarVaga(jobId) {
+  try {
+    const response = await apiRequest(`jobs/${jobId}/apply`, 'POST', null, true);
+    if (response.success) {
+      alert('Candidatura realizada com sucesso!');
+      fecharModalVisualizar();
+      carregarVagas();
+      checarVagasAplicadas();
+    } else {
+      alert('Erro ao candidatar-se à vaga: ' + response.message);
+    }
+  } catch (error) {
+    console.error('Erro ao candidatar-se à vaga:', error);
+    alert('Erro inesperado ao candidatar-se à vaga.');
+  }
+}
+
+function fecharModalVisualizar() {
   document.getElementById('modal-view').classList.add('hidden');
+}
+
+document.getElementById('close-visualizar').addEventListener('click', () => {
+ fecharModalVisualizar();
   carregarVagas();
 });
 
-
-
+document.getElementById('btn-candidatar').addEventListener('click', () => {
+  candidatarVaga(editandoId);
+});
 
 

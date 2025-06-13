@@ -26,7 +26,10 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('refresh', [AuthController::class, 'refresh']);
 
     Route::get('applications-count', [JobController::class, 'applicationsCount']);
+    Route::get('jobs/applied/list', [JobController::class, 'getAppliedJobs']);
     Route::get('jobs/{id}/applicants', [JobController::class, 'getApplicantsByJob']);
+    Route::post('jobs/{id}/apply', [JobController::class, 'applyToJob']);
+
     Route::apiResource('jobs', JobController::class);
 
     Route::get('users', [UserController::class, 'index']);

@@ -337,6 +337,20 @@ color: #888;
   background-color: #449c47;
 }
 
+.tag-job-applyed{
+  background-color: #e0f7fa;
+  color: #006064;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.btn-apply-disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
 
 
 
