@@ -77,6 +77,24 @@ php artisan migrate:fresh --seed
 php artisan l5-swagger:generate
 ```
 
+### 11. Dar permissão para a pasta storage dentro do container
+
+```bash
+php artisan l5-swagger:generatechown -R www-data:www-data /var/www/html/storage
+chown -R www-data:www-data /var/www/html/bootstrap/cache
+chmod -R 775 /var/www/html/storage
+chmod -R 775 /var/www/html/bootstrap/cache
+```
+
+### 12. Acessar a aplicação
+Agora basta acessar http://localhost:3000/ e criar uma conta ou utilizar uma das duas default criadas com o seeder
+
+User - Candidato: Pode ver as vagas abertas e se candidatar a elas.
+> email: candidate@email.com / senha: 123456
+
+User - Administrador: Pode gerenciar vagas e usuários
+> email: adm@adm.com / senha: 123456
+
 ---
 
 ## 📄 Documentação da API
