@@ -1,6 +1,6 @@
-export function renderAdminTable(){
+export function renderTable(tableId){
     $(document).ready(function () {
-    $('#admins-table').DataTable({
+    $(tableId).DataTable({
         language: {
         search: "Buscar:",
         lengthMenu: "Mostrar _MENU_ registros por página",

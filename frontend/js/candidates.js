@@ -6,48 +6,47 @@ renderLayout();
 
 let editandoId = null;
 
-async function carregarAdmins() {
-  const tbody = document.querySelector('#admins-table tbody');
+async function carregarCandidatos() {
+  const tbody = document.querySelector('#candidates-table tbody');
   if ($.fn.DataTable.isDataTable('#candidates-table')) {
     $('#candidates-table').DataTable().destroy();
   }
-
   tbody.innerHTML = '';
 
   try {
-        const admins = await apiRequest('employers', 'GET', null, true);
-        admins.forEach(admin => {
+        const candidates = await apiRequest('candidates', 'GET', null, true);
+        candidates.forEach(candidate => {
         const tr = document.createElement('tr');
 
             tr.innerHTML = `
-        <td>${admin.name}</td>
-        <td>${admin.email}</td>
+        <td>${candidate.name}</td>
+        <td>${candidate.email}</td>
         <td class="actions" style="text-align: center;">
-            <i class="action-icon" data-lucide="edit" data-id="${admin.id}" data-name="${admin.name}" data-email="${admin.email}" title="Editar"></i>
-            <i class="action-icon delete" data-lucide="trash-2" data-id="${admin.id}" title="Excluir"></i>
+            <i class="action-icon" data-lucide="edit" data-id="${candidate.id}" data-name="${candidate.name}" data-email="${candidate.email}" title="Editar"></i>
+            <i class="action-icon delete" data-lucide="trash-2" data-id="${candidate.id}" title="Excluir"></i>
         </td>
         `;
         tbody.appendChild(tr);
     });
 
     lucide.createIcons();
-    const tableId= '#admins-table';
 
-    renderTable(tableId);
+    const tableId = '#candidates-table';
+    renderTable(tableId)
 
     document.querySelectorAll('.action-icon.delete').forEach(icon => {
     icon.addEventListener('click', async () => {
     const id = icon.getAttribute('data-id');
-    const confirmDelete = confirm('Deseja realmente excluir este administrador?');
+    const confirmDelete = confirm('Deseja realmente excluir este candidato?');
     if (!confirmDelete) return;
 
     try {
       const response = await apiRequest(`users/${id}`, 'DELETE', null, true);
-      alert('Administrador excluído com sucesso!');
-      carregarAdmins();
+      alert('Candidato excluído com sucesso!');
+      carregarCandidatos();
     } catch (error) {
-      console.error('Erro ao excluir administrador:', error);
-      alert('Erro ao excluir administrador.');
+      console.error('Erro ao excluir candidato:', error);
+      alert('Erro ao excluir candidato.');
     }
   });
 });
@@ -62,13 +61,13 @@ async function carregarAdmins() {
     });
 
   } catch (err) {
-    console.error('Erro ao carregar administradores:', err);
+    console.error('Erro ao carregar candidatos:', err);
   }
 }
 
 function abrirModalEdicao(id, name, email) {
   editandoId = id;
-  document.getElementById('modal-title').textContent = 'Editar Administrador';
+  document.getElementById('modal-title').textContent = 'Editar Candidato';
   document.getElementById('name').value = name;
   document.getElementById('email').value = email;
   document.getElementById('password').value = '';
@@ -81,7 +80,7 @@ function abrirModalEdicao(id, name, email) {
 
 function abrirModalCriacao() {
   editandoId = null;
-  document.getElementById('modal-title').textContent = 'Adicionar Administrador';
+  document.getElementById('modal-title').textContent = 'Adicionar Candidato';
   document.getElementById('name').value = '';
   document.getElementById('email').value = '';
   document.getElementById('password').value = '';
@@ -92,9 +91,9 @@ function abrirModalCriacao() {
   document.getElementById('password_confirmation').setAttribute('required', 'required');
 }
 
-document.addEventListener('DOMContentLoaded', carregarAdmins);
+document.addEventListener('DOMContentLoaded', carregarCandidatos);
 
-document.getElementById('add-admin').addEventListener('click', abrirModalCriacao);
+document.getElementById('add-candidate').addEventListener('click', abrirModalCriacao);
 
 document.getElementById('close-modal').addEventListener('click', () => {
   document.getElementById('modal').classList.add('hidden');
@@ -120,7 +119,7 @@ document.getElementById('modal-form').addEventListener('submit', async (e) => {
   }
 
   if (!editandoId && (!password || !passwordConfirmation)) {
-    alert('Senha e confirmação são obrigatórias para novo administrador.');
+    alert('Senha e confirmação são obrigatórias para novo candidato.');
     return;
   }
 
@@ -137,7 +136,7 @@ document.getElementById('modal-form').addEventListener('submit', async (e) => {
   const payload = {
     name,
     email,
-    user_type: 2
+    user_type: 1
   };
 
   if (password) {
@@ -155,15 +154,15 @@ document.getElementById('modal-form').addEventListener('submit', async (e) => {
     }
 
     if (response.user) {
-      alert(`Administrador ${editandoId ? 'atualizado' : 'criado'} com sucesso!`);
+      alert(`Candidato ${editandoId ? 'atualizado' : 'criado'} com sucesso!`);
       document.getElementById('modal').classList.add('hidden');
-      carregarAdmins();
+      carregarCandidatos();
     } else {
-      alert('Erro ao salvar administrador: ' + JSON.stringify(response));
+      alert('Erro ao salvar candidato: ' + JSON.stringify(response));
     }
   } catch (error) {
-    console.error('Erro ao salvar administrador:', error);
-    alert('Erro inesperado ao salvar administrador.');
+    console.error('Erro ao salvar candidato:', error);
+    alert('Erro inesperado ao salvar candidato.');
   }
 });
 
