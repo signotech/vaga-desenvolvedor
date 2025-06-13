@@ -80,7 +80,7 @@ php artisan l5-swagger:generate
 ### 11. Dar permissão para a pasta storage dentro do container
 
 ```bash
-php artisan l5-swagger:generatechown -R www-data:www-data /var/www/html/storage
+chown -R www-data:www-data /var/www/html/storage
 chown -R www-data:www-data /var/www/html/bootstrap/cache
 chmod -R 775 /var/www/html/storage
 chmod -R 775 /var/www/html/bootstrap/cache

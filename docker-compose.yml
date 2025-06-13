@@ -39,8 +39,6 @@ services:
     container_name: frontend_app
     ports:
       - "3000:80"
-    volumes:
-      - ./frontend:/usr/share/nginx/html:ro
     networks:
       - app-network
 
