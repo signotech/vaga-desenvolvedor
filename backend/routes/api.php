@@ -31,6 +31,8 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('users/{user}', [UserController::class, 'show']);
     Route::put('users/{user}', [UserController::class, 'update']);
     Route::delete('users/{user}', [UserController::class, 'destroy']);
+    Route::get('candidates', [UserController::class, 'candidates']);
+     Route::get('employers', [UserController::class, 'employers']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

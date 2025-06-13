@@ -25,6 +25,14 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6|confirmed',
+            'user_type' => 'required|in:1,2',
+        ]);
+
+        \Log::info('Dados validados:', $validated);
         $user = $this->service->create($request->all());
 
         $token = JWTAuth::fromUser($user);
@@ -40,14 +48,38 @@ class UserController extends Controller
         return response()->json($this->service->find($id));
     }
 
+    public function candidates()
+    {
+        $candidates = User::where('user_type', 1)->get();
+        return response()->json($candidates);
+    }
+
+    public function employers()
+    {
+        $employers = User::where('user_type', 2)->get();
+        return response()->json($employers);
+    }
+
     public function update(Request $request, $id)
     {
-        return response()->json($this->service->update($id, $request->all()));
+        $validated = $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+            'email' => "sometimes|required|email|unique:users,email,$id",
+            'password' => 'nullable|min:6|confirmed',
+            'user_type' => 'sometimes|in:1,2',
+        ]);
+
+        $user = $this->service->update($id, $validated);
+
+        return response()->json([
+            'user' => $user,
+            'message' => 'Usuário atualizado com sucesso'
+        ]);
     }
 
     public function destroy($id)
     {
         $this->service->delete($id);
-        return response()->json(null, 204);
+        return response()->json(['message' => 'Usuário deletado com sucesso']);
     }
 }
