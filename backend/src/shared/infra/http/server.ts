@@ -1,13 +1,14 @@
 import express from 'express';
-import { jobRoutes } from '../../../modules/jobs/routes/job.routes';
+import { routes } from '../http/routes/index'; 
 
 const app = express();
 
 app.use(express.json());
-app.use('/jobs', jobRoutes);
+
+app.use(routes);
 
 app.get('/', (req, res) => {
-  res.send('Acesse /jobs para ver as vagas.');
+  res.send('Acesse /jobs ou /candidates.');
 });
 
 export { app };

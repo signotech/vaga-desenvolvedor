@@ -11,8 +11,10 @@ export class JobRepository {
   }
 
   async findById(id: number) {
-    return prisma.job.findUnique({ where: { id } });
-  }
+  return prisma.job.findUnique({
+    where: { id },
+  });
+}
 
   async update(id: number, data: Partial<CreateJobDTO>) {
     return prisma.job.update({ where: { id }, data });
