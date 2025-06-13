@@ -12,7 +12,7 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->user_type === 2
+        return $user->user_type === 2;
     }
 
     /**
