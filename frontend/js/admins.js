@@ -4,6 +4,14 @@ import { renderTable } from './tables/customTable.js';
 
 renderLayout();
 
+const userType = localStorage.getItem('user_type');
+
+if (userType === '1') {
+  alert('Acesso negado. Você não tem permissão para acessar esta página.');
+  window.location.href = '/pages/dashboard.html';
+  throw new Error('Acesso bloqueado para user_type 1');
+}
+
 let editandoId = null;
 
 async function carregarAdmins() {

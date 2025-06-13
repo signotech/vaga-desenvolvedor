@@ -15,6 +15,7 @@ async function handleRegister(event) {
     if (response.token) {
       localStorage.setItem('token', response.token);
       localStorage.setItem('user_type', response.user_type || '');
+      localStorage.setItem('user_name', response.name || '');
       alert('Cadastro realizado com sucesso!');
       window.location.href = '/pages/dashboard.html';
     } else {

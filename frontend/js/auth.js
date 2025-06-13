@@ -18,8 +18,10 @@ async function handleLogin(event) {
 
       if (user && user.user_type !== undefined) {
         localStorage.setItem('user_type', user.user_type);
+        localStorage.setItem('user_name', user.name || ''); 
       } else {
         localStorage.setItem('user_type', '');
+        localStorage.setItem('user_name', '');
       }
 
       alert('Login realizado com sucesso!');
