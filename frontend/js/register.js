@@ -11,11 +11,12 @@ async function handleRegister(event) {
   };
 
   try {
-    const response = await apiRequest('users', 'POST', user);
+    const response = await apiRequest('users', 'POST', user, false);
+    console.log('Resposta do servidor:', response);
     if (response.token) {
       localStorage.setItem('token', response.token);
-      localStorage.setItem('user_type', response.user_type || '');
-      localStorage.setItem('user_name', response.name || '');
+      localStorage.setItem('user_type', response.user.user_type || '');
+      localStorage.setItem('user_name', response.user.name || '');
       alert('Cadastro realizado com sucesso!');
       window.location.href = '/pages/dashboard.html';
     } else {

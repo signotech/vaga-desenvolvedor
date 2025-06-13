@@ -23,25 +23,29 @@ class UserController extends Controller
         return response()->json($this->service->all());
     }
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
-            'user_type' => 'required|in:1,2',
-        ]);
+public function store(Request $request)
+{
+    $request->merge([
+        'user_type' => $request->input('user_type', 1)
+    ]);
 
-        \Log::info('Dados validados:', $validated);
-        $user = $this->service->create($request->all());
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|min:6|confirmed',
+        'user_type' => 'in:1,2',
+    ]);
 
-        $token = JWTAuth::fromUser($user);
+    $user = $this->service->create($validated);
 
-        return response()->json([
-            'user' => $user,
-            'token' => $token,
-        ], 201);
-    }
+    $token = JWTAuth::fromUser($user);
+
+    return response()->json([
+        'user' => $user,
+        'token' => $token,
+    ], 201);
+}
+
 
     public function show($id)
     {
