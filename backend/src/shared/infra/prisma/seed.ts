@@ -2,101 +2,47 @@ const { PrismaClient, ContractType } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function main() {
-  const candidate1 = await prisma.candidate.upsert({
-    where: { email: 'sabrina@example.com' },
-    update: { phone: '11111111111', name: 'Sabrina Campos' },
-    create: {
-      name: 'Sabrina Campos',
-      email: 'sabrina@example.com',
-      phone: '11111111111',
-    },
-  });
-
-  const candidate2 = await prisma.candidate.upsert({
-    where: { email: 'davi.camargo@example.com' },
-    update: { phone: '55988887777', name: 'Davi Camargo' },
-    create: {
-      name: 'Davi Camargo',
-      email: 'davi.camargo@example.com',
-      phone: '55988887777',
-    },
-  });
-
-  const candidate3 = await prisma.candidate.upsert({
-    where: { email: 'mariana.souza@example.com' },
-    update: { phone: '75977776666', name: 'Mariana Souza' },
-    create: {
-      name: 'Mariana Souza',
-      email: 'mariana.souza@example.com',
-      phone: '75977776666',
-    },
-  });
-
-  const job1 = await prisma.job.upsert({
-    where: { title: 'Desenvolvedor Fullstack' },
-    update: { description: 'Desenvolvimento com Node.js e React', type: ContractType.PJ },
-    create: {
-      title: 'Desenvolvedor Fullstack',
-      description: 'Desenvolvimento com Node.js e React',
-      type: ContractType.PJ,
-    },
-  });
-
-  const job2 = await prisma.job.upsert({
-    where: { title: 'Freelancer UX Designer' },
-    update: { description: 'Redesign de plataforma educacional', type: ContractType.FREELANCER },
-    create: {
-      title: 'Freelancer UX Designer',
-      description: 'Redesign de plataforma educacional',
-      type: ContractType.FREELANCER,
-    },
-  });
-
-  const job3 = await prisma.job.upsert({
-    where: { title: 'Analista de Dados' },
-    update: { description: 'Análise e visualização de dados em Python', type: ContractType.CLT },
-    create: {
-      title: 'Analista de Dados',
-      description: 'Análise e visualização de dados em Python',
-      type: ContractType.CLT,
-    },
-  });
-
   await prisma.application.deleteMany();
+  await prisma.candidate.deleteMany();
+  await prisma.job.deleteMany();
 
-  await prisma.application.create({
-    data: {
-      candidateId: candidate1.id,
-      jobId: job1.id,
-      active: true,
-    },
-  });
+  const candidates = [];
+  for (let i = 1; i <= 20; i++) {
+    const candidate = await prisma.candidate.create({
+      data: {
+        name: `Candidato ${i}`,
+        email: `candidato${i}@example.com`,
+        phone: `719999900${i.toString().padStart(2, '0')}`,
+      },
+    });
+    candidates.push(candidate);
+  }
 
-  await prisma.application.create({
-    data: {
-      candidateId: candidate2.id,
-      jobId: job2.id,
-      active: true,
-    },
-  });
+  const contractTypes = [ContractType.CLT, ContractType.PJ, ContractType.FREELANCER];
 
-  await prisma.application.create({
-    data: {
-      candidateId: candidate3.id,
-      jobId: job3.id,
-      active: false,
-    },
-  });
+  const jobs = [];
+  for (let i = 1; i <= 20; i++) {
+    const job = await prisma.job.create({
+      data: {
+        title: `Vaga ${i}`,
+        description: `Descrição da vaga ${i} com atividades relevantes.`,
+        type: contractTypes[i % contractTypes.length],
+      },
+    });
+    jobs.push(job);
+  }
 
-  await prisma.application.create({
-    data: {
-      candidateId: candidate2.id,
-      jobId: job1.id,
-      active: true,
-    },
-  });
+  for (let i = 0; i < 20; i++) {
+    await prisma.application.create({
+      data: {
+        candidateId: candidates[i % candidates.length].id,
+        jobId: jobs[(i + 3) % jobs.length].id,
+        active: i % 2 === 0, 
+      },
+    });
+  }
 
-  console.log('Seed concluída com sucesso!');
+  console.log('Seed populada com sucesso!');
 }
 
 main()
