@@ -30,7 +30,7 @@ export default function VagasPage() {
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedItems, setSelectedItems] = useState<number[]>([])
   const [isDeleting, setIsDeleting] = useState(false)
-  const itemsPerPage = 20
+  const [itemsPerPage, setItemsPerPage] = useState(10)
 
   useEffect(() => {
     fetch("http://localhost:3000/jobs")
@@ -99,6 +99,11 @@ export default function VagasPage() {
     }
   }
 
+  const handleItemsPerPageChange = (value: string) => {
+    setItemsPerPage(Number(value))
+    setCurrentPage(1) 
+  }
+
   const filteredVagas = vagas.filter((vaga) => {
     const status = vaga.active ? "ativa" : "pausada"
     const matchesSearch = vaga.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -134,6 +139,8 @@ export default function VagasPage() {
 
   const isAllSelected = paginatedVagas.length > 0 && selectedItems.length === paginatedVagas.length
   const isIndeterminate = selectedItems.length > 0 && selectedItems.length < paginatedVagas.length
+  const startItem = (currentPage - 1) * itemsPerPage + 1
+  const endItem = Math.min(currentPage * itemsPerPage, filteredVagas.length)
 
   return (
     <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
@@ -222,7 +229,24 @@ export default function VagasPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Lista de Vagas ({filteredVagas.length})</CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle>Lista de Vagas ({filteredVagas.length})</CardTitle>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">Itens por página:</span>
+              <Select value={itemsPerPage.toString()} onValueChange={handleItemsPerPageChange}>
+                <SelectTrigger className="w-20">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="5">5</SelectItem>
+                  <SelectItem value="10">10</SelectItem>
+                  <SelectItem value="20">20</SelectItem>
+                  <SelectItem value="50">50</SelectItem>
+                  <SelectItem value="100">100</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
           <Table>
@@ -290,21 +314,57 @@ export default function VagasPage() {
             </TableBody>
           </Table>
 
-          <div className="flex justify-between items-center mt-4">
-            <Button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>
-              Anterior
-            </Button>
-
-            <div>
-              Página {currentPage} de {totalPages}
+          <div className="flex items-center justify-between mt-4">
+            <div className="text-sm text-muted-foreground">
+              Mostrando {startItem} a {endItem} de {filteredVagas.length} resultados
             </div>
 
-            <Button
-              disabled={currentPage === totalPages || totalPages === 0}
-              onClick={() => setCurrentPage(currentPage + 1)}
-            >
-              Próxima
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(currentPage - 1)}
+              >
+                Anterior
+              </Button>
+
+              <div className="flex items-center gap-1">
+                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                  let pageNumber
+                  if (totalPages <= 5) {
+                    pageNumber = i + 1
+                  } else if (currentPage <= 3) {
+                    pageNumber = i + 1
+                  } else if (currentPage >= totalPages - 2) {
+                    pageNumber = totalPages - 4 + i
+                  } else {
+                    pageNumber = currentPage - 2 + i
+                  }
+
+                  return (
+                    <Button
+                      key={pageNumber}
+                      variant={currentPage === pageNumber ? "default" : "outline"}
+                      size="sm"
+                      className="w-8 h-8 p-0"
+                      onClick={() => setCurrentPage(pageNumber)}
+                    >
+                      {pageNumber}
+                    </Button>
+                  )
+                })}
+              </div>
+
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={currentPage === totalPages || totalPages === 0}
+                onClick={() => setCurrentPage(currentPage + 1)}
+              >
+                Próxima
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>

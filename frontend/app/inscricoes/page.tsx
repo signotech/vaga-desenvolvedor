@@ -43,7 +43,7 @@ export default function InscricoesPage() {
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedItems, setSelectedItems] = useState<number[]>([])
   const [isDeleting, setIsDeleting] = useState(false)
-  const itemsPerPage = 20
+  const [itemsPerPage, setItemsPerPage] = useState(10)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -135,6 +135,11 @@ export default function InscricoesPage() {
     }
   }
 
+  const handleItemsPerPageChange = (value: string) => {
+    setItemsPerPage(Number(value))
+    setCurrentPage(1)
+  }
+
   const inscricoesCompletas = applications.map((app) => {
     const candidato = candidates.find((c) => c.id === app.candidateId)
     const vaga = jobs.find((j) => j.id === app.jobId)
@@ -166,6 +171,9 @@ export default function InscricoesPage() {
   }
 
   const isAllSelected = pagedInscricoes.length > 0 && selectedItems.length === pagedInscricoes.length
+
+  const startItem = (currentPage - 1) * itemsPerPage + 1
+  const endItem = Math.min(currentPage * itemsPerPage, filteredInscricoes.length)
 
   return (
     <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
@@ -239,7 +247,24 @@ export default function InscricoesPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Lista de Inscrições ({filteredInscricoes.length})</CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle>Lista de Inscrições ({filteredInscricoes.length})</CardTitle>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">Itens por página:</span>
+              <Select value={itemsPerPage.toString()} onValueChange={handleItemsPerPageChange}>
+                <SelectTrigger className="w-20">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="5">5</SelectItem>
+                  <SelectItem value="10">10</SelectItem>
+                  <SelectItem value="20">20</SelectItem>
+                  <SelectItem value="50">50</SelectItem>
+                  <SelectItem value="100">100</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
           <Table>
@@ -302,30 +327,57 @@ export default function InscricoesPage() {
             </TableBody>
           </Table>
 
-          <div className="flex justify-center space-x-4 mt-4">
-            <Button
-              variant="outline"
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            >
-              Anterior
-            </Button>
-            {Array.from({ length: totalPages }, (_, i) => (
+          <div className="flex items-center justify-between mt-4">
+            <div className="text-sm text-muted-foreground">
+              Mostrando {startItem} a {endItem} de {filteredInscricoes.length} resultados
+            </div>
+
+            <div className="flex items-center gap-2">
               <Button
-                key={i + 1}
-                variant={currentPage === i + 1 ? "default" : "outline"}
-                onClick={() => setCurrentPage(i + 1)}
+                variant="outline"
+                size="sm"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(currentPage - 1)}
               >
-                {i + 1}
+                Anterior
               </Button>
-            ))}
-            <Button
-              variant="outline"
-              disabled={currentPage === totalPages}
-              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-            >
-              Próximo
-            </Button>
+
+              <div className="flex items-center gap-1">
+                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                  let pageNumber
+                  if (totalPages <= 5) {
+                    pageNumber = i + 1
+                  } else if (currentPage <= 3) {
+                    pageNumber = i + 1
+                  } else if (currentPage >= totalPages - 2) {
+                    pageNumber = totalPages - 4 + i
+                  } else {
+                    pageNumber = currentPage - 2 + i
+                  }
+
+                  return (
+                    <Button
+                      key={pageNumber}
+                      variant={currentPage === pageNumber ? "default" : "outline"}
+                      size="sm"
+                      className="w-8 h-8 p-0"
+                      onClick={() => setCurrentPage(pageNumber)}
+                    >
+                      {pageNumber}
+                    </Button>
+                  )
+                })}
+              </div>
+
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={currentPage === totalPages || totalPages === 0}
+                onClick={() => setCurrentPage(currentPage + 1)}
+              >
+                Próxima
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
