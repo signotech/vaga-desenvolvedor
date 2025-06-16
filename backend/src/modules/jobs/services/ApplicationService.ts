@@ -1,17 +1,14 @@
-import { ApplicationRepository } from '../repositories/ApplicationRepository'
-import { CreateApplicationDTO } from '../dtos/ApplicationDTO'
+import { ApplicationRepository } from "../repositories/ApplicationRepository"
+import type { CreateApplicationDTO } from "../dtos/ApplicationDTO"
 
 export class ApplicationService {
   constructor(private applicationRepository = new ApplicationRepository()) {}
 
   async create(data: CreateApplicationDTO) {
-    const existing = await this.applicationRepository.findByCandidateAndJob(
-      data.candidateId,
-      data.jobId,
-    )
+    const existing = await this.applicationRepository.findByCandidateAndJob(data.candidateId, data.jobId)
 
     if (existing) {
-      throw new Error('Candidate already applied to this job.')
+      throw new Error("Candidate already applied to this job.")
     }
 
     return this.applicationRepository.create(data)
@@ -31,5 +28,10 @@ export class ApplicationService {
 
   delete(id: number) {
     return this.applicationRepository.delete(id)
+  }
+
+  async checkExistingApplication(candidateId: number, jobId: number) {
+    const existing = await this.applicationRepository.findByCandidateAndJob(candidateId, jobId)
+    return !!existing
   }
 }
