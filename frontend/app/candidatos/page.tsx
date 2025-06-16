@@ -1,84 +1,60 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { Plus, Search, Eye, Edit, Trash2, Download } from "lucide-react"
+import { Plus, Search, Edit, Trash2, Filter } from "lucide-react"
 import Link from "next/link"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 
-// Mock data
-const candidatos = [
-  {
-    id: 1,
-    nome: "João Silva",
-    email: "joao.silva@email.com",
-    telefone: "(11) 99999-9999",
-    cargo: "Desenvolvedor Frontend",
-    experiencia: "3 anos",
-    status: "ativo",
-    dataCadastro: "2024-01-15",
-    inscricoes: 3,
-  },
-  {
-    id: 2,
-    nome: "Maria Santos",
-    email: "maria.santos@email.com",
-    telefone: "(11) 88888-8888",
-    cargo: "Designer UX/UI",
-    experiencia: "5 anos",
-    status: "ativo",
-    dataCadastro: "2024-01-10",
-    inscricoes: 2,
-  },
-  {
-    id: 3,
-    nome: "Pedro Oliveira",
-    email: "pedro.oliveira@email.com",
-    telefone: "(11) 77777-7777",
-    cargo: "Desenvolvedor Backend",
-    experiencia: "4 anos",
-    status: "inativo",
-    dataCadastro: "2024-01-20",
-    inscricoes: 1,
-  },
-  {
-    id: 4,
-    nome: "Ana Costa",
-    email: "ana.costa@email.com",
-    telefone: "(11) 66666-6666",
-    cargo: "Product Manager",
-    experiencia: "6 anos",
-    status: "ativo",
-    dataCadastro: "2024-01-18",
-    inscricoes: 4,
-  },
-]
+interface Candidate {
+  id: number
+  name: string
+  email: string
+}
 
 export default function CandidatosPage() {
+  const [candidatos, setCandidatos] = useState<Candidate[]>([])
   const [searchTerm, setSearchTerm] = useState("")
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 20
+
+  useEffect(() => {
+    fetch("http://localhost:3000/candidates")
+      .then(res => res.json())
+      .then(data => setCandidatos(data))
+  }, [])
+
+  const handleDelete = async (id: number) => {
+    const confirmed = confirm("Tem certeza que deseja excluir este candidato?")
+    if (!confirmed) return
+
+    try {
+      await fetch(`http://localhost:3000/candidates/${id}`, {
+        method: "DELETE",
+      })
+
+      setCandidatos((prev) => prev.filter((candidato) => candidato.id !== id))
+    } catch (error) {
+      console.error("Erro ao excluir candidato:", error)
+    }
+  }
 
   const filteredCandidatos = candidatos.filter(
     (candidato) =>
-      candidato.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      candidato.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      candidato.cargo.toLowerCase().includes(searchTerm.toLowerCase()),
+      candidato.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      candidato.email.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
-  const getStatusBadge = (status: string) => {
-    return status === "ativo" ? (
-      <Badge variant="default" className="bg-green-100 text-green-800">
-        Ativo
-      </Badge>
-    ) : (
-      <Badge variant="secondary">Inativo</Badge>
-    )
-  }
+  const totalPages = Math.ceil(filteredCandidatos.length / itemsPerPage)
+  const pagedCandidatos = filteredCandidatos.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  )
 
   const getInitials = (nome: string) => {
     return nome
@@ -95,26 +71,27 @@ export default function CandidatosPage() {
           <SidebarTrigger />
           <h2 className="text-3xl font-bold tracking-tight">Gerenciamento de Candidatos</h2>
         </div>
-        <Link href="/candidatos/novo">
-          <Button>
-            <Plus className="mr-2 h-4 w-4" />
-            Novo Candidato
-          </Button>
-        </Link>
+        <Button onClick={() => (window.location.href = "http://localhost:3001/candidatos/nova")}>
+          <Plus className="mr-2 h-4 w-4" />
+          Novo Candidato
+        </Button>
       </div>
 
       <Card>
         <CardHeader>
           <CardTitle>Buscar Candidatos</CardTitle>
-          <CardDescription>Encontre candidatos por nome, email ou cargo</CardDescription>
+          <CardDescription>Encontre candidatos por nome ou email</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="relative">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Buscar por nome, email ou cargo..."
+              placeholder="Buscar por nome ou email..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => {
+                setSearchTerm(e.target.value)
+                setCurrentPage(1)
+              }}
               className="pl-8"
             />
           </div>
@@ -130,59 +107,40 @@ export default function CandidatosPage() {
             <TableHeader>
               <TableRow>
                 <TableHead>Candidato</TableHead>
-                <TableHead>Cargo</TableHead>
-                <TableHead>Experiência</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Inscrições</TableHead>
-                <TableHead>Data Cadastro</TableHead>
+                <TableHead>Email</TableHead>
                 <TableHead className="text-right">Ações</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredCandidatos.map((candidato) => (
+              {pagedCandidatos.map((candidato) => (
                 <TableRow key={candidato.id}>
                   <TableCell>
                     <div className="flex items-center space-x-3">
                       <Avatar>
-                        <AvatarFallback>{getInitials(candidato.nome)}</AvatarFallback>
+                        <AvatarFallback>{getInitials(candidato.name)}</AvatarFallback>
                       </Avatar>
-                      <div>
-                        <div className="font-medium">{candidato.nome}</div>
-                        <div className="text-sm text-muted-foreground">{candidato.email}</div>
-                      </div>
+                      <div className="font-medium">{candidato.name}</div>
                     </div>
                   </TableCell>
-                  <TableCell>{candidato.cargo}</TableCell>
-                  <TableCell>{candidato.experiencia}</TableCell>
-                  <TableCell>{getStatusBadge(candidato.status)}</TableCell>
-                  <TableCell>{candidato.inscricoes}</TableCell>
-                  <TableCell>{new Date(candidato.dataCadastro).toLocaleDateString("pt-BR")}</TableCell>
+                  <TableCell>{candidato.email}</TableCell>
                   <TableCell className="text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="h-8 w-8 p-0">
-                          <span className="sr-only">Abrir menu</span>
-                          <Eye className="h-4 w-4" />
+                          <Filter className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem asChild>
-                          <Link href={`/candidatos/${candidato.id}`}>
-                            <Eye className="mr-2 h-4 w-4" />
-                            Ver Perfil
-                          </Link>
-                        </DropdownMenuItem>
                         <DropdownMenuItem asChild>
                           <Link href={`/candidatos/${candidato.id}/editar`}>
                             <Edit className="mr-2 h-4 w-4" />
                             Editar
                           </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <Download className="mr-2 h-4 w-4" />
-                          Baixar Currículo
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className="text-red-600">
+                        <DropdownMenuItem
+                          className="text-red-600"
+                          onClick={() => handleDelete(candidato.id)}
+                        >
                           <Trash2 className="mr-2 h-4 w-4" />
                           Excluir
                         </DropdownMenuItem>
@@ -193,6 +151,32 @@ export default function CandidatosPage() {
               ))}
             </TableBody>
           </Table>
+
+          <div className="flex justify-center space-x-2 mt-4">
+            <Button
+              variant="outline"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            >
+              Anterior
+            </Button>
+            {Array.from({ length: totalPages }, (_, i) => (
+              <Button
+                key={i + 1}
+                variant={currentPage === i + 1 ? "default" : "outline"}
+                onClick={() => setCurrentPage(i + 1)}
+              >
+                {i + 1}
+              </Button>
+            ))}
+            <Button
+              variant="outline"
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            >
+              Próximo
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>

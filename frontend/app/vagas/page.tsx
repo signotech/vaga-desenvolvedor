@@ -1,88 +1,84 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { Plus, Search, Filter, Eye, Edit, Trash2 } from "lucide-react"
+import { Plus, Search, Filter, Edit, Trash2, Pause, Play } from "lucide-react"
 import Link from "next/link"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
-// Mock data
-const vagas = [
-  {
-    id: 1,
-    titulo: "Desenvolvedor Frontend React",
-    tipo: "CLT",
-    status: "ativa",
-    candidatos: 12,
-    dataPublicacao: "2024-01-15",
-    salario: "R$ 8.000 - R$ 12.000",
-  },
-  {
-    id: 2,
-    titulo: "Designer UX/UI",
-    tipo: "PJ",
-    status: "pausada",
-    candidatos: 8,
-    dataPublicacao: "2024-01-10",
-    salario: "R$ 6.000 - R$ 10.000",
-  },
-  {
-    id: 3,
-    titulo: "Desenvolvedor Backend Node.js",
-    tipo: "CLT",
-    status: "ativa",
-    candidatos: 15,
-    dataPublicacao: "2024-01-20",
-    salario: "R$ 9.000 - R$ 14.000",
-  },
-  {
-    id: 4,
-    titulo: "Freelancer WordPress",
-    tipo: "Freelancer",
-    status: "ativa",
-    candidatos: 5,
-    dataPublicacao: "2024-01-18",
-    salario: "R$ 3.000 - R$ 5.000",
-  },
-]
+interface Vaga {
+  id: number
+  title: string
+  type: "CLT" | "PJ" | "FREELANCER"
+  active: boolean
+}
 
 export default function VagasPage() {
+  const [vagas, setVagas] = useState<Vaga[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("todos")
   const [tipoFilter, setTipoFilter] = useState("todos")
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 20
 
-  const filteredVagas = vagas.filter((vaga) => {
-    const matchesSearch = vaga.titulo.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesStatus = statusFilter === "todos" || vaga.status === statusFilter
-    const matchesTipo = tipoFilter === "todos" || vaga.tipo === tipoFilter
+  useEffect(() => {
+    fetch("http://localhost:3000/jobs")
+      .then(res => res.json())
+      .then(data => setVagas(data))
+  }, [])
+
+  const toggleVagaStatus = async (vaga: Vaga) => {
+    const updatedVaga = { ...vaga, active: !vaga.active }
+    await fetch(`http://localhost:3000/jobs/${vaga.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedVaga),
+    })
+    setVagas(prev => prev.map(v => (v.id === vaga.id ? updatedVaga : v)))
+  }
+
+  const deleteVaga = async (vagaId: number) => {
+    if (!window.confirm("Tem certeza que deseja excluir esta vaga?")) return
+    await fetch(`http://localhost:3000/jobs/${vagaId}`, { method: "DELETE" })
+    setVagas(prev => prev.filter(v => v.id !== vagaId))
+  }
+
+  const filteredVagas = vagas.filter(vaga => {
+    const status = vaga.active ? "ativa" : "pausada"
+    const matchesSearch = vaga.title.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesStatus = statusFilter === "todos" || status === statusFilter
+    const matchesTipo = tipoFilter === "todos" || vaga.type === tipoFilter
     return matchesSearch && matchesStatus && matchesTipo
   })
 
-  const getStatusBadge = (status: string) => {
-    return status === "ativa" ? (
-      <Badge variant="default" className="bg-green-100 text-green-800">
-        Ativa
-      </Badge>
+  const totalPages = Math.ceil(filteredVagas.length / itemsPerPage)
+  const paginatedVagas = filteredVagas.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  )
+
+  const getStatusBadge = (active: boolean) =>
+    active ? (
+      <Badge variant="default" className="bg-green-100 text-green-800">Ativa</Badge>
     ) : (
       <Badge variant="secondary">Pausada</Badge>
     )
-  }
 
   const getTipoBadge = (tipo: string) => {
     const colors = {
       CLT: "bg-blue-100 text-blue-800",
       PJ: "bg-purple-100 text-purple-800",
-      Freelancer: "bg-orange-100 text-orange-800",
+      FREELANCER: "bg-orange-100 text-orange-800",
     }
     return (
       <Badge variant="outline" className={colors[tipo as keyof typeof colors]}>
-        {tipo}
+        {tipo === "FREELANCER" ? "Freelancer" : tipo}
       </Badge>
     )
   }
@@ -109,18 +105,16 @@ export default function VagasPage() {
         </CardHeader>
         <CardContent>
           <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Buscar por título da vaga..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-8"
-                />
-              </div>
+            <div className="flex-1 relative">
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Buscar por título da vaga..."
+                value={searchTerm}
+                onChange={e => { setSearchTerm(e.target.value); setCurrentPage(1) }}
+                className="pl-8"
+              />
             </div>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <Select value={statusFilter} onValueChange={value => { setStatusFilter(value); setCurrentPage(1) }}>
               <SelectTrigger className="w-full md:w-[180px]">
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
@@ -130,7 +124,7 @@ export default function VagasPage() {
                 <SelectItem value="pausada">Pausada</SelectItem>
               </SelectContent>
             </Select>
-            <Select value={tipoFilter} onValueChange={setTipoFilter}>
+            <Select value={tipoFilter} onValueChange={value => { setTipoFilter(value); setCurrentPage(1) }}>
               <SelectTrigger className="w-full md:w-[180px]">
                 <SelectValue placeholder="Tipo" />
               </SelectTrigger>
@@ -138,7 +132,7 @@ export default function VagasPage() {
                 <SelectItem value="todos">Todos os Tipos</SelectItem>
                 <SelectItem value="CLT">CLT</SelectItem>
                 <SelectItem value="PJ">PJ</SelectItem>
-                <SelectItem value="Freelancer">Freelancer</SelectItem>
+                <SelectItem value="FREELANCER">Freelancer</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -156,21 +150,15 @@ export default function VagasPage() {
                 <TableHead>Título</TableHead>
                 <TableHead>Tipo</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>Candidatos</TableHead>
-                <TableHead>Salário</TableHead>
-                <TableHead>Data Publicação</TableHead>
                 <TableHead className="text-right">Ações</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredVagas.map((vaga) => (
+              {paginatedVagas.map(vaga => (
                 <TableRow key={vaga.id}>
-                  <TableCell className="font-medium">{vaga.titulo}</TableCell>
-                  <TableCell>{getTipoBadge(vaga.tipo)}</TableCell>
-                  <TableCell>{getStatusBadge(vaga.status)}</TableCell>
-                  <TableCell>{vaga.candidatos}</TableCell>
-                  <TableCell>{vaga.salario}</TableCell>
-                  <TableCell>{new Date(vaga.dataPublicacao).toLocaleDateString("pt-BR")}</TableCell>
+                  <TableCell className="font-medium">{vaga.title}</TableCell>
+                  <TableCell>{getTipoBadge(vaga.type)}</TableCell>
+                  <TableCell>{getStatusBadge(vaga.active)}</TableCell>
                   <TableCell className="text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -181,18 +169,25 @@ export default function VagasPage() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem asChild>
-                          <Link href={`/vagas/${vaga.id}`}>
-                            <Eye className="mr-2 h-4 w-4" />
-                            Ver Detalhes
-                          </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
                           <Link href={`/vagas/${vaga.id}/editar`}>
                             <Edit className="mr-2 h-4 w-4" />
                             Editar
                           </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="text-red-600">
+                        <DropdownMenuItem onClick={() => toggleVagaStatus(vaga)}>
+                          {vaga.active ? (
+                            <>
+                              <Pause className="mr-2 h-4 w-4" />
+                              Pausar
+                            </>
+                          ) : (
+                            <>
+                              <Play className="mr-2 h-4 w-4" />
+                              Ativar
+                            </>
+                          )}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => deleteVaga(vaga.id)} className="text-red-600">
                           <Trash2 className="mr-2 h-4 w-4" />
                           Excluir
                         </DropdownMenuItem>
@@ -203,6 +198,26 @@ export default function VagasPage() {
               ))}
             </TableBody>
           </Table>
+
+          <div className="flex justify-between items-center mt-4">
+            <Button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+            >
+              Anterior
+            </Button>
+
+            <div>
+              Página {currentPage} de {totalPages}
+            </div>
+
+            <Button
+              disabled={currentPage === totalPages || totalPages === 0}
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
+              Próxima
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>
