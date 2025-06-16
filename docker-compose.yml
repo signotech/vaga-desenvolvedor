@@ -1,0 +1,17 @@
+
+services:
+  db:
+    image: postgres
+    container_name: postgres-dev
+    restart: always
+    ports:
+      - "6500:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: meubanco
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
