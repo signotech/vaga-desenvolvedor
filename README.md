@@ -47,7 +47,7 @@ cd vaga-desenvolvedor
 - Crie um arquivo .env dentro da pasta /backend com o seguinte conteúdo:
 
 ```.env
-DATABASE_URL="postgresql://postgres:postgres@db:5432/db_anywhere?schema=public"
+DATABASE_URL="postgresql://admin:admin123@localhost:6500/meubanco"
 ```
 
 2. **Suba os containers com Docker:**
