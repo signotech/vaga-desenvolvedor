@@ -74,7 +74,7 @@ npx prisma db seed
 ```
 
 ## ✅ Acesso ao projeto:
-Frontend: http://localhost:3001
+Frontend: http://localhost:3001/dashboard
 
 Backend (API): http://localhost:3000
 
