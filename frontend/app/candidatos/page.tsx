@@ -5,11 +5,13 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { Plus, Search, Edit, Trash2, Filter } from "lucide-react"
+import { Plus, Search, Edit, Trash2, Filter, Trash } from "lucide-react"
 import Link from "next/link"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Checkbox } from "@/components/ui/checkbox"
+import { useToast } from "@/hooks/use-toast"
 
 interface Candidate {
   id: number
@@ -18,15 +20,18 @@ interface Candidate {
 }
 
 export default function CandidatosPage() {
+  const { toast } = useToast()
   const [candidatos, setCandidatos] = useState<Candidate[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
+  const [selectedItems, setSelectedItems] = useState<number[]>([])
+  const [isDeleting, setIsDeleting] = useState(false)
   const itemsPerPage = 20
 
   useEffect(() => {
     fetch("http://localhost:3000/candidates")
-      .then(res => res.json())
-      .then(data => setCandidatos(data))
+      .then((res) => res.json())
+      .then((data) => setCandidatos(data))
   }, [])
 
   const handleDelete = async (id: number) => {
@@ -39,22 +44,78 @@ export default function CandidatosPage() {
       })
 
       setCandidatos((prev) => prev.filter((candidato) => candidato.id !== id))
+
+      toast({
+        title: "Sucesso",
+        description: "Candidato excluído com sucesso.",
+      })
     } catch (error) {
       console.error("Erro ao excluir candidato:", error)
+      toast({
+        title: "Erro",
+        description: "Erro ao excluir candidato.",
+        variant: "destructive",
+      })
+    }
+  }
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedItems(pagedCandidatos.map((candidato) => candidato.id))
+    } else {
+      setSelectedItems([])
+    }
+  }
+
+  const handleSelectItem = (candidatoId: number, checked: boolean) => {
+    if (checked) {
+      setSelectedItems((prev) => [...prev, candidatoId])
+    } else {
+      setSelectedItems((prev) => prev.filter((id) => id !== candidatoId))
+    }
+  }
+
+  const handleBulkDelete = async () => {
+    if (selectedItems.length === 0) return
+
+    const confirmed = window.confirm(
+      `Tem certeza que deseja excluir ${selectedItems.length} candidato(s) selecionado(s)?`,
+    )
+
+    if (!confirmed) return
+
+    setIsDeleting(true)
+    try {
+      await Promise.all(
+        selectedItems.map((id) => fetch(`http://localhost:3000/candidates/${id}`, { method: "DELETE" })),
+      )
+
+      setCandidatos((prev) => prev.filter((candidato) => !selectedItems.includes(candidato.id)))
+      setSelectedItems([])
+
+      toast({
+        title: "Sucesso",
+        description: `${selectedItems.length} candidato(s) excluído(s) com sucesso.`,
+      })
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Erro ao excluir candidatos selecionados.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsDeleting(false)
     }
   }
 
   const filteredCandidatos = candidatos.filter(
     (candidato) =>
       candidato.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      candidato.email.toLowerCase().includes(searchTerm.toLowerCase())
+      candidato.email.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
   const totalPages = Math.ceil(filteredCandidatos.length / itemsPerPage)
-  const pagedCandidatos = filteredCandidatos.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  )
+  const pagedCandidatos = filteredCandidatos.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
 
   const getInitials = (nome: string) => {
     return nome
@@ -64,6 +125,8 @@ export default function CandidatosPage() {
       .toUpperCase()
   }
 
+  const isAllSelected = pagedCandidatos.length > 0 && selectedItems.length === pagedCandidatos.length
+
   return (
     <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
       <div className="flex items-center justify-between">
@@ -71,10 +134,24 @@ export default function CandidatosPage() {
           <SidebarTrigger />
           <h2 className="text-3xl font-bold tracking-tight">Gerenciamento de Candidatos</h2>
         </div>
-        <Button onClick={() => (window.location.href = "http://localhost:3001/candidatos/nova")}>
-          <Plus className="mr-2 h-4 w-4" />
-          Novo Candidato
-        </Button>
+        <div className="flex items-center gap-2">
+          {selectedItems.length > 0 && (
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={handleBulkDelete}
+              disabled={isDeleting}
+              className="flex items-center gap-2"
+            >
+              <Trash className="h-4 w-4" />
+              {isDeleting ? "Excluindo..." : `Excluir ${selectedItems.length}`}
+            </Button>
+          )}
+          <Button onClick={() => (window.location.href = "http://localhost:3001/candidatos/nova")}>
+            <Plus className="mr-2 h-4 w-4" />
+            Novo Candidato
+          </Button>
+        </div>
       </div>
 
       <Card>
@@ -106,6 +183,9 @@ export default function CandidatosPage() {
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead className="w-12">
+                  <Checkbox checked={isAllSelected} onCheckedChange={handleSelectAll} aria-label="Selecionar todos" />
+                </TableHead>
                 <TableHead>Candidato</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead className="text-right">Ações</TableHead>
@@ -114,6 +194,13 @@ export default function CandidatosPage() {
             <TableBody>
               {pagedCandidatos.map((candidato) => (
                 <TableRow key={candidato.id}>
+                  <TableCell>
+                    <Checkbox
+                      checked={selectedItems.includes(candidato.id)}
+                      onCheckedChange={(checked) => handleSelectItem(candidato.id, checked as boolean)}
+                      aria-label={`Selecionar ${candidato.name}`}
+                    />
+                  </TableCell>
                   <TableCell>
                     <div className="flex items-center space-x-3">
                       <Avatar>
@@ -137,10 +224,7 @@ export default function CandidatosPage() {
                             Editar
                           </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem
-                          className="text-red-600"
-                          onClick={() => handleDelete(candidato.id)}
-                        >
+                        <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(candidato.id)}>
                           <Trash2 className="mr-2 h-4 w-4" />
                           Excluir
                         </DropdownMenuItem>

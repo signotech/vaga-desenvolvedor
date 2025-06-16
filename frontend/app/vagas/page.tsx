@@ -6,11 +6,13 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { Plus, Search, Filter, Edit, Trash2, Pause, Play } from "lucide-react"
+import { Plus, Search, Filter, Edit, Trash2, Pause, Play, Trash } from "lucide-react"
 import Link from "next/link"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Checkbox } from "@/components/ui/checkbox"
+import { useToast } from "@/hooks/use-toast"
 
 interface Vaga {
   id: number
@@ -20,17 +22,20 @@ interface Vaga {
 }
 
 export default function VagasPage() {
+  const { toast } = useToast()
   const [vagas, setVagas] = useState<Vaga[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("todos")
   const [tipoFilter, setTipoFilter] = useState("todos")
   const [currentPage, setCurrentPage] = useState(1)
+  const [selectedItems, setSelectedItems] = useState<number[]>([])
+  const [isDeleting, setIsDeleting] = useState(false)
   const itemsPerPage = 20
 
   useEffect(() => {
     fetch("http://localhost:3000/jobs")
-      .then(res => res.json())
-      .then(data => setVagas(data))
+      .then((res) => res.json())
+      .then((data) => setVagas(data))
   }, [])
 
   const toggleVagaStatus = async (vaga: Vaga) => {
@@ -40,16 +45,61 @@ export default function VagasPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedVaga),
     })
-    setVagas(prev => prev.map(v => (v.id === vaga.id ? updatedVaga : v)))
+    setVagas((prev) => prev.map((v) => (v.id === vaga.id ? updatedVaga : v)))
   }
 
   const deleteVaga = async (vagaId: number) => {
     if (!window.confirm("Tem certeza que deseja excluir esta vaga?")) return
     await fetch(`http://localhost:3000/jobs/${vagaId}`, { method: "DELETE" })
-    setVagas(prev => prev.filter(v => v.id !== vagaId))
+    setVagas((prev) => prev.filter((v) => v.id !== vagaId))
   }
 
-  const filteredVagas = vagas.filter(vaga => {
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedItems(paginatedVagas.map((vaga) => vaga.id))
+    } else {
+      setSelectedItems([])
+    }
+  }
+
+  const handleSelectItem = (vagaId: number, checked: boolean) => {
+    if (checked) {
+      setSelectedItems((prev) => [...prev, vagaId])
+    } else {
+      setSelectedItems((prev) => prev.filter((id) => id !== vagaId))
+    }
+  }
+
+  const handleBulkDelete = async () => {
+    if (selectedItems.length === 0) return
+
+    const confirmed = window.confirm(`Tem certeza que deseja excluir ${selectedItems.length} vaga(s) selecionada(s)?`)
+
+    if (!confirmed) return
+
+    setIsDeleting(true)
+    try {
+      await Promise.all(selectedItems.map((id) => fetch(`http://localhost:3000/jobs/${id}`, { method: "DELETE" })))
+
+      setVagas((prev) => prev.filter((vaga) => !selectedItems.includes(vaga.id)))
+      setSelectedItems([])
+
+      toast({
+        title: "Sucesso",
+        description: `${selectedItems.length} vaga(s) excluída(s) com sucesso.`,
+      })
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Erro ao excluir vagas selecionadas.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsDeleting(false)
+    }
+  }
+
+  const filteredVagas = vagas.filter((vaga) => {
     const status = vaga.active ? "ativa" : "pausada"
     const matchesSearch = vaga.title.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesStatus = statusFilter === "todos" || status === statusFilter
@@ -58,14 +108,13 @@ export default function VagasPage() {
   })
 
   const totalPages = Math.ceil(filteredVagas.length / itemsPerPage)
-  const paginatedVagas = filteredVagas.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  )
+  const paginatedVagas = filteredVagas.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
 
   const getStatusBadge = (active: boolean) =>
     active ? (
-      <Badge variant="default" className="bg-green-100 text-green-800">Ativa</Badge>
+      <Badge variant="default" className="bg-green-100 text-green-800">
+        Ativa
+      </Badge>
     ) : (
       <Badge variant="secondary">Pausada</Badge>
     )
@@ -83,6 +132,9 @@ export default function VagasPage() {
     )
   }
 
+  const isAllSelected = paginatedVagas.length > 0 && selectedItems.length === paginatedVagas.length
+  const isIndeterminate = selectedItems.length > 0 && selectedItems.length < paginatedVagas.length
+
   return (
     <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
       <div className="flex items-center justify-between">
@@ -90,12 +142,26 @@ export default function VagasPage() {
           <SidebarTrigger />
           <h2 className="text-3xl font-bold tracking-tight">Gerenciamento de Vagas</h2>
         </div>
-        <Link href="/vagas/nova">
-          <Button>
-            <Plus className="mr-2 h-4 w-4" />
-            Nova Vaga
-          </Button>
-        </Link>
+        <div className="flex items-center gap-2">
+          {selectedItems.length > 0 && (
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={handleBulkDelete}
+              disabled={isDeleting}
+              className="flex items-center gap-2"
+            >
+              <Trash className="h-4 w-4" />
+              {isDeleting ? "Excluindo..." : `Excluir ${selectedItems.length}`}
+            </Button>
+          )}
+          <Link href="/vagas/nova">
+            <Button>
+              <Plus className="mr-2 h-4 w-4" />
+              Nova Vaga
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <Card>
@@ -110,11 +176,20 @@ export default function VagasPage() {
               <Input
                 placeholder="Buscar por título da vaga..."
                 value={searchTerm}
-                onChange={e => { setSearchTerm(e.target.value); setCurrentPage(1) }}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value)
+                  setCurrentPage(1)
+                }}
                 className="pl-8"
               />
             </div>
-            <Select value={statusFilter} onValueChange={value => { setStatusFilter(value); setCurrentPage(1) }}>
+            <Select
+              value={statusFilter}
+              onValueChange={(value) => {
+                setStatusFilter(value)
+                setCurrentPage(1)
+              }}
+            >
               <SelectTrigger className="w-full md:w-[180px]">
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
@@ -124,7 +199,13 @@ export default function VagasPage() {
                 <SelectItem value="pausada">Pausada</SelectItem>
               </SelectContent>
             </Select>
-            <Select value={tipoFilter} onValueChange={value => { setTipoFilter(value); setCurrentPage(1) }}>
+            <Select
+              value={tipoFilter}
+              onValueChange={(value) => {
+                setTipoFilter(value)
+                setCurrentPage(1)
+              }}
+            >
               <SelectTrigger className="w-full md:w-[180px]">
                 <SelectValue placeholder="Tipo" />
               </SelectTrigger>
@@ -147,6 +228,9 @@ export default function VagasPage() {
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead className="w-12">
+                  <Checkbox checked={isAllSelected} onCheckedChange={handleSelectAll} aria-label="Selecionar todas" />
+                </TableHead>
                 <TableHead>Título</TableHead>
                 <TableHead>Tipo</TableHead>
                 <TableHead>Status</TableHead>
@@ -154,8 +238,15 @@ export default function VagasPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {paginatedVagas.map(vaga => (
+              {paginatedVagas.map((vaga) => (
                 <TableRow key={vaga.id}>
+                  <TableCell>
+                    <Checkbox
+                      checked={selectedItems.includes(vaga.id)}
+                      onCheckedChange={(checked) => handleSelectItem(vaga.id, checked as boolean)}
+                      aria-label={`Selecionar ${vaga.title}`}
+                    />
+                  </TableCell>
                   <TableCell className="font-medium">{vaga.title}</TableCell>
                   <TableCell>{getTipoBadge(vaga.type)}</TableCell>
                   <TableCell>{getStatusBadge(vaga.active)}</TableCell>
@@ -200,10 +291,7 @@ export default function VagasPage() {
           </Table>
 
           <div className="flex justify-between items-center mt-4">
-            <Button
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage(currentPage - 1)}
-            >
+            <Button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>
               Anterior
             </Button>
 

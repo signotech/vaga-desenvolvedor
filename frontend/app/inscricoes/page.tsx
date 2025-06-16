@@ -6,10 +6,12 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { Plus, Search } from "lucide-react"
+import { Plus, Search, Trash2, Trash } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Checkbox } from "@/components/ui/checkbox"
+import { useToast } from "@/hooks/use-toast"
 
 interface Candidate {
   id: number
@@ -32,12 +34,15 @@ interface Application {
 
 export default function InscricoesPage() {
   const router = useRouter()
+  const { toast } = useToast()
   const [applications, setApplications] = useState<Application[]>([])
   const [candidates, setCandidates] = useState<Candidate[]>([])
   const [jobs, setJobs] = useState<Job[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [jobFilter, setJobFilter] = useState("todos")
   const [currentPage, setCurrentPage] = useState(1)
+  const [selectedItems, setSelectedItems] = useState<number[]>([])
+  const [isDeleting, setIsDeleting] = useState(false)
   const itemsPerPage = 20
 
   useEffect(() => {
@@ -45,13 +50,9 @@ export default function InscricoesPage() {
       const [appRes, candRes, jobRes] = await Promise.all([
         fetch("http://localhost:3000/applications"),
         fetch("http://localhost:3000/candidates"),
-        fetch("http://localhost:3000/jobs")
+        fetch("http://localhost:3000/jobs"),
       ])
-      const [apps, cands, jobs] = await Promise.all([
-        appRes.json(),
-        candRes.json(),
-        jobRes.json()
-      ])
+      const [apps, cands, jobs] = await Promise.all([appRes.json(), candRes.json(), jobRes.json()])
       setApplications(apps)
       setCandidates(cands)
       setJobs(jobs)
@@ -60,30 +61,101 @@ export default function InscricoesPage() {
     fetchData()
   }, [])
 
+  const handleDelete = async (id: number) => {
+    const confirmed = confirm("Tem certeza que deseja excluir esta inscrição?")
+    if (!confirmed) return
+
+    try {
+      await fetch(`http://localhost:3000/applications/${id}`, {
+        method: "DELETE",
+      })
+
+      setApplications((prev) => prev.filter((app) => app.id !== id))
+
+      toast({
+        title: "Sucesso",
+        description: "Inscrição excluída com sucesso.",
+      })
+    } catch (error) {
+      console.error("Erro ao excluir inscrição:", error)
+      toast({
+        title: "Erro",
+        description: "Erro ao excluir inscrição.",
+        variant: "destructive",
+      })
+    }
+  }
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedItems(pagedInscricoes.map((inscricao) => inscricao.id))
+    } else {
+      setSelectedItems([])
+    }
+  }
+
+  const handleSelectItem = (inscricaoId: number, checked: boolean) => {
+    if (checked) {
+      setSelectedItems((prev) => [...prev, inscricaoId])
+    } else {
+      setSelectedItems((prev) => prev.filter((id) => id !== inscricaoId))
+    }
+  }
+
+  const handleBulkDelete = async () => {
+    if (selectedItems.length === 0) return
+
+    const confirmed = window.confirm(
+      `Tem certeza que deseja excluir ${selectedItems.length} inscrição(ões) selecionada(s)?`,
+    )
+
+    if (!confirmed) return
+
+    setIsDeleting(true)
+    try {
+      await Promise.all(
+        selectedItems.map((id) => fetch(`http://localhost:3000/applications/${id}`, { method: "DELETE" })),
+      )
+
+      setApplications((prev) => prev.filter((app) => !selectedItems.includes(app.id)))
+      setSelectedItems([])
+
+      toast({
+        title: "Sucesso",
+        description: `${selectedItems.length} inscrição(ões) excluída(s) com sucesso.`,
+      })
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Erro ao excluir inscrições selecionadas.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsDeleting(false)
+    }
+  }
+
   const inscricoesCompletas = applications.map((app) => {
-    const candidato = candidates.find(c => c.id === app.candidateId)
-    const vaga = jobs.find(j => j.id === app.jobId)
+    const candidato = candidates.find((c) => c.id === app.candidateId)
+    const vaga = jobs.find((j) => j.id === app.jobId)
     return {
       ...app,
       candidato,
-      vaga
+      vaga,
     }
   })
 
   const filteredInscricoes = inscricoesCompletas.filter((inscricao) => {
     const matchesSearch =
-      (inscricao.candidato?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-       inscricao.vaga?.title?.toLowerCase().includes(searchTerm.toLowerCase()))
-    const matchesJob = jobFilter === "todos" || (inscricao.vaga?.id.toString() === jobFilter)
+      inscricao.candidato?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      inscricao.vaga?.title?.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesJob = jobFilter === "todos" || inscricao.vaga?.id.toString() === jobFilter
     return matchesSearch && matchesJob
   })
 
   const totalPages = Math.ceil(filteredInscricoes.length / itemsPerPage)
 
-  const pagedInscricoes = filteredInscricoes.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  )
+  const pagedInscricoes = filteredInscricoes.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
 
   const getInitials = (nome: string) => {
     return nome
@@ -93,6 +165,8 @@ export default function InscricoesPage() {
       .toUpperCase()
   }
 
+  const isAllSelected = pagedInscricoes.length > 0 && selectedItems.length === pagedInscricoes.length
+
   return (
     <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
       <div className="flex items-center justify-between">
@@ -100,12 +174,24 @@ export default function InscricoesPage() {
           <SidebarTrigger />
           <h2 className="text-3xl font-bold tracking-tight">Gerenciamento de Inscrições</h2>
         </div>
-        <Button
-          onClick={() => router.push("/candidatos/nova")}
-        >
-          <Plus className="mr-2 h-4 w-4" />
-          Nova Inscrição
-        </Button>
+        <div className="flex items-center gap-2">
+          {selectedItems.length > 0 && (
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={handleBulkDelete}
+              disabled={isDeleting}
+              className="flex items-center gap-2"
+            >
+              <Trash className="h-4 w-4" />
+              {isDeleting ? "Excluindo..." : `Excluir ${selectedItems.length}`}
+            </Button>
+          )}
+          <Button onClick={() => router.push("/candidatos/nova")}>
+            <Plus className="mr-2 h-4 w-4" />
+            Nova Inscrição
+          </Button>
+        </div>
       </div>
 
       <Card>
@@ -128,16 +214,19 @@ export default function InscricoesPage() {
                 />
               </div>
             </div>
-            <Select value={jobFilter} onValueChange={(value) => {
-              setJobFilter(value)
-              setCurrentPage(1)
-            }}>
+            <Select
+              value={jobFilter}
+              onValueChange={(value) => {
+                setJobFilter(value)
+                setCurrentPage(1)
+              }}
+            >
               <SelectTrigger className="w-full md:w-[220px]">
                 <SelectValue placeholder="Filtrar por vaga" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="todos">Todas as Vagas</SelectItem>
-                {jobs.map(job => (
+                {jobs.map((job) => (
                   <SelectItem key={job.id} value={job.id.toString()}>
                     {job.title}
                   </SelectItem>
@@ -156,6 +245,9 @@ export default function InscricoesPage() {
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead className="w-12">
+                  <Checkbox checked={isAllSelected} onCheckedChange={handleSelectAll} aria-label="Selecionar todas" />
+                </TableHead>
                 <TableHead>Candidato</TableHead>
                 <TableHead>Vaga</TableHead>
                 <TableHead className="text-right">Ações</TableHead>
@@ -165,20 +257,46 @@ export default function InscricoesPage() {
               {pagedInscricoes.map((inscricao) => (
                 <TableRow key={inscricao.id}>
                   <TableCell>
+                    <Checkbox
+                      checked={selectedItems.includes(inscricao.id)}
+                      onCheckedChange={(checked) => handleSelectItem(inscricao.id, checked as boolean)}
+                      aria-label={`Selecionar inscrição de ${inscricao.candidato?.name}`}
+                    />
+                  </TableCell>
+                  <TableCell>
                     <div className="flex items-center space-x-3">
                       <Avatar>
-                        <AvatarFallback>
-                          {getInitials(inscricao.candidato?.name || "")}
-                        </AvatarFallback>
+                        <AvatarFallback>{getInitials(inscricao.candidato?.name || "")}</AvatarFallback>
                       </Avatar>
                       <div>
                         <div className="font-medium">{inscricao.candidato?.name}</div>
                         <div className="text-sm text-muted-foreground">{inscricao.candidato?.email}</div>
+                        <div className="text-xs text-muted-foreground">
+                          Inscrito em: {new Date(inscricao.appliedAt).toLocaleDateString("pt-BR")}
+                        </div>
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="font-medium">{inscricao.vaga?.title}</TableCell>
-                  <TableCell className="text-right" />
+                  <TableCell>
+                    <div className="font-medium">{inscricao.vaga?.title}</div>
+                    <div
+                      className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                        inscricao.active ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"
+                      }`}
+                    >
+                      {inscricao.active ? "Ativa" : "Inativa"}
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleDelete(inscricao.id)}
+                      className="text-red-600 hover:text-red-700"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -188,7 +306,7 @@ export default function InscricoesPage() {
             <Button
               variant="outline"
               disabled={currentPage === 1}
-              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             >
               Anterior
             </Button>
@@ -204,7 +322,7 @@ export default function InscricoesPage() {
             <Button
               variant="outline"
               disabled={currentPage === totalPages}
-              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             >
               Próximo
             </Button>
