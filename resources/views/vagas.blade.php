@@ -48,13 +48,26 @@
       <main class="flex-col my-auto">
         <div class="bg-gray-100 h-auto border rounded-md flex-col justify-center p-3">
           <h1 class="text-lg font-bold mb-3">Vagas</h1>
-          <div>
-            <ul>
-              <li>Vaga1</li>
-              <li>Vaga2</li>
-              <li>Vaga3</li>
-            </ul>
-          </div>
+          @foreach ($vagas as $vaga)
+            <div class="border rounded-md p-3 mb-2">
+              <h3 class="font-semibold">{{$vaga->titulo}}</h3>
+              <div class="flex flex-row mb-2 italic">
+                <p class="mr-2">{{$vaga->regime}}</p>
+                <p>{{$vaga->tipo}}</p>
+              </div>
+              <div class="flex flex-col mb-2">
+                <p class="font-semibold">Descrição</p>
+                <p>{{$vaga->descricao}}</p>
+              </div>
+              <div class="flex flex-col mb-5">
+                <p class="font-semibold">Requisitos</p>
+                <p>{{$vaga->requisitos}}</p>
+              </div>                
+            </div>
+          @endforeach
+
+          {{ $vagas->links() }}
+
         </div>
       </main>
       

@@ -26,5 +26,11 @@ class DatabaseSeeder extends Seeder
         User::factory()->count(78)->create([
             'role' => 'user'
         ]);
+
+        $this->call([
+            VagasTableSeeder::class,
+        ]);
     }
 }
+
+
