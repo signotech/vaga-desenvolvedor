@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
-            VagasTableSeeder::class,
+            PositionsTableSeeder::class,
         ]);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\User;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
@@ -14,7 +15,15 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): View
+    public function index(Request $request): View
+    {
+        $users = User::all();
+        return view('profile.index', [
+            'user' => $request->user(),
+        ]);
+    }
+    
+     public function edit(Request $request): View
     {
         return view('profile.edit', [
             'user' => $request->user(),

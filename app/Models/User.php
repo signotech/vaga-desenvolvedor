@@ -55,4 +55,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function applications()
+    {
+        return $this->belongsToMany(Position::class, 'applications')->withTimestamps();
+    }
 }
