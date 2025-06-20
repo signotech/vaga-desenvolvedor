@@ -1,19 +1,39 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Filters\ApplicationFilter;
 
+use App\Models\Position;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Redirect;
 
 class ApplicationController extends Controller
 {
+    public function index(Request $request): View
+    {
+        $user = Auth::user();
+
+        if (!in_array($user->role, ['admin', 'moderator'])) {
+            abort(403, 'Acesso negado.');
+        }
+
+        $query = Position::whereHas('candidates')
+            ->with('candidates');
+
+        $query = (new ApplicationFilter())->filter($request, $query);
+
+        $positions = $query->paginate(10);
+
+        return view('applications.index', compact('positions'));
+    }
+
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'position_id' => 'require | exists:postion_id',
+            'position_id' => 'required|exists:positions,id',
         ]);
 
         $user_id = Auth::id();
@@ -25,9 +45,9 @@ class ApplicationController extends Controller
         ->exists();
 
         if (!$applyedSent) {
-            DB::table('positions')->insert([
+            DB::table('applications')->insert([
                 'user_id' => $user_id,  
-                "postion_id" => $position_id,
+                "position_id" => $position_id,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

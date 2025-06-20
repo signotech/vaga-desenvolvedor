@@ -92,7 +92,12 @@
                             <p>Deseja mesmo excluir esta vaga? Você <strong>não</strong> poderá reverter o processo após a exclusão.</p>
                     </div>
                     <div class="mt-3">
+                        <form action="{{ route('positions.destroy', $position->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta vaga?');">
+                        @csrf
+                        @method('DELETE')
+
                         <x-primary-button class="bg-red-600 hover:bg-red-700 text-white">{{ __('Excluir') }}</x-primary-button>
+                        </form>
                     </div>
                 </div>
             </div>

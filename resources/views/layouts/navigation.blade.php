@@ -44,6 +44,14 @@
                                 <x-dropdown-link :href="route('positions.create')">
                                     {{ __('Criar vaga') }}
                                 </x-dropdown-link>
+
+                                <x-dropdown-link :href="route('users.index')">
+                                    {{ __('Usuários') }}
+                                </x-dropdown-link>
+
+                                <x-dropdown-link :href="route('applications.index')">
+                                    {{ __('Candidaturas') }}
+                                </x-dropdown-link>
                             @endif
 
                             <!-- Authentication -->

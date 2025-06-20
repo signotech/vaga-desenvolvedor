@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PositionsController;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\UserController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/position/{position}', [PositionsController::class, 'destroy'])->name('positions.destroy');
     Route::get('/position/create', [PositionsController::class, 'create'])->name('positions.create');
     Route::post('/positions', [PositionsController::class, 'store'])->name('positions.store');
+
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+
+    Route::get('applications', [ApplicationController::class, 'index'])->name('applications.index');
 });
 
 Route::get('/positions', [PositionsController::class, 'index'])

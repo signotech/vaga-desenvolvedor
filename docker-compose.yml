@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: vaga-desenvolvedor-app
+    container_name: vaga-desenvolvedor-app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+      - ./vendor:/var/www/html/vendor  # para não reinstalar composer sempre
+      - ./node_modules:/var/www/html/node_modules  # cache do npm
+      - ./storage:/var/www/html/storage
+    networks:
+      - vaga-network
+    environment:
+      - DB_CONNECTION=pgsql
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_DATABASE=teste-db
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+
+  db:
+    image: postgres:15-alpine
+    container_name: vaga-desenvolvedor-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: teste-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - vaga-network
+
+  webserver:
+    image: nginx:alpine
+    container_name: vaga-desenvolvedor-webserver
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - vaga-network
+
+volumes:
+  pgdata:
+
+networks:
+  vaga-network:
+    driver: bridge
