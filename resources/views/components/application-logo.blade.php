@@ -1,0 +1,1 @@
+<img src="{{ Vite::asset('public/XPTO-logo.png') }}" alt="Logo" {{ $attributes }}>

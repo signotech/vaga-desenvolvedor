@@ -1,69 +1,35 @@
-<div align="center">
-  <img src="https://signotech.com.br/wp-content/uploads/2023/03/SignoTech.webp" width="20%" />
-</div>
+# Vaga desenvolvedor
+O projeto foi todo desenvolvido com PHP + Laravel, usando apenas as libs e dependências nativas dos mesmos. 
 
-# Teste para candidatos à vaga de Desenvolvedor
+Ele consiste em um sistema de cadastro de usuários e vagas que contém:
+1. CRUD de usuários
+2. CRUD de vagas
+3. Paginação
+4. Filtros
+5. Ordenação de resultados
 
-Olá caro desenvolvedor, nesse teste analisaremos seu conhecimento geral e inclusive velocidade de desenvolvimento. Abaixo explicaremos tudo o que será necessário.
+## Requisitos
+- php 8.2
+- laravel 12.0
+- laravel/tinker 2.10.1
 
-## Instruções
+Demais requisitos da aplicação estão listados no arquivo composer.json  
+As configurações do banco de dados [pgsql] estão no arquivo .env
 
-O desafio consiste em implementar uma aplicação web utilizando o framework PHP Laravel ou NodeJS, um banco de dados relacional (Mysql, Postgres ou SQLite), que terá como finalidade a inscrição de candidatos a uma oportunidade de emprego.
+## Testes
+Os testes estão em tests/Feature. Para executá-los, primeiro rode as migrations  
+$ php artisan migrate
 
-Sua aplicação deve possuir:
+Depois popule o banco executando  
+$ php artisan db:seed 
 
-- CRUD de vagas:
-  - Criar, editar, excluir e listar vagas.
-  - A vaga pode ser CLT, Pessoa Jurídica ou Freelancer.
-- CRUD de candidatos:
-  - Criar, editar, excluir e listar candidatos.
-- Um cadidato pode se inscrever em uma ou mais vagas.
-- Deve ser ser possível "pausar" a vaga, evitando a inscrição de candidatos.
-- Cada CRUD:
-  - Deve ser filtrável e ordenável por qualquer campo, e possuir paginação de 20 itens.
-  - Deve possuir formulários para criação e atualização de seus itens.
-  - Deve permitir a deleção de qualquer item de sua lista.
-  - Implementar validações de campos obrigatórios e tipos de dados.
-- Testes unitários e de unidade.
+Por fim execute o comando para rodar todos os testes  
+$ php artisan test 
 
-## Banco de dados
+Ou se preferir executar um teste específico  
+$ php artisan test --env=testing --filter=nome_do_teste
 
-- O banco de dados deve ser criado utilizando migrations, e também utilizar Seeds e Factorys para popular as informações no banco de dados.
 
-## Tecnologias a serem utilizadas
+Para os testes o Laravel 12 usa automaticamente o arquivo .env.testing, que já está configurado, porém é importante confirmar que este é o arquivo que está sendo usado ao executar o teste.
 
-Devem ser utilizadas as seguintes tecnologias:
 
-- HTML
-- CSS
-- Javascript
-- Framework Laravel (PHP) OU NodeJS + ReactJS
-- Docker (construção do ambiente de desenvolvimento)
-- Mysql, Postgres ou SQLite
-
-## Entrega
-
-- Para iniciar o teste, faça um fork deste repositório; **Se você apenas clonar o repositório não vai conseguir fazer push.**
-- Crie uma branch com o seu nome completo;
-- Altere o arquivo teste2.md com as informações necessárias para executar o seu teste (comandos, migrations, seeds, etc);
-- Depois de finalizado, envie-nos o pull request;
-
-## Bônus
-
-- API Rest JSON para todos os CRUDS listados acima.
-- Permitir deleção em massa de itens nos CRUDs.
-- Permitir que o usuário mude o número de itens por página.
-- Implementar autenticação de usuário na aplicação.
-- Documentação da API (usando Swagger ou Postman)
-- Deploy dentro do docker
-
-## O que iremos analisar
-
-- Organização do código;
-- Aplicação de design patterns;
-- Aplicação de testes; (diferencial, não obrigatório)
-- Separação de módulos e componentes;
-- Legibilidade;
-- Criação do ambiente com Docker. (diferencial, não obrigatório)
-
-### Boa sorte!
