@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: pedido-app
+    ports:
+      - "8001:80"
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: pedidos_db
+      MYSQL_USER: wesley
+      MYSQL_PASSWORD: wesley123
+    ports:
+      - "3307:3306"   # host diferente para evitar conflito
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
