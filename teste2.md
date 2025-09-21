@@ -1,69 +1,141 @@
-<div align="center">
-  <img src="https://signotech.com.br/wp-content/uploads/2023/03/SignoTech.webp" width="20%" />
-</div>
+# 🚀 CRUD Laravel + Next.js + MySQL (Ambiente de Desenvolvimento)
 
-# Teste para candidatos à vaga de Desenvolvedor
+## ⚠️ Aviso Importante
+Este projeto está configurado **apenas para ambiente de desenvolvimento**.  
 
-Olá caro desenvolvedor, nesse teste analisaremos seu conhecimento geral e inclusive velocidade de desenvolvimento. Abaixo explicaremos tudo o que será necessário.
+Para rodar em **produção**, será necessário:
+- Ajustar variáveis de ambiente (`APP_ENV=production`, `APP_DEBUG=false`, etc.)
+- Executar cache/configuração do Laravel (`php artisan config:cache`, `php artisan route:cache`, etc.)
+- Criar um `Dockerfile` específico para o frontend (`next build` + `next start`)
+- Ajustar segurança (HTTPS, usuários não-root, permissões de arquivos)
 
-## Instruções
+> ⚠️ O arquivo **`.env.example`** contém apenas **dados simplificados para dev** (usuário, senha e banco básicos, além de seeds de teste).  
+> **Nunca use esse `.env` em produção** — crie um `.env` seguro e sem seeds.
 
-O desafio consiste em implementar uma aplicação web utilizando o framework PHP Laravel ou NodeJS, um banco de dados relacional (Mysql, Postgres ou SQLite), que terá como finalidade a inscrição de candidatos a uma oportunidade de emprego.
+---
 
-Sua aplicação deve possuir:
+## ✅ Requisitos
+- [Docker](https://docs.docker.com/get-docker/)  
+- [Docker Compose](https://docs.docker.com/compose/install/)  
+- Portas livres:
+  - **80** → Nginx (API)
+  - **3000** → Next.js (Frontend)
+  - **3306** → MySQL (Banco de dados)
 
-- CRUD de vagas:
-  - Criar, editar, excluir e listar vagas.
-  - A vaga pode ser CLT, Pessoa Jurídica ou Freelancer.
-- CRUD de candidatos:
-  - Criar, editar, excluir e listar candidatos.
-- Um cadidato pode se inscrever em uma ou mais vagas.
-- Deve ser ser possível "pausar" a vaga, evitando a inscrição de candidatos.
-- Cada CRUD:
-  - Deve ser filtrável e ordenável por qualquer campo, e possuir paginação de 20 itens.
-  - Deve possuir formulários para criação e atualização de seus itens.
-  - Deve permitir a deleção de qualquer item de sua lista.
-  - Implementar validações de campos obrigatórios e tipos de dados.
-- Testes unitários e de unidade.
+---
 
-## Banco de dados
+## 🚀 Setup Automático (Recomendado)
 
-- O banco de dados deve ser criado utilizando migrations, e também utilizar Seeds e Factorys para popular as informações no banco de dados.
+Na raiz do projeto, rode:
 
-## Tecnologias a serem utilizadas
+```bash
+./setup.sh
+```
 
-Devem ser utilizadas as seguintes tecnologias:
+Esse script faz automaticamente:
+1. Garante que exista `backend/.env` (copiado de `.env.example` apenas em dev)
+2. Sobe todos os containers (`backend`, `frontend`, `nginx`, `mysql`)
+3. Instala dependências (`composer install` + `npm install`)
+4. Gera `APP_KEY` do Laravel (se não existir)
+5. Executa migrations + seeds
+6. **Roda a suíte de testes (`php artisan test`) usando SQLite em memória**
+7. Inicia o **frontend em modo dev**
 
-- HTML
-- CSS
-- Javascript
-- Framework Laravel (PHP) OU NodeJS + ReactJS
-- Docker (construção do ambiente de desenvolvimento)
-- Mysql, Postgres ou SQLite
+🔗 Após execução, acesse:
+- **Frontend:** [http://localhost:3000](http://localhost:3000)  
+- **API Laravel:** [http://localhost/api/vagas](http://localhost/api/vagas)  
+- **API Laravel:** [http://localhost/api/candidatos](http://localhost/api/candidatos)  
 
-## Entrega
+---
 
-- Para iniciar o teste, faça um fork deste repositório; **Se você apenas clonar o repositório não vai conseguir fazer push.**
-- Crie uma branch com o seu nome completo;
-- Altere o arquivo teste2.md com as informações necessárias para executar o seu teste (comandos, migrations, seeds, etc);
-- Depois de finalizado, envie-nos o pull request;
+## 🔧 Alternativa: Comandos Manuais
 
-## Bônus
+```bash
+# 1) Garantir .env do backend (apenas DEV)
+[ -f backend/.env ] || cp backend/.env.example backend/.env
 
-- API Rest JSON para todos os CRUDS listados acima.
-- Permitir deleção em massa de itens nos CRUDs.
-- Permitir que o usuário mude o número de itens por página.
-- Implementar autenticação de usuário na aplicação.
-- Documentação da API (usando Swagger ou Postman)
-- Deploy dentro do docker
+# 2) Subir containers (com build)
+docker compose up -d --build
 
-## O que iremos analisar
+# 3) Backend: instalar dependências e APP_KEY
+docker compose exec -w /var/www/html backend composer install --no-interaction --prefer-dist
+docker compose exec -w /var/www/html backend php artisan key:generate || true
 
-- Organização do código;
-- Aplicação de design patterns;
-- Aplicação de testes; (diferencial, não obrigatório)
-- Separação de módulos e componentes;
-- Legibilidade;
-- Criação do ambiente com Docker. (diferencial, não obrigatório)
+# 4) Garantir que o MySQL está pronto
+docker compose exec mysql mysqladmin ping -h 127.0.0.1 -uroot -prootpass --silent || sleep 5
 
-### Boa sorte!
+# 5) Limpar configs e rodar migrations + seeds
+docker compose exec -w /var/www/html backend php artisan config:clear
+docker compose exec -w /var/www/html backend php artisan migrate:fresh --seed
+
+# 6) Rodar os testes do backend (SQLite em memória)
+docker compose exec -e APP_ENV=testing -e DB_CONNECTION=sqlite -e DB_DATABASE=":memory:" -w /var/www/html backend php artisan test --ansi
+
+# 7) Frontend: instalar deps e iniciar em modo dev
+docker compose exec -w /usr/src/app frontend npm install
+docker compose exec -d -w /usr/src/app frontend sh -lc "npm run dev -- -H 0.0.0.0 -p 3000"
+```
+
+---
+
+## 🌐 URLs
+- **Frontend (Next.js):** [http://localhost:3000](http://localhost:3000)  
+- **API (Laravel):** [http://localhost/api](http://localhost/api)  
+- **MySQL:** `localhost:3306`  
+  - DB: `appdb`  
+  - User: `appuser`  
+  - Pass: `apppass`
+
+> O frontend consome a API via `NEXT_PUBLIC_API_URL=http://localhost/api`.
+
+---
+
+## 📌 Comandos Úteis
+
+```bash
+# Logs de todos os serviços
+docker compose logs -f
+
+# Acessar container do backend
+docker compose exec backend bash
+
+# Comandos artisan
+docker compose exec backend php artisan route:list
+docker compose exec backend php artisan migrate
+docker compose exec backend php artisan db:seed
+
+# Rodar novamente a suíte de testes (SQLite em memória)
+docker compose exec -e APP_ENV=testing -e DB_CONNECTION=sqlite -e DB_DATABASE=":memory:" backend php artisan test --ansi
+
+# MySQL CLI
+docker compose exec mysql mysql -uappuser -papppass appdb -e "SHOW TABLES;"
+
+# Resetar completamente (containers + volumes)
+docker compose down -v
+./setup.sh
+```
+
+---
+
+## 📂 Estrutura Resumida
+
+```
+/
+├─ backend/         # Laravel API (CRUD de Vagas e Candidatos)
+├─ frontend/        # Next.js + Tailwind (UI)
+├─ docker/          # Dockerfiles e configs (nginx, backend, etc.)
+├─ setup.sh         # Script automático de inicialização
+└─ docker-compose.yml
+```
+
+---
+
+## 🔄 Fluxo Rápido de Desenvolvimento
+1. Execute:  
+   ```bash
+   ./setup.sh
+   ```
+2. Acesse:  
+   - Frontend → [http://localhost:3000](http://localhost:3000)  
+   - API → [http://localhost/api/vagas](http://localhost/api/vagas)  
+3. Desenvolva frontend/backend normalmente ✨  

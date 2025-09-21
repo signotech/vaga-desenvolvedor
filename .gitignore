@@ -1,0 +1,52 @@
+# =====================================
+# Arquivos gerais / OS / IDE
+# =====================================
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp
+*.swo
+*.bak
+*.lock
+
+# IDEs
+.vscode/
+.idea/
+*.iml
+
+# =====================================
+# Docker
+# =====================================
+/docker/mysql_data/
+/docker/nginx/*.log
+
+# =====================================
+# Laravel (backend)
+# =====================================
+/backend/vendor/
+/backend/node_modules/
+/backend/storage/*.key
+/backend/storage/framework/cache/*
+/backend/storage/framework/sessions/*
+/backend/storage/framework/testing/*
+/backend/storage/framework/views/*
+/backend/storage/logs/*
+/backend/.env
+/backend/.phpunit.result.cache
+
+# =====================================
+# Next.js (frontend)
+# =====================================
+/frontend/node_modules/
+/frontend/.next/
+/frontend/.env.local
+/frontend/.env.development.local
+/frontend/.env.test.local
+/frontend/.env.production.local
+
+# =====================================
+# Composer / npm / yarn lockfiles (se não quiser versionar)
+/backend/composer.lock
+/frontend/package-lock.json
+/frontend/yarn.lock
