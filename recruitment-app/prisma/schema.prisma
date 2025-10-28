@@ -13,3 +13,50 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+	id Int @id @default(autoincrement())
+	name String
+	email String @unique
+	password String
+	role String
+	active Boolean @default(true)
+	createdAt DateTime @default(now())
+}
+
+model Job {
+	id Int @id @default(autoincrement())
+	title String
+	type String
+	description String
+	requirements String?
+	location String?
+	salaryRange String?
+	active Boolean @default(true)
+	candidates JobApplication[]
+	createdAt DateTime @default(now())
+}
+
+model Candidate {
+	id Int @id @default(autoincrement())
+	name String 
+	email String @unique
+	phone String
+	resumeUrl String?
+	bio String?
+	portfolio String?
+	active Boolean @default(true)
+	jobs JobApplication[]
+	createdAt DateTime @default(now())
+
+}
+
+model JobApplication {
+	id Int @id @default(autoincrement())
+	jobId Int
+	candidateId Int
+	status String
+	appliedAt DateTime @default(now())
+	job Job @relation(fields: [jobId], references: [id])
+	candidate Candidate @relation(fields: [candidateId], references: [id])
+}
