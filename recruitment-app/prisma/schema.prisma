@@ -25,6 +25,13 @@ enum JobType {
 	FREELANCE
 }
 
+enum JobStatus {
+	IN_PROGRESS
+	PAUSED
+	FINISHED
+	CANCELLED
+}
+
 model User {
 	id Int @id @default(autoincrement())
 	name String
@@ -46,6 +53,7 @@ model Job {
 	location String?
 	salaryRange String?
 	active Boolean @default(true)
+	status JobStatus @default(IN_PROGRESS)
 	candidates JobApplication[]
 	createdAt DateTime @default(now())
 
@@ -71,7 +79,7 @@ model JobApplication {
 	id Int @id @default(autoincrement())
 	jobId Int
 	candidateId Int
-	status String
+	status JobStatus @default(IN_PROGRESS)
 	appliedAt DateTime @default(now())
 	job Job @relation(fields: [jobId], references: [id])
 	candidate Candidate @relation(fields: [candidateId], references: [id])
