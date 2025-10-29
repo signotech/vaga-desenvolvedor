@@ -24,6 +24,31 @@ async function registerUser(data) {
   return newUser;
 }
 
+async function login(data) {
+  const { email, password } = data;
+
+  // Verify if user exists
+  const user = await userRepository.findByEmail(email);
+  if (!user) {
+    throw new Error("Email inválido ou senha inválida");
+  }
+
+  // Verify if password is corret
+  const passwordMatch = await comparePassword(password, user.password);
+  if (!passwordMatch) {
+    throw new Error("Email inválido ou senha inválida");
+  }
+
+  const token = generateToken({
+    id: user.id,
+    email: user.email,
+    role: user.role,
+  });
+
+  return { user, token };
+}
+
 export const userService = {
   registerUser,
+  login,
 };
