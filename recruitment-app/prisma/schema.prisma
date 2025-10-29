@@ -28,6 +28,8 @@ model User {
 	role Role @default(CANDIDATE)
 	active Boolean @default(true)
 	createdAt DateTime @default(now())
+
+    @@map("user")
 }
 
 model Job {
@@ -41,6 +43,8 @@ model Job {
 	active Boolean @default(true)
 	candidates JobApplication[]
 	createdAt DateTime @default(now())
+
+    @@map("job")
 }
 
 model Candidate {
@@ -55,6 +59,7 @@ model Candidate {
 	jobs JobApplication[]
 	createdAt DateTime @default(now())
 
+    @@map("candidate")
 }
 
 model JobApplication {
@@ -65,4 +70,6 @@ model JobApplication {
 	appliedAt DateTime @default(now())
 	job Job @relation(fields: [jobId], references: [id])
 	candidate Candidate @relation(fields: [candidateId], references: [id])
+
+    @@map("job_application")
 }
