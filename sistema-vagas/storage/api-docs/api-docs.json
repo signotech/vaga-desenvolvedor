@@ -1,0 +1,460 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API do Sistema de Vagas e Candidatos",
+        "description": "Documentação da API REST para os CRUDS de Vagas e Candidatos",
+        "contact": {
+            "email": "brunodvulhatka@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/candidatos": {
+            "get": {
+                "tags": [
+                    "Candidatos"
+                ],
+                "summary": "Lista paginada de candidatos",
+                "description": "Retorna uma lista paginada de candidatos, com filtros de nome e email.",
+                "operationId": "ffe869aa0cc985e53901c4b36111335b",
+                "parameters": [
+                    {
+                        "name": "nome",
+                        "in": "query",
+                        "description": "Filtra por nome do candidato",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Filtra por email do candidato",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operação bem-sucedida",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Candidatos"
+                ],
+                "summary": "Cria um novo candidato",
+                "description": "Cria um novo registro de candidato no banco de dados.",
+                "operationId": "796937ecc61fb71d11574f7e2a02e8c8",
+                "requestBody": {
+                    "description": "Dados do candidato para criação",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome",
+                                    "email"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Bruno Dvulhatka"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "bruno@email.com"
+                                    },
+                                    "telefone": {
+                                        "type": "string",
+                                        "example": "(11) 99999-8888"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Candidato criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação (ex: email duplicado ou campos faltando)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/candidatos/{candidato}": {
+            "get": {
+                "tags": [
+                    "Candidatos"
+                ],
+                "summary": "Exibe um candidato específico",
+                "description": "Retorna os dados de um candidato específico e as vagas às quais ele está inscrito.",
+                "operationId": "45cda0679e6335269f86baa1c4195fe6",
+                "parameters": [
+                    {
+                        "name": "candidato",
+                        "in": "path",
+                        "description": "ID do candidato",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operação bem-sucedida"
+                    },
+                    "404": {
+                        "description": "Candidato não encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Candidatos"
+                ],
+                "summary": "Atualiza um candidato",
+                "description": "Atualiza os dados de um candidato existente.",
+                "operationId": "bec495535e78debc0578759370634edf",
+                "parameters": [
+                    {
+                        "name": "candidato",
+                        "in": "path",
+                        "description": "ID do candidato",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Dados do candidato para atualização",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Bruno D."
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "bruno.novo@email.com"
+                                    },
+                                    "telefone": {
+                                        "type": "string",
+                                        "example": "(11) 91111-2222"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Candidato atualizado com sucesso"
+                    },
+                    "422": {
+                        "description": "Erro de validação"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Candidatos"
+                ],
+                "summary": "Exclui um candidato",
+                "description": "Remove o registro de um candidato do banco de dados.",
+                "operationId": "974de9bddf42eed8582c36b705780c71",
+                "parameters": [
+                    {
+                        "name": "candidato",
+                        "in": "path",
+                        "description": "ID do candidato",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Excluído com sucesso (No Content)"
+                    }
+                }
+            }
+        },
+        "/api/vagas": {
+            "get": {
+                "tags": [
+                    "Vagas"
+                ],
+                "summary": "Lista paginada de vagas",
+                "description": "Retorna uma lista paginada de vagas, com filtros de título e tipo.",
+                "operationId": "6ab261e2dcee45291a5744c2a7cca978",
+                "parameters": [
+                    {
+                        "name": "titulo",
+                        "in": "query",
+                        "description": "Filtra por título da vaga",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "tipo",
+                        "in": "query",
+                        "description": "Filtra por tipo (clt, pj, freelancer)",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operação bem-sucedida",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Vagas"
+                ],
+                "summary": "Cria uma nova vaga",
+                "description": "Cria um novo registro de vaga no banco de dados.",
+                "operationId": "c7b41d84f6b1bc8b63416a2a3bb3fda1",
+                "requestBody": {
+                    "description": "Dados da vaga para criação",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "titulo",
+                                    "tipo"
+                                ],
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string",
+                                        "example": "Desenvolvedor PHP Pleno"
+                                    },
+                                    "tipo": {
+                                        "type": "string",
+                                        "example": "clt"
+                                    },
+                                    "descricao": {
+                                        "type": "string",
+                                        "example": "Descrição detalhada da vaga..."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Vaga criada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação (Campos obrigatórios faltando, etc)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/vagas/{vaga}": {
+            "get": {
+                "tags": [
+                    "Vagas"
+                ],
+                "summary": "Exibe uma vaga específica",
+                "operationId": "990fda895804aff8938d668394cd815a",
+                "parameters": [
+                    {
+                        "name": "vaga",
+                        "in": "path",
+                        "description": "ID da vaga",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operação bem-sucedida"
+                    },
+                    "404": {
+                        "description": "Vaga não encontrada"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Vagas"
+                ],
+                "summary": "Remove uma vaga",
+                "description": "Exclui definitivamente uma vaga existente.",
+                "operationId": "3ff7231048b32fee9b41517c7d9d3d4d",
+                "parameters": [
+                    {
+                        "name": "vaga",
+                        "in": "path",
+                        "description": "ID da vaga",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Vaga removida com sucesso (sem conteúdo)"
+                    },
+                    "404": {
+                        "description": "Vaga não encontrada"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Vagas"
+                ],
+                "summary": "Atualiza parcialmente uma vaga",
+                "description": "Atualiza os campos informados de uma vaga existente.",
+                "operationId": "712828aacab5127ea6d9c84377fe2dc6",
+                "parameters": [
+                    {
+                        "name": "vaga",
+                        "in": "path",
+                        "description": "ID da vaga",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Dados para atualização parcial da vaga",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string",
+                                        "example": "Desenvolvedor PHP Sênior"
+                                    },
+                                    "tipo": {
+                                        "type": "string",
+                                        "example": "pj"
+                                    },
+                                    "descricao": {
+                                        "type": "string",
+                                        "example": "Atualização da descrição..."
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "ativa"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Vaga atualizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Vaga não encontrada"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Candidatos",
+            "description": "Candidatos"
+        },
+        {
+            "name": "Vagas",
+            "description": "Vagas"
+        }
+    ]
+}
