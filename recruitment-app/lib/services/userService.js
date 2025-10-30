@@ -2,7 +2,7 @@ import { hashPassword } from "@/lib/auth/utils";
 import { userRepository } from "@/lib/repositories/userRepository";
 
 async function registerUser(data) {
-  const { name, email, password, role } = data;
+  const { name, email, password, role, phone, bio, portfolio, resumeUrl } = data;
 
   // Verify if email already exists
   const existingUser = await userRepository.findByEmail(email);
@@ -19,6 +19,10 @@ async function registerUser(data) {
     email: email,
     password: hashedPassword,
     role: role,
+    phone,
+    bio,
+    portfolio,
+    resumeUrl,
   });
 
   return newUser;
@@ -48,7 +52,18 @@ async function login(data) {
   return { user, token };
 }
 
+async function updateUser(id, data) {
+  const user = await userRepository.findById(id);
+  if (!user) {
+    throw new Error("Usuário não encontrado");
+  }
+  const { name, email, phone, bio, portfolio, resumeUrl } = data;
+  const updatedData = { name, email, phone, bio, portfolio, resumeUrl };  
+  return await userRepository.updateById(id, updatedData);
+}
+
 export const userService = {
   registerUser,
   login,
+  updateUser,
 };

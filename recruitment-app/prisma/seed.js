@@ -13,15 +13,35 @@ async function main() {
         role: Role.COMPANY,
       },
       {
-        name: "Candidato X",
-        email: "candidatox@teste.com",
+        name: "Candidato 1",
+        email: "candidato1@teste.com",
         password: "1234",
         role: Role.CANDIDATE,
+        phone: "(12)34567-8912",
+        bio: "Desenvolvedor Full Stack",
+        portfolio: "https://github/com/candidato1",
+        resumeUrl: "https://example.com/resume-candidato1.pdf",
+      },
+      {
+        name: "Candidato 2",
+        email: "candidato2@teste.com",
+        password: "1234",
+        role: Role.CANDIDATE,
+        phone: "(12)34567-1234",
+        bio: "Desenvolvedor Front-end",
+        portfolio: "https://github/com/candidato2",
+        resumeUrl: "https://example.com/resume-candidato2.pdf",
       },
     ],
   });
 
-  console.log("User created");
+  console.log("Users created");
+
+  const company = await prisma.user.findFirst({
+    where: {
+      role: Role.COMPANY,
+    }
+  })
 
   await prisma.job.createMany({
     data: [
@@ -31,7 +51,7 @@ async function main() {
         description: "Buscamos um(a) desenvolvedor(a) front-end",
         requirements: "React, Next.js, JavaScript, Git, HTML, CSS",
         salaryRange: "R$3000-R$4000",
-        status: JobStatus.IN_PROGRESS,
+        userId: company.id,
       },
       {
         title: "Desenvolvedor(a) Back-end",
@@ -39,52 +59,34 @@ async function main() {
         description: "Buscamos um(a) desenvolvedor(a) back-end",
         requirements: "Node.js, JavaScript, PosgreSQL, Docker",
         salaryRange: "R$3000-R$4000",
-        status: JobStatus.IN_PROGRESS,
+        userId: company.id,
       },
     ],
   });
 
-  console.log("Jobs created");
+  console.log("Jobs created")
 
-  await prisma.candidate.createMany({
-    data: [
-      {
-        name: "Candidato 1",
-        email: "candidato1@teste.com",
-        phone: "(12)34567-8912",
-        bio: "Desenvolvedor Full Stack",
-        portfolio: "https://github/com/candidato1",
-        resumeUrl: "https://example.com/resume-candidato1.pdf",
-        active: true,
-      },
-      {
-        name: "Candidato 2",
-        email: "candidato2@teste.com",
-        phone: "(12)34567-1234",
-        bio: "Desenvolvedor Front-end",
-        portfolio: "https://github/com/candidato2",
-        resumeUrl: "https://example.com/resume-candidato2.pdf",
-        active: true,
-      },
-    ],
-  });
-
-  console.log("Candidates created");
+  const jobList = await prisma.job.findMany();
+  const candidates = await prisma.user.findMany({
+    where: {
+      role: Role.CANDIDATE
+    }
+  })
 
   await prisma.jobApplication.createMany({
     data: [
       {
-        jobId: 1,
-        candidateId: 1,
-        status: JobStatus.IN_PROGRESS,
+        jobId: jobList[0].id,
+        candidateId: candidates[0].id,
       },
       {
-        jobId: 2,
-        candidateId: 2,
-        status: JobStatus.IN_PROGRESS,
+        jobId: jobList[1].id,
+        candidateId: candidates[1].id,
       },
     ],
   });
+
+  console.log("Applications created");
 
   console.log("Seed completed");
 }
