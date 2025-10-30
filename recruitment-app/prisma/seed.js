@@ -1,5 +1,5 @@
 import pkg from "@prisma/client";
-const { PrismaClient, Role } = pkg;
+const { PrismaClient, Role, JobType } = pkg;
 
 const prisma = new PrismaClient();
 
@@ -27,17 +27,19 @@ async function main() {
     data: [
       {
         title: "Desenvolvedor(a) Front-end",
-        type: "CLT",
+        type: JobType.CLT,
         description: "Buscamos um(a) desenvolvedor(a) front-end",
         requirements: "React, Next.js, JavaScript, Git, HTML, CSS",
         salaryRange: "R$3000-R$4000",
+        status: JobStatus.IN_PROGRESS,
       },
       {
         title: "Desenvolvedor(a) Back-end",
-        type: "PJ",
+        type: JobType.PJ,
         description: "Buscamos um(a) desenvolvedor(a) back-end",
         requirements: "Node.js, JavaScript, PosgreSQL, Docker",
         salaryRange: "R$3000-R$4000",
+        status: JobStatus.IN_PROGRESS,
       },
     ],
   });
@@ -74,12 +76,12 @@ async function main() {
       {
         jobId: 1,
         candidateId: 1,
-        status: "applied",
+        status: JobStatus.IN_PROGRESS,
       },
       {
         jobId: 2,
         candidateId: 2,
-        status: "applied",
+        status: JobStatus.IN_PROGRESS,
       },
     ],
   });

@@ -1,29 +1,11 @@
-/*
-  Warnings:
+-- CreateEnum
+CREATE TYPE "Role" AS ENUM ('COMPANY', 'CANDIDATE', 'ADMIN');
 
-  - You are about to drop the `Candidate` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Job` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `JobApplication` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `User` table. If the table is not empty, all the data it contains will be lost.
+-- CreateEnum
+CREATE TYPE "JobType" AS ENUM ('CLT', 'PJ', 'FREELANCE');
 
-*/
--- DropForeignKey
-ALTER TABLE "public"."JobApplication" DROP CONSTRAINT "JobApplication_candidateId_fkey";
-
--- DropForeignKey
-ALTER TABLE "public"."JobApplication" DROP CONSTRAINT "JobApplication_jobId_fkey";
-
--- DropTable
-DROP TABLE "public"."Candidate";
-
--- DropTable
-DROP TABLE "public"."Job";
-
--- DropTable
-DROP TABLE "public"."JobApplication";
-
--- DropTable
-DROP TABLE "public"."User";
+-- CreateEnum
+CREATE TYPE "JobStatus" AS ENUM ('IN_PROGRESS', 'PAUSED', 'FINISHED', 'CANCELLED');
 
 -- CreateTable
 CREATE TABLE "user" (
@@ -42,12 +24,13 @@ CREATE TABLE "user" (
 CREATE TABLE "job" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
-    "type" TEXT NOT NULL,
+    "type" "JobType" NOT NULL,
     "description" TEXT NOT NULL,
     "requirements" TEXT,
     "location" TEXT,
     "salaryRange" TEXT,
     "active" BOOLEAN NOT NULL DEFAULT true,
+    "status" "JobStatus" NOT NULL DEFAULT 'IN_PROGRESS',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "job_pkey" PRIMARY KEY ("id")
@@ -73,7 +56,7 @@ CREATE TABLE "job_application" (
     "id" SERIAL NOT NULL,
     "jobId" INTEGER NOT NULL,
     "candidateId" INTEGER NOT NULL,
-    "status" TEXT NOT NULL,
+    "status" "JobStatus" NOT NULL DEFAULT 'IN_PROGRESS',
     "appliedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "job_application_pkey" PRIMARY KEY ("id")
