@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { jobService } from "@/lib/services/jobService";
 
 export async function PATCH(req, { params }) {
   try {
@@ -22,7 +23,7 @@ export async function PATCH(req, { params }) {
   }
 }
 
-export async function GET (req, { params }) {
+export async function GET ({ params }) {
     try {
         const job = await jobService.getJobById(params.id)
         return NextResponse.json(job, { status: 200 })
