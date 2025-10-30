@@ -2,8 +2,13 @@
 
 import Image from "next/image";
 import { Button } from "./ui/button";
+import { useState } from "react";
+import RegisterModal from "./registerModal";
 
 export default function Hero() {
+
+const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <section className="bg-background overflow-hidden">
       <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-10">
@@ -18,7 +23,7 @@ export default function Hero() {
             A plataforma foi criada para tornar cada etapa da sua jornada de
             recrutamento mais simples e eficiente. Desde a criação da vaga com o
             apoio dos nossos especialistas até a integração do novo talento,
-            oferecemos uma experiência ágil, segura e otimizada — ajudando sua
+            oferecemos uma experiência ágil, segura e otimizada ajudando sua
             empresa a economizar tempo, reduzir custos e contratar com mais
             assertividade.
           </p>
@@ -27,7 +32,7 @@ export default function Hero() {
             <Button
               variant="primary"
               size="lg"
-              onClick={() => alert("Cadastre-se")}
+              onClick={() => setIsModalOpen(true)}
             >
               Cadastre-se
             </Button>
@@ -45,6 +50,8 @@ export default function Hero() {
           />
         </div>
       </div>
+      {/* Register modal for direction */}
+      <RegisterModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   );
 }

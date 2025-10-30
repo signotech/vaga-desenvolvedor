@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import Link from "next/link";
 
 export default function Header() {
   const router = useRouter();
@@ -23,30 +24,30 @@ export default function Header() {
           <div className="hidden lg:flex items-center justify-between flex-1 ml-10">
             {/* MIDDLE - Links */}
             <div className="flex items-center space-x-12 mx-auto">
-              <a
-                href="#home"
+              <Link
+                href="/"
                 className="text-foreground hover:text-primary font-medium transition-colors"
               >
                 Início
-              </a>
-              <a
-                href="#about"
+              </Link>
+              <Link
+                href="/about"
                 className="text-foreground hover:text-primary font-medium transition-colors"
               >
                 Sobre
-              </a>
-              <a
-                href="#contact"
+              </Link>
+              <Link
+                href="/contact"
                 className="text-foreground hover:text-primary font-medium transition-colors"
               >
                 Contato
-              </a>
+              </Link>
             </div>
 
             {/* RIGHT - Buttons */}
             <div className="flex items-center space-x-4">
               <Button
-                variant="outline"
+                variant="secondary"
                 onClick={(e) => {
                   e.preventDefault();
                   router.push("/login-company");
@@ -85,27 +86,27 @@ export default function Header() {
           }`}
         >
           <div className="py-4 space-y-3 flex flex-col items-center border-t border-border">
-            <a
-              href="#home"
+            <Link
+              href="/"
               className="block py-2 text-foreground hover:text-primary transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Início
-            </a>
-            <a
-              href="#about"
+            </Link>
+            <Link
+              href="/about"
               className="block py-2 text-foreground hover:text-primary transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Sobre
-            </a>
-            <a
-              href="#contact"
+            </Link>
+            <Link
+              href="/contact"
               className="block py-2 text-foreground hover:text-primary transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Contato
-            </a>
+            </Link>
 
             <Button
               variant="outline"

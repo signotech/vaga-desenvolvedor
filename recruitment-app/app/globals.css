@@ -8,7 +8,7 @@
   --color-foreground: #0c0a09;
   --color-muted: #6b7280;
   --color-border: #e5e7eb;
-  --color-secondary: #f3f4f6;
+  --color-secondary: #6176A2;
 }
 
 @layer base {
@@ -22,7 +22,7 @@
       --color-background-secondary: #2222223e;
       --color-foreground: #f9fafb;
       --color-primary: #3b82f6;
-      --color-secondary: #1f2937;
+      --color-secondary: #748CC1;
       --color-border: #27272a;
       --color-muted: #9ca3af;
     }
@@ -32,16 +32,21 @@
     box-sizing: border-box;
   }
 
-  html {
+  html, body {
     scroll-behavior: smooth;
-  }
-
-  body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: "Inter", sans-serif;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+    height: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  body > main {
+    flex: 1;
   }
 
   a {
