@@ -19,7 +19,7 @@ export async function POST(req) {
 
     if (!candidateId || !jobId) {
       return NextResponse.json(
-        { message: "Campos candidateId e jobId são obrigatórios" },
+        { message: "Campos candidato e vaga são obrigatórios" },
         { status: 400 }
       );
     }

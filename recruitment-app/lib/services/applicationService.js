@@ -26,7 +26,7 @@ async function listApplications() {
   return await applicationRepository.findAll();
 }
 
-async function getApplicationById(id) {
+async function findApplicationById(id) {
   const application = await applicationRepository.findById(id);
   if (!application) {
     throw new Error("Inscrição não encontrada");
@@ -45,6 +45,6 @@ async function deleteApplication(id) {
 export const applicationService = {
   createApplication,
   listApplications,
-  getApplicationById,
+  findApplicationById,
   deleteApplication,
 };

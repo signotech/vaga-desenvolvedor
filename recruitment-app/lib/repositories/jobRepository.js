@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { JobStatus } from "@prisma/client";
 
-async function findJobs({ search, page, limit }) {
+async function findJobsByIds({ search, page, limit }) {
   return await prisma.job.findMany({
     where: {
       active: true,
@@ -12,7 +12,7 @@ async function findJobs({ search, page, limit }) {
   });
 }
 
-async function deleteJobs(ids) {
+async function deleteByIds(ids) {
   return await prisma.job.updateMany({
     where: {
       id: {
@@ -26,8 +26,9 @@ async function deleteJobs(ids) {
   });
 }
 
-async function updateStatus(id, status) {
-  return await prisma.job.update({
+async function updateStatusById(id, status) {
+  // Update status of a job
+  const updatedJob = await prisma.job.update({
     where: {
       id: id,
     },
@@ -35,9 +36,20 @@ async function updateStatus(id, status) {
       status: status,
     },
   });
+  // Update status of applications related to the job
+  await prisma.jobApplication.updateMany({
+    where: {
+      jobId: Number(id),
+    },
+    data: {
+      status: status,
+    },
+  });
+
+  return updatedJob;
 }
 
-async function updateJob(id, data) {
+async function updateById(id, data) {
   return await prisma.job.update({
     where: {
       id: id,
@@ -55,9 +67,9 @@ async function findById(id) {
 }
 
 export const jobRepository = {
-  findJobs,
-  deleteJobs,
-  updateStatus,
-  updateJob,
+  findJobsByIds,
+  deleteByIds,
+  updateStatusById,
+  updateById,
   findById,
 };

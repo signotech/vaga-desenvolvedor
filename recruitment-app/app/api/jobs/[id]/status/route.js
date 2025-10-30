@@ -1,12 +1,25 @@
-import { jobRepository } from "@/lib/repositories/jobRepository";
+import { jobService } from "@/lib/services/jobService";
 import { NextResponse } from "next/server";
 
 export async function PATCH(req, { params }) {
+try {
   const { status } = await req.json();
-  const job = await jobRepository.updateStatus(params.id, status);
+  const job = await jobService.updateStatus(params.id, status);
 
   return NextResponse.json(
     { message: `Status da vaga alterado para ${status}`, job },
     { status: 200 }
   );
+} catch (error) {
+    // Error not found
+    if (error instanceof Error && error.message === "Vaga não encontrada") {
+      return NextResponse.json({ message: error.message }, { status: 404 });
+    }
+
+    // Error unknown
+    return NextResponse.json(
+      { message: "Erro ao atualizar status da vaga" },
+      { status: 500 }
+    );
+}
 }

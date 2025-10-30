@@ -28,6 +28,6 @@ export async function POST(req) {
     }
 
     // Error unknown
-    return NextResponse.json({ message: "Erro inesperado" }, { status: 500 });
+    return NextResponse.json({ message: "Erro ao cadastrar usuário" }, { status: 500 });
   }
 }

@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { JobStatus } from "@prisma/client";
 
 async function create(data) {
   return await prisma.jobApplication.create({ data });
@@ -26,10 +27,14 @@ async function findById(id) {
 }
 
 async function deleteById(id) {
-  return await prisma.jobApplication.delete({
+  return await prisma.jobApplication.update({
     where: {
       id: Number(id),
     },
+    data: {
+        active: false,
+        status: JobStatus.CANCELLED
+    }
   });
 }
 

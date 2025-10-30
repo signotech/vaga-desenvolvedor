@@ -3,10 +3,21 @@ import { NextResponse } from "next/server";
 
 export async function GET(req, { params }) {
   try {
-    const application = await applicationService.getApplicationById(params.id);
+    const application = await applicationService.findApplicationById(params.id);
     return NextResponse.json(application, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ message: error.message }, { status: 500 });
+    // Error not found
+    if (
+      error instanceof Error &&
+      error.message === "Inscrição não encontrada"
+    ) {
+      return NextResponse.json({ message: error.message }, { status: 404 });
+    }
+    // Error unknown
+    return NextResponse.json(
+      { message: "Erro ao buscar inscrição" },
+      { status: 500 }
+    );
   }
 }
 
@@ -18,6 +29,17 @@ export async function DELETE(req, { params }) {
       { status: 200 }
     );
   } catch (error) {
-    return NextResponse.json({ message: error.message }, { status: 500 });
+    // Error not found
+    if (
+      error instanceof Error &&
+      error.message === "Inscrição não encontrada"
+    ) {
+      return NextResponse.json({ message: error.message }, { status: 404 });
+    }
+    // Error unknown
+    return NextResponse.json(
+      { message: "Erro ao remover inscrição" },
+      { status: 500 }
+    );
   }
 }
