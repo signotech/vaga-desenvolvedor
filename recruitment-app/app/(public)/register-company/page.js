@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import axios from "axios";
+import { Button } from "@/app/components/ui/button";
 
 export default function RegisterCompany() {
   const [formData, setFormData] = useState({

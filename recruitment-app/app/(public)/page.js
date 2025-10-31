@@ -1,6 +1,6 @@
-import Hero from "./components/hero";
-import AboutSection from "./components/aboutSection";
-import ContactSection from "./components/contactSection";
+import Hero from "@/app/components/hero";
+import AboutSection from "@/app/components/aboutSection";
+import ContactSection from "@/app/components/contactSection";
 
 export const metadata = {
   title: "Aplicação de Recrutamento",

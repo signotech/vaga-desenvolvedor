@@ -4,12 +4,14 @@ import { userService } from "@/lib/services/userService";
 export async function POST(req) {
   try {
     const { email, password } = await req.json();
-    const [user, token] = await userService.login(email, password);
+    const {user, token} = await userService.login({email, password});
     return NextResponse.json(
       { user, token, message: "Login realizado com sucesso" },
       { status: 200 }
     );
   } catch (error) {
+
+    console.log(error);
     // Error email or password invalid
     if (
       error instanceof Error &&

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Button } from "../components/ui/button";
+import { Button } from "@/app/components/ui/button";
 
 export default function LoginCandidate() {
   const [formData, setFormData] = useState({
@@ -26,7 +26,7 @@ export default function LoginCandidate() {
     setLoading(true);
 
     try {
-      const res = await axios.post("/api/login", {
+      const res = await axios.post("/api/auth/login", {
         email: formData.email,
         password: formData.password,
       });
@@ -34,11 +34,12 @@ export default function LoginCandidate() {
       const { token, user, message } = res.data;
       localStorage.setItem("authToken", token);
       localStorage.setItem("userRole", user.role);
+      localStorage.setItem("userId", user.id);
 
       setAlert({ type: "success", message });
 
       setTimeout(() => {
-        router.push("/dashboard/candidate");
+        router.push("/candidate");
       }, 1000);
     } catch (err) {
       const message = err.response?.data?.message || "Erro ao realizar login";

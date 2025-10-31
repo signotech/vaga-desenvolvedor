@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import axios from "axios";
-import { Button } from "../components/ui/button";
+import { Button } from "@/app/components/ui/button";
 
 
 export default function RegisterCandidate() {

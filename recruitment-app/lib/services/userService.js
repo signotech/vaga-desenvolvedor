@@ -1,5 +1,7 @@
 import { hashPassword } from "@/lib/auth/utils";
 import { userRepository } from "@/lib/repositories/userRepository";
+import { comparePassword } from "@/lib/auth/utils";
+import { generateToken } from "@/lib/auth/utils";
 
 async function registerUser(data) {
   const { name, email, password, role, phone, bio, portfolio, resumeUrl } = data;
@@ -7,6 +9,13 @@ async function registerUser(data) {
   // Verify if email already exists
   const existingUser = await userRepository.findByEmail(email);
   if (existingUser) {
+    // If user is inactive, reactivate
+    if (!existingUser.active) {
+      const reactivatedUser = await userRepository.updateById(existingUser.id, { active: true}, data);
+      return reactivatedUser;
+    }
+
+    // If user is active, block register
     throw new Error("Email já cadastrado");
   }
 
@@ -62,8 +71,17 @@ async function updateUser(id, data) {
   return await userRepository.updateById(id, updatedData);
 }
 
+async function deleteUser(id) {
+  const user = await userRepository.findById(id);
+  if (!user) {
+    throw new Error("Usuário não encontrado");
+  }
+  return await userRepository.deleteById(id);
+}
+
 export const userService = {
   registerUser,
   login,
   updateUser,
+  deleteUser,
 };

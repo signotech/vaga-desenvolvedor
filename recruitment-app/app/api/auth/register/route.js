@@ -8,10 +8,8 @@ export async function POST(req) {
     // Receive and validate data
     const body = await req.json();
     const validatedData = registerSchema.parse(body);
-
     // Register user with validated data
     const user = await userService.registerUser(validatedData);
-
     return NextResponse.json({user, message: "Usuário cadastrado com sucesso"}, { status: 201 });
   } catch (error) {
     // Validation error

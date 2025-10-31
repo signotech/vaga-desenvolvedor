@@ -1,5 +1,5 @@
-import { prisma } from "@/lib/prisma";
-import { JobStatus } from "@prisma/client";
+import { JobStatus } from "@prisma/client"
+import prisma from "../db/prisma"
 
 async function findJobsByIds({ search, page, limit }) {
   return await prisma.job.findMany({

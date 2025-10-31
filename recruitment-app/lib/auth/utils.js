@@ -9,7 +9,7 @@ export async function comparePassword(password, hashPassword) {
   return await bcrypt.compare(password, hashPassword);
 }
 
-export async function generateToken(payload) {
+export function generateToken(payload) {
   return jwt.sign(payload, process.env.JWT_SECRET, {
     expiresIn: "2h",
   });

@@ -74,8 +74,8 @@ model JobApplication {
 	candidateId Int
 	status JobStatus @default(IN_PROGRESS)
 	appliedAt DateTime @default(now())
-	job Job @relation(fields: [jobId], references: [id])
-	candidate User @relation(fields: [candidateId], references: [id])
+	job Job @relation(fields: [jobId], references: [id], onDelete: Cascade)
+	candidate User @relation(fields: [candidateId], references: [id], onDelete: Cascade)
 
     @@map("job_application")
 }

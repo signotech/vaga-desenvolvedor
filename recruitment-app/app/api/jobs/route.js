@@ -13,7 +13,7 @@ export async function GET(req) {
 
     const jobs = await jobService.listJobs({ search, page, limit });
 
-    return NextResponse.json(jobs, { status: 200 });
+    return NextResponse.json({ jobs }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { message: "Erro ao buscar vagas" },

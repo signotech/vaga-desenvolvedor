@@ -3,6 +3,9 @@ import { jobRepository } from "../repositories/jobRepository";
 import { Prisma } from "@prisma/client";
 
 async function createApplication(candidateId, jobId) {
+  if (!candidateId || !jobId) {
+    throw new Error("Campos candidato e vaga são obrigatórios");
+  }
   const job = await jobRepository.findById(jobId);
 
   if (!job || !job.active || job.status !== "IN_PROGRESS") {
@@ -10,7 +13,7 @@ async function createApplication(candidateId, jobId) {
   }
 
   try {
-    return await applicationRepository.create({ candidateId, jobId });
+    return await applicationRepository.create({ candidateId: Number(candidateId), jobId: Number(jobId) });
   } catch (error) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&

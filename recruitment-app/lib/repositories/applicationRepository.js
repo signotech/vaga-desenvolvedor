@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import prisma from "../db/prisma";
 import { JobStatus } from "@prisma/client";
 
 async function create(data) {

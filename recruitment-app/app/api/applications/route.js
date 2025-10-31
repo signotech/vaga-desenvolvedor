@@ -16,23 +16,23 @@ export async function GET() {
 export async function POST(req) {
   try {
     const { candidateId, jobId } = await req.json();
-
-    if (!candidateId || !jobId) {
-      return NextResponse.json(
-        { message: "Campos candidato e vaga são obrigatórios" },
-        { status: 400 }
-      );
-    }
-
     const application = await applicationService.createApplication(
       candidateId,
       jobId
     );
     return NextResponse.json(application, { status: 201 });
   } catch (error) {
+    console.log(error);
+    if (
+      error instanceof Error &&
+      error.message === "Campos candidato e vaga são obrigatórios"
+    ) {
+      return NextResponse.json({ message: error.message }, { status: 400 });
+    }
+
     return NextResponse.json(
-      { message: error.message || "Erro ao criar inscrição" },
-      { status: error.statusCode || 400 }
+      { message: "Erro ao criar inscrição" },
+      { status: 500 }
     );
   }
 }

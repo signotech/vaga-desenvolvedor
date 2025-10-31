@@ -5,7 +5,7 @@ export const jobSchema = z.object({
     .string()
     .min(3, "Título deve ter pelo menos 3 caracteres")
     .max(100, "Título deve ter no máximo 100 caracteres"),
-  type: z.enum({ CLT, PJ, FREELANCE }),
+  type: z.enum(["CLT", "PJ", "FREELANCE"]),
   description: z
     .string()
     .min(10, "Descrição deve ter pelo menos 10 caracteres")
@@ -18,8 +18,8 @@ export const jobSchema = z.object({
   salaryRange: z.string().optional(),
   candidates: z.array(z.number().int()).optional(),
   status: z
-    .enum({ IN_PROGRESS, PAUSED, FINISHED, CANCELLED })
+    .enum(["IN_PROGRESS", "PAUSED", "FINISHED", "CANCELLED"])
     .optional()
-    .default(IN_PROGRESS),
+    .default("IN_PROGRESS"),
   active: z.boolean().optional().default(true),
 });

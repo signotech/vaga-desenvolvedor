@@ -21,7 +21,7 @@ async function createJob(data) {
 }
 
 async function deleteJobs(ids) {
-  if (!ids || ids.lenght === 0) {
+  if (!ids || ids.length === 0) {
     throw new Error("Nenhuma vaga selecionada");
   }
   return await jobRepository.deleteByIds(ids);
