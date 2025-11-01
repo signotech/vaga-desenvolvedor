@@ -48,7 +48,6 @@ export default function CandidateDashboard() {
     }
   }, []);
 
-
   // Handle apply
   const handleApply = async (jobId) => {
     if (!userId) {
@@ -56,10 +55,38 @@ export default function CandidateDashboard() {
       return;
     }
     try {
-      await axios.post("/api/applications", { jobId, candidateId:userId });
-      await fetchApplications();
+      const res = await axios.post("/api/applications", {
+        jobId,
+        candidateId: userId,
+      });
+      const newApplication = res.data;
+      setApplications((prev) => [...applications, newApplication]);
     } catch (error) {
       console.error("Erro ao se candidatar:", error);
+    }
+  };
+
+  // Cancel application
+  const handleCancel = async (jobId) => {
+    try {
+      const application = applications.find(
+        (app) =>
+          Number(app.jobId) === Number(jobId) &&
+          Number(app.candidateId) === Number(userId)
+      );
+
+      if (!application) {
+        console.error("Candidatura não encontrada");
+        return;
+      }
+
+      await axios.delete(`/api/applications/${application.id}`);
+
+      setApplications((prev) =>
+        prev.filter((app) => app.id !== application.id)
+      );
+    } catch (error) {
+      console.error("Erro ao cancelar candidatura:", error);
     }
   };
 
@@ -83,13 +110,13 @@ export default function CandidateDashboard() {
       return true;
     })
     .sort((a, b) => {
-      if (sort === "recent") return new Date(b.createdAt) - new Date(a.createdAt);
+      if (sort === "recent")
+        return new Date(b.createdAt) - new Date(a.createdAt);
       return new Date(a.createdAt) - new Date(b.createdAt);
     });
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-
       <main className="max-w-6xl mx-auto px-6 py-8">
         <h1 className="text-2xl font-bold text-primary mb-6">
           Vagas Disponíveis
@@ -133,7 +160,12 @@ export default function CandidateDashboard() {
         ) : filteredJobs.length > 0 ? (
           <div className="grid md:grid-cols-2 gap-6">
             {filteredJobs.map((job) => (
-              <JobCard key={job.id} job={job} onApply={() => handleApply(job.id)} />
+              <JobCard
+                key={job.id}
+                job={job}
+                onApply={() => handleApply(job.id)}
+                onCancel={() => handleCancel(job.id)}
+              />
             ))}
           </div>
         ) : (

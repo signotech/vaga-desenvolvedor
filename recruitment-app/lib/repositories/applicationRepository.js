@@ -2,7 +2,13 @@ import prisma from "../db/prisma";
 import { JobStatus } from "@prisma/client";
 
 async function create(data) {
-  return await prisma.jobApplication.create({ data });
+  return await prisma.jobApplication.create({ 
+    data: {
+      candidateId: Number(data.candidateId),
+      jobId: Number(data.jobId),
+      status: JobStatus.IN_PROGRESS
+    }
+   });
 }
 
 async function findAll() {
@@ -32,7 +38,6 @@ async function deleteById(id) {
       id: Number(id),
     },
     data: {
-        active: false,
         status: JobStatus.CANCELLED
     }
   });

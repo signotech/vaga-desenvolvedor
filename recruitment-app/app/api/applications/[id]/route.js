@@ -22,13 +22,22 @@ export async function GET(req, { params }) {
 }
 
 export async function DELETE(req, { params }) {
+  const { id } = await params;
   try {
-    await applicationService.deleteApplication(params.id);
+    const applicationId = Number(id);
+    if (isNaN(applicationId)) {
+      return NextResponse.json(
+        { message: "ID inválido" },
+        { status: 400 }
+      )
+    }
+    await applicationService.deleteApplication(applicationId);
     return NextResponse.json(
       { message: "Inscrição removida com sucesso" },
       { status: 200 }
     );
   } catch (error) {
+    console.log(error);
     // Error not found
     if (
       error instanceof Error &&
