@@ -24,11 +24,11 @@ export default function JobCard({ job, onApply, onCancel }) {
 
       <div className="flex justify-end gap-2 mt-auto">
         {!job.applied ? (
-          <Button onClick={onApply} className="bg-primary text-foreground hover:bg-primary/90">
+          <Button onClick={onApply} variant="primary">
             Candidatar-se
           </Button>
         ) : (
-          <Button onClick={onCancel} className="bg-red-600 text-foreground hover:bg-red-700">
+          <Button onClick={onCancel} variant="danger">
             Cancelar candidatura
           </Button>
         )}
@@ -43,11 +43,15 @@ export default function JobCard({ job, onApply, onCancel }) {
             >
               ✕
             </button>
-            <h3 className="text-xl font-bold mb-2">{job.title}</h3>
-            <p className="text-sm text-muted mb-2">{job.description}</p>
-            <p className="text-sm mb-2"><strong>Requisitos:</strong> {job.requirements || "Não informados"}</p>
-            <p className="text-sm mb-2"><strong>Status:</strong> {job.status}</p>
-            <p className="text-sm"><strong>Criada em:</strong> {new Date(job.createdAt).toLocaleDateString()}</p>
+            <div className="flex flex-col gap-2">
+              <h3 className="text-xl font-bold mb-2">{job.title}</h3>
+              <p className="text-sm text-muted mb-2">Tipo: {job.type}</p>
+              <p className="text-sm text-muted mb-2">Localização: {job.location || "Não informado"}</p>
+              <p className="text-sm text-muted mb-2">Faixa salarial: {job.salaryRange || "Não informada"}</p>
+              <p className="text-sm text-foreground mb-2">{job.description}</p>
+              <p className="text-sm mb-2"><strong>Requisitos:</strong> {job.requirements || "Não informados"}</p>
+              <p className="text-sm text-muted">Criada em: {new Date(job.createdAt).toLocaleDateString()}</p>
+            </div>
           </div>
         </div>
       )}

@@ -38,13 +38,10 @@ async function findApplicationById(id) {
 }
 
 async function deleteApplication(id) {
-  console.log("Deletando inscrição com id: ", id);
   const application = await applicationRepository.findById(id);
-  console.log("Resultado do findById: ", application);
   if (!application) {
     throw new Error("Inscrição não encontrada");
   }
-  console.log("Deletando inscrição com id: ", id);
   return await applicationRepository.deleteById(id);
 }
 

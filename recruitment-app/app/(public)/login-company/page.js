@@ -3,7 +3,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Button } from "../components/ui/button";
+import { Button } from "@/app/components/ui/button";
 
 export default function LoginCompany() {
   const [formData, setFormData] = useState({
@@ -49,7 +49,7 @@ export default function LoginCompany() {
   };
 
   return (
-    <div className="grid place-items-center min-h-[75vh]">
+    <div className="grid place-items-center min-h-[79vh]">
       <div className="max-w-md mx-auto bg-background-secondary border border-border p-6 rounded-2xl shadow-md">
         <h2 className="text-2xl font-semibold mb-6 text-center text-primary">
           Login Empresa

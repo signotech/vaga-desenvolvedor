@@ -4,7 +4,6 @@ import { useState } from "react";
 import axios from "axios";
 import { Button } from "@/app/components/ui/button";
 
-
 export default function RegisterCandidate() {
   const [formData, setFormData] = useState({
     name: "",
@@ -19,23 +18,48 @@ export default function RegisterCandidate() {
 
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState({ type: "", message: "" });
+  const [uploading, setUploading] = useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const { name, value, files } = e.target;
+
     if (name === "resumeUrl") {
-      setFormData({ ...formData, resumeUrl: files[0]?.name || "" });
+      const file = files[0];
+      if (!file) return;
+
+      setUploading(true);
+
+      try {
+        const formDataUpload = new FormData();
+        formDataUpload.append("file", file);
+
+        // Send to route
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          body: formDataUpload,
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.message || "Falha no upload");
+        }
+        console.log("Arquivo enviado: ", data);
+        setFormData((prev) => ({ ...prev, resumeUrl: data.url }));
+      } catch (error) {
+        console.error("Erro ao enviar arquivo:", error);
+      }
     } else {
-      setFormData({ ...formData, [name]: value });
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
+  // Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
     setAlert({ type: "", message: "" });
     setLoading(true);
 
     try {
-      const res = await axios.post("/api/register", formData);
+      const res = await axios.post("/api/auth/register", formData);
       setAlert({ type: "success", message: res.data.message });
       setFormData({
         name: "",
@@ -129,11 +153,7 @@ export default function RegisterCandidate() {
           onChange={handleChange}
           className="w-full border border-border p-2 rounded bg-transparent"
         />
-        <Button
-          type="submit"
-          disabled={loading}
-          variant="primary"
-        >
+        <Button type="submit" disabled={loading} variant="primary">
           {loading ? "Cadastrando..." : "Cadastrar"}
         </Button>
       </form>

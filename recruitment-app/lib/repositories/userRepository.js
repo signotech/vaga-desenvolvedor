@@ -12,14 +12,14 @@ async function create(data) {
 async function updateById(id, data) {
   return await prisma.user.update({
     where: {
-      id: id,
+      id: Number(id),
     },
     data: data,
   });
 }
 
 async function findById(id) {
-  return await prisma.user.findUnique({ where: { id } });
+  return await prisma.user.findUnique({ where: { id: Number(id) } });
 }
 
 async function deleteById(id) {

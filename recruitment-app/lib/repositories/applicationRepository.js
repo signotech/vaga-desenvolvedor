@@ -33,13 +33,10 @@ async function findById(id) {
 }
 
 async function deleteById(id) {
-  return await prisma.jobApplication.update({
+  return await prisma.jobApplication.delete({
     where: {
       id: Number(id),
     },
-    data: {
-        status: JobStatus.CANCELLED
-    }
   });
 }
 

@@ -61,6 +61,14 @@ async function login(data) {
   return { user, token };
 }
 
+async function getUserById(id) {
+  const user = await userRepository.findById(id);
+  if (!user) {
+    throw new Error("Usuário não encontrado");
+  }
+  return user;
+}
+
 async function updateUser(id, data) {
   const user = await userRepository.findById(id);
   if (!user) {
@@ -82,6 +90,7 @@ async function deleteUser(id) {
 export const userService = {
   registerUser,
   login,
+  getUserById,
   updateUser,
   deleteUser,
 };

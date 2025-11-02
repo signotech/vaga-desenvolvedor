@@ -50,7 +50,7 @@ export default function LoginCandidate() {
   };
 
   return (
-    <div className="grid place-items-center min-h-[75vh]">
+    <div className="grid place-items-center min-h-[79vh]">
       <div className="max-w-md w-full mx-auto bg-background-secondary border border-border p-6 rounded-2xl shadow-md">
         <h2 className="text-2xl font-semibold mb-6 text-center text-primary">
           Login Candidato
