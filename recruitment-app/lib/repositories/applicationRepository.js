@@ -38,6 +38,31 @@ async function deleteById(id) {
       id: Number(id),
     },
   });
+};
+
+async function findApplicationsByJobId(id) {
+  return await prisma.jobApplication.findMany({
+    where: {
+      jobId: Number(id),
+    },
+    include: {
+      job: true,
+      candidate: true,
+    },
+  });
+}
+
+async function findApplicationsByCandidateId(id) {
+  return await prisma.jobApplication.findMany({
+      where: { candidateId: Number(id) },
+      select: {
+        id: true,
+        jobId: true,
+        candidateId: true,
+        status: true,
+        appliedAt: true,
+      },
+    });
 }
 
 export const applicationRepository = {
@@ -45,4 +70,6 @@ export const applicationRepository = {
   findAll,
   findById,
   deleteById,
+  findApplicationsByJobId,
+  findApplicationsByCandidateId
 };

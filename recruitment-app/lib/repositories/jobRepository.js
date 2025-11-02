@@ -1,15 +1,35 @@
 import { JobStatus } from "@prisma/client"
 import prisma from "../db/prisma"
 
-async function findJobsByIds({ search, page, limit }) {
-  return await prisma.job.findMany({
+async function findJobsByIds({ search, page, limit, userId }) {
+  const jobs = await prisma.job.findMany({
     where: {
       active: true,
       ...(search ? { title: { contains: search, mode: "insensitive" } } : {}),
     },
+    include: {
+      candidates: userId
+        ? {
+            where: { candidateId: Number(userId) },
+            select: { id: true },
+          }
+        : false,
+    },
     skip: (page - 1) * limit,
     take: Number(limit),
+    orderBy: { createdAt: "desc" },
   });
+
+  return jobs.map((job) => ({
+    ...job,
+    applied: job.candidates?.length > 0,
+  }));
+}
+
+async function create(data) {
+  return await prisma.job.create({
+    data: data,
+  })
 }
 
 async function deleteByIds(ids) {
@@ -69,6 +89,7 @@ async function findById(id) {
 export const jobRepository = {
   findJobsByIds,
   deleteByIds,
+  create,
   updateStatusById,
   updateById,
   findById,

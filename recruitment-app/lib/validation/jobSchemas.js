@@ -22,4 +22,5 @@ export const jobSchema = z.object({
     .optional()
     .default("IN_PROGRESS"),
   active: z.boolean().optional().default(true),
+  userId: z.number(),
 });

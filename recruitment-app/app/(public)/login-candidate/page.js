@@ -32,6 +32,7 @@ export default function LoginCandidate() {
       });
 
       const { token, user, message } = res.data;
+      localStorage.clear();
       localStorage.setItem("authToken", token);
       localStorage.setItem("userRole", user.role);
       localStorage.setItem("userId", user.id);

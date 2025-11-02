@@ -12,13 +12,13 @@ export default function Footer() {
 
         {/* RIGHT */}
         <div className="flex space-x-4 text-sm">
-          <a href="/privacy" className="hover:text-primary transition-colors">
+          <a href="#" className="hover:text-primary transition-colors">
             Política de Privacidade
           </a>
-          <a href="/terms" className="hover:text-primary transition-colors">
+          <a href="#" className="hover:text-primary transition-colors">
             Termos de Uso
           </a>
-          <a href="/contact" className="hover:text-primary transition-colors">
+          <a href="#" className="hover:text-primary transition-colors">
             Contato
           </a>
         </div>

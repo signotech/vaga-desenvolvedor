@@ -30,18 +30,18 @@ export default function Header() {
               >
                 Início
               </Link>
-              <Link
-                href="/about"
+              <a
+                href="#aboutSection"
                 className="text-foreground hover:text-primary font-medium transition-colors"
               >
                 Sobre
-              </Link>
-              <Link
-                href="/contact"
+              </a>
+              <a
+                href="#contactSection"
                 className="text-foreground hover:text-primary font-medium transition-colors"
               >
                 Contato
-              </Link>
+              </a>
             </div>
 
             {/* RIGHT - Buttons */}
@@ -93,23 +93,23 @@ export default function Header() {
             >
               Início
             </Link>
-            <Link
-              href="/about"
+            <a
+              href="#aboutSection"
               className="block py-2 text-foreground hover:text-primary transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Sobre
-            </Link>
-            <Link
-              href="/contact"
+            </a>
+            <a
+              href="#contactSection"
               className="block py-2 text-foreground hover:text-primary transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Contato
-            </Link>
+            </a>
 
             <Button
-              variant="outline"
+              variant="secondary"
               className="w-11/12"
               onClick={(e) => {
                 e.preventDefault();

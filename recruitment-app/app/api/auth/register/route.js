@@ -12,6 +12,7 @@ export async function POST(req) {
     const user = await userService.registerUser(validatedData);
     return NextResponse.json({user, message: "Usuário cadastrado com sucesso"}, { status: 201 });
   } catch (error) {
+    console.log(error);
     // Validation error
     if (error instanceof ZodError) {
       return NextResponse.json(

@@ -28,7 +28,7 @@ export default function RegisterCompany() {
     setLoading(true);
 
     try {
-      const res = await axios.post("/api/register", formData);
+      const res = await axios.post("/api/auth/register", formData);
       setAlert({ type: "success", message: res.data.message });
       setFormData({
         name: "",
@@ -95,6 +95,7 @@ export default function RegisterCompany() {
         <input
           name="phone"
           placeholder="Telefone"
+          required
           value={formData.phone}
           onChange={handleChange}
           className="w-full border border-border p-2 rounded bg-transparent"

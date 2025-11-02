@@ -45,9 +45,27 @@ async function deleteApplication(id) {
   return await applicationRepository.deleteById(id);
 }
 
+async function findApplicationsByJobId(id) {
+  const applications = await applicationRepository.findApplicationsByJobId(id);
+  if (!applications) {
+    throw new Error("Inscrições não encontradas");
+  }
+  return applications;
+}
+
+async function findApplicationsByCandidateId(id) {
+  const applications = await applicationRepository.findApplicationsByCandidateId(id);
+  if (!applications) {
+    throw new Error("Inscrições não encontradas");
+  }
+  return applications;
+}
+
 export const applicationService = {
   createApplication,
   listApplications,
   findApplicationById,
   deleteApplication,
+  findApplicationsByCandidateId,
+  findApplicationsByJobId,
 };

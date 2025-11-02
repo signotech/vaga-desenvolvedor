@@ -2,9 +2,10 @@ import { NextResponse } from "next/server";
 import { jobService } from "@/lib/services/jobService";
 
 export async function PATCH(req, { params }) {
+  const { id } = await params;
   try {
     const body = await req.json();
-    const job = await jobService.updateJob(params.id, body);
+    const job = await jobService.updateJob(Number(id), body);
     return NextResponse.json(
       { job, message: "Vaga atualizada com sucesso" },
       { status: 200 }
@@ -23,11 +24,13 @@ export async function PATCH(req, { params }) {
   }
 }
 
-export async function GET ({ params }) {
+export async function GET (req, { params }) {
+  const { id } = await params;
     try {
-        const job = await jobService.getJobById(params.id)
-        return NextResponse.json(job, { status: 200 })
+        const job = await jobService.getJobById(Number(id))
+        return NextResponse.json({job, message: "Vaga encontrada com sucesso"}, { status: 200 })
     } catch (error) {
+        console.log(error);
         // Error not found
         if (error instanceof Error && error.message === "Vaga não encontrada") {
             return NextResponse.json({ message: error.message }, { status: 404 });

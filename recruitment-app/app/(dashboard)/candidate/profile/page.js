@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "@/app/components/ui/button";
+import { useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 
 export default function ProfilePage() {
   const [user, setUser] = useState(null);
@@ -18,6 +20,8 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [deleting, setDeleting] = useState(false);
+  const router = useRouter();
 
   // Get user id from localStorage
   useEffect(() => {
@@ -68,7 +72,10 @@ export default function ProfilePage() {
     formData.append("file", file);
 
     try {
-      const res = await fetch(`/api/upload`, { method: "POST", body: formData });
+      const res = await fetch(`/api/upload`, {
+        method: "POST",
+        body: formData,
+      });
       const data = await res.json();
       if (res.ok) {
         setForm((prev) => ({ ...prev, resumeUrl: data.url }));
@@ -91,10 +98,35 @@ export default function ProfilePage() {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    const confirmDelete = confirm(
+      "Tem certeza que deseja excluir sua conta? Essa ação é irreversível."
+    );
+    if (!confirmDelete) return;
+
+    try {
+      setDeleting(true);
+      await axios.delete(`/api/user/${userId}`);
+      localStorage.clear();
+      router.push("/");
+    } catch (error) {
+      console.error("Erro ao excluir conta:", error);
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   if (loading) return <p className="p-6 text-muted">Carregando perfil...</p>;
 
   return (
     <div className="max-w-3xl mx-auto py-10 px-6">
+      <button
+            onClick={() => router.back()}
+            className="flex items-center gap-2 text-sm text-muted hover:text-primary transition mb-4"
+          >
+            <ArrowLeft size={18} />
+            Voltar
+          </button>
       <h1 className="text-3xl font-bold text-primary mb-8">
         {user?.name || "Perfil"}
       </h1>
@@ -170,40 +202,51 @@ export default function ProfilePage() {
           {uploading && <p className="text-sm text-muted mt-1">Enviando...</p>}
         </div>
 
-        <div className="flex justify-end gap-3 mt-8">
-          {!editing ? (
-            <Button
-              onClick={() => setEditing(true)}
-              className="bg-primary text-white"
-            >
-              Editar
-            </Button>
-          ) : (
-            <>
+        {/* Buttons */}
+        <div className="flex flex-col sm: flex-row sm:justify-between sm:items-center gap-4 mt-8 ">
+          <div className="flex gap-3">
+            {!editing ? (
               <Button
-                onClick={handleSave}
-                className="bg-green-600 text-white hover:bg-green-700"
+                onClick={() => setEditing(true)}
+                className="bg-primary text-white"
               >
-                Salvar
+                Editar
               </Button>
-              <Button
-                onClick={() => {
-                  setEditing(false);
-                  setForm({
-                    name: user.name,
-                    email: user.email,
-                    phone: user.phone,
-                    bio: user.bio,
-                    portfolio: user.portfolio,
-                    resumeUrl: user.resumeUrl,
-                  });
-                }}
-                className="bg-red-600 text-white hover:bg-red-700"
-              >
-                Cancelar
-              </Button>
-            </>
-          )}
+            ) : (
+              <>
+                <Button
+                  onClick={handleSave}
+                  className="bg-green-600 text-white hover:bg-green-700"
+                >
+                  Salvar
+                </Button>
+                <Button
+                  onClick={() => {
+                    setEditing(false);
+                    setForm({
+                      name: user.name,
+                      email: user.email,
+                      phone: user.phone,
+                      bio: user.bio,
+                      portfolio: user.portfolio,
+                      resumeUrl: user.resumeUrl,
+                    });
+                  }}
+                  className="bg-red-600 text-white hover:bg-red-700"
+                >
+                  Cancelar
+                </Button>
+              </>
+            )}
+          </div>
+          {/* Delete account */}
+          <Button
+            onClick={handleDeleteAccount}
+            disabled={deleting}
+            variant="danger"
+          >
+            {deleting ? "Excluindo..." : "Excluir conta"}
+          </Button>
         </div>
       </div>
     </div>

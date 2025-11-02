@@ -128,6 +128,7 @@ export default function RegisterCandidate() {
         <input
           name="phone"
           placeholder="Telefone"
+          required
           value={formData.phone}
           onChange={handleChange}
           className="w-full border border-border p-2 rounded bg-transparent"

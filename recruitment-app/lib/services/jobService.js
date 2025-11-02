@@ -1,12 +1,19 @@
 import { jobRepository } from "../repositories/jobRepository";
 
-async function listJobs({ search, page, limit }) {
-  return await jobRepository.findJobsByIds({ search, page, limit });
+async function listJobs({ search, page, limit, userId }) {
+  return await jobRepository.findJobsByIds({ search, page, limit, userId });
 }
 
+
 async function createJob(data) {
-  const { title, type, description, requirements, location, salaryRange } =
+  console.log("DATA RECEBIDO NO SERVICE: ", data)
+  const { title, type, description, requirements, location, salaryRange, userId } =
     data;
+  console.log("USER ID NO SERVICE: ". userId)
+
+  if (!userId) {
+    throw new Error("Usuário não encontrado");
+  }
 
   const newJob = await jobRepository.create({
     title,
@@ -15,6 +22,7 @@ async function createJob(data) {
     requirements,
     location,
     salaryRange,
+    userId,
   });
 
   return newJob;
@@ -58,4 +66,5 @@ export const jobService = {
   deleteJobs,
   updateJob,
   getJobById,
+  updateStatus
 };

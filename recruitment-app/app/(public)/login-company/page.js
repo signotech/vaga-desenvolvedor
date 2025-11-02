@@ -26,19 +26,21 @@ export default function LoginCompany() {
     setLoading(true);
 
     try {
-      const res = await axios.post("/api/login", {
+      const res = await axios.post("/api/auth/login", {
         email: formData.email,
         password: formData.password,
       });
 
       const { token, user, message } = res.data;
+      localStorage.clear();
       localStorage.setItem("authToken", token);
       localStorage.setItem("userRole", user.role);
+      localStorage.setItem("userId", user.id);
 
       setAlert({ type: "success", message });
 
       setTimeout(() => {
-        router.push("/dashboard/company");
+        router.push("/company");
       }, 1000);
     } catch (err) {
       const message = err.response?.data?.message || "Erro ao realizar login";

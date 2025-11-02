@@ -3,22 +3,38 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import JobCard from "@/app/components/jobCard";
+import { useRouter } from "next/navigation";
 
 export default function CandidateDashboard() {
+  const router = useRouter();
   const [jobs, setJobs] = useState([]);
   const [applications, setApplications] = useState([]);
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("available");
+  const [filter, setFilter] = useState("available"); // available | applied | paused | finished | all
   const [sort, setSort] = useState("recent");
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
 
+  // Load user
+  useEffect(() => {
+    const id = localStorage.getItem("userId");
+    if (!id) {
+      router.push("/login-candidate");
+      return;
+    }
+    const parsedId = Number(id);
+    setUserId(parsedId);
+    fetchApplications(parsedId);
+    fetchJobs(parsedId);
+  }, [router]);
+
   // Fetch jobs
-  const fetchJobs = async () => {
+  const fetchJobs = async (id) => {
     try {
       setLoading(true);
       const params = new URLSearchParams();
       if (search) params.append("search", search);
+      params.append("userId", id);
 
       const { data } = await axios.get(`/api/jobs?${params.toString()}`);
       setJobs(Array.isArray(data.jobs) ? data.jobs : []);
@@ -31,89 +47,89 @@ export default function CandidateDashboard() {
   };
 
   // Fetch applications
-  const fetchApplications = async () => {
+  const fetchApplications = async (id) => {
     try {
-      const { data } = await axios.get("/api/applications");
-      setApplications(data || []);
+      const { data } = await axios.get(`/api/applications/candidate/${id}`);
+      setApplications(
+        Array.isArray(data.applications) ? data.applications : []
+      );
     } catch (error) {
       console.error("Erro ao buscar candidaturas:", error);
+      setApplications([]);
     }
   };
 
-  // Get user id
   useEffect(() => {
-    const id = localStorage.getItem("userId");
-    if (id) {
-      setUserId(id);
+    if (userId) {
+      fetchJobs(userId);
+      fetchApplications(userId);
     }
-  }, []);
+  }, [search, userId]);
 
-  // Handle apply
   const handleApply = async (jobId) => {
-    if (!userId) {
-      console.error("Usuário não autenticado");
-      return;
-    }
     try {
       const res = await axios.post("/api/applications", {
         jobId,
         candidateId: userId,
       });
-      const newApplication = res.data;
-      setApplications((prev) => [...applications, newApplication]);
+      const newApp = res.data.application || res.data;
+      setApplications((prev) => [...prev, newApp]);
     } catch (error) {
       console.error("Erro ao se candidatar:", error);
     }
   };
 
-  // Cancel application
   const handleCancel = async (jobId) => {
     try {
       const application = applications.find(
-        (app) =>
-          Number(app.jobId) === Number(jobId) &&
-          Number(app.candidateId) === Number(userId)
+        (a) =>
+          Number(a.jobId) === Number(jobId) &&
+          Number(a.candidateId) === Number(userId)
       );
-
-      if (!application) {
-        console.error("Candidatura não encontrada");
-        return;
-      }
-
+      if (!application) return;
       await axios.delete(`/api/applications/${application.id}`);
-
-      setApplications((prev) =>
-        prev.filter((app) => app.id !== application.id)
-      );
+      setApplications((prev) => prev.filter((a) => a.id !== application.id));
     } catch (error) {
       console.error("Erro ao cancelar candidatura:", error);
     }
   };
 
-  // Update when search or filters change
-  useEffect(() => {
-    fetchJobs();
-    fetchApplications();
-  }, [search]);
-
-  // Mark jobs as applied
+  // Verify if the user has already applied to the job
   const jobsWithStatus = jobs.map((job) => ({
     ...job,
-    applied: applications.some((a) => a.jobId === job.id),
+    applied: applications.some((a) => Number(a.jobId) === Number(job.id)),
   }));
 
-  // Filter jobs
+  // Filter
   const filteredJobs = jobsWithStatus
     .filter((job) => {
-      if (filter === "applied") return job.applied;
-      if (filter === "available") return !job.applied;
-      return true;
+      if (job.status === "CANCELLED") return false;
+
+      switch (filter) {
+        case "available":
+          return job.status === "IN_PROGRESS" && !job.applied;
+
+        case "applied":
+          return job.applied && job.status !== "CANCELLED";
+
+        case "paused":
+          return job.status === "PAUSED" && job.applied;
+
+        case "finished":
+          return job.status === "FINISHED" && job.applied;
+
+        case "all":
+          return job.status === "IN_PROGRESS";
+
+        default:
+          return true;
+      }
     })
-    .sort((a, b) => {
-      if (sort === "recent")
-        return new Date(b.createdAt) - new Date(a.createdAt);
-      return new Date(a.createdAt) - new Date(b.createdAt);
-    });
+    .sort((a, b) =>
+      sort === "recent"
+        ? new Date(b.createdAt) - new Date(a.createdAt)
+        : new Date(a.createdAt) - new Date(b.createdAt)
+    );
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -138,9 +154,11 @@ export default function CandidateDashboard() {
               onChange={(e) => setFilter(e.target.value)}
               className="p-2 rounded-md border border-border bg-background-secondary text-muted"
             >
-              <option value="all">Todas</option>
               <option value="available">Disponíveis</option>
               <option value="applied">Candidatadas</option>
+              <option value="paused">Pausadas</option>
+              <option value="finished">Finalizadas</option>
+              <option value="all">Todas</option>
             </select>
 
             <select
@@ -154,7 +172,7 @@ export default function CandidateDashboard() {
           </div>
         </div>
 
-        {/* Jobs list */}
+        {/* Jobs */}
         {loading ? (
           <p className="text-muted">Carregando vagas...</p>
         ) : filteredJobs.length > 0 ? (
