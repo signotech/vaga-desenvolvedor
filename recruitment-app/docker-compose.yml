@@ -1,0 +1,42 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: sh -c "pnpm install --frozen-lockfile && pnpm dev --hostname 0.0.0.0 --port 3000"
+    environment:
+      CHOKIDAR_USEPOLLING: "1"
+      NODE_ENV: development
+      CI: "true"
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.docker
+    volumes:
+      - .:/app
+      - pnpm-store:/root/.local/share/pnpm/store
+      - node_modules:/app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: vaga-signotech
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d vaga-signotech"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  node_modules:
+  pnpm-store:
+  postgres_data:

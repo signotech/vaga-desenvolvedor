@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+    COMPANY
+    CANDIDATE 
+    ADMIN
+}
+
+enum JobType {
+	CLT
+	PJ
+	FREELANCE
+}
+
+enum JobStatus {
+	IN_PROGRESS
+	PAUSED
+	FINISHED
+	CANCELLED
+}
+
+model User {
+	id Int @id @default(autoincrement())
+	name String
+	email String @unique
+	password String
+	role Role @default(CANDIDATE)
+	phone String?
+	bio String?
+	portfolio String?
+	resumeUrl String?
+	active Boolean @default(true)
+	createdAt DateTime @default(now())
+	jobs Job[]
+	applications JobApplication[]
+
+    @@map("user")
+}
+
+model Job {
+	id Int @id @default(autoincrement())
+	title String
+	type JobType
+	description String
+	requirements String?
+	location String?
+	salaryRange String?
+	active Boolean @default(true)
+	status JobStatus @default(IN_PROGRESS)
+	userId Int
+	user User @relation(fields: [userId], references: [id])
+	candidates JobApplication[]
+	createdAt DateTime @default(now())
+
+    @@map("job")
+}
+
+model JobApplication {
+	id Int @id @default(autoincrement())
+	jobId Int
+	candidateId Int
+	status JobStatus @default(IN_PROGRESS)
+	appliedAt DateTime @default(now())
+	job Job @relation(fields: [jobId], references: [id], onDelete: Cascade)
+	candidate User @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+    @@map("job_application")
+}

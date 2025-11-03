@@ -1,0 +1,48 @@
+{
+  "name": "recruitment-app",
+  "version": "0.1.0",
+  "private": true,
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.18.0",
+    "@radix-ui/react-dropdown-menu": "^2.1.16",
+    "@supabase/supabase-js": "^2.78.0",
+    "axios": "^1.13.1",
+    "bcrypt": "^6.0.0",
+    "class-variance-authority": "^0.7.1",
+    "cloudinary": "^2.8.0",
+    "clsx": "^2.1.1",
+    "jsonwebtoken": "^9.0.2",
+    "jose": "^5.9.3",
+    "lucide-react": "^0.548.0",
+    "next": "16.0.1",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "react-hook-form": "^7.65.0",
+    "swagger-ui-express": "^5.0.1",
+    "tailwind-merge": "^3.3.1",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/react": "19.2.2",
+    "babel-plugin-react-compiler": "1.0.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.1",
+    "jest": "^30.2.0",
+    "nodemon": "^3.1.10",
+    "prisma": "^6.18.0",
+    "supertest": "^7.1.4",
+    "tailwindcss": "^4",
+    "tw-animate-css": "^1.4.0"
+  }
+}
