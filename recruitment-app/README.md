@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Ambiente de desenvolvimento
 
-## Getting Started
-
-First, run the development server:
+### Usando Node localmente
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+O app ficará disponível em [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Usando Docker
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Garanta que você tenha **Docker** e **Docker Compose** instalados.
+2. Ajuste as variáveis de ambiente em `.env.docker` caso necessário.
+3. Construa e suba os serviços:
 
-## Learn More
+   ```bash
+   docker compose up --build
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+   O frontend estará acessível em [http://localhost:3000](http://localhost:3000) e o Postgres em `localhost:5432` (usuário `postgres`, senha `1234`, banco `vaga-signotech`).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. Para rodar comandos dentro do container da aplicação use, por exemplo:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   docker compose exec app pnpm prisma migrate dev
+   docker compose exec app pnpm prisma db seed
+   ```
 
-## Deploy on Vercel
+5. Pare os serviços com:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   docker compose down
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Usuários de teste
+
+- Empresas: `contato@techsolutions.com` e `talentos@inovarh.com` (senha `empresa123`)
+- Candidatos: `ana.souza@teste.com`, `bruno.oliveira@teste.com`, `carla.lima@teste.com` (senha `candidato123`)

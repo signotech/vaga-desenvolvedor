@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import swaggerSpec from "@/lib/swagger/spec";
+import swaggerSpec from "@/lib/swagger/swaggerDoc.mjs";
 
 export const dynamic = "force-static";
 
