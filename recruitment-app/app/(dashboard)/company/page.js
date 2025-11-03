@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { PlusCircle, MoreVertical } from "lucide-react";
@@ -27,7 +27,7 @@ export default function CompanyDashboard() {
     if (id) setUserId(Number(id));
   }, []);
 
-  const fetchJobs = async () => {
+  const fetchJobs = useCallback(async () => {
     if (!userId) return;
     try {
       setLoading(true);
@@ -45,11 +45,11 @@ export default function CompanyDashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [search, userId]);
 
   useEffect(() => {
     if (userId) fetchJobs();
-  }, [userId, search]);
+  }, [fetchJobs, userId]);
 
   // translate enum to portuguese
   const translateStatus = (status) => {

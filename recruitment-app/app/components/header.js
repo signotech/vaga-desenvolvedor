@@ -16,9 +16,9 @@ export default function Header() {
       <div className="container mx-auto px-4 py-1">
         <nav className="flex items-center justify-between w-full">
           {/* LEFT - Logo */}
-          <a href="/" className="focus:outline-none flex-shrink-0">
+          <Link href="/" className="focus:outline-none flex-shrink-0">
             <Image src="/logo.png" alt="Logo" width={100} height={100} />
-          </a>
+          </Link>
 
           {/* MIDDLE + RIGHT - Desktop */}
           <div className="hidden lg:flex items-center justify-between flex-1 ml-10">

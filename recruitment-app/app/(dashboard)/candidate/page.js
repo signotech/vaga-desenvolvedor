@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import JobCard from "@/app/components/jobCard";
 import { useRouter } from "next/navigation";
@@ -15,21 +15,8 @@ export default function CandidateDashboard() {
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
 
-  // Load user
-  useEffect(() => {
-    const id = localStorage.getItem("userId");
-    if (!id) {
-      router.push("/login-candidate");
-      return;
-    }
-    const parsedId = Number(id);
-    setUserId(parsedId);
-    fetchApplications(parsedId);
-    fetchJobs(parsedId);
-  }, [router]);
-
   // Fetch jobs
-  const fetchJobs = async (id) => {
+  const fetchJobs = useCallback(async (id) => {
     try {
       setLoading(true);
       const params = new URLSearchParams();
@@ -44,10 +31,10 @@ export default function CandidateDashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [search]);
 
   // Fetch applications
-  const fetchApplications = async (id) => {
+  const fetchApplications = useCallback(async (id) => {
     try {
       const { data } = await axios.get(`/api/applications/candidate/${id}`);
       setApplications(
@@ -57,14 +44,27 @@ export default function CandidateDashboard() {
       console.error("Erro ao buscar candidaturas:", error);
       setApplications([]);
     }
-  };
+  }, []);
+
+  // Load user
+  useEffect(() => {
+    const id = localStorage.getItem("userId");
+    if (!id) {
+      router.push("/login-candidate");
+      return;
+    }
+    const parsedId = Number(id);
+    setUserId(parsedId);
+    fetchApplications(parsedId);
+    fetchJobs(parsedId);
+  }, [router, fetchApplications, fetchJobs]);
 
   useEffect(() => {
     if (userId) {
       fetchJobs(userId);
       fetchApplications(userId);
     }
-  }, [search, userId]);
+  }, [fetchApplications, fetchJobs, userId]);
 
   const handleApply = async (jobId) => {
     try {
