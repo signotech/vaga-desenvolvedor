@@ -1,0 +1,17 @@
+<% if (flash.success.length > 0) { %>
+  <% flash.success.forEach((message) => { %>
+    <div class="card-panel green lighten-4 green-text text-darken-4 flash-message">
+      <i class="material-icons left">check_circle</i>
+      <span><%= message %></span>
+    </div>
+  <% }); %>
+<% } %>
+
+<% if (flash.error.length > 0) { %>
+  <% flash.error.forEach((message) => { %>
+    <div class="card-panel red lighten-4 red-text text-darken-4 flash-message">
+      <i class="material-icons left">error</i>
+      <span><%= message %></span>
+    </div>
+  <% }); %>
+<% } %>

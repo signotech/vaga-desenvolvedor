@@ -1,0 +1,34 @@
+<div class="navbar-fixed">
+  <nav class="blue darken-2">
+    <div class="nav-wrapper container">
+      <a href="/" class="brand-logo">
+        <i class="material-icons left">shopping_cart</i>
+        Pedidos
+      </a>
+      <a href="#" data-target="mobile-nav" class="sidenav-trigger">
+        <i class="material-icons">menu</i>
+      </a>
+      <ul class="right hide-on-med-and-down">
+        <li class="<%= currentPath === '/' ? 'active' : '' %>">
+          <a href="/">Início</a>
+        </li>
+        <li class="<%= currentPath.startsWith('/clients') ? 'active' : '' %>">
+          <a href="/clients">Clientes</a>
+        </li>
+        <li class="<%= currentPath.startsWith('/products') ? 'active' : '' %>">
+          <a href="/products">Produtos</a>
+        </li>
+        <li class="<%= currentPath.startsWith('/orders') ? 'active' : '' %>">
+          <a href="/orders">Pedidos</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<ul class="sidenav" id="mobile-nav">
+  <li><a href="/">Início</a></li>
+  <li><a href="/clients">Clientes</a></li>
+  <li><a href="/products">Produtos</a></li>
+  <li><a href="/orders">Pedidos</a></li>
+</ul>
