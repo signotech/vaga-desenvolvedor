@@ -6,7 +6,7 @@ use App\Http\Controllers\Api\ProdutoController;
 use App\Http\Middleware\BasicSemSessao;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(BasicSemSessao::class)->group(function () {
+Route::middleware(['throttle:60,1', BasicSemSessao::class])->group(function () {
     Route::delete('clientes', [ClienteController::class, 'destroyMany']);
     Route::delete('produtos', [ProdutoController::class, 'destroyMany']);
     Route::delete('pedidos', [PedidoController::class, 'destroyMany']);
