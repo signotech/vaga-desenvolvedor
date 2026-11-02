@@ -61,7 +61,11 @@ const clientRules = [
     .custom(cpfIsUnique),
 
   body('email')
-    .trim()
+    .customSanitizer((value) =>
+      String(value || '')
+        .trim()
+        .toLowerCase(),
+    )
     .notEmpty()
     .withMessage('Informe o e-mail.')
     .bail()

@@ -17,6 +17,16 @@
   "engines": {
     "node": ">=20"
   },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFiles": [
+      "<rootDir>/tests/setup.js"
+    ],
+    "testMatch": [
+      "<rootDir>/tests/**/*.test.js"
+    ],
+    "testTimeout": 30000
+  },
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^3.0.3",
