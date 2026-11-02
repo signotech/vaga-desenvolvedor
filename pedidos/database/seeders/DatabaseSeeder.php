@@ -26,11 +26,9 @@ class DatabaseSeeder extends Seeder
             $pedido = Pedido::factory()->create(['cliente_id' => $clientes->random()->id]);
 
             foreach ($produtos->random(rand(1, 4)) as $produto) {
-                ItemPedido::create([
+                ItemPedido::factory()->create([
                     'pedido_id' => $pedido->id,
                     'produto_id' => $produto->id,
-                    'quantidade' => rand(1, 5),
-                    'preco_unitario' => $produto->preco,
                 ]);
             }
         }
