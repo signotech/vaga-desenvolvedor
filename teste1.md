@@ -146,6 +146,7 @@ O `preco_unitario` é gravado no item para que uma mudança no preço do produto
 - A API exige HTTP Basic (e-mail e senha), sem sessão, e responde 401 em JSON sem credenciais
 - Front-End com Materialize 1.0.0 (via CDN, sem build) e layout responsivo, com menu lateral no celular
 - CPF validado pelos dígitos verificadores (`app/Rules/Cpf.php`), com máscara automática `000.000.000-00` no formulário, exibição formatada na listagem e filtro com ou sem pontuação; o banco guarda só os dígitos
+- Pedidos também filtram e ordenam por desconto e total (total calculado na consulta, com o desconto aplicado)
 
 ## API
 
