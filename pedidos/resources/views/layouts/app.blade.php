@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <style>
+        body { background: #f4f5f7; color: #222; }
+        .container { width: 95%; max-width: 1280px; }
+        .tabela { overflow-x: auto; }
+        .chip { white-space: nowrap; }
+        .tabela table { min-width: 640px; }
         main { margin-top: 24px; margin-bottom: 24px; }
         h1 { font-size: 1.8rem; margin: 0; }
         .topo { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }

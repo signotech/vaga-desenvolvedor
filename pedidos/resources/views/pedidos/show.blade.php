@@ -15,7 +15,7 @@
                 <strong>Status:</strong> {{ $pedido->status }}<br>
                 <strong>Desconto:</strong> {{ number_format($pedido->desconto, 2, ',', '.') }}%
             </p>
-            <table class="striped responsive-table">
+            <div class="tabela"><table class="striped">
                 <thead>
                     <tr><th>SKU</th><th>Produto</th><th>Qtd</th><th>Preço unit.</th><th>Subtotal</th></tr>
                 </thead>
@@ -34,7 +34,7 @@
                     <tr><th colspan="4">Subtotal</th><th>R$ {{ number_format($pedido->subtotal, 2, ',', '.') }}</th></tr>
                     <tr><th colspan="4">Total com desconto</th><th>R$ {{ number_format($pedido->total, 2, ',', '.') }}</th></tr>
                 </tfoot>
-            </table>
+            </table></div>
             <br>
             <a class="btn grey" href="{{ route('pedidos.index') }}">Voltar</a>
         </div>

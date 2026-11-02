@@ -10,7 +10,7 @@
         <div class="card-content">
             @include('partials.barra', ['rota' => 'clientes.destroy-many', 'itens' => $clientes])
             <form method="GET" id="filtro"></form>
-            <table class="striped responsive-table">
+            <div class="tabela"><table class="striped">
                 <thead>
                     <tr>
                         <th><label><input type="checkbox" onclick="document.querySelectorAll('input[form=massa]').forEach(c => c.checked = this.checked)"><span></span></label></th>
@@ -49,7 +49,7 @@
                         <tr><td colspan="6">Nenhum cliente encontrado.</td></tr>
                     @endforelse
                 </tbody>
-            </table>
+            </table></div>
             {{ $clientes->links() }}
         </div>
     </div>

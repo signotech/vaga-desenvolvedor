@@ -10,7 +10,7 @@
         <div class="card-content">
             @include('partials.barra', ['rota' => 'produtos.destroy-many', 'itens' => $produtos])
             <form method="GET" id="filtro"></form>
-            <table class="striped responsive-table">
+            <div class="tabela"><table class="striped">
                 <thead>
                     <tr>
                         <th><label><input type="checkbox" onclick="document.querySelectorAll('input[form=massa]').forEach(c => c.checked = this.checked)"><span></span></label></th>
@@ -50,7 +50,7 @@
                         <tr><td colspan="7">Nenhum produto encontrado.</td></tr>
                     @endforelse
                 </tbody>
-            </table>
+            </table></div>
             {{ $produtos->links() }}
         </div>
     </div>
