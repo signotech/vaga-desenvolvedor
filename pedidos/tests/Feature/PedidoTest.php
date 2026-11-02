@@ -55,6 +55,31 @@ class PedidoTest extends TestCase
         $this->assertSame(30.0, (float) $pedido->fresh('itens')->total);
     }
 
+    public function test_aplica_desconto_no_total_do_pedido(): void
+    {
+        $this->post('/pedidos', $this->dados(['desconto' => 20]))->assertRedirect('/pedidos');
+
+        $pedido = Pedido::with('itens')->first();
+        $this->assertSame(30.0, $pedido->subtotal);
+        $this->assertSame(24.0, $pedido->total);
+
+        $this->get("/pedidos/{$pedido->id}")->assertOk()->assertSee('20,00%')->assertSee('24,00');
+    }
+
+    public function test_desconto_e_opcional_e_assume_zero(): void
+    {
+        $this->post('/pedidos', $this->dados())->assertRedirect('/pedidos');
+
+        $this->assertSame(30.0, Pedido::with('itens')->first()->total);
+    }
+
+    public function test_rejeita_desconto_negativo_ou_acima_de_100(): void
+    {
+        $this->post('/pedidos', $this->dados(['desconto' => -1]))->assertSessionHasErrors('desconto');
+        $this->post('/pedidos', $this->dados(['desconto' => 100.5]))->assertSessionHasErrors('desconto');
+        $this->assertSame(0, Pedido::count());
+    }
+
     public function test_exige_ao_menos_um_item_e_status_valido(): void
     {
         $this->post('/pedidos', $this->dados(['itens' => [], 'status' => 'Qualquer']))
