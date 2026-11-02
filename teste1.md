@@ -70,3 +70,118 @@ Devem ser utilizadas as seguintes tecnologias:
 - Criação do ambiente com Docker.
 
 ### Boa sorte!
+
+---
+
+## Como executar
+
+Aplicação em Laravel, usando SQLite. Requisitos: PHP 8.4 ou superior (com `pdo_sqlite`) e Composer.
+
+As telas usam Materialize e Material Icons carregados por CDN, então é preciso ter conexão com a internet para o visual carregar. Sem internet o sistema funciona, mas sem estilo nem ícones.
+
+```bash
+cd pedidos
+composer install
+cp .env.example .env
+php artisan key:generate
+touch database/database.sqlite
+php artisan migrate --seed
+php artisan serve
+```
+
+Depois é só abrir http://localhost:8000.
+
+### Com Docker
+
+```bash
+cd pedidos
+docker compose up --build
+```
+
+Na primeira execução o container instala as dependências, gera a chave, cria o banco e roda migrations e seeds. O site fica em http://localhost:8000.
+
+### Testes
+
+```bash
+php artisan test
+```
+
+Para recriar o banco do zero: `php artisan migrate:fresh --seed`.
+
+## Modelagem
+
+A tabela original (`codigo_pedido`, dados do cliente, dados do produto e preço/estoque tudo junto) foi separada em quatro tabelas, na 3FN:
+
+- `clientes`: id, nome, cpf (único), email
+- `produtos`: id, sku (único), titulo, preco, estoque
+- `pedidos`: id, cliente_id, data_pedido, status (Em Aberto, Pago ou Cancelado)
+- `item_pedidos`: id, pedido_id, produto_id, quantidade, preco_unitario
+
+O `preco_unitario` é gravado no item para que uma mudança no preço do produto não altere pedidos antigos.
+
+## Estrutura
+
+- `database/migrations`, `database/factories` e `database/seeders`: criação e população do banco (30 clientes, 40 produtos e 50 pedidos)
+- `app/Http/Requests`: validações de cada formulário
+- `app/Http/Controllers`: um controller por CRUD
+- `app/Services`: regra de negócio dos pedidos (itens e preço unitário)
+- `app/Models/Concerns/Listavel.php`: filtro e ordenação reaproveitados nas listagens
+- `app/Models/Concerns/ExcluiSemVinculos.php`: exclusão em massa que ignora registros com vínculos
+- `resources/views`: telas em Blade, com layout, cabeçalho ordenável e paginação compartilhados
+
+## O que foi feito
+
+- CRUD de clientes, produtos e pedidos (os pedidos têm vários itens e status)
+- Filtro por qualquer campo, ordenação por qualquer coluna e paginação de 20 itens
+- Confirmação antes de excluir
+- Barra de navegação e links entre as listagens (pedido para cliente e produto)
+- Cliente com pedidos e produto presente em pedidos não podem ser excluídos
+- Escolha de itens por página (10, 20, 50 ou 100) e exclusão em massa nas três listagens
+- Mensagens de validação em português
+- Regra de salvar pedido isolada em `app/Services/PedidoService.php`
+- Testes de feature para os três CRUDs
+- Ambiente com Docker
+- Desconto percentual (0 a 100) no pedido, aplicado ao total
+- API REST JSON para os três CRUDs em `/api` (ver seção "API")
+- Autenticação de usuário: login, cadastro e logout nas telas; todas as rotas web (clientes, produtos e pedidos) exigem login
+- A API exige HTTP Basic (e-mail e senha), sem sessão, e responde 401 em JSON sem credenciais
+- Front-End com Materialize 1.0.0 (via CDN, sem build) e layout responsivo, com menu lateral no celular
+- CPF validado pelos dígitos verificadores (`app/Rules/Cpf.php`), com máscara automática `000.000.000-00` no formulário, exibição formatada na listagem e filtro com ou sem pontuação; o banco guarda só os dígitos
+- Pedidos também filtram e ordenam por desconto e total (total calculado na consulta, com o desconto aplicado)
+- Fuso horário padrão America/Sao_Paulo, que pode ser mudado pela variável `APP_TIMEZONE` do `.env`
+
+## API
+
+Todas as rotas respondem JSON. As listagens são paginadas (20 por padrão; `por_pagina` aceita 10, 20, 50 ou 100) e aceitam os mesmos filtros e ordenação das telas (`ordem`, `direcao=asc|desc` e `campo=valor`; pedidos filtram por `id`, `cliente`, `data_pedido` e `status`).
+
+| Método | Rota | Descrição | Resposta |
+|---|---|---|---|
+| GET | `/api/clientes`, `/api/produtos`, `/api/pedidos` | Lista paginada | 200 |
+| POST | `/api/clientes`, `/api/produtos`, `/api/pedidos` | Cria | 201 (422 se inválido) |
+| GET | `/api/{recurso}/{id}` | Mostra um registro | 200 (404 se não existir) |
+| PUT/PATCH | `/api/{recurso}/{id}` | Atualiza | 200 (422 se inválido) |
+| DELETE | `/api/{recurso}/{id}` | Exclui | 204 (409 para cliente com pedidos e produto em pedidos) |
+| DELETE | `/api/{recurso}` com `{"ids": [1, 2]}` | Exclusão em massa | 200 com `{"excluidos": n, "ignorados": n}` |
+
+O pedido é enviado com `cliente_id`, `data_pedido`, `status`, `desconto` (opcional) e `itens` (`produto_id` e `quantidade`), e volta com cliente, itens, `subtotal`, `desconto` e `total`.
+
+## Acesso
+
+Depois de `php artisan migrate --seed` existe o usuário de teste:
+
+- E-mail: `admin@exemplo.com`
+- Senha: `senha1234`
+
+Novos usuários só podem ser criados por quem já está logado, em `/registro` (senha com no mínimo 8 caracteres).
+
+O login aceita no máximo 5 tentativas por minuto por e-mail e IP, e a API aceita até 60 requisições por minuto (resposta 429 ao passar do limite).
+
+Chamada da API com Basic:
+
+```bash
+curl -u admin@exemplo.com:senha1234 http://localhost:8000/api/clientes
+```
+
+O `.env.example` vem com `APP_DEBUG=false`; para depurar, mude para `true` no `.env`.
+
+Por padrão a API não libera nenhuma origem externa (CORS); para liberar, liste as origens separadas por vírgula em `CORS_ALLOWED_ORIGINS` no `.env`.
