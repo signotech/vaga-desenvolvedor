@@ -142,6 +142,7 @@ O `preco_unitario` é gravado no item para que uma mudança no preço do produto
 - API REST JSON para os três CRUDs em `/api` (ver seção "API")
 - Autenticação de usuário: login, cadastro e logout nas telas; todas as rotas web (clientes, produtos e pedidos) exigem login
 - A API exige HTTP Basic (e-mail e senha), sem sessão, e responde 401 em JSON sem credenciais
+- Front-End com Materialize 1.0.0 (via CDN, sem build) e layout responsivo, com menu lateral no celular
 
 ## API
 
