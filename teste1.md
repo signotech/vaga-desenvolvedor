@@ -175,3 +175,5 @@ Chamada da API com Basic:
 ```bash
 curl -u admin@exemplo.com:senha1234 http://localhost:8000/api/clientes
 ```
+
+O `.env.example` vem com `APP_DEBUG=false`; para depurar, mude para `true` no `.env`.
