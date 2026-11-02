@@ -9,26 +9,59 @@
         <i class="material-icons">menu</i>
       </a>
       <ul class="right hide-on-med-and-down">
-        <li class="<%= currentPath === '/' ? 'active' : '' %>">
-          <a href="/">Início</a>
-        </li>
-        <li class="<%= currentPath.startsWith('/clients') ? 'active' : '' %>">
-          <a href="/clients">Clientes</a>
-        </li>
-        <li class="<%= currentPath.startsWith('/products') ? 'active' : '' %>">
-          <a href="/products">Produtos</a>
-        </li>
-        <li class="<%= currentPath.startsWith('/orders') ? 'active' : '' %>">
-          <a href="/orders">Pedidos</a>
-        </li>
+        <% if (currentUser) { %>
+          <li class="<%= currentPath === '/' ? 'active' : '' %>">
+            <a href="/">Início</a>
+          </li>
+          <li class="<%= currentPath.startsWith('/clients') ? 'active' : '' %>">
+            <a href="/clients">Clientes</a>
+          </li>
+          <li class="<%= currentPath.startsWith('/products') ? 'active' : '' %>">
+            <a href="/products">Produtos</a>
+          </li>
+          <li class="<%= currentPath.startsWith('/orders') ? 'active' : '' %>">
+            <a href="/orders">Pedidos</a>
+          </li>
+          <li>
+            <span class="nav-user">
+              <i class="material-icons left">account_circle</i>
+              <%= currentUser.name %>
+            </span>
+          </li>
+          <li>
+            <form method="POST" action="/logout" class="logout-form">
+              <button type="submit" class="nav-logout">Sair</button>
+            </form>
+          </li>
+        <% } else { %>
+          <li>
+            <a href="/login">
+              <i class="material-icons left">login</i>
+              Entrar
+            </a>
+          </li>
+        <% } %>
       </ul>
     </div>
   </nav>
 </div>
 
 <ul class="sidenav" id="mobile-nav">
-  <li><a href="/">Início</a></li>
-  <li><a href="/clients">Clientes</a></li>
-  <li><a href="/products">Produtos</a></li>
-  <li><a href="/orders">Pedidos</a></li>
+  <% if (currentUser) { %>
+    <li><a href="/">Início</a></li>
+    <li><a href="/clients">Clientes</a></li>
+    <li><a href="/products">Produtos</a></li>
+    <li><a href="/orders">Pedidos</a></li>
+    <li class="divider"></li>
+    <li>
+      <form method="POST" action="/logout">
+        <button type="submit" class="sidenav-logout">
+          <i class="material-icons">logout</i>
+          Sair
+        </button>
+      </form>
+    </li>
+  <% } else { %>
+    <li><a href="/login">Entrar</a></li>
+  <% } %>
 </ul>

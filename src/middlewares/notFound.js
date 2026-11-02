@@ -1,7 +1,7 @@
 'use strict';
 
 function notFound(req, res) {
-  if (req.path.startsWith('/api')) {
+  if ((req.originalUrl || req.path || '').startsWith('/api')) {
     return res.status(404).json({ error: 'Recurso não encontrado.' });
   }
 

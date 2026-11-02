@@ -1,0 +1,26 @@
+services:
+  app:
+    build: .
+    container_name: signotech-pedidos
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      APP_NAME: "SignoTech - Pedidos de Compra"
+      DB_DIALECT: sqlite
+      DB_STORAGE: /app/data/database.sqlite
+      DB_LOGGING: "false"
+      SESSION_SECRET: ${SESSION_SECRET:-troque-esta-chave-em-producao}
+    volumes:
+      - sqlite-data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  sqlite-data:

@@ -3,8 +3,11 @@
 const { validationResult } = require('express-validator');
 
 function wantsJson(req) {
+  const url = req.baseUrl || req.originalUrl || req.path || '';
+
   return (
-    req.path.startsWith('/api') ||
+    url.startsWith('/api') ||
+    req.originalUrl.startsWith('/api') ||
     req.accepts(['html', 'json']) === 'json'
   );
 }

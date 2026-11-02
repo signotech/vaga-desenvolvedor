@@ -9,9 +9,10 @@ const PER_PAGE_OPTIONS = [10, 20, 50, 100];
 function parsePagination(query = {}) {
   const page = Math.max(Number.parseInt(query.page, 10) || 1, 1);
   const requestedPerPage = Number.parseInt(query.per_page, 10);
-  const perPage = PER_PAGE_OPTIONS.includes(requestedPerPage)
-    ? requestedPerPage
-    : DEFAULT_PER_PAGE;
+  const perPage =
+    Number.isInteger(requestedPerPage) && requestedPerPage > 0
+      ? Math.min(requestedPerPage, 100)
+      : DEFAULT_PER_PAGE;
 
   return {
     page,

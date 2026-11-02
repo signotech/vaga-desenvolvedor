@@ -3,7 +3,7 @@
 const env = require('../config/env');
 
 function isApiRequest(req) {
-  return req.path.startsWith('/api');
+  return (req.originalUrl || req.path || '').startsWith('/api');
 }
 
 /**

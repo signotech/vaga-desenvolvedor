@@ -130,6 +130,61 @@ nav .brand-logo {
   padding: 6px 8px;
 }
 
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 12px;
+  opacity: 0.9;
+}
+
+.nav-user .material-icons {
+  font-size: 20px;
+}
+
+.logout-form {
+  height: 100%;
+}
+
+.nav-logout {
+  background: none;
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.95rem;
+  height: 64px;
+  padding: 0 15px;
+  text-transform: uppercase;
+}
+
+.nav-logout:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.sidenav-logout {
+  align-items: center;
+  background: none;
+  border: 0;
+  color: rgba(0, 0, 0, 0.87);
+  cursor: pointer;
+  display: flex;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  height: 48px;
+  padding: 0 32px;
+  width: 100%;
+}
+
+.sidenav-logout .material-icons {
+  margin-right: 32px;
+}
+
+.login-page {
+  margin-top: 3rem;
+}
+
 @media (max-width: 600px) {
   .per-page-wrapper {
     justify-content: flex-start;

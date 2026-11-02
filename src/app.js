@@ -13,6 +13,8 @@ const webRoutes = require('./routes/web');
 const apiRoutes = require('./routes/api');
 const notFound = require('./middlewares/notFound');
 const errorHandler = require('./middlewares/errorHandler');
+const { loadCurrentUser } = require('./middlewares/auth');
+const asyncHandler = require('./helpers/asyncHandler');
 const formatters = require('./helpers/formatters');
 const { queryString } = require('./helpers/url');
 const { pageRange, PER_PAGE_OPTIONS } = require('./helpers/pagination');
@@ -43,8 +45,13 @@ app.use(
   }),
 );
 app.use(flash());
+app.use(asyncHandler(loadCurrentUser));
 
 app.use((req, res, next) => {
+  if (res.locals.currentUser === undefined) {
+    res.locals.currentUser = null;
+  }
+
   res.locals.appName = env.appName;
   res.locals.currentPath = req.path;
   res.locals.query = req.query;
@@ -72,8 +79,8 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', app: env.appName });
 });
 
-app.use('/', webRoutes);
 app.use('/api/v1', apiRoutes);
+app.use('/', webRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
