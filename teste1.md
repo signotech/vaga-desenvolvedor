@@ -183,3 +183,5 @@ curl -u admin@exemplo.com:senha1234 http://localhost:8000/api/clientes
 ```
 
 O `.env.example` vem com `APP_DEBUG=false`; para depurar, mude para `true` no `.env`.
+
+Por padrão a API não libera nenhuma origem externa (CORS); para liberar, liste as origens separadas por vírgula em `CORS_ALLOWED_ORIGINS` no `.env`.
