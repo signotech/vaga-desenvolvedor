@@ -1,4 +1,4 @@
-# Pedidos
+# PedidoGo
 
 Cadastro de clientes, produtos e pedidos de compra, feito em Laravel com SQLite.
 
