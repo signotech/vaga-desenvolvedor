@@ -101,4 +101,13 @@ class ClienteApiTest extends TestCase
 
         $this->deleteJson('/api/clientes', [])->assertStatus(422);
     }
+
+    public function test_filtro_de_id_e_exato(): void
+    {
+        Cliente::factory(21)->create();
+
+        $this->getJson('/api/clientes?id=1')->assertOk()
+            ->assertJsonPath('data.*.id', [1]);
+        $this->getJson('/api/clientes?id=abc')->assertOk()->assertJsonCount(0, 'data');
+    }
 }

@@ -111,4 +111,13 @@ class PedidoApiTest extends TestCase
 
         $this->assertDatabaseCount('pedidos', 1);
     }
+
+    public function test_filtro_de_id_e_exato(): void
+    {
+        Pedido::factory(21)->create();
+
+        $this->getJson('/api/pedidos?id=1')->assertOk()
+            ->assertJsonPath('data.*.id', [1]);
+        $this->getJson('/api/pedidos?id=abc')->assertOk()->assertJsonCount(0, 'data');
+    }
 }

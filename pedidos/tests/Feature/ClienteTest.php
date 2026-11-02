@@ -92,4 +92,14 @@ class ClienteTest extends TestCase
 
         $this->assertDatabaseCount('clientes', 1);
     }
+
+    public function test_filtro_de_id_e_exato(): void
+    {
+        Cliente::factory(21)->create();
+
+        $this->get('/clientes?id=1')->assertOk()
+            ->assertViewHas('clientes', fn ($l) => $l->pluck('id')->all() === [1]);
+        $this->get('/clientes?id=abc')->assertOk()
+            ->assertViewHas('clientes', fn ($l) => $l->count() === 0);
+    }
 }

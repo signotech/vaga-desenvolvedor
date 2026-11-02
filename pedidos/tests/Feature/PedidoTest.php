@@ -131,4 +131,14 @@ class PedidoTest extends TestCase
 
         $this->assertDatabaseCount('pedidos', 1);
     }
+
+    public function test_filtro_de_id_e_exato(): void
+    {
+        Pedido::factory(21)->create();
+
+        $this->get('/pedidos?id=1')->assertOk()
+            ->assertViewHas('pedidos', fn ($l) => $l->pluck('id')->all() === [1]);
+        $this->get('/pedidos?id=abc')->assertOk()
+            ->assertViewHas('pedidos', fn ($l) => $l->count() === 0);
+    }
 }

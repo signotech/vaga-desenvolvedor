@@ -87,4 +87,13 @@ class ProdutoApiTest extends TestCase
             ->assertOk()
             ->assertExactJson(['excluidos' => 2, 'ignorados' => 1]);
     }
+
+    public function test_filtro_de_id_e_exato(): void
+    {
+        Produto::factory(21)->create();
+
+        $this->getJson('/api/produtos?id=1')->assertOk()
+            ->assertJsonPath('data.*.id', [1]);
+        $this->getJson('/api/produtos?id=abc')->assertOk()->assertJsonCount(0, 'data');
+    }
 }

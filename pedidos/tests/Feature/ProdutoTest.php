@@ -78,4 +78,27 @@ class ProdutoTest extends TestCase
 
         $this->assertDatabaseHas('produtos', ['id' => $item->produto_id]);
     }
+
+    public function test_filtro_de_id_e_exato(): void
+    {
+        Produto::factory(21)->create();
+
+        $this->get('/produtos?id=1')->assertOk()
+            ->assertViewHas('produtos', fn ($l) => $l->pluck('id')->all() === [1]);
+        $this->get('/produtos?id=abc')->assertOk()
+            ->assertViewHas('produtos', fn ($l) => $l->count() === 0);
+    }
+
+    public function test_filtros_numericos_sao_exatos(): void
+    {
+        Produto::factory()->create(['preco' => 10, 'estoque' => 5]);
+        Produto::factory()->create(['preco' => 100, 'estoque' => 50]);
+
+        $this->get('/produtos?preco=10')
+            ->assertViewHas('produtos', fn ($l) => $l->count() === 1);
+        $this->get('/produtos?estoque=5')
+            ->assertViewHas('produtos', fn ($l) => $l->count() === 1);
+        $this->get('/produtos?preco=abc')
+            ->assertViewHas('produtos', fn ($l) => $l->count() === 0);
+    }
 }
