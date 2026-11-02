@@ -120,4 +120,53 @@ class PedidoApiTest extends TestCase
             ->assertJsonPath('data.*.id', [1]);
         $this->getJson('/api/pedidos?id=abc')->assertOk()->assertJsonCount(0, 'data');
     }
+
+    private function pedidoComTotal(float $preco, int $quantidade, float $desconto = 0): Pedido
+    {
+        $pedido = Pedido::factory()->create(['desconto' => $desconto]);
+        ItemPedido::factory()->create(['pedido_id' => $pedido->id, 'quantidade' => $quantidade, 'preco_unitario' => $preco]);
+
+        return $pedido;
+    }
+
+    public function test_filtra_por_desconto_exato(): void
+    {
+        $a = $this->pedidoComTotal(10, 1, 10);
+        $this->pedidoComTotal(10, 1, 5);
+
+        $this->getJson('/api/pedidos?desconto=10')->assertOk()
+            ->assertJsonPath('data.*.id', [$a->id]);
+        $this->getJson('/api/pedidos?desconto=abc')->assertOk()
+            ->assertJsonCount(0, 'data');
+    }
+
+    public function test_filtra_por_total_exato_com_e_sem_desconto(): void
+    {
+        $sem = $this->pedidoComTotal(10, 3);
+        $com = $this->pedidoComTotal(50, 2, 10);
+        $this->pedidoComTotal(7, 1);
+
+        $this->getJson('/api/pedidos?total=30')->assertOk()
+            ->assertJsonPath('data.*.id', [$sem->id])->assertJsonPath('data.0.total', 30);
+        $this->getJson('/api/pedidos?total=90.00')->assertOk()
+            ->assertJsonPath('data.*.id', [$com->id])->assertJsonPath('data.0.total', 90);
+        $this->getJson('/api/pedidos?total=abc')->assertOk()
+            ->assertJsonCount(0, 'data');
+    }
+
+    public function test_ordena_por_total_e_por_desconto(): void
+    {
+        $a = $this->pedidoComTotal(10, 3, 0);
+        $b = $this->pedidoComTotal(50, 2, 10);
+        $c = $this->pedidoComTotal(7, 1, 50);
+
+        $this->getJson('/api/pedidos?ordem=total&direcao=asc')
+            ->assertJsonPath('data.*.id', [$c->id, $a->id, $b->id]);
+        $this->getJson('/api/pedidos?ordem=total&direcao=desc')
+            ->assertJsonPath('data.*.id', [$b->id, $a->id, $c->id]);
+        $this->getJson('/api/pedidos?ordem=desconto&direcao=asc')
+            ->assertJsonPath('data.*.id', [$a->id, $b->id, $c->id]);
+        $this->getJson('/api/pedidos?ordem=desconto&direcao=desc')
+            ->assertJsonPath('data.*.id', [$c->id, $b->id, $a->id]);
+    }
 }

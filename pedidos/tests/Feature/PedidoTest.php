@@ -141,4 +141,53 @@ class PedidoTest extends TestCase
         $this->get('/pedidos?id=abc')->assertOk()
             ->assertViewHas('pedidos', fn ($l) => $l->count() === 0);
     }
+
+    private function pedidoComTotal(float $preco, int $quantidade, float $desconto = 0): Pedido
+    {
+        $pedido = Pedido::factory()->create(['desconto' => $desconto]);
+        ItemPedido::factory()->create(['pedido_id' => $pedido->id, 'quantidade' => $quantidade, 'preco_unitario' => $preco]);
+
+        return $pedido;
+    }
+
+    public function test_filtra_por_desconto_exato(): void
+    {
+        $a = $this->pedidoComTotal(10, 1, 10);
+        $this->pedidoComTotal(10, 1, 5);
+
+        $this->get('/pedidos?desconto=10')->assertOk()
+            ->assertViewHas('pedidos', fn ($l) => $l->pluck('id')->all() === [$a->id]);
+        $this->get('/pedidos?desconto=abc')->assertOk()
+            ->assertViewHas('pedidos', fn ($l) => $l->count() === 0);
+    }
+
+    public function test_filtra_por_total_exato_com_e_sem_desconto(): void
+    {
+        $sem = $this->pedidoComTotal(10, 3);
+        $com = $this->pedidoComTotal(50, 2, 10);
+        $this->pedidoComTotal(7, 1);
+
+        $this->get('/pedidos?total=30')->assertOk()
+            ->assertViewHas('pedidos', fn ($l) => $l->pluck('id')->all() === [$sem->id] && $l->first()->total === 30.0);
+        $this->get('/pedidos?total=90.00')->assertOk()
+            ->assertViewHas('pedidos', fn ($l) => $l->pluck('id')->all() === [$com->id] && $l->first()->total === 90.0);
+        $this->get('/pedidos?total=abc')->assertOk()
+            ->assertViewHas('pedidos', fn ($l) => $l->count() === 0);
+    }
+
+    public function test_ordena_por_total_e_por_desconto(): void
+    {
+        $a = $this->pedidoComTotal(10, 3, 0);
+        $b = $this->pedidoComTotal(50, 2, 10);
+        $c = $this->pedidoComTotal(7, 1, 50);
+
+        $this->get('/pedidos?ordem=total&direcao=asc')
+            ->assertViewHas('pedidos', fn ($l) => $l->pluck('id')->all() === [$c->id, $a->id, $b->id]);
+        $this->get('/pedidos?ordem=total&direcao=desc')
+            ->assertViewHas('pedidos', fn ($l) => $l->pluck('id')->all() === [$b->id, $a->id, $c->id]);
+        $this->get('/pedidos?ordem=desconto&direcao=asc')
+            ->assertViewHas('pedidos', fn ($l) => $l->pluck('id')->all() === [$a->id, $b->id, $c->id]);
+        $this->get('/pedidos?ordem=desconto&direcao=desc')
+            ->assertViewHas('pedidos', fn ($l) => $l->pluck('id')->all() === [$c->id, $b->id, $a->id]);
+    }
 }
