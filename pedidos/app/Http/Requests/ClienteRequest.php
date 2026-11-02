@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Cpf;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -21,7 +22,7 @@ class ClienteRequest extends FormRequest
     {
         return [
             'nome' => ['required', 'string', 'max:150'],
-            'cpf' => ['required', 'digits:11', Rule::unique('clientes', 'cpf')->ignore($this->route('cliente'))],
+            'cpf' => ['required', new Cpf, Rule::unique('clientes', 'cpf')->ignore($this->route('cliente'))],
             'email' => ['required', 'email', 'max:255'],
         ];
     }
