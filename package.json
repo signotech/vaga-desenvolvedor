@@ -9,9 +9,7 @@
     "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
   },
   "private": true,
-  "dependencies": {
-    "@replit/connectors-sdk": "^0.4.3"
-  },
+  "dependencies": {},
   "devDependencies": {
     "prettier": "^3.9.10",
     "typescript": "~5.9.3"
