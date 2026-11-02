@@ -10,7 +10,7 @@ class ClienteFactory extends Factory
     {
         return [
             'nome' => fake()->name(),
-            'cpf' => fake()->unique()->numerify('###########'),
+            'cpf' => fake()->unique()->cpf(false),
             'email' => fake()->unique()->safeEmail(),
         ];
     }

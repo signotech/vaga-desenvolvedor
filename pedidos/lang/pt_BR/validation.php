@@ -1,0 +1,42 @@
+<?php
+
+return [
+    'array' => 'O campo :attribute deve ser uma lista.',
+    'date' => 'O campo :attribute não é uma data válida.',
+    'digits' => 'O campo :attribute deve ter :digits dígitos.',
+    'email' => 'O campo :attribute deve ser um e-mail válido.',
+    'exists' => 'O valor selecionado em :attribute é inválido.',
+    'in' => 'O valor selecionado em :attribute é inválido.',
+    'integer' => 'O campo :attribute deve ser um número inteiro.',
+    'max' => [
+        'numeric' => 'O campo :attribute não pode ser maior que :max.',
+        'string' => 'O campo :attribute não pode ter mais de :max caracteres.',
+        'array' => 'O campo :attribute não pode ter mais de :max itens.',
+    ],
+    'min' => [
+        'numeric' => 'O campo :attribute deve ser no mínimo :min.',
+        'string' => 'O campo :attribute deve ter no mínimo :min caracteres.',
+        'array' => 'O campo :attribute deve ter no mínimo :min itens.',
+    ],
+    'numeric' => 'O campo :attribute deve ser um número.',
+    'required' => 'O campo :attribute é obrigatório.',
+    'string' => 'O campo :attribute deve ser um texto.',
+    'unique' => 'Já existe um registro com este :attribute.',
+
+    'attributes' => [
+        'nome' => 'nome',
+        'cpf' => 'CPF',
+        'email' => 'e-mail',
+        'sku' => 'SKU',
+        'titulo' => 'título',
+        'preco' => 'preço',
+        'estoque' => 'estoque',
+        'cliente_id' => 'cliente',
+        'data_pedido' => 'data',
+        'status' => 'status',
+        'itens' => 'itens',
+        'itens.*.produto_id' => 'produto',
+        'itens.*.quantidade' => 'quantidade',
+        'ids' => 'registros',
+    ],
+];
