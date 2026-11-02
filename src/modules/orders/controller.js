@@ -1,7 +1,5 @@
 'use strict';
 
-const { validationResult } = require('express-validator');
-
 const service = require('./service');
 const { Client, Product, Order } = require('../../models');
 const { toDateTimeLocal } = require('../../helpers/formatters');
@@ -111,13 +109,11 @@ function createForm(req, res) {
 }
 
 async function create(req, res) {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
+  if (req.validationErrors) {
     return renderForm(res, {
       order: orderFromBody(req.body),
       isEdit: false,
-      errors: errors.mapped(),
+      errors: req.validationErrors,
       status: 422,
     });
   }
@@ -156,13 +152,11 @@ async function editForm(req, res) {
 }
 
 async function update(req, res) {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
+  if (req.validationErrors) {
     return renderForm(res, {
       order: { id: req.params.id, ...orderFromBody(req.body) },
       isEdit: true,
-      errors: errors.mapped(),
+      errors: req.validationErrors,
       status: 422,
     });
   }

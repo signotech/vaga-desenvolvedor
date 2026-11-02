@@ -1,7 +1,5 @@
 'use strict';
 
-const { validationResult } = require('express-validator');
-
 const service = require('./service');
 
 function formLocals({ client, isEdit, errors = {} }) {
@@ -42,15 +40,13 @@ function createForm(req, res) {
 }
 
 async function create(req, res) {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
+  if (req.validationErrors) {
     return res.status(422).render(
       'clients/form',
       formLocals({
         client: { ...req.body },
         isEdit: false,
-        errors: errors.mapped(),
+        errors: req.validationErrors,
       }),
     );
   }
@@ -90,15 +86,13 @@ async function editForm(req, res) {
 }
 
 async function update(req, res) {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
+  if (req.validationErrors) {
     return res.status(422).render(
       'clients/form',
       formLocals({
         client: { id: req.params.id, ...req.body },
         isEdit: true,
-        errors: errors.mapped(),
+        errors: req.validationErrors,
       }),
     );
   }
