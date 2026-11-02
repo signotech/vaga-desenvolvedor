@@ -18,8 +18,8 @@
                         @include('partials.th', ['campo' => 'cliente', 'rotulo' => 'Cliente'])
                         @include('partials.th', ['campo' => 'data_pedido', 'rotulo' => 'Data'])
                         @include('partials.th', ['campo' => 'status', 'rotulo' => 'Status'])
-                        <th>Desconto</th>
-                        <th>Total</th>
+                        @include('partials.th', ['campo' => 'desconto', 'rotulo' => 'Desconto'])
+                        @include('partials.th', ['campo' => 'total', 'rotulo' => 'Total'])
                         <th>Ações</th>
                     </tr>
                     <tr class="filtros">
@@ -35,8 +35,8 @@
                                 @endforeach
                             </select>
                         </th>
-                        <th></th>
-                        <th></th>
+                        <th><input form="filtro" name="desconto" value="{{ request('desconto') }}" placeholder="Desconto"></th>
+                        <th><input form="filtro" name="total" value="{{ request('total') }}" placeholder="Total"></th>
                         <th class="acoes">
                             <button form="filtro" class="btn-small blue-grey darken-3">Filtrar</button>
                             <a class="btn-small grey" href="{{ route('pedidos.index') }}">Limpar</a>
