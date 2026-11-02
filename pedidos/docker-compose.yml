@@ -1,0 +1,13 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www/html
+    command: >
+      sh -c "[ -f vendor/autoload.php ] || composer install --no-interaction;
+      [ -f .env ] || cp .env.example .env;
+      grep -q '^APP_KEY=.' .env || php artisan key:generate;
+      [ -f database/database.sqlite ] || (touch database/database.sqlite && php artisan migrate --seed --force);
+      php artisan serve --host=0.0.0.0 --port=8000"
