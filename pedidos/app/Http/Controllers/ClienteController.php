@@ -56,13 +56,12 @@ class ClienteController extends Controller
     {
         $ids = $this->idsSelecionados($request);
 
-        $comPedidos = Cliente::whereIn('id', $ids)->whereHas('pedidos')->pluck('id');
-        $excluidos = Cliente::whereIn('id', $ids)->whereNotIn('id', $comPedidos)->delete();
+        [$excluidos, $ignorados] = Cliente::excluirSemVinculos($ids);
 
         $retorno = back()->with('ok', "$excluidos cliente(s) excluído(s).");
 
-        if ($comPedidos->isNotEmpty()) {
-            $retorno->with('erro', $comPedidos->count() . ' cliente(s) possuem pedidos e não foram excluídos.');
+        if ($ignorados > 0) {
+            $retorno->with('erro', "$ignorados cliente(s) possuem pedidos e não foram excluídos.");
         }
 
         return $retorno;

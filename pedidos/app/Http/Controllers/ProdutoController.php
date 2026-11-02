@@ -56,13 +56,12 @@ class ProdutoController extends Controller
     {
         $ids = $this->idsSelecionados($request);
 
-        $emPedidos = Produto::whereIn('id', $ids)->whereHas('itens')->pluck('id');
-        $excluidos = Produto::whereIn('id', $ids)->whereNotIn('id', $emPedidos)->delete();
+        [$excluidos, $ignorados] = Produto::excluirSemVinculos($ids);
 
         $retorno = back()->with('ok', "$excluidos produto(s) excluído(s).");
 
-        if ($emPedidos->isNotEmpty()) {
-            $retorno->with('erro', $emPedidos->count() . ' produto(s) estão em pedidos e não foram excluídos.');
+        if ($ignorados > 0) {
+            $retorno->with('erro', "$ignorados produto(s) estão em pedidos e não foram excluídos.");
         }
 
         return $retorno;

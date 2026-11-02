@@ -11,37 +11,13 @@ use Illuminate\Http\Request;
 
 class PedidoController extends Controller
 {
-    private const ORDENAVEIS = ['id', 'data_pedido', 'status', 'cliente'];
-
     public function __construct(private PedidoService $pedidos)
     {
     }
 
     public function index(Request $request)
     {
-        $query = Pedido::query()
-            ->join('clientes', 'clientes.id', '=', 'pedidos.cliente_id')
-            ->select('pedidos.*', 'clientes.nome as cliente')
-            ->with('itens');
-
-        if ($request->filled('id')) {
-            $query->where('pedidos.id', $request->input('id'));
-        }
-        if ($request->filled('cliente')) {
-            $query->where('clientes.nome', 'like', '%' . $request->input('cliente') . '%');
-        }
-        if ($request->filled('data_pedido')) {
-            $query->whereDate('pedidos.data_pedido', $request->input('data_pedido'));
-        }
-        if ($request->filled('status')) {
-            $query->where('pedidos.status', $request->input('status'));
-        }
-
-        $ordem = in_array($request->input('ordem'), self::ORDENAVEIS) ? $request->input('ordem') : 'id';
-        $coluna = $ordem === 'cliente' ? 'clientes.nome' : "pedidos.$ordem";
-        $direcao = $request->input('direcao') === 'desc' ? 'desc' : 'asc';
-
-        $pedidos = $query->orderBy($coluna, $direcao)->paginate($this->porPagina($request))->withQueryString();
+        $pedidos = Pedido::listar($request)->paginate($this->porPagina($request))->withQueryString();
 
         return view('pedidos.index', compact('pedidos'));
     }

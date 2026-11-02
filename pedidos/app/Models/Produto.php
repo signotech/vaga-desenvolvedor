@@ -17,4 +17,13 @@ class Produto extends Model
     {
         return $this->hasMany(ItemPedido::class);
     }
+
+    // exclui os que não têm itens; retorna [excluídos, ignorados]
+    public static function excluirSemVinculos(array $ids): array
+    {
+        $vinculados = static::whereIn('id', $ids)->whereHas('itens')->pluck('id');
+        $excluidos = static::whereIn('id', $ids)->whereNotIn('id', $vinculados)->delete();
+
+        return [$excluidos, $vinculados->count()];
+    }
 }
