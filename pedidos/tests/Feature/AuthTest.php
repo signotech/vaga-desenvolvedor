@@ -41,33 +41,77 @@ class AuthTest extends TestCase
         $this->actingAs(User::factory()->create())->post('/logout')->assertRedirect('/login');
     }
 
-    public function test_cadastro_cria_usuario_e_autentica(): void
+    private function dadosCadastro(array $extra = []): array
     {
-        $this->post('/registro', [
-            'name' => 'Ana',
-            'email' => 'ana@exemplo.com',
-            'password' => 'senha1234',
-            'password_confirmation' => 'senha1234',
-        ])->assertRedirect('/pedidos');
+        return $extra + ['name' => 'Bia', 'email' => 'bia@exemplo.com', 'password' => 'senha1234', 'password_confirmation' => 'senha1234'];
+    }
 
-        $this->assertDatabaseHas('users', ['email' => 'ana@exemplo.com']);
-        $this->assertAuthenticated();
+    public function test_visitante_no_registro_vai_para_o_login(): void
+    {
+        $this->get('/registro')->assertRedirect('/login');
+        $this->post('/registro', $this->dadosCadastro())->assertRedirect('/login');
+        $this->assertDatabaseMissing('users', ['email' => 'bia@exemplo.com']);
+    }
+
+    public function test_logado_cria_usuario_e_continua_na_mesma_sessao(): void
+    {
+        $atual = User::factory()->create();
+
+        $this->actingAs($atual)->get('/registro')->assertOk();
+        $this->actingAs($atual)->post('/registro', $this->dadosCadastro())
+            ->assertRedirect('/pedidos')
+            ->assertSessionHas('ok', 'Usuário criado.');
+
+        $this->assertDatabaseHas('users', ['email' => 'bia@exemplo.com']);
+        $this->assertAuthenticatedAs($atual);
     }
 
     public function test_cadastro_valida_campos(): void
     {
-        User::factory()->create(['email' => 'ana@exemplo.com']);
+        $this->actingAs(User::factory()->create(['email' => 'ana@exemplo.com']));
 
         $this->post('/registro', [])->assertSessionHasErrors(['name', 'email', 'password']);
 
-        $this->post('/registro', ['name' => 'Ana', 'email' => 'ana@exemplo.com', 'password' => 'senha1234', 'password_confirmation' => 'senha1234'])
+        $this->post('/registro', $this->dadosCadastro(['email' => 'ana@exemplo.com']))
             ->assertSessionHasErrors(['email' => 'Já existe um registro com este e-mail.']);
 
-        $this->post('/registro', ['name' => 'Bia', 'email' => 'bia@exemplo.com', 'password' => 'curta', 'password_confirmation' => 'curta'])
+        $this->post('/registro', $this->dadosCadastro(['password' => 'curta', 'password_confirmation' => 'curta']))
             ->assertSessionHasErrors('password');
 
-        $this->post('/registro', ['name' => 'Bia', 'email' => 'bia@exemplo.com', 'password' => 'senha1234', 'password_confirmation' => 'outra1234'])
+        $this->post('/registro', $this->dadosCadastro(['password_confirmation' => 'outra1234']))
             ->assertSessionHasErrors('password');
+    }
+
+    public function test_login_limita_tentativas_por_email_e_ip(): void
+    {
+        User::factory()->create(['email' => 'ana@exemplo.com', 'password' => 'senha1234']);
+
+        for ($i = 0; $i < 5; $i++) {
+            $this->post('/login', ['email' => 'ana@exemplo.com', 'password' => 'errada'])->assertRedirect();
+        }
+
+        $this->post('/login', ['email' => 'ana@exemplo.com', 'password' => 'senha1234'])
+            ->assertStatus(429)
+            ->assertSee('Muitas tentativas. Tente novamente em');
+        $this->assertGuest();
+
+        $this->post('/login', ['email' => 'outra@exemplo.com', 'password' => 'errada'])->assertRedirect();
+    }
+
+    public function test_login_correto_zera_o_contador(): void
+    {
+        User::factory()->create(['email' => 'ana@exemplo.com', 'password' => 'senha1234']);
+
+        for ($i = 0; $i < 4; $i++) {
+            $this->post('/login', ['email' => 'ana@exemplo.com', 'password' => 'errada']);
+        }
+        $this->post('/login', ['email' => 'ana@exemplo.com', 'password' => 'senha1234'])->assertRedirect('/pedidos');
+        $this->post('/logout');
+
+        for ($i = 0; $i < 5; $i++) {
+            $this->post('/login', ['email' => 'ana@exemplo.com', 'password' => 'errada'])->assertRedirect();
+        }
+        $this->post('/login', ['email' => 'ana@exemplo.com', 'password' => 'errada'])->assertStatus(429);
     }
 
     public function test_rotas_web_exigem_login(): void
@@ -101,5 +145,17 @@ class AuthTest extends TestCase
 
         $this->getJson('/api/clientes', $this->basic())->assertOk()->assertCookieMissing(config('session.cookie'));
         $this->getJson('/api/clientes', $this->basic('ana@exemplo.com', 'errada'))->assertUnauthorized();
+    }
+
+    public function test_api_limita_requisicoes_com_429_json(): void
+    {
+        User::factory()->create(['email' => 'ana@exemplo.com', 'password' => 'senha1234']);
+
+        for ($i = 0; $i < 60; $i++) {
+            $this->getJson('/api/clientes', $this->basic());
+        }
+
+        $this->getJson('/api/clientes', $this->basic());
+        $this->getJson('/api/clientes', $this->basic())->assertStatus(429)->assertJsonStructure(['message']);
     }
 }
