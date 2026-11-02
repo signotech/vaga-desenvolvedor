@@ -2,7 +2,7 @@
     <form method="POST" id="massa" action="{{ route($rota) }}" onsubmit="return confirm('Tem certeza que deseja excluir os registros selecionados?')">
         @csrf
         @method('DELETE')
-        <button class="btn peq perigo">Excluir selecionados</button>
+        <button class="btn-small red darken-2">Excluir selecionados</button>
     </form>
 
     <form method="GET">
@@ -10,7 +10,7 @@
             <input type="hidden" name="{{ $nome }}" value="{{ $valor }}">
         @endforeach
         <label for="por_pagina">Itens por página</label>
-        <select id="por_pagina" name="por_pagina" onchange="this.form.submit()">
+        <select id="por_pagina" name="por_pagina" class="browser-default" style="width: auto; display: block" onchange="this.form.submit()">
             @foreach (App\Http\Controllers\Controller::POR_PAGINA as $opcao)
                 <option value="{{ $opcao }}" @selected($itens->perPage() === $opcao)>{{ $opcao }}</option>
             @endforeach
