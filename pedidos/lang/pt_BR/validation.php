@@ -34,6 +34,7 @@ return [
         'cliente_id' => 'cliente',
         'data_pedido' => 'data',
         'status' => 'status',
+        'desconto' => 'desconto',
         'itens' => 'itens',
         'itens.*.produto_id' => 'produto',
         'itens.*.quantidade' => 'quantidade',

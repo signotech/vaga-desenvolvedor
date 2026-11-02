@@ -35,6 +35,7 @@ class PedidoService
             'cliente_id' => $dados['cliente_id'],
             'data_pedido' => $dados['data_pedido'],
             'status' => $dados['status'],
+            'desconto' => $dados['desconto'] ?? 0,
         ];
     }
 

@@ -14,6 +14,7 @@ class PedidoFactory extends Factory
             'cliente_id' => Cliente::factory(),
             'data_pedido' => fake()->dateTimeBetween('-6 months'),
             'status' => fake()->randomElement(Pedido::STATUS),
+            'desconto' => fake()->boolean(20) ? fake()->numberBetween(5, 30) : 0,
         ];
     }
 }

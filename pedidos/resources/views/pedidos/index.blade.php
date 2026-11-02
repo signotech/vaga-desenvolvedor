@@ -17,6 +17,7 @@
                     @include('partials.th', ['campo' => 'cliente', 'rotulo' => 'Cliente'])
                     @include('partials.th', ['campo' => 'data_pedido', 'rotulo' => 'Data'])
                     @include('partials.th', ['campo' => 'status', 'rotulo' => 'Status'])
+                    <th>Desconto</th>
                     <th>Total</th>
                     <th>Ações</th>
                 </tr>
@@ -34,6 +35,7 @@
                         </select>
                     </th>
                     <th></th>
+                    <th></th>
                     <th class="acoes">
                         <button form="filtro" class="btn peq">Filtrar</button>
                         <a class="btn peq sec" href="{{ route('pedidos.index') }}">Limpar</a>
@@ -48,6 +50,7 @@
                         <td><a href="{{ route('clientes.index', ['id' => $pedido->cliente_id]) }}">{{ $pedido->cliente }}</a></td>
                         <td>{{ $pedido->data_pedido->format('d/m/Y H:i') }}</td>
                         <td><span class="status {{ $pedido->status }}">{{ $pedido->status }}</span></td>
+                        <td>{{ $pedido->desconto > 0 ? number_format($pedido->desconto, 2, ',', '.') . '%' : '-' }}</td>
                         <td>R$ {{ number_format($pedido->total, 2, ',', '.') }}</td>
                         <td class="acoes">
                             <a class="btn peq" href="{{ route('pedidos.show', $pedido) }}">Ver</a>
@@ -56,7 +59,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="7">Nenhum pedido encontrado.</td></tr>
+                    <tr><td colspan="8">Nenhum pedido encontrado.</td></tr>
                 @endforelse
             </tbody>
         </table>

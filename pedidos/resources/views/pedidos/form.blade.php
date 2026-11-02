@@ -43,6 +43,13 @@
                 @error('status') <div class="invalido">{{ $message }}</div> @enderror
             </div>
 
+            <div class="campo">
+                <label for="desconto">Desconto (%)</label>
+                <input id="desconto" type="number" step="0.01" min="0" max="100" name="desconto"
+                       value="{{ old('desconto', $pedido->desconto ?? 0) }}">
+                @error('desconto') <div class="invalido">{{ $message }}</div> @enderror
+            </div>
+
             <h3>Produtos</h3>
             @error('itens') <div class="invalido">{{ $message }}</div> @enderror
             <div id="itens">

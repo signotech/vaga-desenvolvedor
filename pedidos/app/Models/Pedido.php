@@ -13,7 +13,7 @@ class Pedido extends Model
 
     public const STATUS = ['Em Aberto', 'Pago', 'Cancelado'];
 
-    protected $fillable = ['cliente_id', 'data_pedido', 'status'];
+    protected $fillable = ['cliente_id', 'data_pedido', 'status', 'desconto'];
 
     protected $casts = ['data_pedido' => 'datetime'];
 
@@ -27,8 +27,14 @@ class Pedido extends Model
         return $this->hasMany(ItemPedido::class);
     }
 
-    public function getTotalAttribute(): float
+    public function getSubtotalAttribute(): float
     {
         return $this->itens->sum(fn ($item) => $item->quantidade * $item->preco_unitario);
+    }
+
+    // desconto é um percentual de 0 a 100 sobre o subtotal dos itens
+    public function getTotalAttribute(): float
+    {
+        return round($this->subtotal * (1 - $this->desconto / 100), 2);
     }
 }

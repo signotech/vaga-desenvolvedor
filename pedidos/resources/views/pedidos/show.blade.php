@@ -11,7 +11,8 @@
             <strong>Cliente:</strong>
             <a href="{{ route('clientes.index', ['id' => $pedido->cliente_id]) }}">{{ $pedido->cliente->nome }}</a><br>
             <strong>Data:</strong> {{ $pedido->data_pedido->format('d/m/Y H:i') }}<br>
-            <strong>Status:</strong> {{ $pedido->status }}
+            <strong>Status:</strong> {{ $pedido->status }}<br>
+            <strong>Desconto:</strong> {{ number_format($pedido->desconto, 2, ',', '.') }}%
         </p>
         <table>
             <thead>
@@ -29,7 +30,8 @@
                 @endforeach
             </tbody>
             <tfoot>
-                <tr><th colspan="4">Total</th><th>R$ {{ number_format($pedido->total, 2, ',', '.') }}</th></tr>
+                <tr><th colspan="4">Subtotal</th><th>R$ {{ number_format($pedido->subtotal, 2, ',', '.') }}</th></tr>
+                <tr><th colspan="4">Total com desconto</th><th>R$ {{ number_format($pedido->total, 2, ',', '.') }}</th></tr>
             </tfoot>
         </table>
         <p><a class="btn sec" href="{{ route('pedidos.index') }}">Voltar</a></p>
