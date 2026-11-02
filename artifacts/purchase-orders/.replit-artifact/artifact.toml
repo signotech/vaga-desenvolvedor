@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Purchase Orders"
+description = "A Portuguese-language purchasing management app for maintaining customers and products, creating purchase orders, and tracking their open, paid, or canceled status with searchable, sortable, paginated records."
+version = "1.0.0"
+id = "artifacts/purchase-orders"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 26212
+
+[services.development]
+run = "pnpm --filter @workspace/purchase-orders run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/purchase-orders", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/purchase-orders/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "26212"
+BASE_PATH = "/"

@@ -1,0 +1,634 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API for a normalized purchase-order management system
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: dashboard
+    description: Dashboard summaries
+  - name: customers
+    description: Customer management
+  - name: products
+    description: Product management
+  - name: orders
+    description: Purchase-order management
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /dashboard:
+    get:
+      operationId: getDashboard
+      tags: [dashboard]
+      summary: Get dashboard metrics and recent orders
+      responses:
+        "200":
+          description: Dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardSummary"
+  /customers:
+    get:
+      operationId: listCustomers
+      tags: [customers]
+      summary: List customers with filtering, sorting, and pagination
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - $ref: "#/components/parameters/Search"
+        - $ref: "#/components/parameters/FilterField"
+        - $ref: "#/components/parameters/FilterValue"
+        - $ref: "#/components/parameters/SortBy"
+        - $ref: "#/components/parameters/SortDirection"
+      responses:
+        "200":
+          description: Paginated customers
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedCustomers"
+    post:
+      operationId: createCustomer
+      tags: [customers]
+      summary: Create a customer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CustomerInput"
+      responses:
+        "201":
+          description: Created customer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "409":
+          $ref: "#/components/responses/Conflict"
+  /customers/{id}:
+    parameters:
+      - $ref: "#/components/parameters/Id"
+    get:
+      operationId: getCustomer
+      tags: [customers]
+      summary: Get a customer
+      responses:
+        "200":
+          description: Customer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    patch:
+      operationId: updateCustomer
+      tags: [customers]
+      summary: Update a customer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CustomerInput"
+      responses:
+        "200":
+          description: Updated customer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+    delete:
+      operationId: deleteCustomer
+      tags: [customers]
+      summary: Delete a customer
+      responses:
+        "204":
+          description: Customer deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+  /products:
+    get:
+      operationId: listProducts
+      tags: [products]
+      summary: List products with filtering, sorting, and pagination
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - $ref: "#/components/parameters/Search"
+        - $ref: "#/components/parameters/FilterField"
+        - $ref: "#/components/parameters/FilterValue"
+        - $ref: "#/components/parameters/SortBy"
+        - $ref: "#/components/parameters/SortDirection"
+      responses:
+        "200":
+          description: Paginated products
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedProducts"
+    post:
+      operationId: createProduct
+      tags: [products]
+      summary: Create a product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductInput"
+      responses:
+        "201":
+          description: Created product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "409":
+          $ref: "#/components/responses/Conflict"
+  /products/{id}:
+    parameters:
+      - $ref: "#/components/parameters/Id"
+    get:
+      operationId: getProduct
+      tags: [products]
+      summary: Get a product
+      responses:
+        "200":
+          description: Product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    patch:
+      operationId: updateProduct
+      tags: [products]
+      summary: Update a product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductInput"
+      responses:
+        "200":
+          description: Updated product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+    delete:
+      operationId: deleteProduct
+      tags: [products]
+      summary: Delete a product
+      responses:
+        "204":
+          description: Product deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+  /orders:
+    get:
+      operationId: listOrders
+      tags: [orders]
+      summary: List purchase orders with filtering, sorting, and pagination
+      parameters:
+        - $ref: "#/components/parameters/Page"
+        - $ref: "#/components/parameters/PageSize"
+        - $ref: "#/components/parameters/Search"
+        - $ref: "#/components/parameters/FilterField"
+        - $ref: "#/components/parameters/FilterValue"
+        - $ref: "#/components/parameters/SortBy"
+        - $ref: "#/components/parameters/SortDirection"
+      responses:
+        "200":
+          description: Paginated purchase orders
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedOrders"
+    post:
+      operationId: createOrder
+      tags: [orders]
+      summary: Create a purchase order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderInput"
+      responses:
+        "201":
+          description: Created purchase order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderDetail"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /orders/{id}:
+    parameters:
+      - $ref: "#/components/parameters/Id"
+    get:
+      operationId: getOrder
+      tags: [orders]
+      summary: Get a purchase order and its line items
+      responses:
+        "200":
+          description: Purchase order detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderDetail"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    patch:
+      operationId: updateOrder
+      tags: [orders]
+      summary: Update a purchase order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderInput"
+      responses:
+        "200":
+          description: Updated purchase order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderDetail"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    delete:
+      operationId: deleteOrder
+      tags: [orders]
+      summary: Delete a purchase order
+      responses:
+        "204":
+          description: Purchase order deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
+components:
+  parameters:
+    Id:
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+    Page:
+      in: query
+      name: page
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    PageSize:
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    Search:
+      in: query
+      name: search
+      required: false
+      schema:
+        type: string
+    FilterField:
+      in: query
+      name: filterField
+      required: false
+      schema:
+        type: string
+    FilterValue:
+      in: query
+      name: filterValue
+      required: false
+      schema:
+        type: string
+    SortBy:
+      in: query
+      name: sortBy
+      required: false
+      schema:
+        type: string
+    SortDirection:
+      in: query
+      name: sortDirection
+      required: false
+      schema:
+        type: string
+        enum: [asc, desc]
+        default: desc
+  responses:
+    BadRequest:
+      description: Invalid input
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    NotFound:
+      description: Record not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Conflict:
+      description: Record conflicts with an existing record or relationship
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]
+    Pagination:
+      type: object
+      properties:
+        totalCount:
+          type: integer
+        currentPage:
+          type: integer
+        pageSize:
+          type: integer
+        totalPages:
+          type: integer
+      required: [totalCount, currentPage, pageSize, totalPages]
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        cpf:
+          type: string
+        email:
+          type: string
+        phone:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required: [id, name, cpf, email, phone, createdAt, updatedAt]
+    CustomerInput:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 2
+          maxLength: 150
+        cpf:
+          type: string
+          minLength: 11
+          maxLength: 14
+        email:
+          type: string
+          format: email
+          maxLength: 255
+        phone:
+          type: ["string", "null"]
+          maxLength: 30
+      required: [name, cpf, email, phone]
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+        sku:
+          type: string
+        title:
+          type: string
+        price:
+          type: number
+          minimum: 0
+        stock:
+          type: integer
+          minimum: 0
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required: [id, sku, title, price, stock, createdAt, updatedAt]
+    ProductInput:
+      type: object
+      properties:
+        sku:
+          type: string
+          minLength: 1
+          maxLength: 100
+        title:
+          type: string
+          minLength: 1
+          maxLength: 100
+        price:
+          type: number
+          minimum: 0
+        stock:
+          type: integer
+          minimum: 0
+      required: [sku, title, price, stock]
+    OrderItemInput:
+      type: object
+      properties:
+        productId:
+          type: integer
+          minimum: 1
+        quantity:
+          type: integer
+          minimum: 1
+      required: [productId, quantity]
+    OrderInput:
+      type: object
+      properties:
+        customerId:
+          type: integer
+          minimum: 1
+        orderDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [open, paid, canceled]
+        items:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/OrderItemInput"
+      required: [customerId, orderDate, status, items]
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+        customerId:
+          type: integer
+        customerName:
+          type: string
+        orderDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [open, paid, canceled]
+        itemCount:
+          type: integer
+        total:
+          type: number
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        [id, customerId, customerName, orderDate, status, itemCount, total, createdAt, updatedAt]
+    OrderItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        productId:
+          type: integer
+        sku:
+          type: string
+        productTitle:
+          type: string
+        quantity:
+          type: integer
+        unitPrice:
+          type: number
+        lineTotal:
+          type: number
+      required: [id, productId, sku, productTitle, quantity, unitPrice, lineTotal]
+    OrderDetail:
+      allOf:
+        - $ref: "#/components/schemas/Order"
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: "#/components/schemas/OrderItem"
+          required: [items]
+    PaginatedCustomers:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Customer"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required: [items, pagination]
+    PaginatedProducts:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Product"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required: [items, pagination]
+    PaginatedOrders:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Order"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required: [items, pagination]
+    DashboardSummary:
+      type: object
+      properties:
+        customerCount:
+          type: integer
+        productCount:
+          type: integer
+        orderCount:
+          type: integer
+        openOrderCount:
+          type: integer
+        paidOrderCount:
+          type: integer
+        canceledOrderCount:
+          type: integer
+        paidTotal:
+          type: number
+        recentOrders:
+          type: array
+          items:
+            $ref: "#/components/schemas/Order"
+      required:
+        [customerCount, productCount, orderCount, openOrderCount, paidOrderCount, canceledOrderCount, paidTotal, recentOrders]
+
