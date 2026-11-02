@@ -56,6 +56,7 @@ app.use((req, res, next) => {
   res.locals.formatMoney = formatters.formatMoney;
   res.locals.formatDate = formatters.formatDate;
   res.locals.formatDateTime = formatters.formatDateTime;
+  res.locals.formatCpf = formatters.formatCpf;
   res.locals.statusLabel = formatters.statusLabel;
   res.locals.statusClass = formatters.statusClass;
   res.locals.discountLabel = formatters.discountLabel;

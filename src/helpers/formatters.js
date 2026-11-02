@@ -1,5 +1,7 @@
 'use strict';
 
+const { onlyDigits } = require('./cpf');
+
 const STATUS_LABELS = Object.freeze({
   open: 'Em Aberto',
   paid: 'Pago',
@@ -68,11 +70,25 @@ function discountLabel(type, value) {
   return formatMoney(value);
 }
 
+function formatCpf(value) {
+  const digits = onlyDigits(value);
+
+  if (digits.length !== 11) {
+    return value || '—';
+  }
+
+  return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(
+    6,
+    9,
+  )}-${digits.slice(9)}`;
+}
+
 module.exports = {
   STATUS_LABELS,
   formatMoney,
   formatDate,
   formatDateTime,
+  formatCpf,
   statusLabel,
   statusClass,
   discountLabel,

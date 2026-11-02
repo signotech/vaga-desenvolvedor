@@ -1,0 +1,13 @@
+<th>
+  <a
+    class="sort-link"
+    href="?<%= queryString(query, { sort: field, dir: current.sort === field && current.dir === 'asc' ? 'desc' : 'asc', page: 1 }) %>"
+  >
+    <%= label %>
+    <% if (current.sort === field) { %>
+      <i class="material-icons tiny"><%= current.dir === 'asc' ? 'arrow_upward' : 'arrow_downward' %></i>
+    <% } else { %>
+      <i class="material-icons tiny grey-text text-lighten-1">unfold_more</i>
+    <% } %>
+  </a>
+</th>

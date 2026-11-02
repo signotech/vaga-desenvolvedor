@@ -58,6 +58,30 @@ nav .brand-logo {
   white-space: nowrap;
 }
 
+.sort-link {
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  white-space: nowrap;
+}
+
+.sort-link i {
+  font-size: 16px;
+}
+
+.checkbox-cell {
+  width: 48px;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.filter-actions {
+  padding-top: 1.5rem;
+}
+
 .status-badge {
   display: inline-block;
   padding: 2px 10px;

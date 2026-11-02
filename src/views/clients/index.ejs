@@ -1,0 +1,145 @@
+<div class="row valign-wrapper">
+  <div class="col s12 m7">
+    <h4>Clientes</h4>
+  </div>
+  <div class="col s12 m5 right-align">
+    <a href="/clients/new" class="btn blue darken-2">
+      <i class="material-icons left">add</i>
+      Novo cliente
+    </a>
+  </div>
+</div>
+
+<form method="GET" action="/clients" class="card-panel">
+  <div class="row">
+    <div class="input-field col s12 m4">
+      <input id="filter-name" name="name" type="text" value="<%= query.name || '' %>">
+      <label for="filter-name" class="active">Nome</label>
+    </div>
+
+    <div class="input-field col s12 m3">
+      <input id="filter-cpf" name="cpf" type="text" value="<%= query.cpf || '' %>">
+      <label for="filter-cpf" class="active">CPF</label>
+    </div>
+
+    <div class="input-field col s12 m5">
+      <input id="filter-email" name="email" type="text" value="<%= query.email || '' %>">
+      <label for="filter-email" class="active">E-mail</label>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="input-field col s12 m3">
+      <input id="filter-created-from" name="created_from" type="date" value="<%= query.created_from || '' %>">
+      <label for="filter-created-from" class="active">Cadastrado de</label>
+    </div>
+
+    <div class="input-field col s12 m3">
+      <input id="filter-created-to" name="created_to" type="date" value="<%= query.created_to || '' %>">
+      <label for="filter-created-to" class="active">Cadastrado até</label>
+    </div>
+
+    <div class="col s12 m6 right-align filter-actions">
+      <% if (query.sort) { %><input type="hidden" name="sort" value="<%= query.sort %>"><% } %>
+      <% if (query.dir) { %><input type="hidden" name="dir" value="<%= query.dir %>"><% } %>
+      <% if (query.per_page) { %><input type="hidden" name="per_page" value="<%= query.per_page %>"><% } %>
+
+      <button type="submit" class="btn blue darken-2">
+        <i class="material-icons left">search</i>
+        Filtrar
+      </button>
+      <a href="/clients" class="btn-flat">Limpar</a>
+    </div>
+  </div>
+</form>
+
+<% if (clients.length === 0) { %>
+  <div class="card-panel grey lighten-4 center-align">
+    Nenhum cliente encontrado.
+  </div>
+<% } else { %>
+  <form
+    id="bulk-delete-form"
+    method="POST"
+    action="/clients/bulk-delete"
+    data-confirm="Excluir os clientes selecionados?"
+  >
+    <div class="row">
+      <div class="col s12">
+        <button type="submit" class="btn red darken-1" data-bulk-submit disabled>
+          <i class="material-icons left">delete_sweep</i>
+          Excluir selecionados
+          <span data-bulk-count></span>
+        </button>
+      </div>
+    </div>
+
+    <table class="striped responsive-table">
+      <thead>
+        <tr>
+          <th class="checkbox-cell">
+            <label>
+              <input type="checkbox" data-select-all>
+              <span></span>
+            </label>
+          </th>
+          <%- include('../partials/sort-header', { field: 'id', label: '#' }) %>
+          <%- include('../partials/sort-header', { field: 'name', label: 'Nome' }) %>
+          <%- include('../partials/sort-header', { field: 'cpf', label: 'CPF' }) %>
+          <%- include('../partials/sort-header', { field: 'email', label: 'E-mail' }) %>
+          <%- include('../partials/sort-header', { field: 'created_at', label: 'Cadastrado em' }) %>
+          <th class="right-align">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% clients.forEach((client) => { %>
+          <tr>
+            <td class="checkbox-cell">
+              <label>
+                <input type="checkbox" name="ids" value="<%= client.id %>" data-select-item>
+                <span></span>
+              </label>
+            </td>
+            <td><%= client.id %></td>
+            <td>
+              <a href="/clients/<%= client.id %>"><%= client.name %></a>
+            </td>
+            <td><%= formatCpf(client.cpf) %></td>
+            <td><%= client.email %></td>
+            <td><%= formatDateTime(client.createdAt) %></td>
+            <td class="right-align table-actions">
+              <a
+                href="/clients/<%= client.id %>"
+                class="btn-flat tooltipped"
+                data-position="top"
+                data-tooltip="Visualizar"
+              >
+                <i class="material-icons">visibility</i>
+              </a>
+              <a
+                href="/clients/<%= client.id %>/edit"
+                class="btn-flat tooltipped"
+                data-position="top"
+                data-tooltip="Editar"
+              >
+                <i class="material-icons">edit</i>
+              </a>
+              <button
+                type="button"
+                class="btn-flat red-text tooltipped"
+                data-position="top"
+                data-tooltip="Excluir"
+                data-delete-url="/clients/<%= client.id %>"
+                data-delete-name="<%= client.name %>"
+              >
+                <i class="material-icons">delete</i>
+              </button>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </form>
+<% } %>
+
+<%- include('../partials/pagination') %>
