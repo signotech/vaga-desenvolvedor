@@ -70,3 +70,50 @@ Devem ser utilizadas as seguintes tecnologias:
 - Criação do ambiente com Docker.
 
 ### Boa sorte!
+
+---
+
+## Como executar
+
+Aplicação em Laravel, usando SQLite. Requisitos: PHP 8.2 ou superior (com `pdo_sqlite`) e Composer.
+
+```bash
+cd pedidos
+composer install
+cp .env.example .env
+php artisan key:generate
+touch database/database.sqlite
+php artisan migrate --seed
+php artisan serve
+```
+
+Depois é só abrir http://localhost:8000.
+
+Para recriar o banco do zero: `php artisan migrate:fresh --seed`.
+
+## Modelagem
+
+A tabela original (`codigo_pedido`, dados do cliente, dados do produto e preço/estoque tudo junto) foi separada em quatro tabelas, na 3FN:
+
+- `clientes`: id, nome, cpf (único), email
+- `produtos`: id, sku (único), titulo, preco, estoque
+- `pedidos`: id, cliente_id, data_pedido, status (Em Aberto, Pago ou Cancelado)
+- `item_pedidos`: id, pedido_id, produto_id, quantidade, preco_unitario
+
+O `preco_unitario` é gravado no item para que uma mudança no preço do produto não altere pedidos antigos.
+
+## Estrutura
+
+- `database/migrations`, `database/factories` e `database/seeders`: criação e população do banco (30 clientes, 40 produtos e 50 pedidos)
+- `app/Http/Requests`: validações de cada formulário
+- `app/Http/Controllers`: um controller por CRUD
+- `app/Models/Concerns/Listavel.php`: filtro e ordenação reaproveitados nas listagens
+- `resources/views`: telas em Blade, com layout, cabeçalho ordenável e paginação compartilhados
+
+## O que foi feito
+
+- CRUD de clientes, produtos e pedidos (os pedidos têm vários itens e status)
+- Filtro por qualquer campo, ordenação por qualquer coluna e paginação de 20 itens
+- Confirmação antes de excluir
+- Barra de navegação e links entre as listagens (pedido para cliente e produto)
+- Cliente com pedidos e produto presente em pedidos não podem ser excluídos
