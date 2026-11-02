@@ -139,3 +139,19 @@ O `preco_unitario` é gravado no item para que uma mudança no preço do produto
 - Testes de feature para os três CRUDs
 - Ambiente com Docker
 - Desconto percentual (0 a 100) no pedido, aplicado ao total
+- API REST JSON para os três CRUDs em `/api` (ver seção "API")
+
+## API
+
+Todas as rotas respondem JSON. As listagens são paginadas (20 por padrão; `por_pagina` aceita 10, 20, 50 ou 100) e aceitam os mesmos filtros e ordenação das telas (`ordem`, `direcao=asc|desc` e `campo=valor`; pedidos filtram por `id`, `cliente`, `data_pedido` e `status`).
+
+| Método | Rota | Descrição | Resposta |
+|---|---|---|---|
+| GET | `/api/clientes`, `/api/produtos`, `/api/pedidos` | Lista paginada | 200 |
+| POST | `/api/clientes`, `/api/produtos`, `/api/pedidos` | Cria | 201 (422 se inválido) |
+| GET | `/api/{recurso}/{id}` | Mostra um registro | 200 (404 se não existir) |
+| PUT/PATCH | `/api/{recurso}/{id}` | Atualiza | 200 (422 se inválido) |
+| DELETE | `/api/{recurso}/{id}` | Exclui | 204 (409 para cliente com pedidos e produto em pedidos) |
+| DELETE | `/api/{recurso}` com `{"ids": [1, 2]}` | Exclusão em massa | 200 com `{"excluidos": n, "ignorados": n}` |
+
+O pedido é enviado com `cliente_id`, `data_pedido`, `status`, `desconto` (opcional) e `itens` (`produto_id` e `quantidade`), e volta com cliente, itens, `subtotal`, `desconto` e `total`.
