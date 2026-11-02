@@ -89,6 +89,21 @@ php artisan serve
 
 Depois é só abrir http://localhost:8000.
 
+### Com Docker
+
+```bash
+cd pedidos
+docker compose up --build
+```
+
+Na primeira execução o container instala as dependências, gera a chave, cria o banco e roda migrations e seeds. O site fica em http://localhost:8000.
+
+### Testes
+
+```bash
+php artisan test
+```
+
 Para recriar o banco do zero: `php artisan migrate:fresh --seed`.
 
 ## Modelagem
@@ -107,6 +122,7 @@ O `preco_unitario` é gravado no item para que uma mudança no preço do produto
 - `database/migrations`, `database/factories` e `database/seeders`: criação e população do banco (30 clientes, 40 produtos e 50 pedidos)
 - `app/Http/Requests`: validações de cada formulário
 - `app/Http/Controllers`: um controller por CRUD
+- `app/Services`: regra de negócio dos pedidos (itens e preço unitário)
 - `app/Models/Concerns/Listavel.php`: filtro e ordenação reaproveitados nas listagens
 - `resources/views`: telas em Blade, com layout, cabeçalho ordenável e paginação compartilhados
 
@@ -117,3 +133,8 @@ O `preco_unitario` é gravado no item para que uma mudança no preço do produto
 - Confirmação antes de excluir
 - Barra de navegação e links entre as listagens (pedido para cliente e produto)
 - Cliente com pedidos e produto presente em pedidos não podem ser excluídos
+- Escolha de itens por página (10, 20, 50 ou 100) e exclusão em massa nas três listagens
+- Mensagens de validação em português
+- Regra de salvar pedido isolada em `app/Services/PedidoService.php`
+- Testes de feature para os três CRUDs
+- Ambiente com Docker
