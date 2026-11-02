@@ -4,6 +4,7 @@ return [
     'array' => 'O campo :attribute deve ser uma lista.',
     'confirmed' => 'A confirmação de :attribute não confere.',
     'credenciais' => 'E-mail ou senha inválidos.',
+    'tentativas' => 'Muitas tentativas. Tente novamente em :segundos segundos.',
     'date' => 'O campo :attribute não é uma data válida.',
     'digits' => 'O campo :attribute deve ter :digits dígitos.',
     'email' => 'O campo :attribute deve ser um e-mail válido.',
