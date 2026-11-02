@@ -4,70 +4,72 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('titulo') - Pedidos</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <style>
-        * { box-sizing: border-box; }
-        body { margin: 0; font-family: Arial, sans-serif; background: #f4f5f7; color: #222; }
-        nav { background: #1f3a5f; padding: 0 20px; display: flex; gap: 4px; flex-wrap: wrap; }
-        nav a { color: #fff; text-decoration: none; padding: 14px 16px; }
-        nav a.ativo, nav a:hover { background: #2d5185; }
-        nav .usuario { margin-left: auto; display: flex; align-items: center; gap: 10px; color: #fff; font-size: 14px; }
-        nav .usuario form { margin: 0; }
-        .card-auth { max-width: 420px; }
-        main { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
-        h1 { margin: 0 0 16px; font-size: 22px; }
-        .topo { display: flex; justify-content: space-between; align-items: center; }
-        .card { background: #fff; border-radius: 6px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,.1); overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { text-align: left; padding: 8px; border-bottom: 1px solid #e5e7eb; font-size: 14px; }
-        th a { color: inherit; text-decoration: none; }
-        input, select { padding: 7px; border: 1px solid #c4c8cf; border-radius: 4px; width: 100%; font-size: 14px; }
-        .filtros input, .filtros select { padding: 5px; }
-        .btn { display: inline-block; background: #1f3a5f; color: #fff; border: 0; padding: 8px 14px; border-radius: 4px; cursor: pointer; text-decoration: none; font-size: 14px; width: auto; }
-        .btn.sec { background: #6b7280; }
-        .btn.perigo { background: #b42318; }
-        .btn.peq { padding: 4px 9px; font-size: 13px; }
-        input[type=checkbox] { width: auto; }
-        .barra { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
-        .barra form { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 14px; }
-        .barra select { width: auto; }
-        .acoes { display: flex; gap: 6px; }
-        .acoes form { margin: 0; }
-        .msg { padding: 10px 14px; border-radius: 4px; margin-bottom: 14px; }
-        .msg.ok { background: #d1fae5; color: #065f46; }
-        .msg.erro { background: #fee2e2; color: #991b1b; }
-        .campo { margin-bottom: 12px; }
-        .campo label { display: block; margin-bottom: 4px; font-size: 14px; font-weight: bold; }
-        .invalido { color: #b42318; font-size: 13px; margin-top: 3px; }
-        .paginacao { display: flex; gap: 4px; margin-top: 14px; flex-wrap: wrap; }
-        .paginacao a, .paginacao span { padding: 5px 10px; border: 1px solid #c4c8cf; border-radius: 4px; text-decoration: none; color: #1f3a5f; font-size: 14px; background: #fff; }
-        .paginacao .atual { background: #1f3a5f; color: #fff; }
-        .paginacao .off { color: #9ca3af; }
-        .status { padding: 2px 8px; border-radius: 10px; font-size: 12px; }
-        .status.Pago { background: #d1fae5; }
-        .status.Cancelado { background: #fee2e2; }
-        .status.Aberto, .status.Em { background: #fef3c7; }
-        a { color: #1f3a5f; }
+        main { margin-top: 24px; margin-bottom: 24px; }
+        h1 { font-size: 1.8rem; margin: 0; }
+        .topo { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+        .acoes { white-space: nowrap; }
+        .acoes form { display: inline; }
+        .filtros input, .filtros select { height: 2.2rem; margin: 0; font-size: 14px; min-width: 90px; }
+        .barra { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+        .barra form { display: flex; align-items: center; gap: 8px; margin: 0; }
+        td, th { padding: 8px 6px; }
+        .item { display: flex; align-items: flex-start; gap: 8px; }
+        .item .input-field { margin: 0.5rem 0; }
+        .item .produto { flex: 1; min-width: 0; }
+        .item .quantidade { width: 90px; }
+        nav .brand-logo { font-size: 1.4rem; }
     </style>
 </head>
 <body>
-    <nav>
-        @auth
-            <a href="{{ route('pedidos.index') }}" class="{{ request()->routeIs('pedidos.*') ? 'ativo' : '' }}">Pedidos</a>
-            <a href="{{ route('clientes.index') }}" class="{{ request()->routeIs('clientes.*') ? 'ativo' : '' }}">Clientes</a>
-            <a href="{{ route('produtos.index') }}" class="{{ request()->routeIs('produtos.*') ? 'ativo' : '' }}">Produtos</a>
-            <div class="usuario">
-                <span>{{ auth()->user()->name }}</span>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button class="btn sec peq">Sair</button>
-                </form>
+    @auth
+        <nav class="blue-grey darken-3">
+            <div class="nav-wrapper container">
+                <a href="{{ route('pedidos.index') }}" class="brand-logo">Pedidos</a>
+                <a href="#" data-target="menu-lateral" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    <li class="{{ request()->routeIs('pedidos.*') ? 'active' : '' }}"><a href="{{ route('pedidos.index') }}">Pedidos</a></li>
+                    <li class="{{ request()->routeIs('clientes.*') ? 'active' : '' }}"><a href="{{ route('clientes.index') }}">Clientes</a></li>
+                    <li class="{{ request()->routeIs('produtos.*') ? 'active' : '' }}"><a href="{{ route('produtos.index') }}">Produtos</a></li>
+                    <li><span class="white-text" style="padding: 0 15px">{{ auth()->user()->name }}</span></li>
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button class="btn-flat white-text">Sair</button>
+                        </form>
+                    </li>
+                </ul>
             </div>
-        @endauth
-    </nav>
-    <main>
-        @if (session('ok')) <div class="msg ok">{{ session('ok') }}</div> @endif
-        @if (session('erro')) <div class="msg erro">{{ session('erro') }}</div> @endif
+        </nav>
+        <ul class="sidenav" id="menu-lateral">
+            <li><span class="grey-text" style="padding: 0 32px">{{ auth()->user()->name }}</span></li>
+            <li><div class="divider"></div></li>
+            <li class="{{ request()->routeIs('pedidos.*') ? 'active' : '' }}"><a href="{{ route('pedidos.index') }}">Pedidos</a></li>
+            <li class="{{ request()->routeIs('clientes.*') ? 'active' : '' }}"><a href="{{ route('clientes.index') }}">Clientes</a></li>
+            <li class="{{ request()->routeIs('produtos.*') ? 'active' : '' }}"><a href="{{ route('produtos.index') }}">Produtos</a></li>
+            <li>
+                <form method="POST" action="{{ route('logout') }}" style="padding: 0 32px">
+                    @csrf
+                    <button class="btn-flat">Sair</button>
+                </form>
+            </li>
+        </ul>
+    @endauth
+    <main class="container">
+        @if (session('ok')) <div class="card-panel green lighten-4 green-text text-darken-4">{{ session('ok') }}</div> @endif
+        @if (session('erro')) <div class="card-panel red lighten-4 red-text text-darken-4">{{ session('erro') }}</div> @endif
         @yield('conteudo')
     </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            M.Sidenav.init(document.querySelectorAll('.sidenav'));
+            M.FormSelect.init(document.querySelectorAll('select:not(.browser-default)'));
+            M.updateTextFields();
+        });
+    </script>
 </body>
 </html>
