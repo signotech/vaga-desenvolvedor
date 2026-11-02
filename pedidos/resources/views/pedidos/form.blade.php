@@ -9,71 +9,75 @@
 @endphp
 
 @section('conteudo')
-    <h1>{{ $pedido->exists ? 'Editar pedido #' . $pedido->id : 'Novo pedido' }}</h1>
+    <div class="topo"><h1>{{ $pedido->exists ? 'Editar pedido #' . $pedido->id : 'Novo pedido' }}</h1></div>
     <div class="card">
-        <form method="POST" action="{{ $pedido->exists ? route('pedidos.update', $pedido) : route('pedidos.store') }}">
+        <form method="POST" class="card-content" action="{{ $pedido->exists ? route('pedidos.update', $pedido) : route('pedidos.store') }}">
             @csrf
             @if ($pedido->exists) @method('PUT') @endif
 
-            <div class="campo">
-                <label for="cliente_id">Cliente</label>
+            <div class="input-field">
                 <select id="cliente_id" name="cliente_id">
                     <option value="">Selecione</option>
                     @foreach ($clientes as $cliente)
                         <option value="{{ $cliente->id }}" @selected(old('cliente_id', $pedido->cliente_id) == $cliente->id)>{{ $cliente->nome }}</option>
                     @endforeach
                 </select>
-                @error('cliente_id') <div class="invalido">{{ $message }}</div> @enderror
+                <label for="cliente_id">Cliente</label>
+                @error('cliente_id') <span class="helper-text red-text">{{ $message }}</span> @enderror
             </div>
 
-            <div class="campo">
-                <label for="data_pedido">Data</label>
+            <div class="input-field">
                 <input id="data_pedido" type="datetime-local" name="data_pedido"
                        value="{{ old('data_pedido', optional($pedido->data_pedido)->format('Y-m-d\TH:i')) }}">
-                @error('data_pedido') <div class="invalido">{{ $message }}</div> @enderror
+                <label for="data_pedido" class="active">Data</label>
+                @error('data_pedido') <span class="helper-text red-text">{{ $message }}</span> @enderror
             </div>
 
-            <div class="campo">
-                <label for="status">Status</label>
+            <div class="input-field">
                 <select id="status" name="status">
                     @foreach (App\Models\Pedido::STATUS as $status)
                         <option value="{{ $status }}" @selected(old('status', $pedido->status ?? 'Em Aberto') === $status)>{{ $status }}</option>
                     @endforeach
                 </select>
-                @error('status') <div class="invalido">{{ $message }}</div> @enderror
+                <label for="status">Status</label>
+                @error('status') <span class="helper-text red-text">{{ $message }}</span> @enderror
             </div>
 
-            <div class="campo">
-                <label for="desconto">Desconto (%)</label>
+            <div class="input-field">
                 <input id="desconto" type="number" step="0.01" min="0" max="100" name="desconto"
                        value="{{ old('desconto', $pedido->desconto ?? 0) }}">
-                @error('desconto') <div class="invalido">{{ $message }}</div> @enderror
+                <label for="desconto">Desconto (%)</label>
+                @error('desconto') <span class="helper-text red-text">{{ $message }}</span> @enderror
             </div>
 
-            <h3>Produtos</h3>
-            @error('itens') <div class="invalido">{{ $message }}</div> @enderror
+            <h5>Produtos</h5>
+            @error('itens') <span class="helper-text red-text">{{ $message }}</span> @enderror
             <div id="itens">
                 @foreach ($itens as $i => $item)
-                    <div class="campo item" style="display:flex; gap:8px;">
-                        <select name="itens[{{ $i }}][produto_id]">
-                            <option value="">Produto</option>
-                            @foreach ($produtos as $produto)
-                                <option value="{{ $produto->id }}" @selected($item['produto_id'] == $produto->id)>
-                                    {{ $produto->sku }} - {{ $produto->titulo }} (R$ {{ number_format($produto->preco, 2, ',', '.') }})
-                                </option>
-                            @endforeach
-                        </select>
-                        <input type="number" min="1" name="itens[{{ $i }}][quantidade]" value="{{ $item['quantidade'] }}" style="width:90px">
-                        <button type="button" class="btn peq perigo" onclick="removerItem(this)">X</button>
+                    <div class="item">
+                        <div class="input-field produto">
+                            <select name="itens[{{ $i }}][produto_id]">
+                                <option value="">Produto</option>
+                                @foreach ($produtos as $produto)
+                                    <option value="{{ $produto->id }}" @selected($item['produto_id'] == $produto->id)>
+                                        {{ $produto->sku }} - {{ $produto->titulo }} (R$ {{ number_format($produto->preco, 2, ',', '.') }})
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error("itens.$i.produto_id") <span class="helper-text red-text">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="input-field quantidade">
+                            <input type="number" min="1" name="itens[{{ $i }}][quantidade]" value="{{ $item['quantidade'] }}" placeholder="Qtd">
+                            @error("itens.$i.quantidade") <span class="helper-text red-text">{{ $message }}</span> @enderror
+                        </div>
+                        <button type="button" class="btn-small red darken-2" style="margin-top: 0.9rem" onclick="removerItem(this)">X</button>
                     </div>
-                    @error("itens.$i.produto_id") <div class="invalido">{{ $message }}</div> @enderror
-                    @error("itens.$i.quantidade") <div class="invalido">{{ $message }}</div> @enderror
                 @endforeach
             </div>
-            <p><button type="button" class="btn peq sec" onclick="adicionarItem()">+ Adicionar produto</button></p>
+            <p><button type="button" class="btn-small grey" onclick="adicionarItem()">+ Adicionar produto</button></p>
 
-            <button class="btn">Salvar</button>
-            <a class="btn sec" href="{{ route('pedidos.index') }}">Cancelar</a>
+            <button class="btn blue-grey darken-3">Salvar</button>
+            <a class="btn grey" href="{{ route('pedidos.index') }}">Cancelar</a>
         </form>
     </div>
 
@@ -82,12 +86,24 @@
 
         function adicionarItem() {
             const container = document.getElementById('itens');
-            const linha = container.querySelector('.item').cloneNode(true);
-            linha.querySelector('select').name = `itens[${indice}][produto_id]`;
-            linha.querySelector('select').value = '';
-            linha.querySelector('input').name = `itens[${indice}][quantidade]`;
-            linha.querySelector('input').value = 1;
+            const primeira = container.querySelector('.item');
+            const linha = primeira.cloneNode(true);
+
+            // desfaz o select do Materialize na copia e recria
+            const campo = linha.querySelector('.produto');
+            const select = campo.querySelector('select');
+            campo.innerHTML = '';
+            campo.appendChild(select);
+            campo.querySelectorAll('.helper-text').forEach(e => e.remove());
+            select.classList.remove('initialized');
+            select.name = `itens[${indice}][produto_id]`;
+            select.value = '';
+            linha.querySelectorAll('.quantidade .helper-text').forEach(e => e.remove());
+            linha.querySelector('.quantidade input').name = `itens[${indice}][quantidade]`;
+            linha.querySelector('.quantidade input').value = 1;
+
             container.appendChild(linha);
+            M.FormSelect.init(select);
             indice++;
         }
 
