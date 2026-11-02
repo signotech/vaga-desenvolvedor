@@ -77,6 +77,8 @@ Devem ser utilizadas as seguintes tecnologias:
 
 Aplicação em Laravel, usando SQLite. Requisitos: PHP 8.4 ou superior (com `pdo_sqlite`) e Composer.
 
+As telas usam Materialize e Material Icons carregados por CDN, então é preciso ter conexão com a internet para o visual carregar. Sem internet o sistema funciona, mas sem estilo nem ícones.
+
 ```bash
 cd pedidos
 composer install
