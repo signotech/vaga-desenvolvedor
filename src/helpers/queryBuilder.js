@@ -64,6 +64,10 @@ function buildOrder(query = {}, allowedSorts = [], defaultSort = { key: 'id', di
   const requestedDir = query.sort ? query.dir : defaultSort.dir;
   const direction = String(requestedDir).toLowerCase() === 'asc' ? 'ASC' : 'DESC';
 
+  if (Array.isArray(column)) {
+    return [[...column, direction]];
+  }
+
   return [[column, direction]];
 }
 

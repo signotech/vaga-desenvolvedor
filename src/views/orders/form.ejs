@@ -1,0 +1,160 @@
+<div class="row valign-wrapper">
+  <div class="col s12">
+    <h4><%= isEdit ? 'Editar pedido' : 'Novo pedido' %></h4>
+  </div>
+</div>
+
+<form method="POST" action="<%= formAction %>" data-order-form>
+  <% if (isEdit) { %>
+    <input type="hidden" name="_method" value="PUT">
+  <% } %>
+
+  <div class="card-panel">
+    <div class="row">
+      <div class="col s12 m4">
+        <label for="client_id" class="active">Cliente</label>
+        <select id="client_id" name="client_id" class="browser-default">
+          <option value="">Selecione um cliente</option>
+          <% clients.forEach((client) => { %>
+            <option
+              value="<%= client.id %>"
+              <%= String(order.clientId) === String(client.id) ? 'selected' : '' %>
+            >
+              <%= client.name %>
+            </option>
+          <% }); %>
+        </select>
+        <% if (errors.client_id) { %>
+          <span class="helper-text red-text"><%= errors.client_id.msg %></span>
+        <% } %>
+      </div>
+
+      <div class="col s12 m3">
+        <label for="status" class="active">Status</label>
+        <select id="status" name="status" class="browser-default">
+          <% statuses.forEach((status) => { %>
+            <option value="<%= status %>" <%= order.status === status ? 'selected' : '' %>>
+              <%= statusLabel(status) %>
+            </option>
+          <% }); %>
+        </select>
+        <% if (errors.status) { %>
+          <span class="helper-text red-text"><%= errors.status.msg %></span>
+        <% } %>
+      </div>
+
+      <div class="input-field col s12 m3">
+        <input
+          id="ordered_at"
+          name="ordered_at"
+          type="datetime-local"
+          value="<%= order.orderedAt %>"
+          class="<%= errors.ordered_at ? 'invalid' : '' %>"
+        >
+        <label for="ordered_at" class="active">Data do pedido</label>
+        <% if (errors.ordered_at) { %>
+          <span class="helper-text red-text"><%= errors.ordered_at.msg %></span>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s12 m3">
+        <label for="discount_type" class="active">Tipo de desconto</label>
+        <select id="discount_type" name="discount_type" class="browser-default">
+          <option value="none" <%= order.discountType === 'none' ? 'selected' : '' %>>
+            Sem desconto
+          </option>
+          <option value="percent" <%= order.discountType === 'percent' ? 'selected' : '' %>>
+            Percentual (%)
+          </option>
+          <option value="fixed" <%= order.discountType === 'fixed' ? 'selected' : '' %>>
+            Valor fixo (R$)
+          </option>
+        </select>
+        <% if (errors.discount_type) { %>
+          <span class="helper-text red-text"><%= errors.discount_type.msg %></span>
+        <% } %>
+      </div>
+
+      <div class="input-field col s12 m3">
+        <input
+          id="discount_value"
+          name="discount_value"
+          type="number"
+          min="0"
+          step="0.01"
+          value="<%= order.discountValue ?? 0 %>"
+          class="<%= errors.discount_value ? 'invalid' : '' %>"
+        >
+        <label for="discount_value" class="active">Valor do desconto</label>
+        <% if (errors.discount_value) { %>
+          <span class="helper-text red-text"><%= errors.discount_value.msg %></span>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <h5>Itens do pedido</h5>
+
+  <% if (errors.items) { %>
+    <div class="card-panel red lighten-4 red-text text-darken-4">
+      <%= errors.items.msg %>
+    </div>
+  <% } %>
+
+  <table class="striped order-items-table">
+    <thead>
+      <tr>
+        <th>Produto</th>
+        <th class="quantity-cell">Qtd.</th>
+        <th class="right-align">Preço unit.</th>
+        <th class="right-align">Subtotal</th>
+        <th class="remove-cell"></th>
+      </tr>
+    </thead>
+    <tbody data-order-items>
+      <% order.items.forEach((item, index) => { %>
+        <%- include('item-row', { index, item }) %>
+      <% }); %>
+    </tbody>
+  </table>
+
+  <button type="button" class="btn-flat" data-add-item>
+    <i class="material-icons left">add</i>
+    Adicionar item
+  </button>
+
+  <div class="row">
+    <div class="col s12 m5 offset-m7">
+      <table class="summary-table">
+        <tr>
+          <td>Subtotal</td>
+          <td class="right-align" data-summary-subtotal>R$ 0,00</td>
+        </tr>
+        <tr>
+          <td>Desconto</td>
+          <td class="right-align" data-summary-discount>R$ 0,00</td>
+        </tr>
+        <tr>
+          <td><strong>Total</strong></td>
+          <td class="right-align"><strong data-summary-total>R$ 0,00</strong></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col s12">
+      <button type="submit" class="btn blue darken-2">
+        <i class="material-icons left">save</i>
+        Salvar
+      </button>
+      <a href="/orders" class="btn-flat">Cancelar</a>
+    </div>
+  </div>
+</form>
+
+<template id="order-item-template">
+  <%- include('item-row', { index: '__INDEX__', item: { productId: '', quantity: 1 }, errors: {} }) %>
+</template>

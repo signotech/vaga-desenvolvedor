@@ -103,6 +103,33 @@ nav .brand-logo {
   background-color: #e53935;
 }
 
+.order-items-table select {
+  margin: 0;
+}
+
+.order-items-table th,
+.order-items-table td {
+  vertical-align: top;
+  padding: 8px 10px;
+}
+
+.order-items-table .quantity-cell {
+  width: 110px;
+}
+
+.order-items-table .quantity-input {
+  margin: 0;
+}
+
+.order-items-table .remove-cell {
+  width: 64px;
+  text-align: right;
+}
+
+.summary-table td {
+  padding: 6px 8px;
+}
+
 @media (max-width: 600px) {
   .per-page-wrapper {
     justify-content: flex-start;

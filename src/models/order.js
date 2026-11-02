@@ -10,9 +10,36 @@ const DISCOUNT_TYPES = ['none', 'fixed', 'percent'];
 
 class Order extends Model {
   /**
-   * Calcula subtotal, desconto e total a partir dos itens do pedido.
+   * Calcula subtotal, desconto e total a partir de um subtotal já conhecido.
    * O desconto percentual é limitado a 100% e o desconto fixo ao subtotal,
    * garantindo que o total nunca seja negativo.
+   */
+  static calculateTotalsFromSubtotal(
+    subtotal,
+    discountType = 'none',
+    discountValue = 0,
+  ) {
+    const base = Math.max(Number(subtotal) || 0, 0);
+    const value = Math.max(Number(discountValue) || 0, 0);
+    let discountAmount = 0;
+
+    if (discountType === 'percent') {
+      discountAmount = base * (Math.min(value, 100) / 100);
+    }
+
+    if (discountType === 'fixed') {
+      discountAmount = Math.min(value, base);
+    }
+
+    return {
+      subtotal: roundMoney(base),
+      discountAmount: roundMoney(discountAmount),
+      total: roundMoney(base - discountAmount),
+    };
+  }
+
+  /**
+   * Calcula subtotal, desconto e total a partir dos itens do pedido.
    */
   static calculateTotals(items = [], discountType = 'none', discountValue = 0) {
     const subtotal = items.reduce(
@@ -20,22 +47,11 @@ class Order extends Model {
       0,
     );
 
-    const value = Math.max(Number(discountValue) || 0, 0);
-    let discountAmount = 0;
-
-    if (discountType === 'percent') {
-      discountAmount = subtotal * (Math.min(value, 100) / 100);
-    }
-
-    if (discountType === 'fixed') {
-      discountAmount = Math.min(value, subtotal);
-    }
-
-    return {
-      subtotal: roundMoney(subtotal),
-      discountAmount: roundMoney(discountAmount),
-      total: roundMoney(subtotal - discountAmount),
-    };
+    return Order.calculateTotalsFromSubtotal(
+      subtotal,
+      discountType,
+      discountValue,
+    );
   }
 }
 
