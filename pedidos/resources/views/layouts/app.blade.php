@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('titulo') - Pedidos</title>
+    <title>@yield('titulo') - PedidoGo</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <style>
@@ -26,6 +26,11 @@
         .item .produto { flex: 1; min-width: 0; }
         .item .quantidade { width: 90px; }
         nav .brand-logo { font-size: 1.4rem; }
+
+        /* login e cadastro centralizados */
+        .auth-tela { min-height: calc(100vh - 120px); display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .auth-marca { font-size: 2.4rem; font-weight: 300; margin-bottom: 16px; color: #37474f; }
+        .auth-card { width: 100%; max-width: 420px; margin: 0; }
 
         /* celular: cada linha da tabela vira um card */
         @media (max-width: 600px) {
@@ -57,7 +62,7 @@
     @auth
         <nav class="blue-grey darken-3">
             <div class="nav-wrapper container">
-                <a href="{{ route('pedidos.index') }}" class="brand-logo">Pedidex</a>
+                <a href="{{ route('pedidos.index') }}" class="brand-logo">PedidoGo</a>
                 <a href="#" data-target="menu-lateral" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
                     <li class="{{ request()->routeIs('pedidos.*') ? 'active' : '' }}"><a href="{{ route('pedidos.index') }}">Pedidos</a></li>
