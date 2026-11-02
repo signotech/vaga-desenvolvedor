@@ -7,10 +7,12 @@
         <a class="btn" href="{{ route('pedidos.create') }}">Novo pedido</a>
     </div>
     <div class="card">
+        @include('partials.barra', ['rota' => 'pedidos.destroy-many', 'itens' => $pedidos])
         <form method="GET" id="filtro"></form>
         <table>
             <thead>
                 <tr>
+                    <th><input type="checkbox" onclick="document.querySelectorAll('input[form=massa]').forEach(c => c.checked = this.checked)"></th>
                     @include('partials.th', ['campo' => 'id', 'rotulo' => 'Código'])
                     @include('partials.th', ['campo' => 'cliente', 'rotulo' => 'Cliente'])
                     @include('partials.th', ['campo' => 'data_pedido', 'rotulo' => 'Data'])
@@ -19,6 +21,7 @@
                     <th>Ações</th>
                 </tr>
                 <tr class="filtros">
+                    <th></th>
                     <th><input form="filtro" name="id" value="{{ request('id') }}" placeholder="Filtrar"></th>
                     <th><input form="filtro" name="cliente" value="{{ request('cliente') }}" placeholder="Filtrar"></th>
                     <th><input form="filtro" type="date" name="data_pedido" value="{{ request('data_pedido') }}"></th>
@@ -40,6 +43,7 @@
             <tbody>
                 @forelse ($pedidos as $pedido)
                     <tr>
+                        <td><input type="checkbox" form="massa" name="ids[]" value="{{ $pedido->id }}"></td>
                         <td><a href="{{ route('pedidos.show', $pedido) }}">{{ $pedido->id }}</a></td>
                         <td><a href="{{ route('clientes.index', ['id' => $pedido->cliente_id]) }}">{{ $pedido->cliente }}</a></td>
                         <td>{{ $pedido->data_pedido->format('d/m/Y H:i') }}</td>
@@ -52,7 +56,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="6">Nenhum pedido encontrado.</td></tr>
+                    <tr><td colspan="7">Nenhum pedido encontrado.</td></tr>
                 @endforelse
             </tbody>
         </table>

@@ -23,6 +23,10 @@
         .btn.sec { background: #6b7280; }
         .btn.perigo { background: #b42318; }
         .btn.peq { padding: 4px 9px; font-size: 13px; }
+        input[type=checkbox] { width: auto; }
+        .barra { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+        .barra form { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 14px; }
+        .barra select { width: auto; }
         .acoes { display: flex; gap: 6px; }
         .acoes form { margin: 0; }
         .msg { padding: 10px 14px; border-radius: 4px; margin-bottom: 14px; }

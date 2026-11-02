@@ -12,7 +12,7 @@ class ClienteController extends Controller
 
     public function index(Request $request)
     {
-        $clientes = Cliente::listar($request, self::CAMPOS)->paginate(20)->withQueryString();
+        $clientes = Cliente::listar($request, self::CAMPOS)->paginate($this->porPagina($request))->withQueryString();
 
         return view('clientes.index', compact('clientes'));
     }
@@ -50,5 +50,21 @@ class ClienteController extends Controller
         $cliente->delete();
 
         return redirect()->route('clientes.index')->with('ok', 'Cliente excluído.');
+    }
+
+    public function destroyMany(Request $request)
+    {
+        $ids = $this->idsSelecionados($request);
+
+        $comPedidos = Cliente::whereIn('id', $ids)->whereHas('pedidos')->pluck('id');
+        $excluidos = Cliente::whereIn('id', $ids)->whereNotIn('id', $comPedidos)->delete();
+
+        $retorno = back()->with('ok', "$excluidos cliente(s) excluído(s).");
+
+        if ($comPedidos->isNotEmpty()) {
+            $retorno->with('erro', $comPedidos->count() . ' cliente(s) possuem pedidos e não foram excluídos.');
+        }
+
+        return $retorno;
     }
 }

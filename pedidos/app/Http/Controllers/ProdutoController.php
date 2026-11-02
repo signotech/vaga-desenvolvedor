@@ -12,7 +12,7 @@ class ProdutoController extends Controller
 
     public function index(Request $request)
     {
-        $produtos = Produto::listar($request, self::CAMPOS)->paginate(20)->withQueryString();
+        $produtos = Produto::listar($request, self::CAMPOS)->paginate($this->porPagina($request))->withQueryString();
 
         return view('produtos.index', compact('produtos'));
     }
@@ -50,5 +50,21 @@ class ProdutoController extends Controller
         $produto->delete();
 
         return redirect()->route('produtos.index')->with('ok', 'Produto excluído.');
+    }
+
+    public function destroyMany(Request $request)
+    {
+        $ids = $this->idsSelecionados($request);
+
+        $emPedidos = Produto::whereIn('id', $ids)->whereHas('itens')->pluck('id');
+        $excluidos = Produto::whereIn('id', $ids)->whereNotIn('id', $emPedidos)->delete();
+
+        $retorno = back()->with('ok', "$excluidos produto(s) excluído(s).");
+
+        if ($emPedidos->isNotEmpty()) {
+            $retorno->with('erro', $emPedidos->count() . ' produto(s) estão em pedidos e não foram excluídos.');
+        }
+
+        return $retorno;
     }
 }

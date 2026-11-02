@@ -7,10 +7,12 @@
         <a class="btn" href="{{ route('clientes.create') }}">Novo cliente</a>
     </div>
     <div class="card">
-        <form method="GET" id="filtro" class="filtros"></form>
+        @include('partials.barra', ['rota' => 'clientes.destroy-many', 'itens' => $clientes])
+        <form method="GET" id="filtro"></form>
         <table>
             <thead>
                 <tr>
+                    <th><input type="checkbox" onclick="document.querySelectorAll('input[form=massa]').forEach(c => c.checked = this.checked)"></th>
                     @include('partials.th', ['campo' => 'id', 'rotulo' => 'Código'])
                     @include('partials.th', ['campo' => 'nome', 'rotulo' => 'Nome'])
                     @include('partials.th', ['campo' => 'cpf', 'rotulo' => 'CPF'])
@@ -18,6 +20,7 @@
                     <th>Ações</th>
                 </tr>
                 <tr class="filtros">
+                    <th></th>
                     @foreach (['id', 'nome', 'cpf', 'email'] as $campo)
                         <th><input form="filtro" name="{{ $campo }}" value="{{ request($campo) }}" placeholder="Filtrar"></th>
                     @endforeach
@@ -30,6 +33,7 @@
             <tbody>
                 @forelse ($clientes as $cliente)
                     <tr>
+                        <td><input type="checkbox" form="massa" name="ids[]" value="{{ $cliente->id }}"></td>
                         <td>{{ $cliente->id }}</td>
                         <td>{{ $cliente->nome }}</td>
                         <td>{{ $cliente->cpf }}</td>
@@ -41,7 +45,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="5">Nenhum cliente encontrado.</td></tr>
+                    <tr><td colspan="6">Nenhum cliente encontrado.</td></tr>
                 @endforelse
             </tbody>
         </table>
