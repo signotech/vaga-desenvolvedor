@@ -190,4 +190,34 @@ class PedidoTest extends TestCase
         $this->get('/pedidos?ordem=desconto&direcao=desc')
             ->assertViewHas('pedidos', fn ($l) => $l->pluck('id')->all() === [$c->id, $b->id, $a->id]);
     }
+
+    public function test_fuso_padrao_e_sao_paulo(): void
+    {
+        $this->assertSame('America/Sao_Paulo', config('app.timezone'));
+    }
+
+    public function test_novo_pedido_sugere_a_hora_de_sao_paulo(): void
+    {
+        $this->travelTo(now()->setTimezone('America/Sao_Paulo')->setDate(2026, 11, 2)->setTime(23, 30));
+
+        $this->get('/pedidos/create')->assertSee('value="2026-11-02T23:30"', false);
+    }
+
+    public function test_hora_do_pedido_nao_desloca_ao_salvar_e_reabrir(): void
+    {
+        $this->post('/pedidos', $this->dados(['data_pedido' => '2026-11-02 23:30']))->assertRedirect('/pedidos');
+        $pedido = Pedido::first();
+
+        $this->get('/pedidos')->assertSee('02/11/2026 23:30');
+        $this->get("/pedidos/{$pedido->id}")->assertSee('02/11/2026 23:30');
+        $this->get("/pedidos/{$pedido->id}/edit")->assertSee('value="2026-11-02T23:30"', false);
+    }
+
+    public function test_filtro_por_data_acha_pedido_perto_da_meia_noite(): void
+    {
+        $this->post('/pedidos', $this->dados(['data_pedido' => '2026-11-02 23:30']));
+
+        $this->get('/pedidos?data_pedido=2026-11-02')->assertViewHas('pedidos', fn ($p) => $p->count() === 1);
+        $this->get('/pedidos?data_pedido=2026-11-03')->assertViewHas('pedidos', fn ($p) => $p->count() === 0);
+    }
 }

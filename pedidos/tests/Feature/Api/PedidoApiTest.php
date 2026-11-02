@@ -169,4 +169,11 @@ class PedidoApiTest extends TestCase
         $this->getJson('/api/pedidos?ordem=desconto&direcao=desc')
             ->assertJsonPath('data.*.id', [$c->id, $b->id, $a->id]);
     }
+
+    public function test_data_do_pedido_sai_com_offset_de_sao_paulo(): void
+    {
+        $this->postJson('/api/pedidos', $this->dados(['data_pedido' => '2026-11-02 23:30']))
+            ->assertCreated()
+            ->assertJsonPath('data.data_pedido', '2026-11-02T23:30:00-03:00');
+    }
 }
