@@ -68,6 +68,7 @@
                     <li class="{{ request()->routeIs('pedidos.*') ? 'active' : '' }}"><a href="{{ route('pedidos.index') }}">Pedidos</a></li>
                     <li class="{{ request()->routeIs('clientes.*') ? 'active' : '' }}"><a href="{{ route('clientes.index') }}">Clientes</a></li>
                     <li class="{{ request()->routeIs('produtos.*') ? 'active' : '' }}"><a href="{{ route('produtos.index') }}">Produtos</a></li>
+                    <li class="{{ request()->routeIs('registro') ? 'active' : '' }}"><a href="{{ route('registro') }}">Novo usuário</a></li>
                     <li><span class="white-text" style="padding: 0 15px">{{ auth()->user()->name }}</span></li>
                     <li>
                         <form method="POST" action="{{ route('logout') }}">
@@ -84,6 +85,7 @@
             <li class="{{ request()->routeIs('pedidos.*') ? 'active' : '' }}"><a href="{{ route('pedidos.index') }}">Pedidos</a></li>
             <li class="{{ request()->routeIs('clientes.*') ? 'active' : '' }}"><a href="{{ route('clientes.index') }}">Clientes</a></li>
             <li class="{{ request()->routeIs('produtos.*') ? 'active' : '' }}"><a href="{{ route('produtos.index') }}">Produtos</a></li>
+            <li class="{{ request()->routeIs('registro') ? 'active' : '' }}"><a href="{{ route('registro') }}">Novo usuário</a></li>
             <li>
                 <form method="POST" action="{{ route('logout') }}" style="padding: 0 32px">
                     @csrf

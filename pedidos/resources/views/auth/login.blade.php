@@ -23,7 +23,6 @@
                 </p>
                 <br>
                 <button class="btn blue-grey darken-3">Entrar</button>
-                <a class="btn-flat" href="{{ route('registro') }}">Criar conta</a>
             </form>
         </div>
     </div>

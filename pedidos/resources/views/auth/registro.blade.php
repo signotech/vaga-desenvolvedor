@@ -17,7 +17,6 @@
                 @endforeach
                 <br>
                 <button class="btn blue-grey darken-3">Cadastrar</button>
-                <a class="btn-flat" href="{{ route('login') }}">Já tenho conta</a>
             </form>
         </div>
     </div>
