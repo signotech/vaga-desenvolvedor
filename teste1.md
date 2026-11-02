@@ -140,6 +140,8 @@ O `preco_unitario` é gravado no item para que uma mudança no preço do produto
 - Ambiente com Docker
 - Desconto percentual (0 a 100) no pedido, aplicado ao total
 - API REST JSON para os três CRUDs em `/api` (ver seção "API")
+- Autenticação de usuário: login, cadastro e logout nas telas; todas as rotas web (clientes, produtos e pedidos) exigem login
+- A API exige HTTP Basic (e-mail e senha), sem sessão, e responde 401 em JSON sem credenciais
 
 ## API
 
@@ -155,3 +157,18 @@ Todas as rotas respondem JSON. As listagens são paginadas (20 por padrão; `por
 | DELETE | `/api/{recurso}` com `{"ids": [1, 2]}` | Exclusão em massa | 200 com `{"excluidos": n, "ignorados": n}` |
 
 O pedido é enviado com `cliente_id`, `data_pedido`, `status`, `desconto` (opcional) e `itens` (`produto_id` e `quantidade`), e volta com cliente, itens, `subtotal`, `desconto` e `total`.
+
+## Acesso
+
+Depois de `php artisan migrate --seed` existe o usuário de teste:
+
+- E-mail: `admin@exemplo.com`
+- Senha: `senha1234`
+
+Também é possível criar uma conta em `/registro` (senha com no mínimo 8 caracteres).
+
+Chamada da API com Basic:
+
+```bash
+curl -u admin@exemplo.com:senha1234 http://localhost:8000/api/clientes
+```
