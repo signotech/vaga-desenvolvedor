@@ -10,13 +10,11 @@ class ItemPedidoFactory extends Factory
 {
     public function definition(): array
     {
-        $produto = Produto::factory()->create();
-
         return [
             'pedido_id' => Pedido::factory(),
-            'produto_id' => $produto->id,
+            'produto_id' => Produto::factory(),
             'quantidade' => fake()->numberBetween(1, 5),
-            'preco_unitario' => $produto->preco,
+            'preco_unitario' => fn (array $atributos) => Produto::find($atributos['produto_id'])->preco,
         ];
     }
 }
