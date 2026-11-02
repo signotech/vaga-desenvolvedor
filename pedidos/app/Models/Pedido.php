@@ -15,7 +15,7 @@ class Pedido extends Model
 
     public const STATUS = ['Em Aberto', 'Pago', 'Cancelado'];
 
-    public const ORDENAVEIS = ['id', 'data_pedido', 'status', 'cliente'];
+    public const ORDENAVEIS = ['id', 'data_pedido', 'status', 'cliente', 'desconto', 'total'];
 
     protected $fillable = ['cliente_id', 'data_pedido', 'status', 'desconto'];
 
@@ -31,11 +31,15 @@ class Pedido extends Model
         return $this->hasMany(ItemPedido::class);
     }
 
+    // total calculado na query: soma dos itens com o desconto percentual aplicado
+    private const TOTAL_SQL = '(coalesce((select sum(item_pedidos.quantidade * item_pedidos.preco_unitario) from item_pedidos where item_pedidos.pedido_id = pedidos.id), 0) * (1 - pedidos.desconto / 100.0))';
+
     // filtros e ordenação da listagem; o nome do cliente vem no campo "cliente"
     public function scopeListar(Builder $query, Request $request): Builder
     {
         $query->join('clientes', 'clientes.id', '=', 'pedidos.cliente_id')
             ->select('pedidos.*', 'clientes.nome as cliente')
+            ->selectRaw('round(' . self::TOTAL_SQL . ', 2) as total_calculado')
             ->with('itens');
 
         if ($request->filled('id')) {
@@ -50,9 +54,23 @@ class Pedido extends Model
         if ($request->filled('status')) {
             $query->where('pedidos.status', $request->input('status'));
         }
+        if ($request->filled('desconto')) {
+            is_numeric($request->input('desconto'))
+                ? $query->where('pedidos.desconto', (float) $request->input('desconto'))
+                : $query->whereRaw('1 = 0');
+        }
+        if ($request->filled('total')) {
+            is_numeric($request->input('total'))
+                ? $query->whereRaw('abs(' . self::TOTAL_SQL . ' - ?) < 0.005', [(float) $request->input('total')])
+                : $query->whereRaw('1 = 0');
+        }
 
         $ordem = in_array($request->input('ordem'), self::ORDENAVEIS) ? $request->input('ordem') : 'id';
-        $coluna = $ordem === 'cliente' ? 'clientes.nome' : "pedidos.$ordem";
+        $coluna = match ($ordem) {
+            'cliente' => 'clientes.nome',
+            'total' => 'total_calculado',
+            default => "pedidos.$ordem",
+        };
         $direcao = $request->input('direcao') === 'desc' ? 'desc' : 'asc';
 
         return $query->orderBy($coluna, $direcao);
