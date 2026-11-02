@@ -17,7 +17,7 @@ class ProdutoController extends Controller
     public function index(Request $request)
     {
         return ProdutoResource::collection(
-            Produto::listar($request, self::CAMPOS)->paginate($this->porPagina($request))->withQueryString()
+            Produto::listar($request, self::CAMPOS, ['id', 'preco', 'estoque'])->paginate($this->porPagina($request))->withQueryString()
         );
     }
 

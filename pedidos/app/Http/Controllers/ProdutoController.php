@@ -12,7 +12,7 @@ class ProdutoController extends Controller
 
     public function index(Request $request)
     {
-        $produtos = Produto::listar($request, self::CAMPOS)->paginate($this->porPagina($request))->withQueryString();
+        $produtos = Produto::listar($request, self::CAMPOS, ['id', 'preco', 'estoque'])->paginate($this->porPagina($request))->withQueryString();
 
         return view('produtos.index', compact('produtos'));
     }

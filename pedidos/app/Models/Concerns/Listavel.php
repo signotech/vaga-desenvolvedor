@@ -7,11 +7,21 @@ use Illuminate\Http\Request;
 
 trait Listavel
 {
-    public function scopeListar(Builder $query, Request $request, array $campos): Builder
+    public function scopeListar(Builder $query, Request $request, array $campos, array $exatos = ['id']): Builder
     {
         foreach ($campos as $campo) {
-            if ($request->filled($campo)) {
-                $query->where($campo, 'like', '%' . $request->input($campo) . '%');
+            if (! $request->filled($campo)) {
+                continue;
+            }
+
+            $valor = $request->input($campo);
+
+            if (! in_array($campo, $exatos)) {
+                $query->where($campo, 'like', '%' . $valor . '%');
+            } elseif (is_numeric($valor)) {
+                $query->where($campo, $valor);
+            } else {
+                $query->whereRaw('1 = 0');
             }
         }
 
