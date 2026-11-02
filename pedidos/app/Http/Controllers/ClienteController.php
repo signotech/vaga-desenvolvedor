@@ -12,7 +12,7 @@ class ClienteController extends Controller
 
     public function index(Request $request)
     {
-        $clientes = Cliente::listar($request, self::CAMPOS)->paginate($this->porPagina($request))->withQueryString();
+        $clientes = Cliente::listar($request, self::CAMPOS, ['id'], ['cpf'])->paginate($this->porPagina($request))->withQueryString();
 
         return view('clientes.index', compact('clientes'));
     }

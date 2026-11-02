@@ -18,6 +18,11 @@ class Cliente extends Model
         return $this->hasMany(Pedido::class);
     }
 
+    public function getCpfFormatadoAttribute(): string
+    {
+        return preg_replace('/^(\d{3})(\d{3})(\d{3})(\d{2})$/', '$1.$2.$3-$4', (string) $this->cpf);
+    }
+
     // exclui os que não têm pedidos; retorna [excluídos, ignorados]
     public static function excluirSemVinculos(array $ids): array
     {

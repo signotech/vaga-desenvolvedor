@@ -17,7 +17,7 @@ class ClienteController extends Controller
     public function index(Request $request)
     {
         return ClienteResource::collection(
-            Cliente::listar($request, self::CAMPOS)->paginate($this->porPagina($request))->withQueryString()
+            Cliente::listar($request, self::CAMPOS, ['id'], ['cpf'])->paginate($this->porPagina($request))->withQueryString()
         );
     }
 

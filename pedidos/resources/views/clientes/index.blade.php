@@ -37,7 +37,7 @@
                             <td data-label="Selecionar"><label><input type="checkbox" form="massa" name="ids[]" value="{{ $cliente->id }}"><span></span></label></td>
                             <td data-label="Código">{{ $cliente->id }}</td>
                             <td data-label="Nome">{{ $cliente->nome }}</td>
-                            <td data-label="CPF">{{ $cliente->cpf }}</td>
+                            <td data-label="CPF">{{ $cliente->cpf_formatado }}</td>
                             <td data-label="E-mail">{{ $cliente->email }}</td>
                             <td class="acoes">
                                 <a class="btn-small blue-grey darken-3" href="{{ route('pedidos.index', ['cliente' => $cliente->nome]) }}">Pedidos</a>

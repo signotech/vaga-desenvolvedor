@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 trait Listavel
 {
-    public function scopeListar(Builder $query, Request $request, array $campos, array $exatos = ['id']): Builder
+    public function scopeListar(Builder $query, Request $request, array $campos, array $exatos = ['id'], array $digitos = []): Builder
     {
         foreach ($campos as $campo) {
             if (! $request->filled($campo)) {
@@ -15,6 +15,10 @@ trait Listavel
             }
 
             $valor = $request->input($campo);
+
+            if (in_array($campo, $digitos)) {
+                $valor = preg_replace('/\D/', '', $valor) ?: $valor;
+            }
 
             if (! in_array($campo, $exatos)) {
                 $query->where($campo, 'like', '%' . $valor . '%');
