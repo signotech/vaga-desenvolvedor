@@ -75,7 +75,7 @@ Devem ser utilizadas as seguintes tecnologias:
 
 ## Como executar
 
-Aplicação em Laravel, usando SQLite. Requisitos: PHP 8.3 ou superior (com `pdo_sqlite`) e Composer.
+Aplicação em Laravel, usando SQLite. Requisitos: PHP 8.4 ou superior (com `pdo_sqlite`) e Composer.
 
 ```bash
 cd pedidos
