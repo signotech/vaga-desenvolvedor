@@ -168,7 +168,9 @@ Depois de `php artisan migrate --seed` existe o usuário de teste:
 - E-mail: `admin@exemplo.com`
 - Senha: `senha1234`
 
-Também é possível criar uma conta em `/registro` (senha com no mínimo 8 caracteres).
+Novos usuários só podem ser criados por quem já está logado, em `/registro` (senha com no mínimo 8 caracteres).
+
+O login aceita no máximo 5 tentativas por minuto por e-mail e IP, e a API aceita até 60 requisições por minuto (resposta 429 ao passar do limite).
 
 Chamada da API com Basic:
 
