@@ -1,0 +1,62 @@
+<tr class="order-item-row">
+  <td>
+    <select
+      name="items[<%= index %>][productId]"
+      class="browser-default product-select"
+    >
+      <option value="">Selecione um produto</option>
+      <% products.forEach((product) => { %>
+        <option
+          value="<%= product.id %>"
+          data-price="<%= product.price %>"
+          <%= String(item.productId) === String(product.id) ? 'selected' : '' %>
+        >
+          <%= product.title %>
+        </option>
+      <% }); %>
+    </select>
+    <% const productError = errors[`items[${index}].productId`]; %>
+    <% if (productError) { %>
+      <span class="helper-text red-text"><%= productError.msg %></span>
+    <% } %>
+  </td>
+
+  <td class="quantity-cell">
+    <input
+      type="number"
+      name="items[<%= index %>][quantity]"
+      class="quantity-input"
+      min="1"
+      step="1"
+      value="<%= item.quantity || 1 %>"
+    >
+    <% const quantityError = errors[`items[${index}].quantity`]; %>
+    <% if (quantityError) { %>
+      <span class="helper-text red-text"><%= quantityError.msg %></span>
+    <% } %>
+  </td>
+
+  <td class="unit-price">
+    <% const unitPrice = item.unitPrice ?? (productIndex[item.productId] || {}).price; %>
+    <%= unitPrice ? formatMoney(unitPrice) : '—' %>
+  </td>
+
+  <td class="subtotal">
+    <% if (unitPrice) { %>
+      <%= formatMoney(Number(item.quantity || 0) * Number(unitPrice)) %>
+    <% } else { %>
+      —
+    <% } %>
+  </td>
+
+  <td class="remove-cell">
+    <button
+      type="button"
+      class="btn-flat red-text remove-item tooltipped"
+      data-position="top"
+      data-tooltip="Remover item"
+    >
+      <i class="material-icons">remove_circle</i>
+    </button>
+  </td>
+</tr>

@@ -1,0 +1,72 @@
+<div class="row valign-wrapper">
+  <div class="col s12">
+    <h4><%= isEdit ? 'Editar cliente' : 'Novo cliente' %></h4>
+  </div>
+</div>
+
+<form method="POST" action="<%= formAction %>" class="col s12">
+  <% if (isEdit) { %>
+    <input type="hidden" name="_method" value="PUT">
+  <% } %>
+
+  <div class="row">
+    <div class="input-field col s12 m6">
+      <input
+        id="name"
+        name="name"
+        type="text"
+        value="<%= client.name || '' %>"
+        class="<%= errors.name ? 'invalid' : '' %>"
+        maxlength="150"
+        autocomplete="off"
+      >
+      <label for="name" class="active">Nome</label>
+      <% if (errors.name) { %>
+        <span class="helper-text red-text"><%= errors.name.msg %></span>
+      <% } %>
+    </div>
+
+    <div class="input-field col s12 m3">
+      <input
+        id="cpf"
+        name="cpf"
+        type="text"
+        value="<%= formatCpf(client.cpf) === '—' ? '' : formatCpf(client.cpf) %>"
+        class="<%= errors.cpf ? 'invalid' : '' %>"
+        maxlength="14"
+        placeholder="000.000.000-00"
+        autocomplete="off"
+      >
+      <label for="cpf" class="active">CPF</label>
+      <% if (errors.cpf) { %>
+        <span class="helper-text red-text"><%= errors.cpf.msg %></span>
+      <% } %>
+    </div>
+
+    <div class="input-field col s12 m3">
+      <input
+        id="email"
+        name="email"
+        type="email"
+        value="<%= client.email || '' %>"
+        class="<%= errors.email ? 'invalid' : '' %>"
+        maxlength="255"
+        autocomplete="off"
+      >
+      <label for="email" class="active">E-mail</label>
+      <% if (errors.email) { %>
+        <span class="helper-text red-text"><%= errors.email.msg %></span>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col s12">
+      <button type="submit" class="btn blue darken-2">
+        <i class="material-icons left">save</i>
+        Salvar
+      </button>
+      <a href="/clients" class="btn-flat">Cancelar</a>
+    </div>
+  </div>
+</form>

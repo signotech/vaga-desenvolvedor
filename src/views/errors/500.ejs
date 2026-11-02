@@ -1,0 +1,13 @@
+<div class="center-align error-page">
+  <h1 class="red-text text-darken-2">500</h1>
+  <h5>Erro interno do servidor</h5>
+  <p class="grey-text">Não foi possível concluir a operação. Tente novamente.</p>
+
+  <% if (message) { %>
+    <div class="card-panel red lighten-4 red-text text-darken-4 left-align">
+      <strong>Detalhe:</strong> <%= message %>
+    </div>
+  <% } %>
+
+  <a href="/" class="btn blue darken-2">Voltar ao início</a>
+</div>

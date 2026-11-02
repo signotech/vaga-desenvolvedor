@@ -1,0 +1,157 @@
+<div class="row valign-wrapper">
+  <div class="col s12 m7">
+    <h4>Pedidos</h4>
+  </div>
+  <div class="col s12 m5 right-align">
+    <a href="/orders/new" class="btn blue darken-2">
+      <i class="material-icons left">add</i>
+      Novo pedido
+    </a>
+  </div>
+</div>
+
+<form method="GET" action="/orders" class="card-panel">
+  <div class="row">
+    <div class="input-field col s12 m4">
+      <input id="filter-client" name="client" type="text" value="<%= query.client || '' %>">
+      <label for="filter-client" class="active">Cliente</label>
+    </div>
+
+    <div class="col s12 m3">
+      <label for="filter-status" class="active">Status</label>
+      <select id="filter-status" name="status" class="browser-default">
+        <option value="">Todos</option>
+        <% statuses.forEach((status) => { %>
+          <option value="<%= status %>" <%= query.status === status ? 'selected' : '' %>>
+            <%= statusLabel(status) %>
+          </option>
+        <% }); %>
+      </select>
+    </div>
+
+    <div class="input-field col s12 m2">
+      <input id="filter-ordered-from" name="ordered_from" type="date" value="<%= query.ordered_from || '' %>">
+      <label for="filter-ordered-from" class="active">De</label>
+    </div>
+
+    <div class="input-field col s12 m2">
+      <input id="filter-ordered-to" name="ordered_to" type="date" value="<%= query.ordered_to || '' %>">
+      <label for="filter-ordered-to" class="active">Até</label>
+    </div>
+
+    <div class="col s12 m1 right-align filter-actions">
+      <% if (query.sort) { %><input type="hidden" name="sort" value="<%= query.sort %>"><% } %>
+      <% if (query.dir) { %><input type="hidden" name="dir" value="<%= query.dir %>"><% } %>
+      <% if (query.per_page) { %><input type="hidden" name="per_page" value="<%= query.per_page %>"><% } %>
+
+      <button type="submit" class="btn blue darken-2 tooltipped" data-position="top" data-tooltip="Filtrar">
+        <i class="material-icons">search</i>
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col s12">
+      <a href="/orders" class="btn-flat">Limpar filtros</a>
+    </div>
+  </div>
+</form>
+
+<% if (orders.length === 0) { %>
+  <div class="card-panel grey lighten-4 center-align">
+    Nenhum pedido encontrado.
+  </div>
+<% } else { %>
+  <form
+    id="bulk-delete-form"
+    method="POST"
+    action="/orders/bulk-delete"
+    data-confirm="Excluir os pedidos selecionados?"
+  >
+    <div class="row">
+      <div class="col s12">
+        <button type="submit" class="btn red darken-1" data-bulk-submit disabled>
+          <i class="material-icons left">delete_sweep</i>
+          Excluir selecionados
+          <span data-bulk-count></span>
+        </button>
+      </div>
+    </div>
+
+    <table class="striped responsive-table">
+      <thead>
+        <tr>
+          <th class="checkbox-cell">
+            <label>
+              <input type="checkbox" data-select-all>
+              <span></span>
+            </label>
+          </th>
+          <%- include('../partials/sort-header', { field: 'id', label: '#' }) %>
+          <%- include('../partials/sort-header', { field: 'client', label: 'Cliente' }) %>
+          <%- include('../partials/sort-header', { field: 'ordered_at', label: 'Data' }) %>
+          <%- include('../partials/sort-header', { field: 'status', label: 'Status' }) %>
+          <th class="right-align">Itens</th>
+          <%- include('../partials/sort-header', { field: 'total', label: 'Total' }) %>
+          <th class="right-align">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% orders.forEach((order) => { %>
+          <tr>
+            <td class="checkbox-cell">
+              <label>
+                <input type="checkbox" name="ids" value="<%= order.id %>" data-select-item>
+                <span></span>
+              </label>
+            </td>
+            <td>
+              <a href="/orders/<%= order.id %>">#<%= order.id %></a>
+            </td>
+            <td>
+              <a href="/clients/<%= order.client.id %>"><%= order.client.name %></a>
+            </td>
+            <td><%= formatDateTime(order.orderedAt) %></td>
+            <td>
+              <span class="status-badge <%= statusClass(order.status) %>">
+                <%= statusLabel(order.status) %>
+              </span>
+            </td>
+            <td class="right-align"><%= order.items.length %></td>
+            <td class="right-align"><%= formatMoney(order.total) %></td>
+            <td class="right-align table-actions">
+              <a
+                href="/orders/<%= order.id %>"
+                class="btn-flat tooltipped"
+                data-position="top"
+                data-tooltip="Visualizar"
+              >
+                <i class="material-icons">visibility</i>
+              </a>
+              <a
+                href="/orders/<%= order.id %>/edit"
+                class="btn-flat tooltipped"
+                data-position="top"
+                data-tooltip="Editar"
+              >
+                <i class="material-icons">edit</i>
+              </a>
+              <button
+                type="button"
+                class="btn-flat red-text tooltipped"
+                data-position="top"
+                data-tooltip="Excluir"
+                data-delete-url="/orders/<%= order.id %>"
+                data-delete-name="pedido #<%= order.id %>"
+              >
+                <i class="material-icons">delete</i>
+              </button>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </form>
+<% } %>
+
+<%- include('../partials/pagination') %>

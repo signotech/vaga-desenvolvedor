@@ -1,0 +1,51 @@
+<div class="row login-page">
+  <div class="col s12 m6 offset-m3">
+    <h4 class="center-align">Entrar</h4>
+
+    <% if (authError) { %>
+      <div class="card-panel red lighten-4 red-text text-darken-4">
+        <i class="material-icons left">error</i>
+        <%= authError %>
+      </div>
+    <% } %>
+
+    <form method="POST" action="/login" class="card-panel">
+      <div class="input-field">
+        <input
+          id="email"
+          name="email"
+          type="email"
+          value="<%= email || '' %>"
+          class="<%= errors.email ? 'invalid' : '' %>"
+          autocomplete="username"
+          autofocus
+        >
+        <label for="email" class="active">E-mail</label>
+        <% if (errors.email) { %>
+          <span class="helper-text red-text"><%= errors.email.msg %></span>
+        <% } %>
+      </div>
+
+      <div class="input-field">
+        <input
+          id="password"
+          name="password"
+          type="password"
+          class="<%= errors.password ? 'invalid' : '' %>"
+          autocomplete="current-password"
+        >
+        <label for="password" class="active">Senha</label>
+        <% if (errors.password) { %>
+          <span class="helper-text red-text"><%= errors.password.msg %></span>
+        <% } %>
+      </div>
+
+      <div class="right-align">
+        <button type="submit" class="btn blue darken-2">
+          <i class="material-icons left">login</i>
+          Entrar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

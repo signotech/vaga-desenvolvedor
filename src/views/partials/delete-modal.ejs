@@ -1,0 +1,17 @@
+<div id="delete-modal" class="modal">
+  <div class="modal-content">
+    <h5>Confirmar exclusão</h5>
+    <p>
+      Tem certeza que deseja excluir
+      <strong data-delete-name></strong>?
+    </p>
+    <p class="grey-text">Esta ação não pode ser desfeita.</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close btn-flat">Cancelar</a>
+    <form method="POST" data-delete-form class="right">
+      <input type="hidden" name="_method" value="DELETE">
+      <button type="submit" class="btn red">Excluir</button>
+    </form>
+  </div>
+</div>

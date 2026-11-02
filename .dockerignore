@@ -1,0 +1,12 @@
+node_modules
+.git
+.gitignore
+.env
+*.sqlite
+*.sqlite3
+coverage
+tests
+plan.md
+teste2.md
+npm-debug.log*
+*.log

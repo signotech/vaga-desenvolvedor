@@ -1,0 +1,89 @@
+<div class="row valign-wrapper">
+  <div class="col s12">
+    <h4><%= isEdit ? 'Editar produto' : 'Novo produto' %></h4>
+  </div>
+</div>
+
+<form method="POST" action="<%= formAction %>" class="col s12">
+  <% if (isEdit) { %>
+    <input type="hidden" name="_method" value="PUT">
+  <% } %>
+
+  <div class="row">
+    <div class="input-field col s12 m3">
+      <input
+        id="sku"
+        name="sku"
+        type="text"
+        value="<%= product.sku || '' %>"
+        class="<%= errors.sku ? 'invalid' : '' %>"
+        maxlength="100"
+        autocomplete="off"
+      >
+      <label for="sku" class="active">SKU</label>
+      <% if (errors.sku) { %>
+        <span class="helper-text red-text"><%= errors.sku.msg %></span>
+      <% } %>
+    </div>
+
+    <div class="input-field col s12 m9">
+      <input
+        id="title"
+        name="title"
+        type="text"
+        value="<%= product.title || '' %>"
+        class="<%= errors.title ? 'invalid' : '' %>"
+        maxlength="100"
+        autocomplete="off"
+      >
+      <label for="title" class="active">Título</label>
+      <% if (errors.title) { %>
+        <span class="helper-text red-text"><%= errors.title.msg %></span>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="input-field col s12 m4">
+      <input
+        id="price"
+        name="price"
+        type="number"
+        min="0"
+        step="0.01"
+        value="<%= product.price || '' %>"
+        class="<%= errors.price ? 'invalid' : '' %>"
+      >
+      <label for="price" class="active">Preço (R$)</label>
+      <% if (errors.price) { %>
+        <span class="helper-text red-text"><%= errors.price.msg %></span>
+      <% } %>
+    </div>
+
+    <div class="input-field col s12 m4">
+      <input
+        id="stock"
+        name="stock"
+        type="number"
+        min="0"
+        step="1"
+        value="<%= product.stock ?? '' %>"
+        class="<%= errors.stock ? 'invalid' : '' %>"
+      >
+      <label for="stock" class="active">Estoque</label>
+      <% if (errors.stock) { %>
+        <span class="helper-text red-text"><%= errors.stock.msg %></span>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col s12">
+      <button type="submit" class="btn blue darken-2">
+        <i class="material-icons left">save</i>
+        Salvar
+      </button>
+      <a href="/products" class="btn-flat">Cancelar</a>
+    </div>
+  </div>
+</form>
