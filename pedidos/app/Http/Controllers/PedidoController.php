@@ -6,12 +6,16 @@ use App\Http\Requests\PedidoRequest;
 use App\Models\Cliente;
 use App\Models\Pedido;
 use App\Models\Produto;
+use App\Services\PedidoService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class PedidoController extends Controller
 {
     private const ORDENAVEIS = ['id', 'data_pedido', 'status', 'cliente'];
+
+    public function __construct(private PedidoService $pedidos)
+    {
+    }
 
     public function index(Request $request)
     {
@@ -37,7 +41,7 @@ class PedidoController extends Controller
         $coluna = $ordem === 'cliente' ? 'clientes.nome' : "pedidos.$ordem";
         $direcao = $request->input('direcao') === 'desc' ? 'desc' : 'asc';
 
-        $pedidos = $query->orderBy($coluna, $direcao)->paginate(20)->withQueryString();
+        $pedidos = $query->orderBy($coluna, $direcao)->paginate($this->porPagina($request))->withQueryString();
 
         return view('pedidos.index', compact('pedidos'));
     }
@@ -49,10 +53,7 @@ class PedidoController extends Controller
 
     public function store(PedidoRequest $request)
     {
-        DB::transaction(function () use ($request) {
-            $pedido = Pedido::create($request->safe()->only(['cliente_id', 'data_pedido', 'status']));
-            $this->salvarItens($pedido, $request->input('itens'));
-        });
+        $this->pedidos->criar($request->validated());
 
         return redirect()->route('pedidos.index')->with('ok', 'Pedido cadastrado.');
     }
@@ -71,11 +72,7 @@ class PedidoController extends Controller
 
     public function update(PedidoRequest $request, Pedido $pedido)
     {
-        DB::transaction(function () use ($request, $pedido) {
-            $pedido->update($request->safe()->only(['cliente_id', 'data_pedido', 'status']));
-            $pedido->itens()->delete();
-            $this->salvarItens($pedido, $request->input('itens'));
-        });
+        $this->pedidos->atualizar($pedido, $request->validated());
 
         return redirect()->route('pedidos.index')->with('ok', 'Pedido atualizado.');
     }
@@ -87,17 +84,11 @@ class PedidoController extends Controller
         return redirect()->route('pedidos.index')->with('ok', 'Pedido excluído.');
     }
 
-    private function salvarItens(Pedido $pedido, array $itens): void
+    public function destroyMany(Request $request)
     {
-        $produtos = Produto::whereIn('id', collect($itens)->pluck('produto_id'))->get()->keyBy('id');
+        $excluidos = Pedido::whereIn('id', $this->idsSelecionados($request))->delete();
 
-        foreach ($itens as $item) {
-            $pedido->itens()->create([
-                'produto_id' => $item['produto_id'],
-                'quantidade' => $item['quantidade'],
-                'preco_unitario' => $produtos[$item['produto_id']]->preco,
-            ]);
-        }
+        return back()->with('ok', "$excluidos pedido(s) excluído(s).");
     }
 
     private function dadosDoForm(Pedido $pedido): array
