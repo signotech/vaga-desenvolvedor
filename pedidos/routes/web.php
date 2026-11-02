@@ -16,12 +16,14 @@ Route::middleware('guest')->group(function () {
     Route::post('registro', [RegistroController::class, 'store']);
 });
 
-Route::post('logout', [LoginController::class, 'destroy'])->middleware('auth')->name('logout');
+Route::middleware('auth')->group(function () {
+    Route::post('logout', [LoginController::class, 'destroy'])->name('logout');
 
-Route::delete('clientes', [ClienteController::class, 'destroyMany'])->name('clientes.destroy-many');
-Route::delete('produtos', [ProdutoController::class, 'destroyMany'])->name('produtos.destroy-many');
-Route::delete('pedidos', [PedidoController::class, 'destroyMany'])->name('pedidos.destroy-many');
+    Route::delete('clientes', [ClienteController::class, 'destroyMany'])->name('clientes.destroy-many');
+    Route::delete('produtos', [ProdutoController::class, 'destroyMany'])->name('produtos.destroy-many');
+    Route::delete('pedidos', [PedidoController::class, 'destroyMany'])->name('pedidos.destroy-many');
 
-Route::resource('clientes', ClienteController::class)->except('show');
-Route::resource('produtos', ProdutoController::class)->except('show');
-Route::resource('pedidos', PedidoController::class);
+    Route::resource('clientes', ClienteController::class)->except('show');
+    Route::resource('produtos', ProdutoController::class)->except('show');
+    Route::resource('pedidos', PedidoController::class);
+});
