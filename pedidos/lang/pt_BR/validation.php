@@ -2,6 +2,8 @@
 
 return [
     'array' => 'O campo :attribute deve ser uma lista.',
+    'confirmed' => 'A confirmação de :attribute não confere.',
+    'credenciais' => 'E-mail ou senha inválidos.',
     'date' => 'O campo :attribute não é uma data válida.',
     'digits' => 'O campo :attribute deve ter :digits dígitos.',
     'email' => 'O campo :attribute deve ser um e-mail válido.',
@@ -27,6 +29,8 @@ return [
         'nome' => 'nome',
         'cpf' => 'CPF',
         'email' => 'e-mail',
+        'name' => 'nome',
+        'password' => 'senha',
         'sku' => 'SKU',
         'titulo' => 'título',
         'preco' => 'preço',

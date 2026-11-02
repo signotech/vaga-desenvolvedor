@@ -1,11 +1,19 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\ProdutoController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/pedidos');
+
+Route::middleware('guest')->group(function () {
+    Route::get('login', [LoginController::class, 'create'])->name('login');
+    Route::post('login', [LoginController::class, 'store']);
+});
+
+Route::post('logout', [LoginController::class, 'destroy'])->middleware('auth')->name('logout');
 
 Route::delete('clientes', [ClienteController::class, 'destroyMany'])->name('clientes.destroy-many');
 Route::delete('produtos', [ProdutoController::class, 'destroyMany'])->name('produtos.destroy-many');

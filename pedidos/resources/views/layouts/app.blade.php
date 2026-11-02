@@ -10,6 +10,9 @@
         nav { background: #1f3a5f; padding: 0 20px; display: flex; gap: 4px; flex-wrap: wrap; }
         nav a { color: #fff; text-decoration: none; padding: 14px 16px; }
         nav a.ativo, nav a:hover { background: #2d5185; }
+        nav .usuario { margin-left: auto; display: flex; align-items: center; gap: 10px; color: #fff; font-size: 14px; }
+        nav .usuario form { margin: 0; }
+        .card-auth { max-width: 420px; }
         main { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
         h1 { margin: 0 0 16px; font-size: 22px; }
         .topo { display: flex; justify-content: space-between; align-items: center; }
@@ -48,9 +51,18 @@
 </head>
 <body>
     <nav>
-        <a href="{{ route('pedidos.index') }}" class="{{ request()->routeIs('pedidos.*') ? 'ativo' : '' }}">Pedidos</a>
-        <a href="{{ route('clientes.index') }}" class="{{ request()->routeIs('clientes.*') ? 'ativo' : '' }}">Clientes</a>
-        <a href="{{ route('produtos.index') }}" class="{{ request()->routeIs('produtos.*') ? 'ativo' : '' }}">Produtos</a>
+        @auth
+            <a href="{{ route('pedidos.index') }}" class="{{ request()->routeIs('pedidos.*') ? 'ativo' : '' }}">Pedidos</a>
+            <a href="{{ route('clientes.index') }}" class="{{ request()->routeIs('clientes.*') ? 'ativo' : '' }}">Clientes</a>
+            <a href="{{ route('produtos.index') }}" class="{{ request()->routeIs('produtos.*') ? 'ativo' : '' }}">Produtos</a>
+            <div class="usuario">
+                <span>{{ auth()->user()->name }}</span>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button class="btn sec peq">Sair</button>
+                </form>
+            </div>
+        @endauth
     </nav>
     <main>
         @if (session('ok')) <div class="msg ok">{{ session('ok') }}</div> @endif
