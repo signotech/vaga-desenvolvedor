@@ -126,6 +126,7 @@ O `preco_unitario` é gravado no item para que uma mudança no preço do produto
 - `app/Http/Controllers`: um controller por CRUD
 - `app/Services`: regra de negócio dos pedidos (itens e preço unitário)
 - `app/Models/Concerns/Listavel.php`: filtro e ordenação reaproveitados nas listagens
+- `app/Models/Concerns/ExcluiSemVinculos.php`: exclusão em massa que ignora registros com vínculos
 - `resources/views`: telas em Blade, com layout, cabeçalho ordenável e paginação compartilhados
 
 ## O que foi feito
