@@ -138,3 +138,4 @@ O `preco_unitario` é gravado no item para que uma mudança no preço do produto
 - Regra de salvar pedido isolada em `app/Services/PedidoService.php`
 - Testes de feature para os três CRUDs
 - Ambiente com Docker
+- Desconto percentual (0 a 100) no pedido, aplicado ao total
