@@ -2,20 +2,24 @@
 @section('titulo', 'Cadastro')
 
 @section('conteudo')
-    <h1>Cadastro</h1>
-    <div class="card card-auth">
-        <form method="POST" action="{{ route('registro') }}">
-            @csrf
-            @foreach (['name' => ['Nome', 'text'], 'email' => ['E-mail', 'email'], 'password' => ['Senha (mínimo 8 caracteres)', 'password'], 'password_confirmation' => ['Confirmar senha', 'password']] as $campo => [$rotulo, $tipo])
-                <div class="campo">
-                    <label for="{{ $campo }}">{{ $rotulo }}</label>
-                    <input id="{{ $campo }}" name="{{ $campo }}" type="{{ $tipo }}" @if ($tipo !== 'password') value="{{ old($campo) }}" @endif>
-                    @error($campo) <div class="invalido">{{ $message }}</div> @enderror
-                </div>
-            @endforeach
-
-            <button class="btn">Cadastrar</button>
-            <a href="{{ route('login') }}">Já tenho conta</a>
-        </form>
+    <div class="row">
+        <div class="col s12 m8 l5 offset-m2 offset-l3">
+            <div class="card">
+                <form method="POST" action="{{ route('registro') }}" class="card-content">
+                    @csrf
+                    <span class="card-title">Cadastro</span>
+                    @foreach (['name' => ['Nome', 'text'], 'email' => ['E-mail', 'email'], 'password' => ['Senha (mínimo 8 caracteres)', 'password'], 'password_confirmation' => ['Confirmar senha', 'password']] as $campo => [$rotulo, $tipo])
+                        <div class="input-field">
+                            <input id="{{ $campo }}" name="{{ $campo }}" type="{{ $tipo }}" class="@error($campo) invalid @enderror" @if ($tipo !== 'password') value="{{ old($campo) }}" @endif>
+                            <label for="{{ $campo }}">{{ $rotulo }}</label>
+                            @error($campo) <span class="helper-text red-text">{{ $message }}</span> @enderror
+                        </div>
+                    @endforeach
+                    <br>
+                    <button class="btn blue-grey darken-3">Cadastrar</button>
+                    <a class="btn-flat" href="{{ route('login') }}">Já tenho conta</a>
+                </form>
+            </div>
+        </div>
     </div>
 @endsection
