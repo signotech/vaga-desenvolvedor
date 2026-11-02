@@ -23,7 +23,7 @@ module.exports = {
     const usedSkus = new Set();
 
     while (products.length < TOTAL_PRODUCTS) {
-      const product = buildProduct();
+      const product = buildProduct({ index: products.length });
 
       if (usedSkus.has(product.sku)) {
         continue;

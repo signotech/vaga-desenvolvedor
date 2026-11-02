@@ -1,0 +1,152 @@
+<div class="row valign-wrapper">
+  <div class="col s12 m7">
+    <h4>Produtos</h4>
+  </div>
+  <div class="col s12 m5 right-align">
+    <a href="/products/new" class="btn blue darken-2">
+      <i class="material-icons left">add</i>
+      Novo produto
+    </a>
+  </div>
+</div>
+
+<form method="GET" action="/products" class="card-panel">
+  <div class="row">
+    <div class="input-field col s12 m3">
+      <input id="filter-sku" name="sku" type="text" value="<%= query.sku || '' %>">
+      <label for="filter-sku" class="active">SKU</label>
+    </div>
+
+    <div class="input-field col s12 m6">
+      <input id="filter-title" name="title" type="text" value="<%= query.title || '' %>">
+      <label for="filter-title" class="active">Título</label>
+    </div>
+
+    <div class="input-field col s12 m3">
+      <input id="filter-min-price" name="min_price" type="number" min="0" step="0.01" value="<%= query.min_price || '' %>">
+      <label for="filter-min-price" class="active">Preço mínimo</label>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="input-field col s12 m3">
+      <input id="filter-max-price" name="max_price" type="number" min="0" step="0.01" value="<%= query.max_price || '' %>">
+      <label for="filter-max-price" class="active">Preço máximo</label>
+    </div>
+
+    <div class="input-field col s12 m3">
+      <input id="filter-min-stock" name="min_stock" type="number" min="0" step="1" value="<%= query.min_stock || '' %>">
+      <label for="filter-min-stock" class="active">Estoque mínimo</label>
+    </div>
+
+    <div class="input-field col s12 m3">
+      <input id="filter-max-stock" name="max_stock" type="number" min="0" step="1" value="<%= query.max_stock || '' %>">
+      <label for="filter-max-stock" class="active">Estoque máximo</label>
+    </div>
+
+    <div class="col s12 m3 right-align filter-actions">
+      <% if (query.sort) { %><input type="hidden" name="sort" value="<%= query.sort %>"><% } %>
+      <% if (query.dir) { %><input type="hidden" name="dir" value="<%= query.dir %>"><% } %>
+      <% if (query.per_page) { %><input type="hidden" name="per_page" value="<%= query.per_page %>"><% } %>
+
+      <button type="submit" class="btn blue darken-2">
+        <i class="material-icons left">search</i>
+        Filtrar
+      </button>
+      <a href="/products" class="btn-flat">Limpar</a>
+    </div>
+  </div>
+</form>
+
+<% if (products.length === 0) { %>
+  <div class="card-panel grey lighten-4 center-align">
+    Nenhum produto encontrado.
+  </div>
+<% } else { %>
+  <form
+    id="bulk-delete-form"
+    method="POST"
+    action="/products/bulk-delete"
+    data-confirm="Excluir os produtos selecionados?"
+  >
+    <div class="row">
+      <div class="col s12">
+        <button type="submit" class="btn red darken-1" data-bulk-submit disabled>
+          <i class="material-icons left">delete_sweep</i>
+          Excluir selecionados
+          <span data-bulk-count></span>
+        </button>
+      </div>
+    </div>
+
+    <table class="striped responsive-table">
+      <thead>
+        <tr>
+          <th class="checkbox-cell">
+            <label>
+              <input type="checkbox" data-select-all>
+              <span></span>
+            </label>
+          </th>
+          <%- include('../partials/sort-header', { field: 'id', label: '#' }) %>
+          <%- include('../partials/sort-header', { field: 'sku', label: 'SKU' }) %>
+          <%- include('../partials/sort-header', { field: 'title', label: 'Título' }) %>
+          <%- include('../partials/sort-header', { field: 'price', label: 'Preço' }) %>
+          <%- include('../partials/sort-header', { field: 'stock', label: 'Estoque' }) %>
+          <%- include('../partials/sort-header', { field: 'created_at', label: 'Cadastrado em' }) %>
+          <th class="right-align">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% products.forEach((product) => { %>
+          <tr>
+            <td class="checkbox-cell">
+              <label>
+                <input type="checkbox" name="ids" value="<%= product.id %>" data-select-item>
+                <span></span>
+              </label>
+            </td>
+            <td><%= product.id %></td>
+            <td>
+              <a href="/products/<%= product.id %>"><%= product.sku %></a>
+            </td>
+            <td><%= product.title %></td>
+            <td><%= formatMoney(product.price) %></td>
+            <td><%= product.stock %></td>
+            <td><%= formatDateTime(product.createdAt) %></td>
+            <td class="right-align table-actions">
+              <a
+                href="/products/<%= product.id %>"
+                class="btn-flat tooltipped"
+                data-position="top"
+                data-tooltip="Visualizar"
+              >
+                <i class="material-icons">visibility</i>
+              </a>
+              <a
+                href="/products/<%= product.id %>/edit"
+                class="btn-flat tooltipped"
+                data-position="top"
+                data-tooltip="Editar"
+              >
+                <i class="material-icons">edit</i>
+              </a>
+              <button
+                type="button"
+                class="btn-flat red-text tooltipped"
+                data-position="top"
+                data-tooltip="Excluir"
+                data-delete-url="/products/<%= product.id %>"
+                data-delete-name="<%= product.title %>"
+              >
+                <i class="material-icons">delete</i>
+              </button>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </form>
+<% } %>
+
+<%- include('../partials/pagination') %>
