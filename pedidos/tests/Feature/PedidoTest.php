@@ -6,12 +6,19 @@ use App\Models\Cliente;
 use App\Models\ItemPedido;
 use App\Models\Pedido;
 use App\Models\Produto;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PedidoTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->actingAs(User::factory()->create());
+    }
 
     private function dados(array $extra = []): array
     {

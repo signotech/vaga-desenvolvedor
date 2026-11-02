@@ -4,12 +4,19 @@ namespace Tests\Feature;
 
 use App\Models\Cliente;
 use App\Models\Pedido;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ClienteTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->actingAs(User::factory()->create());
+    }
 
     public function test_lista_com_paginacao_de_20_itens(): void
     {

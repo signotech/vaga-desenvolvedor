@@ -4,12 +4,20 @@ namespace Tests\Feature\Api;
 
 use App\Models\ItemPedido;
 use App\Models\Produto;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ProdutoApiTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        User::factory()->create(['email' => 'api@exemplo.com', 'password' => 'senha1234']);
+        $this->withHeader('Authorization', 'Basic '.base64_encode('api@exemplo.com:senha1234'));
+    }
 
     private function dados(array $extra = []): array
     {
