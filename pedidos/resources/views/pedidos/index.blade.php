@@ -24,8 +24,8 @@
                     </tr>
                     <tr class="filtros">
                         <th></th>
-                        <th><input form="filtro" name="id" value="{{ request('id') }}" placeholder="Filtrar"></th>
-                        <th><input form="filtro" name="cliente" value="{{ request('cliente') }}" placeholder="Filtrar"></th>
+                        <th><input form="filtro" name="id" value="{{ request('id') }}" placeholder="Código"></th>
+                        <th><input form="filtro" name="cliente" value="{{ request('cliente') }}" placeholder="Cliente"></th>
                         <th><input form="filtro" type="date" name="data_pedido" value="{{ request('data_pedido') }}"></th>
                         <th>
                             <select form="filtro" name="status" class="browser-default">
@@ -46,15 +46,15 @@
                 <tbody>
                     @forelse ($pedidos as $pedido)
                         <tr>
-                            <td><label><input type="checkbox" form="massa" name="ids[]" value="{{ $pedido->id }}"><span></span></label></td>
-                            <td><a href="{{ route('pedidos.show', $pedido) }}">{{ $pedido->id }}</a></td>
-                            <td><a href="{{ route('clientes.index', ['id' => $pedido->cliente_id]) }}">{{ $pedido->cliente }}</a></td>
-                            <td>{{ $pedido->data_pedido->format('d/m/Y H:i') }}</td>
-                            <td>
+                            <td data-label="Selecionar"><label><input type="checkbox" form="massa" name="ids[]" value="{{ $pedido->id }}"><span></span></label></td>
+                            <td data-label="Código"><a href="{{ route('pedidos.show', $pedido) }}">{{ $pedido->id }}</a></td>
+                            <td data-label="Cliente"><a href="{{ route('clientes.index', ['id' => $pedido->cliente_id]) }}">{{ $pedido->cliente }}</a></td>
+                            <td data-label="Data">{{ $pedido->data_pedido->format('d/m/Y H:i') }}</td>
+                            <td data-label="Status">
                                 <span class="chip {{ ['Pago' => 'green lighten-4', 'Cancelado' => 'red lighten-4'][$pedido->status] ?? 'amber lighten-4' }}">{{ $pedido->status }}</span>
                             </td>
-                            <td>{{ $pedido->desconto > 0 ? number_format($pedido->desconto, 2, ',', '.') . '%' : '-' }}</td>
-                            <td>R$ {{ number_format($pedido->total, 2, ',', '.') }}</td>
+                            <td data-label="Desconto">{{ $pedido->desconto > 0 ? number_format($pedido->desconto, 2, ',', '.') . '%' : '-' }}</td>
+                            <td data-label="Total">R$ {{ number_format($pedido->total, 2, ',', '.') }}</td>
                             <td class="acoes">
                                 <a class="btn-small blue-grey darken-3" href="{{ route('pedidos.show', $pedido) }}">Ver</a>
                                 <a class="btn-small grey" href="{{ route('pedidos.edit', $pedido) }}">Editar</a>

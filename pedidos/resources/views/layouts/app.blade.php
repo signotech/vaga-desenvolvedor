@@ -12,7 +12,7 @@
         .tabela { overflow-x: auto; }
         .chip { white-space: nowrap; }
         .tabela table { min-width: 640px; }
-        main { margin-top: 24px; margin-bottom: 24px; }
+        main.container { margin-top: 32px; margin-bottom: 24px; }
         h1 { font-size: 1.8rem; margin: 0; }
         .topo { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
         .acoes { white-space: nowrap; }
@@ -26,13 +26,38 @@
         .item .produto { flex: 1; min-width: 0; }
         .item .quantidade { width: 90px; }
         nav .brand-logo { font-size: 1.4rem; }
+
+        /* celular: cada linha da tabela vira um card */
+        @media (max-width: 600px) {
+            .tabela table { min-width: 0; }
+            .tabela table, .tabela thead, .tabela tbody, .tabela tr, .tabela td, .tabela th { display: block; width: 100%; }
+            .tabela th, .tabela td { border: 0; padding: 6px 0; }
+
+            /* cabeçalho vira uma linha de links para ordenar */
+            .tabela thead tr:first-child { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 10px; }
+            .tabela thead tr:first-child::before { content: 'Ordenar por:'; font-size: 0.8rem; color: #757575; }
+            .tabela thead tr:first-child th { width: auto; padding: 4px 12px; border-radius: 16px; background: #eceff1; }
+            .tabela thead tr:first-child th:not(:has(a)) { display: none; }
+
+            /* filtros em duas colunas */
+            .tabela .filtros { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+            .tabela .filtros th { flex: 1 1 calc(50% - 8px); width: auto; padding: 0; }
+            .tabela .filtros th:empty { display: none; }
+            .tabela .filtros th.acoes { flex-basis: 100%; }
+            .tabela .filtros input { width: 100%; }
+
+            .tabela tbody tr, .tabela table.striped > tbody > tr:nth-child(odd) { border: 1px solid #e0e0e0; border-radius: 6px; margin-bottom: 12px; padding: 8px 12px; background-color: #fff; }
+            .tabela tbody td[data-label] { display: flex; justify-content: space-between; gap: 12px; text-align: right; }
+            .tabela tbody td[data-label]::before { content: attr(data-label); font-weight: 500; color: #757575; text-align: left; }
+            .tabela tbody td.acoes { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 10px; border-top: 1px solid #eceff1; margin-top: 6px; }
+        }
     </style>
 </head>
 <body>
     @auth
         <nav class="blue-grey darken-3">
             <div class="nav-wrapper container">
-                <a href="{{ route('pedidos.index') }}" class="brand-logo">Pedidos</a>
+                <a href="{{ route('pedidos.index') }}" class="brand-logo">Pedidex</a>
                 <a href="#" data-target="menu-lateral" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
                     <li class="{{ request()->routeIs('pedidos.*') ? 'active' : '' }}"><a href="{{ route('pedidos.index') }}">Pedidos</a></li>

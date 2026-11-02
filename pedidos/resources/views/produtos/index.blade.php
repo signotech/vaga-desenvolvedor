@@ -23,8 +23,8 @@
                     </tr>
                     <tr class="filtros">
                         <th></th>
-                        @foreach (['id', 'sku', 'titulo', 'preco', 'estoque'] as $campo)
-                            <th><input form="filtro" name="{{ $campo }}" value="{{ request($campo) }}" placeholder="Filtrar"></th>
+                        @foreach (['id' => 'Código', 'sku' => 'SKU', 'titulo' => 'Título', 'preco' => 'Preço', 'estoque' => 'Estoque'] as $campo => $rotulo)
+                            <th><input form="filtro" name="{{ $campo }}" value="{{ request($campo) }}" placeholder="{{ $rotulo }}"></th>
                         @endforeach
                         <th class="acoes">
                             <button form="filtro" class="btn-small blue-grey darken-3">Filtrar</button>
@@ -35,12 +35,12 @@
                 <tbody>
                     @forelse ($produtos as $produto)
                         <tr>
-                            <td><label><input type="checkbox" form="massa" name="ids[]" value="{{ $produto->id }}"><span></span></label></td>
-                            <td>{{ $produto->id }}</td>
-                            <td>{{ $produto->sku }}</td>
-                            <td>{{ $produto->titulo }}</td>
-                            <td>R$ {{ number_format($produto->preco, 2, ',', '.') }}</td>
-                            <td>{{ $produto->estoque }}</td>
+                            <td data-label="Selecionar"><label><input type="checkbox" form="massa" name="ids[]" value="{{ $produto->id }}"><span></span></label></td>
+                            <td data-label="Código">{{ $produto->id }}</td>
+                            <td data-label="SKU">{{ $produto->sku }}</td>
+                            <td data-label="Título">{{ $produto->titulo }}</td>
+                            <td data-label="Preço">R$ {{ number_format($produto->preco, 2, ',', '.') }}</td>
+                            <td data-label="Estoque">{{ $produto->estoque }}</td>
                             <td class="acoes">
                                 <a class="btn-small grey" href="{{ route('produtos.edit', $produto) }}">Editar</a>
                                 @include('partials.excluir', ['url' => route('produtos.destroy', $produto)])

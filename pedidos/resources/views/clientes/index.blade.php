@@ -22,8 +22,8 @@
                     </tr>
                     <tr class="filtros">
                         <th></th>
-                        @foreach (['id', 'nome', 'cpf', 'email'] as $campo)
-                            <th><input form="filtro" name="{{ $campo }}" value="{{ request($campo) }}" placeholder="Filtrar"></th>
+                        @foreach (['id' => 'Código', 'nome' => 'Nome', 'cpf' => 'CPF', 'email' => 'E-mail'] as $campo => $rotulo)
+                            <th><input form="filtro" name="{{ $campo }}" value="{{ request($campo) }}" placeholder="{{ $rotulo }}"></th>
                         @endforeach
                         <th class="acoes">
                             <button form="filtro" class="btn-small blue-grey darken-3">Filtrar</button>
@@ -34,11 +34,11 @@
                 <tbody>
                     @forelse ($clientes as $cliente)
                         <tr>
-                            <td><label><input type="checkbox" form="massa" name="ids[]" value="{{ $cliente->id }}"><span></span></label></td>
-                            <td>{{ $cliente->id }}</td>
-                            <td>{{ $cliente->nome }}</td>
-                            <td>{{ $cliente->cpf }}</td>
-                            <td>{{ $cliente->email }}</td>
+                            <td data-label="Selecionar"><label><input type="checkbox" form="massa" name="ids[]" value="{{ $cliente->id }}"><span></span></label></td>
+                            <td data-label="Código">{{ $cliente->id }}</td>
+                            <td data-label="Nome">{{ $cliente->nome }}</td>
+                            <td data-label="CPF">{{ $cliente->cpf }}</td>
+                            <td data-label="E-mail">{{ $cliente->email }}</td>
                             <td class="acoes">
                                 <a class="btn-small blue-grey darken-3" href="{{ route('pedidos.index', ['cliente' => $cliente->nome]) }}">Pedidos</a>
                                 <a class="btn-small grey" href="{{ route('clientes.edit', $cliente) }}">Editar</a>
