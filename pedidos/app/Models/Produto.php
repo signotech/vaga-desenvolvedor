@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\ExcluiSemVinculos;
 use App\Models\Concerns\Listavel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +10,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Produto extends Model
 {
-    use HasFactory, Listavel;
+    use ExcluiSemVinculos, HasFactory, Listavel;
+
+    public const CAMPOS = ['id', 'sku', 'titulo', 'preco', 'estoque'];
+
+    public const EXATOS = ['id', 'preco', 'estoque'];
+
+    public const DIGITOS = [];
+
+    protected static string $vinculo = 'itens';
 
     protected $fillable = ['sku', 'titulo', 'preco', 'estoque'];
 

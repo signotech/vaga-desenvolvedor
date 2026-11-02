@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 abstract class Controller
@@ -13,6 +15,11 @@ abstract class Controller
         $valor = $request->integer('por_pagina');
 
         return in_array($valor, self::POR_PAGINA) ? $valor : 20;
+    }
+
+    protected function paginar(Builder $query, Request $request): LengthAwarePaginator
+    {
+        return $query->paginate($this->porPagina($request))->withQueryString();
     }
 
     protected function idsSelecionados(Request $request): array

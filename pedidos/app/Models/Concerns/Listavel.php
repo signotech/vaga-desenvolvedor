@@ -7,8 +7,12 @@ use Illuminate\Http\Request;
 
 trait Listavel
 {
-    public function scopeListar(Builder $query, Request $request, array $campos, array $exatos = ['id'], array $digitos = []): Builder
+    public function scopeListar(Builder $query, Request $request): Builder
     {
+        $campos = static::CAMPOS;
+        $exatos = static::EXATOS;
+        $digitos = static::DIGITOS;
+
         foreach ($campos as $campo) {
             if (! $request->filled($campo)) {
                 continue;

@@ -12,12 +12,11 @@ use Illuminate\Http\Response;
 
 class ClienteController extends Controller
 {
-    private const CAMPOS = ['id', 'nome', 'cpf', 'email'];
 
     public function index(Request $request)
     {
         return ClienteResource::collection(
-            Cliente::listar($request, self::CAMPOS, ['id'], ['cpf'])->paginate($this->porPagina($request))->withQueryString()
+            $this->paginar(Cliente::listar($request), $request)
         );
     }
 
@@ -41,7 +40,7 @@ class ClienteController extends Controller
 
     public function destroy(Cliente $cliente)
     {
-        if ($cliente->pedidos()->exists()) {
+        if ($cliente->temVinculos()) {
             return response()->json(['message' => 'Este cliente possui pedidos e não pode ser excluído.'], Response::HTTP_CONFLICT);
         }
 

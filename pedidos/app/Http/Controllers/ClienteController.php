@@ -8,11 +8,10 @@ use Illuminate\Http\Request;
 
 class ClienteController extends Controller
 {
-    private const CAMPOS = ['id', 'nome', 'cpf', 'email'];
 
     public function index(Request $request)
     {
-        $clientes = Cliente::listar($request, self::CAMPOS, ['id'], ['cpf'])->paginate($this->porPagina($request))->withQueryString();
+        $clientes = $this->paginar(Cliente::listar($request), $request);
 
         return view('clientes.index', compact('clientes'));
     }
@@ -43,7 +42,7 @@ class ClienteController extends Controller
 
     public function destroy(Cliente $cliente)
     {
-        if ($cliente->pedidos()->exists()) {
+        if ($cliente->temVinculos()) {
             return back()->with('erro', 'Este cliente possui pedidos e não pode ser excluído.');
         }
 

@@ -8,11 +8,10 @@ use Illuminate\Http\Request;
 
 class ProdutoController extends Controller
 {
-    private const CAMPOS = ['id', 'sku', 'titulo', 'preco', 'estoque'];
 
     public function index(Request $request)
     {
-        $produtos = Produto::listar($request, self::CAMPOS, ['id', 'preco', 'estoque'])->paginate($this->porPagina($request))->withQueryString();
+        $produtos = $this->paginar(Produto::listar($request), $request);
 
         return view('produtos.index', compact('produtos'));
     }
@@ -43,7 +42,7 @@ class ProdutoController extends Controller
 
     public function destroy(Produto $produto)
     {
-        if ($produto->itens()->exists()) {
+        if ($produto->temVinculos()) {
             return back()->with('erro', 'Este produto está em pedidos e não pode ser excluído.');
         }
 

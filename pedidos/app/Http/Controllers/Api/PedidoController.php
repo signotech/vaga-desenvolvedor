@@ -19,7 +19,7 @@ class PedidoController extends Controller
 
     public function index(Request $request)
     {
-        $pedidos = Pedido::listar($request)->paginate($this->porPagina($request))->withQueryString();
+        $pedidos = $this->paginar(Pedido::listar($request), $request);
         $pedidos->getCollection()->load('cliente', 'itens.produto');
 
         return PedidoResource::collection($pedidos);

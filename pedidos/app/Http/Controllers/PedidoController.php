@@ -17,7 +17,7 @@ class PedidoController extends Controller
 
     public function index(Request $request)
     {
-        $pedidos = Pedido::listar($request)->paginate($this->porPagina($request))->withQueryString();
+        $pedidos = $this->paginar(Pedido::listar($request), $request);
 
         return view('pedidos.index', compact('pedidos'));
     }

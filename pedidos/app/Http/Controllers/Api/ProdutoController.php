@@ -12,12 +12,11 @@ use Illuminate\Http\Response;
 
 class ProdutoController extends Controller
 {
-    private const CAMPOS = ['id', 'sku', 'titulo', 'preco', 'estoque'];
 
     public function index(Request $request)
     {
         return ProdutoResource::collection(
-            Produto::listar($request, self::CAMPOS, ['id', 'preco', 'estoque'])->paginate($this->porPagina($request))->withQueryString()
+            $this->paginar(Produto::listar($request), $request)
         );
     }
 
@@ -41,7 +40,7 @@ class ProdutoController extends Controller
 
     public function destroy(Produto $produto)
     {
-        if ($produto->itens()->exists()) {
+        if ($produto->temVinculos()) {
             return response()->json(['message' => 'Este produto está em pedidos e não pode ser excluído.'], Response::HTTP_CONFLICT);
         }
 
