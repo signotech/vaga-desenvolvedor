@@ -39,18 +39,53 @@ class ClienteTest extends TestCase
 
     public function test_cria_cliente_removendo_mascara_do_cpf(): void
     {
-        $this->post('/clientes', ['nome' => 'Maria', 'cpf' => '123.456.789-01', 'email' => 'maria@exemplo.com'])
+        $this->post('/clientes', ['nome' => 'Maria', 'cpf' => '111.444.777-35', 'email' => 'maria@exemplo.com'])
             ->assertRedirect('/clientes');
 
-        $this->assertDatabaseHas('clientes', ['nome' => 'Maria', 'cpf' => '12345678901']);
+        $this->assertDatabaseHas('clientes', ['nome' => 'Maria', 'cpf' => '11144477735']);
     }
 
     public function test_valida_campos_e_cpf_duplicado(): void
     {
-        Cliente::factory()->create(['cpf' => '12345678901']);
+        Cliente::factory()->create(['cpf' => '11144477735']);
 
-        $this->post('/clientes', ['nome' => '', 'cpf' => '12345678901', 'email' => 'invalido'])
+        $this->post('/clientes', ['nome' => '', 'cpf' => '11144477735', 'email' => 'invalido'])
             ->assertSessionHasErrors(['nome', 'cpf', 'email']);
+    }
+
+    public function test_rejeita_cpf_com_digito_verificador_errado_e_sequencia_repetida(): void
+    {
+        foreach (['11122233344', '111.111.111-11'] as $cpf) {
+            $this->post('/clientes', ['nome' => 'Maria', 'cpf' => $cpf, 'email' => 'maria@exemplo.com'])
+                ->assertSessionHasErrors(['cpf' => 'O CPF informado é inválido.']);
+        }
+
+        $this->assertDatabaseCount('clientes', 0);
+    }
+
+    public function test_lista_cpf_formatado(): void
+    {
+        Cliente::factory()->create(['cpf' => '11144477735']);
+
+        $this->get('/clientes')->assertSee('111.444.777-35');
+    }
+
+    public function test_formulario_de_edicao_mostra_cpf_formatado(): void
+    {
+        $cliente = Cliente::factory()->create(['cpf' => '11144477735']);
+
+        $this->get("/clientes/{$cliente->id}/edit")->assertSee('value="111.444.777-35"', false);
+    }
+
+    public function test_filtra_por_cpf_com_e_sem_pontuacao(): void
+    {
+        Cliente::factory()->create(['cpf' => '11144477735']);
+        Cliente::factory()->create(['cpf' => '52998224725']);
+
+        foreach (['11144477735', '111.444.777-35', '444.777'] as $busca) {
+            $this->get('/clientes?cpf='.urlencode($busca))
+                ->assertViewHas('clientes', fn ($c) => $c->pluck('cpf')->all() === ['11144477735']);
+        }
     }
 
     public function test_atualiza_cliente(): void

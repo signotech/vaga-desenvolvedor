@@ -110,4 +110,26 @@ class ClienteApiTest extends TestCase
             ->assertJsonPath('data.*.id', [1]);
         $this->getJson('/api/clientes?id=abc')->assertOk()->assertJsonCount(0, 'data');
     }
+
+    public function test_rejeita_cpf_invalido(): void
+    {
+        foreach (['11122233344', '00000000000'] as $cpf) {
+            $this->postJson('/api/clientes', $this->dados(['cpf' => $cpf]))
+                ->assertStatus(422)
+                ->assertJsonValidationErrors(['cpf']);
+        }
+    }
+
+    public function test_filtra_por_cpf_com_e_sem_pontuacao(): void
+    {
+        Cliente::factory()->create(['cpf' => '11144477735']);
+        Cliente::factory()->create(['cpf' => '52998224725']);
+
+        foreach (['11144477735', '111.444.777-35'] as $busca) {
+            $this->getJson('/api/clientes?cpf='.urlencode($busca))
+                ->assertOk()
+                ->assertJsonCount(1, 'data')
+                ->assertJsonPath('data.0.cpf', '11144477735');
+        }
+    }
 }
