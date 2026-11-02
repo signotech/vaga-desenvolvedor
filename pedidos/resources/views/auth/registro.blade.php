@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col s12 m8 l5 offset-m2 offset-l3">
             <div class="card">
-                <form method="POST" action="{{ route('registro') }}" class="card-content">
+                <form method="POST" novalidate action="{{ route('registro') }}" class="card-content">
                     @csrf
                     <span class="card-title">Cadastro</span>
                     @foreach (['name' => ['Nome', 'text'], 'email' => ['E-mail', 'email'], 'password' => ['Senha (mínimo 8 caracteres)', 'password'], 'password_confirmation' => ['Confirmar senha', 'password']] as $campo => [$rotulo, $tipo])

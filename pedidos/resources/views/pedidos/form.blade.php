@@ -11,7 +11,7 @@
 @section('conteudo')
     <div class="topo"><h1>{{ $pedido->exists ? 'Editar pedido #' . $pedido->id : 'Novo pedido' }}</h1></div>
     <div class="card">
-        <form method="POST" class="card-content" action="{{ $pedido->exists ? route('pedidos.update', $pedido) : route('pedidos.store') }}">
+        <form method="POST" novalidate class="card-content" action="{{ $pedido->exists ? route('pedidos.update', $pedido) : route('pedidos.store') }}">
             @csrf
             @if ($pedido->exists) @method('PUT') @endif
 
