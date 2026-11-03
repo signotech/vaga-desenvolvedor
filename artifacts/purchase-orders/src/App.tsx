@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { QueryClient, QueryClientProvider, useQueryClient } from '@tanstack/react-query';
 import { Link, Route, Switch, useLocation, useParams, Router as WouterRouter } from 'wouter';
 import {
@@ -72,10 +72,56 @@ function QueryState({ loading, error, retry, children }: { loading: boolean; err
   if (error) return <div className="panel state-panel"><span className="state-icon error"><CircleAlert size={21}/></span><h3>Não foi possível carregar</h3><p>{errMessage(error)}</p><Button variant="secondary" onClick={retry}><RotateCw size={15}/> Tentar novamente</Button></div>;
   return <>{children}</>;
 }
-function EmptyState({ title, text, action }: { title: string; text: string; action?: React.ReactNode }) {
-  return <div className="empty-state"><span className="empty-icon"><PackageOpen size={24}/></span><h3>{title}</h3><p>{text}</p>{action}</div>;
+function EmptyState({ title, text, action, onClear }: { title: string; text: string; action?: React.ReactNode; onClear?: () => void }) {
+  return <div className="empty-state"><span className="empty-icon"><PackageOpen size={24}/></span><h3>{title}</h3><p>{text}</p>{action}{onClear && <Button variant="secondary" onClick={onClear}>Limpar busca e filtros</Button>}</div>;
 }
 function Status({ status }: { status: string }) { return <span className={`status status-${status}`}><span/>{statusName(status)}</span>; }
+
+function DeleteConfirmationDialog({ open, entity, name, pending, error, onCancel, onConfirm }: {
+  open: boolean;
+  entity: string;
+  name: string;
+  pending: boolean;
+  error: string;
+  onCancel: () => void;
+  onConfirm: () => void;
+}) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (open && !dialog.open) dialog.showModal();
+    else if (!open && dialog.open) dialog.close();
+  }, [open]);
+
+  return <dialog
+    ref={dialogRef}
+    className="delete-dialog"
+    aria-labelledby="delete-dialog-title"
+    aria-describedby="delete-dialog-description"
+    onCancel={event => {
+      if (pending) {
+        event.preventDefault();
+        return;
+      }
+      onCancel();
+    }}
+  >
+    <div className="delete-dialog-content">
+      <span className="delete-dialog-icon"><Trash2 size={18}/></span>
+      <span className="eyebrow">CONFIRMAR EXCLUSÃO</span>
+      <h2 id="delete-dialog-title">Excluir {entity}?</h2>
+      <p id="delete-dialog-description">Esta ação não pode ser desfeita. O registro “{name}” será removido.</p>
+      {error && <p className="delete-dialog-error" role="alert">{error}</p>}
+      <div className="delete-dialog-actions">
+        <button type="button" className="button button-secondary" onClick={onCancel} disabled={pending}>Cancelar</button>
+        <button type="button" className="button button-danger" onClick={onConfirm} disabled={pending}>
+          {pending ? <><LoaderCircle size={14} className="spin"/> Excluindo…</> : <><Trash2 size={14}/> Excluir</>}
+        </button>
+      </div>
+    </div>
+  </dialog>;
+}
 
 function Dashboard() {
   const { data, isLoading, error, refetch } = useGetDashboard();
@@ -128,8 +174,9 @@ function useListControls() {
   const [sortDirection, setSortDirection] = useState<'asc'|'desc'>('asc');
   const applySearch = () => { setSearch(searchText.trim()); setPage(1); };
   const resetFilter = () => { setFilterField(''); setFilterValue(''); setPage(1); };
+  const clearAll = () => { setSearchText(''); setSearch(''); setFilterField(''); setFilterValue(''); setPage(1); };
   const sort = (field: string) => { if (sortBy === field) setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc'); else { setSortBy(field); setSortDirection('asc'); } setPage(1); };
-  return { page, setPage, pageSize, setPageSize: (n:number) => { setPageSize(n); setPage(1); }, searchText, setSearchText, search, applySearch, filterField, setFilterField: (v:string) => {setFilterField(v); setPage(1);}, filterValue, setFilterValue: (v:string) => {setFilterValue(v);setPage(1);}, resetFilter, sortBy, sortDirection, sort, params: { page, pageSize, ...(search ? {search} : {}), ...(filterField && filterValue ? {filterField, filterValue} : {}), ...(sortBy ? {sortBy, sortDirection} : {}) } };
+  return { page, setPage, pageSize, setPageSize: (n:number) => { setPageSize(n); setPage(1); }, searchText, setSearchText, search, applySearch, filterField, setFilterField: (v:string) => {setFilterField(v); setPage(1);}, filterValue, setFilterValue: (v:string) => {setFilterValue(v);setPage(1);}, resetFilter, clearAll, sortBy, sortDirection, sort, params: { page, pageSize, ...(search ? {search} : {}), ...(filterField && filterValue ? {filterField, filterValue} : {}), ...(sortBy ? {sortBy, sortDirection} : {}) } };
 }
 
 function ListToolbar({ c, fields }: { c: ReturnType<typeof useListControls>; fields: readonly {key:string;label:string}[] }) {
@@ -151,23 +198,35 @@ function ListPage({ entity }: { entity: Entity }) {
 }
 function CustomerList({c}:{c:ReturnType<typeof useListControls>}) {
   const result=useListCustomers(c.params as ListCustomersParams), del=useDeleteCustomer(), qc=useQueryClient();
-  const remove=(item:Customer)=>{if(window.confirm(`Excluir o cliente ${item.name}? Esta ação não pode ser desfeita.`))del.mutate({id:item.id},{onSuccess:()=>{void qc.invalidateQueries({queryKey:getListCustomersQueryKey()});void qc.invalidateQueries({queryKey:getGetDashboardQueryKey()});},onError:e=>window.alert(errMessage(e))});};
+  const [deleteTarget,setDeleteTarget]=useState<Customer|null>(null),[deleteError,setDeleteError]=useState('');
+  const remove=(item:Customer)=>{setDeleteError('');setDeleteTarget(item);};
+  const confirmRemove=()=>{if(!deleteTarget)return;del.mutate({id:deleteTarget.id},{onSuccess:()=>{setDeleteTarget(null);void qc.invalidateQueries({queryKey:getListCustomersQueryKey()});void qc.invalidateQueries({queryKey:getGetDashboardQueryKey()});},onError:e=>setDeleteError(errMessage(e))});};
+  const hasActiveCriteria=Boolean(c.search||(c.filterField&&c.filterValue));
   return <Shell><div className="page-enter"><PageTitle eyebrow="RELACIONAMENTO" title="Clientes" description="Uma base confiável começa com bons registros." action={<Button href="/clientes/novo"><Plus size={16}/> Novo cliente</Button>}/><ListToolbar c={c} fields={entityMeta.clientes.fields}/>
-    <QueryState loading={result.isLoading} error={result.error} retry={()=>{void result.refetch();}}><div className="panel table-panel">{result.data?.items.length ? <><div className="table-wrap"><table><thead><tr><SortHead field="id" label="Código" c={c}/><SortHead field="name" label="Nome" c={c}/><SortHead field="cpf" label="CPF" c={c}/><SortHead field="email" label="E-mail" c={c}/><SortHead field="phone" label="Telefone" c={c}/><th className="align-right">Ações</th></tr></thead><tbody>{result.data.items.map(x=><tr key={x.id} data-testid={`row-customer-${x.id}`}><td className="mono subtle">C-{String(x.id).padStart(4,'0')}</td><td><Link href={`/clientes/${x.id}`} className="row-link">{x.name}</Link></td><td className="mono">{x.cpf}</td><td>{x.email}</td><td>{x.phone||'—'}</td><td className="align-right row-actions"><Link href={`/clientes/${x.id}/editar`} aria-label="Editar cliente"><Pencil size={15}/></Link><button aria-label="Excluir cliente" onClick={()=>remove(x)} disabled={del.isPending}><Trash2 size={15}/></button></td></tr>)}</tbody></table></div><Pager pagination={result.data.pagination} c={c}/></> : <EmptyState title={c.search?'Nenhum resultado para esta busca':'Ainda não há clientes'} text={c.search?'Tente outro termo ou remova os filtros.':'Cadastre o primeiro cliente para começar a registrar pedidos.'} action={!c.search&&<Button href="/clientes/novo"><Plus size={15}/> Cadastrar cliente</Button>}/>}</div></QueryState>
+    <DeleteConfirmationDialog open={!!deleteTarget} entity="cliente" name={deleteTarget?.name||''} pending={del.isPending} error={deleteError} onCancel={()=>setDeleteTarget(null)} onConfirm={confirmRemove}/>
+    <QueryState loading={result.isLoading} error={result.error} retry={()=>{void result.refetch();}}><div className="panel table-panel">{result.data?.items.length ? <><div className="table-wrap"><table><thead><tr><SortHead field="id" label="Código" c={c}/><SortHead field="name" label="Nome" c={c}/><SortHead field="cpf" label="CPF" c={c}/><SortHead field="email" label="E-mail" c={c}/><SortHead field="phone" label="Telefone" c={c}/><th className="align-right">Ações</th></tr></thead><tbody>{result.data.items.map(x=><tr key={x.id} data-testid={`row-customer-${x.id}`}><td className="mono subtle">C-{String(x.id).padStart(4,'0')}</td><td><Link href={`/clientes/${x.id}`} className="row-link">{x.name}</Link></td><td className="mono">{x.cpf}</td><td>{x.email}</td><td>{x.phone||'—'}</td><td className="align-right row-actions"><Link href={`/clientes/${x.id}/editar`} aria-label="Editar cliente"><Pencil size={15}/></Link><button aria-label="Excluir cliente" onClick={()=>remove(x)} disabled={del.isPending}><Trash2 size={15}/></button></td></tr>)}</tbody></table></div><Pager pagination={result.data.pagination} c={c}/></> : <EmptyState title={hasActiveCriteria?'Nenhum resultado para esta busca':'Ainda não há clientes'} text={hasActiveCriteria?'Ajuste a busca ou os filtros para encontrar outros clientes.':'Cadastre o primeiro cliente para começar a registrar pedidos.'} action={!hasActiveCriteria&&<Button href="/clientes/novo"><Plus size={15}/> Cadastrar cliente</Button>} onClear={hasActiveCriteria?c.clearAll:undefined}/>}</div></QueryState>
   </div></Shell>;
 }
 function ProductList({c}:{c:ReturnType<typeof useListControls>}) {
   const result=useListProducts(c.params as ListProductsParams), del=useDeleteProduct(), qc=useQueryClient();
-  const remove=(item:Product)=>{if(window.confirm(`Excluir o produto ${item.title}? Esta ação não pode ser desfeita.`))del.mutate({id:item.id},{onSuccess:()=>{void qc.invalidateQueries({queryKey:getListProductsQueryKey()});void qc.invalidateQueries({queryKey:getGetDashboardQueryKey()});},onError:e=>window.alert(errMessage(e))});};
+  const [deleteTarget,setDeleteTarget]=useState<Product|null>(null),[deleteError,setDeleteError]=useState('');
+  const remove=(item:Product)=>{setDeleteError('');setDeleteTarget(item);};
+  const confirmRemove=()=>{if(!deleteTarget)return;del.mutate({id:deleteTarget.id},{onSuccess:()=>{setDeleteTarget(null);void qc.invalidateQueries({queryKey:getListProductsQueryKey()});void qc.invalidateQueries({queryKey:getGetDashboardQueryKey()});},onError:e=>setDeleteError(errMessage(e))});};
+  const hasActiveCriteria=Boolean(c.search||(c.filterField&&c.filterValue));
   return <Shell><div className="page-enter"><PageTitle eyebrow="CATÁLOGO" title="Produtos" description="Preços e disponibilidade sem perder o fio da operação." action={<Button href="/produtos/novo"><Plus size={16}/> Novo produto</Button>}/><ListToolbar c={c} fields={entityMeta.produtos.fields}/>
-    <QueryState loading={result.isLoading} error={result.error} retry={()=>{void result.refetch();}}><div className="panel table-panel">{result.data?.items.length ? <><div className="table-wrap"><table><thead><tr><SortHead field="sku" label="SKU" c={c}/><SortHead field="title" label="Produto" c={c}/><SortHead field="price" label="Preço" c={c} right/><SortHead field="stock" label="Estoque" c={c} right/><th className="align-right">Ações</th></tr></thead><tbody>{result.data.items.map(x=><tr key={x.id} data-testid={`row-product-${x.id}`}><td className="mono subtle">{x.sku}</td><td><Link href={`/produtos/${x.id}`} className="row-link">{x.title}</Link></td><td className="align-right money">{money(x.price)}</td><td className="align-right"><span className={`stock-count ${x.stock<5?'low-stock':''}`}>{x.stock}</span></td><td className="align-right row-actions"><Link href={`/produtos/${x.id}/editar`} aria-label="Editar produto"><Pencil size={15}/></Link><button aria-label="Excluir produto" onClick={()=>remove(x)} disabled={del.isPending}><Trash2 size={15}/></button></td></tr>)}</tbody></table></div><Pager pagination={result.data.pagination} c={c}/></> : <EmptyState title={c.search?'Nenhum resultado para esta busca':'Catálogo vazio'} text={c.search?'Tente outro termo ou remova os filtros.':'Adicione produtos para incluí-los nos pedidos.'} action={!c.search&&<Button href="/produtos/novo"><Plus size={15}/> Adicionar produto</Button>}/>}</div></QueryState>
+    <DeleteConfirmationDialog open={!!deleteTarget} entity="produto" name={deleteTarget?.title||''} pending={del.isPending} error={deleteError} onCancel={()=>setDeleteTarget(null)} onConfirm={confirmRemove}/>
+    <QueryState loading={result.isLoading} error={result.error} retry={()=>{void result.refetch();}}><div className="panel table-panel">{result.data?.items.length ? <><div className="table-wrap"><table><thead><tr><SortHead field="sku" label="SKU" c={c}/><SortHead field="title" label="Produto" c={c}/><SortHead field="price" label="Preço" c={c} right/><SortHead field="stock" label="Estoque" c={c} right/><th className="align-right">Ações</th></tr></thead><tbody>{result.data.items.map(x=><tr key={x.id} data-testid={`row-product-${x.id}`}><td className="mono subtle">{x.sku}</td><td><Link href={`/produtos/${x.id}`} className="row-link">{x.title}</Link></td><td className="align-right money">{money(x.price)}</td><td className="align-right"><span className={`stock-count ${x.stock<5?'low-stock':''}`}>{x.stock}</span></td><td className="align-right row-actions"><Link href={`/produtos/${x.id}/editar`} aria-label="Editar produto"><Pencil size={15}/></Link><button aria-label="Excluir produto" onClick={()=>remove(x)} disabled={del.isPending}><Trash2 size={15}/></button></td></tr>)}</tbody></table></div><Pager pagination={result.data.pagination} c={c}/></> : <EmptyState title={hasActiveCriteria?'Nenhum resultado para esta busca':'Catálogo vazio'} text={hasActiveCriteria?'Ajuste a busca ou os filtros para encontrar outros produtos.':'Adicione produtos para incluí-los nos pedidos.'} action={!hasActiveCriteria&&<Button href="/produtos/novo"><Plus size={15}/> Adicionar produto</Button>} onClear={hasActiveCriteria?c.clearAll:undefined}/>}</div></QueryState>
   </div></Shell>;
 }
 function OrderList({c}:{c:ReturnType<typeof useListControls>}) {
   const result=useListOrders(c.params as ListOrdersParams), del=useDeleteOrder(), qc=useQueryClient();
-  const remove=(item:Order)=>{if(window.confirm(`Excluir o pedido #${item.id}? Esta ação não pode ser desfeita.`))del.mutate({id:item.id},{onSuccess:()=>{void qc.invalidateQueries({queryKey:getListOrdersQueryKey()});void qc.invalidateQueries({queryKey:getGetDashboardQueryKey()});},onError:e=>window.alert(errMessage(e))});};
+  const [deleteTarget,setDeleteTarget]=useState<Order|null>(null),[deleteError,setDeleteError]=useState('');
+  const remove=(item:Order)=>{setDeleteError('');setDeleteTarget(item);};
+  const confirmRemove=()=>{if(!deleteTarget)return;del.mutate({id:deleteTarget.id},{onSuccess:()=>{setDeleteTarget(null);void qc.invalidateQueries({queryKey:getListOrdersQueryKey()});void qc.invalidateQueries({queryKey:getGetDashboardQueryKey()});},onError:e=>setDeleteError(errMessage(e))});};
+  const hasActiveCriteria=Boolean(c.search||(c.filterField&&c.filterValue));
   return <Shell><div className="page-enter"><PageTitle eyebrow="TRANSAÇÕES" title="Pedidos" description="Acompanhe cada pedido do registro ao pagamento." action={<Button href="/pedidos/novo"><Plus size={16}/> Novo pedido</Button>}/><ListToolbar c={c} fields={entityMeta.pedidos.fields}/>
-    <QueryState loading={result.isLoading} error={result.error} retry={()=>{void result.refetch();}}><div className="panel table-panel">{result.data?.items.length ? <><div className="table-wrap"><table><thead><tr><SortHead field="id" label="Pedido" c={c}/><SortHead field="customerName" label="Cliente" c={c}/><SortHead field="orderDate" label="Data" c={c}/><SortHead field="status" label="Status" c={c}/><SortHead field="itemCount" label="Itens" c={c} right/><SortHead field="total" label="Total" c={c} right/><th className="align-right">Ações</th></tr></thead><tbody>{result.data.items.map(x=><tr key={x.id} data-testid={`row-order-${x.id}`}><td><Link className="id-link mono" href={`/pedidos/${x.id}`}>#{String(x.id).padStart(4,'0')}</Link></td><td><Link href={`/clientes/${x.customerId}`} className="row-link">{x.customerName}</Link></td><td>{date(x.orderDate)}</td><td><Status status={x.status}/></td><td className="align-right">{x.itemCount}</td><td className="align-right money">{money(x.total)}</td><td className="align-right row-actions"><Link href={`/pedidos/${x.id}/editar`} aria-label="Editar pedido"><Pencil size={15}/></Link><button aria-label="Excluir pedido" onClick={()=>remove(x)} disabled={del.isPending}><Trash2 size={15}/></button></td></tr>)}</tbody></table></div><Pager pagination={result.data.pagination} c={c}/></> : <EmptyState title={c.search?'Nenhum pedido encontrado':'Ainda não há pedidos'} text={c.search?'Tente outro termo ou remova os filtros.':'Crie um pedido e acompanhe todos os itens em um único lugar.'} action={!c.search&&<Button href="/pedidos/novo"><Plus size={15}/> Criar pedido</Button>}/>}</div></QueryState>
+    <DeleteConfirmationDialog open={!!deleteTarget} entity="pedido" name={deleteTarget?`#${deleteTarget.id}`:''} pending={del.isPending} error={deleteError} onCancel={()=>setDeleteTarget(null)} onConfirm={confirmRemove}/>
+    <QueryState loading={result.isLoading} error={result.error} retry={()=>{void result.refetch();}}><div className="panel table-panel">{result.data?.items.length ? <><div className="table-wrap"><table><thead><tr><SortHead field="id" label="Pedido" c={c}/><SortHead field="customerName" label="Cliente" c={c}/><SortHead field="orderDate" label="Data" c={c}/><SortHead field="status" label="Status" c={c}/><SortHead field="itemCount" label="Itens" c={c} right/><SortHead field="total" label="Total" c={c} right/><th className="align-right">Ações</th></tr></thead><tbody>{result.data.items.map(x=><tr key={x.id} data-testid={`row-order-${x.id}`}><td><Link className="id-link mono" href={`/pedidos/${x.id}`}>#{String(x.id).padStart(4,'0')}</Link></td><td><Link href={`/clientes/${x.customerId}`} className="row-link">{x.customerName}</Link></td><td>{date(x.orderDate)}</td><td><Status status={x.status}/></td><td className="align-right">{x.itemCount}</td><td className="align-right money">{money(x.total)}</td><td className="align-right row-actions"><Link href={`/pedidos/${x.id}/editar`} aria-label="Editar pedido"><Pencil size={15}/></Link><button aria-label="Excluir pedido" onClick={()=>remove(x)} disabled={del.isPending}><Trash2 size={15}/></button></td></tr>)}</tbody></table></div><Pager pagination={result.data.pagination} c={c}/></> : <EmptyState title={hasActiveCriteria?'Nenhum resultado para esta busca':'Ainda não há pedidos'} text={hasActiveCriteria?'Ajuste a busca ou os filtros para encontrar outros pedidos.':'Crie um pedido e acompanhe todos os itens em um único lugar.'} action={!hasActiveCriteria&&<Button href="/pedidos/novo"><Plus size={15}/> Criar pedido</Button>} onClear={hasActiveCriteria?c.clearAll:undefined}/>}</div></QueryState>
   </div></Shell>;
 }
 
@@ -245,15 +304,18 @@ function DetailPage({kind}:{kind:'cliente'|'produto'|'pedido'}) {
   const [location,setLocation]=useLocation(), qc=useQueryClient();
   const removeCustomer=useDeleteCustomer(),removeProduct=useDeleteProduct(),removeOrder=useDeleteOrder();
   const route=kind==='cliente'?'/clientes':kind==='produto'?'/produtos':'/pedidos';
+  const [deleteOpen,setDeleteOpen]=useState(false),[deleteError,setDeleteError]=useState('');
+  const deleting=removeCustomer.isPending||removeProduct.isPending||removeOrder.isPending;
+  const requestRemove=()=>{setDeleteError('');setDeleteOpen(true);};
   const remove=()=>{
-    if(!window.confirm(`Excluir este ${kind}? Esta ação não pode ser desfeita.`))return;
-    const config={onSuccess:async()=>{await qc.invalidateQueries({queryKey:kind==='cliente'?getListCustomersQueryKey():kind==='produto'?getListProductsQueryKey():getListOrdersQueryKey()});await qc.invalidateQueries({queryKey:getGetDashboardQueryKey()});setLocation(route);},onError:(e:unknown)=>window.alert(errMessage(e))};
+    const config={onSuccess:async()=>{await qc.invalidateQueries({queryKey:kind==='cliente'?getListCustomersQueryKey():kind==='produto'?getListProductsQueryKey():getListOrdersQueryKey()});await qc.invalidateQueries({queryKey:getGetDashboardQueryKey()});setDeleteOpen(false);setLocation(route);},onError:(e:unknown)=>setDeleteError(errMessage(e))};
     if(kind==='cliente')removeCustomer.mutate({id},config);else if(kind==='produto')removeProduct.mutate({id},config);else removeOrder.mutate({id},config);
   };
   const title=kind==='cliente'?(data as Customer|undefined)?.name:kind==='produto'?(data as Product|undefined)?.title:`Pedido #${String(id).padStart(4,'0')}`;
   return <Shell><div className="page-enter"><button className="back-link" onClick={()=>setLocation(route)}><ArrowLeft size={15}/> Voltar para {kind==='cliente'?'clientes':kind==='produto'?'produtos':'pedidos'}</button>
     <QueryState loading={query.isLoading} error={query.error} retry={()=>{void query.refetch();}}>{data&&<>
-      <PageTitle eyebrow={kind==='cliente'?'PERFIL DO CLIENTE':kind==='produto'?'DETALHES DO CATÁLOGO':'DETALHE DA TRANSAÇÃO'} title={title||'Registro'} description={kind==='pedido'?'Itens, valores e vínculo com o cliente.':'Registro completo e histórico de atualização.'} action={<div className="detail-actions"><Button href={`${route}/${id}/editar`} variant="secondary"><Pencil size={15}/> Editar</Button><Button variant="danger" onClick={remove}><Trash2 size={15}/> Excluir</Button></div>}/>
+      <PageTitle eyebrow={kind==='cliente'?'PERFIL DO CLIENTE':kind==='produto'?'DETALHES DO CATÁLOGO':'DETALHE DA TRANSAÇÃO'} title={title||'Registro'} description={kind==='pedido'?'Itens, valores e vínculo com o cliente.':'Registro completo e histórico de atualização.'} action={<div className="detail-actions"><Button href={`${route}/${id}/editar`} variant="secondary"><Pencil size={15}/> Editar</Button><Button variant="danger" onClick={requestRemove}><Trash2 size={15}/> Excluir</Button></div>}/>
+      <DeleteConfirmationDialog open={deleteOpen} entity={kind} name={title||''} pending={deleting} error={deleteError} onCancel={()=>setDeleteOpen(false)} onConfirm={remove}/>
       {kind==='cliente'&&<CustomerDetail item={data as Customer}/>}
       {kind==='produto'&&<ProductDetail item={data as Product}/>}
       {kind==='pedido'&&<OrderDetail item={data as Order & {items:{id:number;productId:number;sku:string;productTitle:string;quantity:number;unitPrice:number;lineTotal:number}[]}}/>}

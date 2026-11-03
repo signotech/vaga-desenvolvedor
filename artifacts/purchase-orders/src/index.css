@@ -533,3 +533,164 @@ td { height:49px;padding:0 14px;border-top:1px solid hsl(var(--border) / .8);fon
     inset: -1px;
   }
 }
+
+.delete-dialog {
+  width: min(440px, calc(100vw - 32px));
+  max-width: none;
+  margin: auto;
+  padding: 0;
+  border: 1px solid hsl(var(--border));
+  border-radius: 12px;
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
+  box-shadow: 0 24px 80px hsl(210 24% 10% / .24);
+}
+.delete-dialog::backdrop { background: rgb(18 29 25 / .48); backdrop-filter: blur(2px); }
+.delete-dialog-content { padding: 25px; }
+.delete-dialog-icon { display:grid;place-items:center;width:40px;height:40px;margin-bottom:17px;border-radius:12px;background:hsl(var(--destructive)/.1);color:hsl(var(--destructive)); }
+.delete-dialog h2 { margin:7px 0 0;font:700 20px var(--app-font-serif);letter-spacing:-.35px; }
+.delete-dialog-description { margin:8px 0 0;color:hsl(var(--muted-foreground));font-size:12px;line-height:1.6;overflow-wrap:anywhere; }
+.delete-dialog-error { margin:13px 0 0;padding:10px 11px;border:1px solid hsl(var(--destructive)/.2);border-radius:7px;background:hsl(var(--destructive)/.07);color:hsl(var(--destructive));font-size:11px;line-height:1.5; }
+.delete-dialog-actions { display:flex;justify-content:flex-end;gap:8px;margin-top:24px; }
+.delete-dialog-actions button:disabled { cursor:not-allowed;opacity:.55; }
+
+@media (max-width: 639px) {
+  .table-panel .table-wrap:has([data-testid^='row-customer-']) table,
+  .table-panel .table-wrap:has([data-testid^='row-product-']) table,
+  .table-panel .table-wrap:has([data-testid^='row-order-']) table {
+    min-width: 0 !important;
+    table-layout: fixed;
+  }
+
+  .table-panel .table-wrap:has([data-testid^='row-customer-']) th,
+  .table-panel .table-wrap:has([data-testid^='row-customer-']) td,
+  .table-panel .table-wrap:has([data-testid^='row-product-']) th,
+  .table-panel .table-wrap:has([data-testid^='row-product-']) td,
+  .table-panel .table-wrap:has([data-testid^='row-order-']) th,
+  .table-panel .table-wrap:has([data-testid^='row-order-']) td,
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) th,
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) td {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+  .table-panel .table-wrap:has([data-testid^='row-customer-']) tr > :nth-child(1),
+  .table-panel .table-wrap:has([data-testid^='row-customer-']) tr > :nth-child(3),
+  .table-panel .table-wrap:has([data-testid^='row-customer-']) tr > :nth-child(5),
+  .table-panel .table-wrap:has([data-testid^='row-product-']) tr > :nth-child(1),
+  .table-panel .table-wrap:has([data-testid^='row-order-']) tr > :nth-child(3),
+  .table-panel .table-wrap:has([data-testid^='row-order-']) tr > :nth-child(5),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) tr > :nth-child(3) {
+    display: none;
+  }
+
+  .table-panel .table-wrap:has([data-testid^='row-customer-']) td:nth-child(4),
+  .table-panel .table-wrap:has([data-testid^='row-product-']) td:nth-child(2),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(2) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .table-panel .table-wrap:has([data-testid^='row-customer-']) td:nth-child(4) { font-size: 10px; }
+  .table-panel .table-wrap:has([data-testid^='row-product-']) td:nth-child(3),
+  .table-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(6),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(5) {
+    white-space: nowrap;
+    font-size: 9px;
+  }
+
+  .table-panel .table-wrap:has([data-testid^='row-customer-']) th:last-child,
+  .table-panel .table-wrap:has([data-testid^='row-customer-']) td:last-child,
+  .table-panel .table-wrap:has([data-testid^='row-product-']) th:last-child,
+  .table-panel .table-wrap:has([data-testid^='row-product-']) td:last-child,
+  .table-panel .table-wrap:has([data-testid^='row-order-']) th:last-child,
+  .table-panel .table-wrap:has([data-testid^='row-order-']) td:last-child {
+    width: 68px;
+  }
+
+  .table-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(1),
+  .table-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(1),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(1),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(1) {
+    width: 54px;
+  }
+
+  .table-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(2),
+  .table-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(2),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(2),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(2) {
+    width: 86px;
+  }
+
+  .table-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(4),
+  .table-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(4),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(4),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(4) {
+    width: 70px;
+  }
+
+  .table-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(6),
+  .table-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(6),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(5),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(5) {
+    width: 80px;
+  }
+
+  .table-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(4) .status,
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(4) .status {
+    gap: 4px;
+    padding: 4px 5px;
+    font-size: 8px;
+  }
+
+  .table-panel .row-actions { gap: 2px; }
+  .table-panel .row-actions a,
+  .table-panel .row-actions button { width: 26px; height: 28px; }
+}
+
+@media (max-width: 380px) {
+  .table-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(1),
+  .table-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(1),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(1),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(1) { width: 46px; }
+  .table-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(2),
+  .table-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(2),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(2),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(2) { width: 72px; }
+  .table-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(4),
+  .table-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(4),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(4),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(4) { width: 64px; }
+  .table-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(6),
+  .table-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(6),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(5),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(5) { width: 70px; }
+  .table-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(6) { font-size: 8px; }
+  .table-panel .row-actions a,
+  .table-panel .row-actions button { width: 24px; }
+}
+
+@media (max-width: 340px) {
+  .table-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(1),
+  .table-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(1),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(1),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(1) { width: 40px; }
+  .table-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(2),
+  .table-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(2),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(2),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(2) { width: 58px; }
+  .table-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(4),
+  .table-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(4),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(4),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(4) { width: 58px; }
+  .table-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(6),
+  .table-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(6),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) th:nth-child(5),
+  .recent-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(5) { width: 64px; }
+  .table-panel .table-wrap:has([data-testid^='row-order-']) td:nth-child(6) { font-size: 7px; }
+  .table-panel .table-wrap:has([data-testid^='row-order-']) th:last-child,
+  .table-panel .table-wrap:has([data-testid^='row-order-']) td:last-child { width: 60px; }
+  .table-panel .row-actions a,
+  .table-panel .row-actions button { width: 22px; height: 26px; }
+}
