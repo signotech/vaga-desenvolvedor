@@ -1,0 +1,54 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: signo-backend
+    environment:
+      PORT: 3000
+      NODE_ENV: production
+      DB_STORAGE: /app/data/database.sqlite
+      JWT_SECRET: signo-compose-secret
+    ports:
+      - '3000:3000'
+    volumes:
+      - sqlite-data:/app/data
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "require('http').get('http://127.0.0.1:3000/api/health',(r)=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 40s
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: signo-frontend
+    ports:
+      - '8080:80'
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+  e2e:
+    profiles: [test]
+    build:
+      context: .
+      dockerfile: e2e/Dockerfile
+    container_name: signo-e2e
+    environment:
+      CI: 'true'
+    ipc: host
+    init: true
+
+volumes:
+  sqlite-data:

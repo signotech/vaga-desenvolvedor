@@ -1,0 +1,611 @@
+openapi: 3.0.3
+info:
+  title: API de Pedidos de Compra
+  description: CRUD de clientes, produtos e pedidos com filtro, ordenação e paginação.
+  version: 1.0.0
+servers:
+  - url: /api
+    description: API local
+
+# JWT obrigatório nas rotas protegidas; health/login sobrescrevem com security: [].
+security:
+  - bearerAuth: []
+
+tags:
+  - name: Health
+  - name: Auth
+  - name: Clientes
+  - name: Produtos
+  - name: Pedidos
+
+paths:
+  /health:
+    get:
+      tags: [Health]
+      summary: Health check
+      security: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Login
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, senha]
+              properties:
+                email: { type: string, example: admin@signotech.com }
+                senha: { type: string, example: admin123 }
+      responses:
+        '200':
+          description: Token JWT
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token: { type: string }
+                  user:
+                    type: object
+                    properties:
+                      id: { type: integer }
+                      nome: { type: string }
+                      email: { type: string }
+        '401':
+          description: Credenciais inválidas
+
+  /auth/me:
+    get:
+      tags: [Auth]
+      summary: Usuário autenticado
+      responses:
+        '200':
+          description: Perfil
+        '401':
+          description: Não autenticado
+
+  /clientes:
+    get:
+      tags: [Clientes]
+      summary: Listar clientes
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sortOrder'
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+            enum: [id, nome, cpf, email]
+        - name: id
+          in: query
+          schema: { type: integer }
+        - name: nome
+          in: query
+          schema: { type: string }
+        - name: cpf
+          in: query
+          schema: { type: string }
+        - name: email
+          in: query
+          schema: { type: string }
+      responses:
+        '200':
+          description: Lista paginada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientePage'
+    post:
+      tags: [Clientes]
+      summary: Criar cliente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClienteInput'
+      responses:
+        '201':
+          description: Criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+  /clientes/{id}:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      tags: [Clientes]
+      summary: Buscar cliente
+      responses:
+        '200':
+          description: Cliente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags: [Clientes]
+      summary: Atualizar cliente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClienteUpdate'
+      responses:
+        '200':
+          description: Atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+    delete:
+      tags: [Clientes]
+      summary: Remover cliente
+      responses:
+        '204':
+          description: Removido
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /produtos:
+    get:
+      tags: [Produtos]
+      summary: Listar produtos
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sortOrder'
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+            enum: [id, sku, titulo, preco, estoque]
+        - name: id
+          in: query
+          schema: { type: integer }
+        - name: sku
+          in: query
+          schema: { type: string }
+        - name: titulo
+          in: query
+          schema: { type: string }
+        - name: preco
+          in: query
+          schema: { type: number }
+        - name: estoque
+          in: query
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Lista paginada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProdutoPage'
+    post:
+      tags: [Produtos]
+      summary: Criar produto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProdutoInput'
+      responses:
+        '201':
+          description: Criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Produto'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+  /produtos/{id}:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      tags: [Produtos]
+      summary: Buscar produto
+      responses:
+        '200':
+          description: Produto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Produto'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags: [Produtos]
+      summary: Atualizar produto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProdutoUpdate'
+      responses:
+        '200':
+          description: Atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Produto'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+    delete:
+      tags: [Produtos]
+      summary: Remover produto
+      responses:
+        '204':
+          description: Removido
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /pedidos:
+    get:
+      tags: [Pedidos]
+      summary: Listar pedidos
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/sortOrder'
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+            enum: [id, cliente_id, data_pedido, status, desconto]
+        - name: id
+          in: query
+          schema: { type: integer }
+        - name: cliente_id
+          in: query
+          schema: { type: integer }
+        - name: cliente
+          in: query
+          description: Nome ou ID do cliente
+          schema: { type: string }
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/PedidoStatus'
+        - name: desconto
+          in: query
+          schema: { type: number }
+      responses:
+        '200':
+          description: Lista paginada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PedidoPage'
+    post:
+      tags: [Pedidos]
+      summary: Criar pedido
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PedidoInput'
+      responses:
+        '201':
+          description: Criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pedido'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+
+  /pedidos/{id}:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      tags: [Pedidos]
+      summary: Buscar pedido
+      responses:
+        '200':
+          description: Pedido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pedido'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags: [Pedidos]
+      summary: Atualizar pedido
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PedidoUpdate'
+      responses:
+        '200':
+          description: Atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pedido'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags: [Pedidos]
+      summary: Remover pedido
+      responses:
+        '204':
+          description: Removido
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+    page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    limit:
+      name: limit
+      in: query
+      description: Itens por página (default 20, máx. 100)
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    sortOrder:
+      name: sortOrder
+      in: query
+      schema:
+        type: string
+        enum: [ASC, DESC]
+        default: ASC
+
+  responses:
+    NotFound:
+      description: Não encontrado
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Conflict:
+      description: Registro duplicado
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Dados inválidos
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: object
+
+  schemas:
+    Meta:
+      type: object
+      properties:
+        total: { type: integer }
+        page: { type: integer }
+        limit: { type: integer }
+        totalPages: { type: integer }
+
+    Error:
+      type: object
+      properties:
+        error: { type: string }
+
+    PedidoStatus:
+      type: string
+      enum: [Em Aberto, Pago, Cancelado]
+
+    Cliente:
+      type: object
+      properties:
+        id: { type: integer }
+        nome: { type: string, maxLength: 150 }
+        cpf: { type: string, minLength: 11, maxLength: 11, example: '11111111111' }
+        email: { type: string, format: email }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    ClienteInput:
+      type: object
+      required: [nome, cpf, email]
+      properties:
+        nome: { type: string, maxLength: 150 }
+        cpf: { type: string, minLength: 11, maxLength: 11 }
+        email: { type: string, format: email }
+
+    ClienteUpdate:
+      type: object
+      properties:
+        nome: { type: string, maxLength: 150 }
+        cpf: { type: string, minLength: 11, maxLength: 11 }
+        email: { type: string, format: email }
+
+    ClientePage:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Cliente'
+        meta:
+          $ref: '#/components/schemas/Meta'
+
+    Produto:
+      type: object
+      properties:
+        id: { type: integer }
+        sku: { type: string, maxLength: 100 }
+        titulo: { type: string, maxLength: 100 }
+        preco: { type: number, format: float }
+        estoque: { type: integer }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    ProdutoInput:
+      type: object
+      required: [sku, titulo, preco]
+      properties:
+        sku: { type: string, maxLength: 100 }
+        titulo: { type: string, maxLength: 100 }
+        preco: { type: number, minimum: 0 }
+        estoque: { type: integer, minimum: 0 }
+
+    ProdutoUpdate:
+      type: object
+      properties:
+        sku: { type: string, maxLength: 100 }
+        titulo: { type: string, maxLength: 100 }
+        preco: { type: number, minimum: 0 }
+        estoque: { type: integer, minimum: 0 }
+
+    ProdutoPage:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Produto'
+        meta:
+          $ref: '#/components/schemas/Meta'
+
+    PedidoItemInput:
+      type: object
+      required: [produto_id, quantidade]
+      properties:
+        produto_id: { type: integer, minimum: 1 }
+        quantidade: { type: integer, minimum: 1 }
+
+    PedidoItem:
+      type: object
+      properties:
+        id: { type: integer }
+        pedido_id: { type: integer }
+        produto_id: { type: integer }
+        quantidade: { type: integer }
+        preco_unitario: { type: number }
+        produto:
+          $ref: '#/components/schemas/Produto'
+
+    Pedido:
+      type: object
+      properties:
+        id: { type: integer }
+        cliente_id: { type: integer }
+        data_pedido: { type: string, format: date-time }
+        status:
+          $ref: '#/components/schemas/PedidoStatus'
+        desconto: { type: number }
+        cliente:
+          $ref: '#/components/schemas/Cliente'
+        itens:
+          type: array
+          items:
+            $ref: '#/components/schemas/PedidoItem'
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+
+    PedidoInput:
+      type: object
+      required: [cliente_id, itens]
+      properties:
+        cliente_id: { type: integer, minimum: 1 }
+        data_pedido: { type: string, format: date-time }
+        status:
+          $ref: '#/components/schemas/PedidoStatus'
+        desconto: { type: number, minimum: 0 }
+        itens:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/PedidoItemInput'
+
+    PedidoUpdate:
+      type: object
+      properties:
+        cliente_id: { type: integer, minimum: 1 }
+        data_pedido: { type: string, format: date-time }
+        status:
+          $ref: '#/components/schemas/PedidoStatus'
+        desconto: { type: number, minimum: 0 }
+        itens:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/PedidoItemInput'
+
+    PedidoPage:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pedido'
+        meta:
+          $ref: '#/components/schemas/Meta'

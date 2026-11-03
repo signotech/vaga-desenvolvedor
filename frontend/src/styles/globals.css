@@ -1,0 +1,28 @@
+@import './variables.css';
+@import './animations.css';
+@import './themes/materialize-overrides.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+.input-field label {
+  color: var(--muted-foreground);
+}
+
+.red-text {
+  color: var(--trading-down) !important;
+  font-size: 0.8rem;
+}
