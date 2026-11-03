@@ -1,0 +1,32 @@
+{
+  "name": "vaga-pedidos",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Signotech pedidos — monorepo frontend + backend",
+  "scripts": {
+    "dev": "npm --prefix backend run dev",
+    "dev:api": "npm --prefix backend run dev",
+    "dev:web": "npm --prefix frontend run dev",
+    "start": "npm --prefix backend run start",
+    "build:web": "npm --prefix frontend run build",
+    "db:migrate": "npm --prefix backend run db:migrate",
+    "db:migrate:undo": "npm --prefix backend run db:migrate:undo",
+    "db:seed": "npm --prefix backend run db:seed",
+    "db:seed:undo": "npm --prefix backend run db:seed:undo",
+    "db:reset": "npm --prefix backend run db:reset",
+    "test:e2e": "playwright test",
+    "test:e2e:api": "playwright test --project=api",
+    "test:e2e:web": "playwright test --project=web",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:report": "playwright show-report",
+    "test:e2e:docker": "docker compose --profile test run --rm --build e2e",
+    "test:e2e:docker:api": "docker compose --profile test run --rm --build e2e npx playwright test --project=api",
+    "test:e2e:docker:web": "docker compose --profile test run --rm --build e2e npx playwright test --project=web",
+    "docker:up": "docker compose up --build -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1"
+  }
+}

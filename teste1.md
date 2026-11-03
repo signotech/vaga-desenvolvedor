@@ -1,72 +1,216 @@
-<div align="center">
-  <img src="https://signotech.com.br/wp-content/uploads/2023/03/SignoTech.webp" width="20%" />
-</div>
-
 # Teste para candidatos à vaga de Desenvolvedor
 
-Nesse teste analisaremos seu conhecimento geral e inclusive velocidade de desenvolvimento. Abaixo explicaremos tudo o que será necessário.
+## Stack
 
-## Instruções
+- **Node.js + Express** (API REST JSON)
+- **Sequelize** (ORM, migrations e seeders)
+- **SQLite**
+- **React + TypeScript + Vite** (frontend)
+- **Materialize CSS** (UI responsiva)
+- **Axios + TanStack Query + React Hook Form + Zod**
+- **Playwright** (e2e API + UI)
+- **Docker Compose** (deploy local)
 
-O desafio consiste em implementar uma aplicação Web utilizando o framework PHP Laravel OU NodeJS + Express, e um banco de dados relacional SQLite, MySQL ou Postgres, a partir de uma modelagem de dados inicial desnormalizada, que deve ser normalizada para a implementação da solução.
+## Modelo normalizado (3FN)
 
-Você vai criar uma aplicação de cadastro de pedidos de compra, a partir de uma modelagem inicial, com as seguintes funcionalidades:
+A modelagem inicial misturava cliente, produto e pedido em uma única tabela. Foi normalizada assim:
 
-- CRUD de clientes.
-- CRUD de produtos.
-- CRUD de pedidos de compra, com status (Em Aberto, Pago ou Cancelado).
-- Cada CRUD:
-  - deve ser filtrável e ordenável por qualquer campo, e possuir paginação de 20 itens.
-  - deve possuir formulários para criação e atualização de seus itens.
-  - deve permitir a exclusão de qualquer item de sua lista, importante conter uma mensagem de confirmação.
-- Barra de navegação entre os CRUDs.
-- Links para os outros CRUDs nas listagens (Ex: link para o detalhe do cliente da compra na lista de pedidos de compra)
+| Tabela | Campos | Relação |
+| --- | --- | --- |
+| `clientes` | id, nome, cpf, email | 1:N com pedidos |
+| `produtos` | id, sku, titulo, preco, estoque | 1:N com itens |
+| `pedidos` | id, cliente_id, data_pedido, status, desconto | N:1 cliente; 1:N itens |
+| `pedido_itens` | id, pedido_id, produto_id, quantidade, preco_unitario | N:1 pedido; N:1 produto |
 
-## Modelo de dados
+**Status do pedido:** `Em Aberto` | `Pago` | `Cancelado`
 
-A modelagem inicial para a implementação solução é a seguinte:
+**Desconto:** campo bônus em `pedidos` (aplicado no seed e no formulário).
 
-![](banco.png)
+## Bônus do enunciado
 
-Você deve alterar esta modelagem para que a mesma cumpra com as três primeiras formas normais.
+| Item | Status |
+| --- | --- |
+| Autenticação de usuário | JWT + tela `/login` (`admin@signotech.com` / `admin123`) |
+| Itens por página configurável | Seletor 10/20/50/100 nas listagens |
+| Deleção em massa | Checkboxes + `POST /api/{recurso}/bulk-delete` |
+| Desconto em pedidos | Campo `desconto` no modelo/API/UI |
+| Front Materialize responsivo | App React + Materialize |
+| API REST JSON | `/api/clientes`, `/api/produtos`, `/api/pedidos` |
+| Docker | `compose.yaml` (app) + profile `test` (e2e) |
 
-Além disso, a implementação deste modelo em um banco de dados relacional deve ser realizada levando em consideração os seguintes requisitos:
+## Como executar
 
-- O banco de dados deve ser criado utilizando Migrations do framework Laravel, e também utilizar Seeds e Factorys para popular as informações no banco de dados. Se o seu projeto for em NodeJS solicitamos o uso do ORM Sequelize para a criação das migrations.
-- Implementação das validações necessárias na camada que julgar melhor.
+### Docker (recomendado para demo)
 
-## Tecnologias a serem utilizadas
+```bash
+docker compose up --build
+```
 
-Devem ser utilizadas as seguintes tecnologias:
+- App: http://localhost:8080 (login: `admin@signotech.com` / `admin123`)  
+- API: http://localhost:3000  
+- Swagger: http://localhost:3000/api/docs  
 
-- HTML
-- CSS
-- Javascript
-- Framework Laravel (PHP) ou NodeJS+Express
-- Docker (construção do ambiente de desenvolvimento) (Adicional não obrigatório)
+Na primeira subida: migrations + seed automático. SQLite persiste no volume `sqlite-data`.
 
-## Entrega
+```bash
+npm run docker:up     # build + detach
+npm run docker:logs
+npm run docker:down
+```
 
-- Para iniciar o teste, faça um fork deste repositório; **Se você apenas clonar o repositório não vai conseguir fazer push.**
-- Crie uma branch com o seu nome completo;
-- Altere o arquivo teste1.md com as informações necessárias para executar o seu teste (comandos, migrations, seeds, etc);
-- Depois de finalizado, envie-nos o pull request;
+### Backend (local)
 
-## Bônus
+```bash
+cd backend
+npm install
+npm run db:migrate
+npm run db:seed
+npm run dev
+```
 
-- Implementar autenticação de usuário na aplicação.
-- Permitir que o usuário mude o número de itens por página.
-- Permitir deleção em massa de itens nos CRUDs.
-- Implementar aplicação de desconto em alguns pedidos de compra.
-- Implementar a camada de Front-End utilizando a biblioteca javascript Materialize e ser responsiva.
-- API Rest JSON para todos os CRUDS listados acima.
+API em `http://localhost:3000`.
 
-## O que iremos analisar
+Swagger UI: `http://localhost:3000/api/docs`  
+OpenAPI JSON: `http://localhost:3000/api/docs.json`
 
-- Organização do código;
-- Aplicação de design patterns;
-- Separação de módulos e componentes;
-- Legibilidade;
-- Criação do ambiente com Docker.
+### Frontend (local)
 
-### Boa sorte!
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+App em `http://localhost:5173` (proxy `/api` → backend).
+
+### Scripts na raiz
+
+| Comando | Descrição |
+| --- | --- |
+| `npm run dev` / `dev:api` | API com nodemon (`backend/`) |
+| `npm run dev:web` | Vite (`frontend/`) |
+| `npm run db:migrate` | Migrations |
+| `npm run db:seed` | Seed demo (~150 pedidos) |
+| `npm run db:reset` | Recria banco + seed |
+| `npm start` | API em produção |
+| `npm run test:e2e` | Playwright no host (API + web) |
+| `npm run test:e2e:docker` | Playwright no Docker (browsers inclusos) |
+| `npm run docker:up` | Compose up --build -d |
+
+## Endpoints
+
+Base: `/api` (CRUDs exigem `Authorization: Bearer <token>`)
+
+### Auth `/api/auth`
+
+| Método | Rota | Descrição |
+| --- | --- | --- |
+| POST | `/login` | `{ email, senha }` → `{ token, user }` |
+| GET | `/me` | Usuário autenticado |
+
+### Clientes `/api/clientes`
+
+| Método | Rota | Descrição |
+| --- | --- | --- |
+| GET | `/` | Lista (filtro, ordenação, paginação) |
+| GET | `/:id` | Detalhe |
+| POST | `/` | Cria `{ nome, cpf, email }` |
+| PUT | `/:id` | Atualiza |
+| DELETE | `/:id` | Remove |
+| POST | `/bulk-delete` | Exclusão em massa `{ ids: number[] }` |
+
+### Produtos `/api/produtos`
+
+| Método | Rota | Descrição |
+| --- | --- | --- |
+| GET | `/` | Lista |
+| GET | `/:id` | Detalhe |
+| POST | `/` | Cria `{ sku, titulo, preco, estoque? }` |
+| PUT | `/:id` | Atualiza |
+| DELETE | `/:id` | Remove |
+| POST | `/bulk-delete` | Exclusão em massa `{ ids: number[] }` |
+
+### Pedidos `/api/pedidos`
+
+| Método | Rota | Descrição |
+| --- | --- | --- |
+| GET | `/` | Lista (inclui cliente e itens) |
+| GET | `/:id` | Detalhe |
+| POST | `/` | Cria pedido com itens |
+| PUT | `/:id` | Atualiza (itens opcionais) |
+| DELETE | `/:id` | Remove |
+| POST | `/bulk-delete` | Exclusão em massa `{ ids: number[] }` |
+
+Exemplo de criação de pedido:
+
+```json
+{
+  "cliente_id": 1,
+  "status": "Em Aberto",
+  "desconto": 10,
+  "itens": [
+    { "produto_id": 1, "quantidade": 2 },
+    { "produto_id": 3, "quantidade": 1 }
+  ]
+}
+```
+
+## Query params (listagens)
+
+- `page` — página (default `1`)
+- `limit` — itens por página (default `20`, máx. `100`) — bônus
+- `sortBy` — qualquer campo da entidade
+- `sortOrder` — `ASC` ou `DESC`
+- Filtro por campo: `?nome=Ana`, `?status=Pago`, `?sku=NB-001`, etc.
+- Busca OR (clientes): `?q=termo` (nome, CPF ou e-mail)
+
+## Estrutura
+
+```
+backend/
+  src/
+    app.js / server.js
+    config/database.js
+    models/          # Cliente, Produto, Pedido, PedidoItem
+    controllers/     # CRUD + factory reutilizável
+    routes/
+    validators/
+    middlewares/
+    factories/
+    utils/query.js
+    docs/            # OpenAPI + Swagger UI
+  database/
+    migrations/
+    seeders/
+  Dockerfile
+  docker-entrypoint.sh
+frontend/
+  src/               # feature-based (pages → hooks → stores → services)
+  Dockerfile
+  nginx.conf         # SPA + proxy /api → backend
+e2e/
+  api/               # testes HTTP
+  web/               # testes de UI
+  Dockerfile         # imagem Playwright para CI/local via Compose
+compose.yaml         # backend + frontend; profile `test` → serviço e2e
+```
+
+## Testes e2e
+
+No host (requer `npx playwright install` após `npm install` na raiz):
+
+```bash
+npm run test:e2e          # suíte completa
+npm run test:e2e:api      # só API
+npm run test:e2e:web      # só UI
+```
+
+No Docker (recomendado; Chromium já vem na imagem):
+
+```bash
+npm run test:e2e:docker
+npm run test:e2e:docker:api
+npm run test:e2e:docker:web
+```
+
+Projetos: `api` (CRUD REST) e `web` (home, sidebar, cadastros). Banco isolado em `backend/database/e2e.sqlite`; o Playwright sobe API + Vite em portas dedicadas.

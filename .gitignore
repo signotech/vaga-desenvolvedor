@@ -1,0 +1,17 @@
+node_modules/
+.env
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+*.log
+.DS_Store
+
+# Impeccable local / platform binary
+.impeccable/config.local.json
+.impeccable/hook.cache.json
+.cursor/skills/impeccable/scripts/bin/
+
+# Local Cursor / Impeccable tooling
+.cursor/
+.impeccable/
