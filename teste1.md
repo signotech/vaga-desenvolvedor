@@ -70,3 +70,106 @@ Devem ser utilizadas as seguintes tecnologias:
 - Criação do ambiente com Docker.
 
 ### Boa sorte!
+
+---
+
+# Implementação do desafio — Laravel
+
+## Tecnologias e requisitos
+
+- PHP 8.3 ou superior.
+- Laravel 13.
+- Composer.
+- Node.js e npm.
+- MySQL.
+- Blade, HTML, CSS e JavaScript.
+- Pest para testes automatizados.
+
+## Instalação e configuração
+
+Clone o repositório e acesse a pasta do projeto. Em seguida, instale as dependências do PHP:
+
+```bash
+composer install
+```
+
+Crie o arquivo de ambiente a partir do exemplo:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Gere a chave da aplicação:
+
+```bash
+php artisan key:generate
+```
+
+Crie um banco de dados MySQL para o projeto e configure no arquivo `.env` as variáveis `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME` e `DB_PASSWORD`, conforme o ambiente local.
+
+Execute as migrations:
+
+```bash
+php artisan migrate
+```
+
+Popule o banco com dados de exemplo:
+
+```bash
+php artisan db:seed
+```
+
+Instale e compile as dependências do front-end:
+
+```powershell
+npm.cmd install
+npm.cmd run build
+```
+
+Inicie o servidor:
+
+```bash
+php artisan serve
+```
+
+A aplicação estará disponível em `http://127.0.0.1:8000`.
+
+## Estrutura do banco de dados
+
+As migrations principais são:
+
+- `2026_10_31_182722_create_customers_table.php`: tabela de clientes.
+- `2026_10_31_182736_create_products_table.php`: tabela de produtos.
+- `2026_10_31_182747_create_orders_table.php`: tabela de pedidos.
+- `2026_10_31_182757_create_order_items_table.php`: itens dos pedidos.
+
+O projeto também utiliza migrations padrão do Laravel para usuários, cache e filas.
+
+## Seeds e Factories
+
+O projeto utiliza factories para gerar clientes e produtos.
+
+O `DatabaseSeeder` cria:
+
+- 25 clientes.
+- 30 produtos.
+- 30 pedidos com clientes e status variados.
+- De 1 a 4 itens por pedido, com quantidades e preços unitários registrados.
+
+Para gerar os dados:
+
+```bash
+php artisan db:seed
+```
+
+## Testes automatizados
+
+Execute os testes com:
+
+```bash
+php artisan test
+```
+
+Os testes utilizam SQLite em memória, conforme configuração do `phpunit.xml`, sem interferir no banco de dados da aplicação.
+
+A suíte contempla os cadastros, atualizações e exclusões de clientes, produtos e pedidos, além das validações e regras de relacionamento.
