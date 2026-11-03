@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos - Sistema de Pedidos</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Sistema de Gerenciamento de Pedidos</h1>
+            <nav>
+                <a href="../index.html">Início</a>
+                <a href="clientes.html">Clientes</a>
+                <a href="produtos.html">Produtos</a>
+                <a href="pedidos.html">Pedidos</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <h2 id="tituloFormulario">Cadastro de Produtos</h2>
+
+            <form id="formProduto">
+                <input type="hidden" id="produtoId">
+
+                <div class="campo">
+                    <label for="sku">SKU:</label>
+                    <input type="text" id="sku" maxlength="100">
+                </div>
+
+                <div class="campo">
+                    <label for="titulo">Nome do produto:</label>
+                    <input type="text" id="titulo" maxlength="100" required>
+                </div>
+
+                <div class="campo">
+                    <label for="preco">Preço (R$):</label>
+                    <input type="number" id="preco" min="0" step="0.01">
+                </div>
+
+                <div class="campo">
+                    <label for="estoque">Quantidade em estoque:</label>
+                    <input type="number" id="estoque" min="0" step="1">
+                </div>
+
+                <div class="acoes-formulario">
+                    <button type="submit" class="botao" id="btnSalvar">
+                        Salvar Produto
+                    </button>
+
+                    <button type="button" class="botao botao-secundario" id="cancelarEdicao" hidden>
+                        Cancelar Edição
+                    </button>
+                </div>
+            </form>
+
+            <p id="mensagem"></p>
+        </section>
+
+        <section class="secao-listagem">
+            <h2>Produtos Cadastrados</h2>
+
+            <div class="filtros">
+                <input type="text" id="busca" placeholder="Pesquisar produtos...">
+
+                <select id="ordenarPor">
+                    <option value="id">ID</option>
+                    <option value="sku">SKU</option>
+                    <option value="titulo">Nome</option>
+                    <option value="preco">Preço</option>
+                    <option value="estoque">Estoque</option>
+                </select>
+
+                <select id="ordem">
+                    <option value="ASC">Crescente</option>
+                    <option value="DESC">Decrescente</option>
+                </select>
+
+                <button type="button" class="botao" id="btnBuscar">
+                    Pesquisar
+                </button>
+            </div>
+
+            <div class="tabela-responsiva">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>SKU</th>
+                            <th>Produto</th>
+                            <th>Preço</th>
+                            <th>Estoque</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="listaProdutos">
+                        <tr>
+                            <td colspan="6">Carregando produtos...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="paginacao">
+                <button type="button" class="botao botao-secundario" id="paginaAnterior">
+                    Anterior
+                </button>
+
+                <span id="informacaoPagina">Página 1</span>
+
+                <button type="button" class="botao botao-secundario" id="proximaPagina">
+                    Próxima
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <script src="../js/produtos.js"></script>
+</body>
+
+</html>
