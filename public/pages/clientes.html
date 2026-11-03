@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gerenciar Clientes</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <header class="cabecalho">
+        <div class="container">
+
+            <h1>Gerenciamento de Pedidos</h1>
+
+            <nav class="navegacao">
+                <a href="../index.html">Início</a>
+                <a href="clientes.html" class="ativo">Clientes</a>
+                <a href="produtos.html">Produtos</a>
+                <a href="pedidos.html">Pedidos</a>
+            </nav>
+
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section class="boas-vindas">
+            <h2>Gerenciamento de Clientes</h2>
+
+            <p>
+                Cadastre novos clientes, consulte informações,
+                atualize dados e gerencie os registros existentes.
+            </p>
+        </section>
+
+        <!-- FORMULÁRIO DE CADASTRO -->
+        <section class="card">
+
+            <h3>Cadastrar Cliente</h3>
+
+            <form id="formCliente">
+
+                <input type="hidden" id="clienteId">
+
+                <div class="campo">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" maxlength="150" placeholder="Nome completo">
+                </div>
+
+                <div class="campo">
+                    <label for="cpf">CPF:</label>
+                    <input type="text" id="cpf" name="cpf" maxlength="11" placeholder="Somente números">
+                </div>
+
+                <div class="campo">
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="email" maxlength="255" placeholder="exemplo@email.com"
+                        required>
+                </div>
+
+                <div class="acoes-formulario">
+
+                    <button type="submit" class="botao">
+                        Salvar Cliente
+                    </button>
+
+                    <button type="button" id="cancelarEdicao" class="botao botao-secundario" hidden>
+                        Cancelar edição
+                    </button>
+
+                </div>
+
+            </form>
+
+            <p id="mensagem" role="status" aria-live="polite"></p>
+
+        </section>
+
+        <!-- LISTAGEM DE CLIENTES -->
+        <section class="card secao-listagem">
+
+            <h3>Clientes Cadastrados</h3>
+
+            <div class="filtros">
+
+                <input type="text" id="busca" placeholder="Buscar por nome, CPF ou e-mail">
+
+                <select id="ordenarPor">
+                    <option value="id">ID</option>
+                    <option value="nome">Nome</option>
+                    <option value="cpf">CPF</option>
+                    <option value="email">E-mail</option>
+                    <option value="createdAt">Data de cadastro</option>
+                </select>
+
+                <select id="ordem">
+                    <option value="ASC">Crescente</option>
+                    <option value="DESC">Decrescente</option>
+                </select>
+
+                <button type="button" id="btnBuscar" class="botao">
+                    Buscar
+                </button>
+
+            </div>
+
+            <div class="tabela-responsiva">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>E-mail</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="listaClientes">
+                        <tr>
+                            <td colspan="5">
+                                Aguardando carregamento dos clientes...
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="paginacao">
+
+                <button type="button" id="paginaAnterior" class="botao botao-secundario">
+                    Anterior
+                </button>
+
+                <span id="informacaoPagina">Página 1</span>
+
+                <button type="button" id="proximaPagina" class="botao botao-secundario">
+                    Próxima
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="rodape">
+        <p>© 2026 - Sistema de Gerenciamento de Pedidos</p>
+    </footer>
+
+    <script src="../js/clientes.js"></script>
+
+</body>
+
+</html>

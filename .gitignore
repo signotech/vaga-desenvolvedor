@@ -1,0 +1,13 @@
+# Dependências
+node_modules/
+
+# Variáveis de ambiente
+.env
+
+# Banco de dados SQLite
+database/*.sqlite
+database/*.sqlite3
+database/*.db
+
+# Logs
+npm-debug.log*

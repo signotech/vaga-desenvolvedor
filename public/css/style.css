@@ -1,0 +1,304 @@
+
+/* CONFIGURAÇÕES GERAIS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* CABEÇALHO */
+.cabecalho {
+    background-color: #173b67;
+    color: #fff;
+    padding: 22px 0;
+}
+
+.cabecalho h1 {
+    font-size: 25px;
+    margin-bottom: 18px;
+}
+
+.navegacao {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.navegacao a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+}
+
+.navegacao a:hover,
+.navegacao a.ativo {
+    background-color: #2d5d91;
+}
+
+/* CONTEÚDO PRINCIPAL */
+main {
+    flex: 1;
+}
+
+.boas-vindas {
+    margin: 45px 0 30px;
+}
+
+.boas-vindas h2 {
+    font-size: 28px;
+    color: #173b67;
+    margin-bottom: 12px;
+}
+
+.boas-vindas p {
+    color: #666;
+    line-height: 1.6;
+}
+
+/* PAINEL DE MÓDULOS */
+.painel {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-bottom: 50px;
+}
+
+.card {
+    display: block;
+    background-color: #fff;
+    padding: 28px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #333;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e5e9ef;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
+}
+
+.card h3 {
+    color: #173b67;
+    font-size: 21px;
+    margin-bottom: 15px;
+}
+
+.card p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 22px;
+}
+
+.card span {
+    color: #2469aa;
+    font-weight: bold;
+}
+
+/* RODAPÉ */
+.rodape {
+    background-color: #173b67;
+    color: #fff;
+    text-align: center;
+    padding: 18px;
+    margin-top: auto;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+    .painel {
+        grid-template-columns: 1fr;
+    }
+
+    .cabecalho h1 {
+        font-size: 21px;
+    }
+
+    .boas-vindas h2 {
+        font-size: 24px;
+    }
+
+    .navegacao {
+        gap: 5px;
+    }
+
+    .navegacao a {
+        padding: 9px 10px;
+        font-size: 14px;
+    }
+}
+
+
+/* FORMULÁRIOS */
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 20px 0;
+}
+
+.campo label {
+    font-weight: bold;
+    color: #173b67;
+}
+
+.campo input,
+.filtros input,
+.filtros select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d5dce5;
+    border-radius: 6px;
+    font-size: 15px;
+    outline: none;
+}
+
+.campo input:focus,
+.filtros input:focus,
+.filtros select:focus {
+    border-color: #2469aa;
+    box-shadow: 0 0 0 2px rgba(36, 105, 170, 0.12);
+}
+
+/* BOTÕES */
+.botao {
+    padding: 11px 18px;
+    background-color: #2469aa;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.botao:hover {
+    background-color: #173b67;
+}
+
+.botao:disabled {
+    background-color: #aab4c0;
+    cursor: not-allowed;
+}
+
+.botao-secundario {
+    background-color: #64748b;
+}
+
+.botao-secundario:hover {
+    background-color: #475569;
+}
+
+.botao-perigo {
+    background-color: #c0392b;
+}
+
+.botao-perigo:hover {
+    background-color: #922b21;
+}
+
+.acoes-formulario {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* FILTROS */
+.filtros {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 12px;
+    margin: 25px 0;
+}
+
+/* TABELAS */
+.secao-listagem {
+    margin-top: 25px;
+    margin-bottom: 40px;
+}
+
+.tabela-responsiva {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+th,
+td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 1px solid #e5e9ef;
+}
+
+th {
+    background-color: #edf2f7;
+    color: #173b67;
+}
+
+tbody tr:hover {
+    background-color: #f7f9fc;
+}
+
+td .botao {
+    margin: 3px;
+}
+
+/* PAGINAÇÃO */
+.paginacao {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    margin-top: 25px;
+    flex-wrap: wrap;
+}
+
+/* MENSAGENS */
+#mensagem {
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+/* RESPONSIVIDADE DOS FORMULÁRIOS */
+@media (max-width: 768px) {
+    .filtros {
+        grid-template-columns: 1fr;
+    }
+
+    .paginacao {
+        gap: 10px;
+    }
+
+    .acoes-formulario {
+        flex-direction: column;
+    }
+
+    .acoes-formulario .botao {
+        width: 100%;
+    }
+}

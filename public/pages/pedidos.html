@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos - Sistema de Gerenciamento</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Sistema de Gerenciamento de Pedidos</h1>
+
+            <nav>
+                <a href="../index.html">Início</a>
+                <a href="clientes.html">Clientes</a>
+                <a href="produtos.html">Produtos</a>
+                <a href="pedidos.html">Pedidos</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section class="card">
+            <h2 id="tituloFormulario">Cadastro de Pedidos</h2>
+
+            <form id="formPedido">
+
+                <input type="hidden" id="pedidoId">
+
+                <div class="campo">
+                    <label for="codigoPedido">Código do pedido:</label>
+                    <input type="number" id="codigoPedido" min="1" step="1" required>
+                </div>
+
+                <div class="campo">
+                    <label for="clienteId">Cliente:</label>
+                    <select id="clienteId" required>
+                        <option value="">Selecione um cliente</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="dataPedido">Data do pedido:</label>
+                    <input type="date" id="dataPedido">
+                </div>
+
+                <div class="campo">
+                    <label for="statusPedido">Status:</label>
+                    <select id="statusPedido" required>
+                        <option value="Em Aberto">Em Aberto</option>
+                        <option value="Pago">Pago</option>
+                        <option value="Cancelado">Cancelado</option>
+                    </select>
+                </div>
+
+                <h3>Produtos do pedido</h3>
+
+                <div id="listaItens">
+                    <!-- Os produtos serão adicionados pelo JavaScript -->
+                </div>
+
+                <div class="acoes-formulario">
+                    <button type="button" class="botao botao-secundario" id="adicionarItem">
+                        + Adicionar Produto
+                    </button>
+                </div>
+
+                <div class="acoes-formulario">
+                    <button type="submit" class="botao" id="btnSalvar">
+                        Salvar Pedido
+                    </button>
+
+                    <button type="button" class="botao botao-secundario" id="cancelarEdicao" hidden>
+                        Cancelar Edição
+                    </button>
+                </div>
+
+            </form>
+
+            <p id="mensagem"></p>
+        </section>
+
+        <section class="secao-listagem">
+
+            <h2>Pedidos Cadastrados</h2>
+
+            <div class="filtros">
+
+                <input type="text" id="busca" placeholder="Pesquisar pedidos...">
+
+                <select id="ordenarPor">
+                    <option value="id">ID</option>
+                    <option value="codigo_pedido">Código</option>
+                    <option value="cliente_id">Cliente</option>
+                    <option value="data_pedido">Data</option>
+                    <option value="status">Status</option>
+                </select>
+
+                <select id="ordem">
+                    <option value="ASC">Crescente</option>
+                    <option value="DESC">Decrescente</option>
+                </select>
+
+                <button type="button" class="botao" id="btnBuscar">
+                    Pesquisar
+                </button>
+
+            </div>
+
+            <div class="tabela-responsiva">
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Código</th>
+                            <th>Cliente</th>
+                            <th>Data</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="listaPedidos">
+                        <tr>
+                            <td colspan="6">Carregando pedidos...</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+
+            <div class="paginacao">
+
+                <button type="button" class="botao botao-secundario" id="paginaAnterior">
+                    Anterior
+                </button>
+
+                <span id="informacaoPagina">Página 1</span>
+
+                <button type="button" class="botao botao-secundario" id="proximaPagina">
+                    Próxima
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="../js/pedidos.js"></script>
+
+</body>
+
+</html>

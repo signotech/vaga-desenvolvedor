@@ -1,0 +1,30 @@
+{
+  "name": "vaga-desenvolvedor",
+  "version": "1.0.0",
+  "description": "<div align=\"center\">\r   <img width=\"20%\" src=\"https://site.signoweb.com.br/assets/images/logo-signo.svg\" />\r </div>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cruz8701/vaga-desenvolvedor.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cruz8701/vaga-desenvolvedor/issues"
+  },
+  "homepage": "https://github.com/Cruz8701/vaga-desenvolvedor#readme",
+  "dependencies": {
+    "dotenv": "^18.0.9",
+    "express": "^5.3.0",
+    "sequelize": "^6.37.8",
+    "sqlite3": "^6.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14",
+    "sequelize-cli": "^6.6.5"
+  }
+}
