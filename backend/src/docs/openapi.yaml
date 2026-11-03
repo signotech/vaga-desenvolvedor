@@ -7,6 +7,10 @@ servers:
   - url: /api
     description: API local
 
+# JWT obrigatório nas rotas protegidas; health/login sobrescrevem com security: [].
+security:
+  - bearerAuth: []
+
 tags:
   - name: Health
   - name: Auth
@@ -19,6 +23,7 @@ paths:
     get:
       tags: [Health]
       summary: Health check
+      security: []
       responses:
         '200':
           description: OK
@@ -35,6 +40,7 @@ paths:
     post:
       tags: [Auth]
       summary: Login
+      security: []
       requestBody:
         required: true
         content:
@@ -67,8 +73,6 @@ paths:
     get:
       tags: [Auth]
       summary: Usuário autenticado
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: Perfil
@@ -79,8 +83,6 @@ paths:
     get:
       tags: [Clientes]
       summary: Listar clientes
-      security:
-        - bearerAuth: []
       parameters:
         - $ref: '#/components/parameters/page'
         - $ref: '#/components/parameters/limit'
@@ -297,6 +299,10 @@ paths:
         - name: cliente_id
           in: query
           schema: { type: integer }
+        - name: cliente
+          in: query
+          description: Nome ou ID do cliente
+          schema: { type: string }
         - name: status
           in: query
           schema:
