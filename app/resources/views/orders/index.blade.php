@@ -1,0 +1,12 @@
+@extends('layouts.app')
+@section('title','Pedidos')
+@section('content')
+<div class="row"><div class="col s8"><h4>Pedidos de compra</h4><p class="muted">Acompanhe clientes, itens e status.</p></div><div class="col s4 right-align" style="padding-top:18px"><a class="btn" href="{{ route('pedidos.create') }}"><i class="material-icons left">add</i>Novo</a></div></div>
+<div class="card"><div class="card-content">
+<form method="GET" class="row"><div class="input-field col s12 m4"><input name="customer" value="{{ request('customer') }}"><label class="active">Cliente</label></div><div class="input-field col s12 m4"><input name="status" value="{{ request('status') }}"><label class="active">Status</label></div><div class="input-field col s12 m2"><input name="id" value="{{ request('id') }}"><label class="active">Nº pedido</label></div><div class="col s12 m2"><button class="btn-small">Filtrar</button></div></form>
+<form method="POST" action="{{ route('pedidos.bulk-destroy') }}">@csrf @method('DELETE')<div class="right-align"><button class="btn-small red" onclick="return confirmDelete('Excluir os pedidos selecionados?')">Excluir selecionados</button></div>
+<table class="striped responsive-table"><thead><tr><th><label><input type="checkbox" onclick="toggleAll(this)"><span></span></label></th><th><a href="{{ request()->fullUrlWithQuery(['sort'=>'id']) }}">Pedido ↕</a></th><th>Cliente</th><th>Data</th><th>Status</th><th>Total</th><th>Ações</th></tr></thead>
+<tbody>@forelse($orders as $order)<tr><td><label><input class="row-check" type="checkbox" name="ids[]" value="{{ $order->id }}"><span></span></label></td><td>#{{ $order->id }}</td><td><a href="{{ route('clientes.show',$order->customer) }}">{{ $order->customer->name }}</a></td><td>{{ $order->ordered_at->format('d/m/Y') }}</td><td><span class="status {{ $order->status->slug }}">{{ $order->status->name }}</span></td><td>R$ {{ number_format($order->total,2,',','.') }}</td><td><a href="{{ route('pedidos.show',$order) }}">Detalhes</a> · <a href="{{ route('pedidos.edit',$order) }}">Editar</a> · <form style="display:inline" method="POST" action="{{ route('pedidos.destroy',$order) }}" onsubmit="return confirmDelete()">@csrf @method('DELETE')<button class="btn-flat red-text">Excluir</button></form></td></tr>@empty<tr><td colspan="7">Nenhum pedido encontrado.</td></tr>@endforelse</tbody></table></form>
+<div class="row" style="margin-top:18px"><div class="col s6">{{ $orders->links() }}</div><div class="col s6">@include('partials.pagination-size')</div></div>
+</div></div>
+@endsection
