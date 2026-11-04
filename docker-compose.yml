@@ -1,0 +1,54 @@
+services:
+  app:
+    build:
+      context: ./docker/php
+    container_name: enzzopedidos-app
+    working_dir: /var/www/html
+    volumes:
+      - ./app:/var/www/html
+    ports:
+      - "8080:80"
+    environment:
+      APACHE_DOCUMENT_ROOT: /var/www/html/public
+    depends_on:
+      db:
+        condition: service_healthy
+    mem_limit: 768m
+    restart: unless-stopped
+
+  db:
+    image: mysql:8.4
+    container_name: enzzopedidos-db
+    environment:
+      MYSQL_DATABASE: pedidos
+      MYSQL_USER: pedidos
+      MYSQL_PASSWORD: pedidos_dev
+      MYSQL_ROOT_PASSWORD: root_dev
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    mem_limit: 640m
+    restart: unless-stopped
+
+  phpmyadmin:
+    image: phpmyadmin:5
+    container_name: enzzopedidos-phpmyadmin
+    profiles: ["tools"]
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+    ports:
+      - "8081:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    mem_limit: 256m
+
+volumes:
+  mysql_data:

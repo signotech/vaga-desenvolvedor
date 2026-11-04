@@ -1,0 +1,9 @@
+/app/vendor/
+/app/node_modules/
+/app/.env
+/app/storage/*.key
+/app/bootstrap/cache/*
+/app/storage/framework/cache/*
+/app/storage/framework/sessions/*
+/app/storage/framework/views/*
+.DS_Store
