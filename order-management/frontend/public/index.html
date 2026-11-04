@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OrderFlow</title>
+  <script>
+    const user = localStorage.getItem('orderflow_user');
+    window.location.replace(user ? '/pages/dashboard.html' : '/pages/login.html');
+  </script>
+</head>
+<body><p>Redirecionando para o OrderFlow…</p></body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OrderFlow — Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+</head>
+<body class="dashboard-page">
+  <div class="app-layout">
+    <div id="sidebarWrapper"></div>
+
+    <div class="main-content">
+      <header class="top-header">
+        <button class="btn-menu-toggle" id="menuToggle" aria-label="Abrir menu">
+          <i class="material-icons">menu</i>
+        </button>
+        <form class="dashboard-search" id="dashboardSearch" role="search">
+          <i class="material-icons" aria-hidden="true">search</i>
+          <input id="dashboardSearchInput" type="search" placeholder="Buscar pedidos, clientes ou produtos" aria-label="Buscar pedidos, clientes ou produtos" />
+          <button type="submit" aria-label="Buscar"><kbd>Enter</kbd></button>
+        </form>
+        <div class="header-actions">
+          <span id="lastUpdated"></span>
+        </div>
+      </header>
+
+      <div class="page-body">
+        <div class="dashboard-heading">
+          <div>
+            <h1>Dashboard</h1>
+            <p>Acompanhe o desempenho dos seus pedidos.</p>
+          </div>
+          <a class="btn btn-primary waves-effect" href="/pages/orders.html?new=1">
+            <i class="material-icons left">add</i>Novo pedido
+          </a>
+        </div>
+
+        <div class="stats-grid" id="statsGrid">
+          <article class="dashboard-metric">
+            <div class="dashboard-metric-top"><span>Receita de pedidos pagos</span><i class="material-icons">info_outline</i></div>
+            <strong class="skeleton" style="display:block;width:60%;height:34px;"></strong>
+            <span class="dashboard-metric-note">Total após descontos</span>
+          </article>
+          <article class="dashboard-metric">
+            <div class="dashboard-metric-top"><span>Ticket médio</span><i class="material-icons">info_outline</i></div>
+            <strong class="skeleton" style="display:block;width:45%;height:34px;"></strong>
+            <span class="dashboard-metric-note">Por pedido pago</span>
+          </article>
+        </div>
+
+        <div class="dashboard-summary" id="dashboardSummary" aria-label="Resumo de pedidos"></div>
+
+        <div class="dashboard-analytics-grid">
+          <section class="dashboard-panel dashboard-sales-panel">
+            <div class="dashboard-panel-heading">
+              <h2>Vendas ao longo do tempo</h2>
+              <a href="/pages/orders.html" class="dashboard-panel-link">Ver pedidos <i class="material-icons">arrow_forward</i></a>
+            </div>
+            <div class="dashboard-chart dashboard-sales-chart">
+              <canvas id="chartMonthly" aria-label="Receita de pedidos pagos por mês"></canvas>
+            </div>
+          </section>
+
+          <section class="dashboard-panel">
+            <div class="dashboard-panel-heading">
+              <h2>Produtos mais vendidos</h2>
+              <a href="/pages/products.html" class="dashboard-panel-link" aria-label="Ver produtos"><i class="material-icons">arrow_forward</i></a>
+            </div>
+            <div class="dashboard-chart dashboard-products-chart">
+              <canvas id="chartTopProducts" aria-label="Produtos mais vendidos"></canvas>
+            </div>
+          </section>
+
+          <section class="dashboard-panel dashboard-status-panel">
+            <div class="dashboard-panel-heading"><h2>Pedidos por status</h2></div>
+            <div class="dashboard-chart dashboard-status-chart">
+              <canvas id="chartStatus" aria-label="Distribuição de pedidos por status"></canvas>
+            </div>
+          </section>
+
+          <section class="dashboard-panel dashboard-stock-panel">
+            <div class="dashboard-panel-heading">
+              <h2>Estoque baixo</h2>
+              <a href="/pages/products.html?lowStock=true" class="dashboard-panel-link">Ver todos <i class="material-icons">arrow_forward</i></a>
+            </div>
+            <div id="lowStockList" class="dashboard-stock-list">
+              <div class="dashboard-empty">Carregando produtos…</div>
+            </div>
+          </section>
+        </div>
+
+        <section class="dashboard-panel dashboard-activity-panel">
+          <div class="dashboard-panel-heading">
+            <div>
+              <h2>Atividade recente</h2>
+              <p>Últimos pedidos registrados no sistema</p>
+            </div>
+            <a href="/pages/orders.html" class="dashboard-panel-link">Todos os pedidos <i class="material-icons">arrow_forward</i></a>
+          </div>
+          <div class="table-wrapper dashboard-activity-wrapper">
+            <table class="data-table dashboard-activity-table">
+              <thead>
+                <tr><th>Pedido</th><th>Cliente</th><th>Produtos</th><th>Status</th><th>Total</th></tr>
+              </thead>
+              <tbody id="recentOrdersBody">
+                <tr><td colspan="5"><div class="dashboard-empty">Carregando pedidos…</div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/components.js"></script>
+  <script src="../js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OrderFlow — Produtos</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+</head>
+<body>
+  <div class="app-layout">
+    <div id="sidebarWrapper"></div>
+    <main class="main-content">
+      <header class="top-header">
+        <button class="btn-menu-toggle" id="menuToggle" aria-label="Abrir menu"><i class="material-icons">menu</i></button>
+        <span class="header-title">Produtos</span>
+        <div class="header-actions">
+          <button class="btn btn-primary waves-effect" id="btnNew"><i class="material-icons left">add</i>Novo Produto</button>
+        </div>
+      </header>
+      <section class="page-body">
+        <div class="card-custom">
+          <div class="selection-bar" id="selectionBar">
+            <span id="selectionCount">0 selecionados</span><span class="spacer"></span>
+            <button class="btn btn-flat white-text waves-effect" id="btnBulkDelete"><i class="material-icons left">delete</i>Excluir selecionados</button>
+            <button class="btn btn-flat white-text waves-effect" id="btnClearSelection" aria-label="Limpar seleção"><i class="material-icons">close</i></button>
+          </div>
+          <div class="filters-bar">
+            <div class="search-box">
+              <i class="material-icons">search</i>
+              <input id="searchInput" type="search" placeholder="Buscar por SKU ou título" aria-label="Buscar por SKU ou título" />
+            </div>
+            <input class="filter-select numeric-filter" id="priceMin" type="number" min="0" step="0.01" placeholder="Preço mín." aria-label="Preço mínimo" />
+            <input class="filter-select numeric-filter" id="priceMax" type="number" min="0" step="0.01" placeholder="Preço máx." aria-label="Preço máximo" />
+            <input class="filter-select numeric-filter" id="stockMin" type="number" min="0" step="1" placeholder="Estoque mín." aria-label="Estoque mínimo" />
+            <input class="filter-select numeric-filter" id="stockMax" type="number" min="0" step="1" placeholder="Estoque máx." aria-label="Estoque máximo" />
+            <label class="filter-check"><input type="checkbox" id="lowStock" /><span>Estoque baixo</span></label>
+            <select class="filter-select" id="sortBy" aria-label="Ordenar por">
+              <option value="title">Título</option><option value="sku">SKU</option><option value="price">Preço</option>
+              <option value="stock">Estoque</option><option value="created_at">Cadastro</option>
+            </select>
+            <select class="filter-select" id="sortOrder" aria-label="Direção da ordenação">
+              <option value="ASC">Crescente</option><option value="DESC">Decrescente</option>
+            </select>
+            <label class="per-page-label"><span>Por página:</span>
+              <select class="filter-select" id="limitSelect">
+                <option value="10">10</option><option value="20" selected>20</option><option value="50">50</option><option value="100">100</option>
+              </select>
+            </label>
+          </div>
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead><tr>
+                <th style="width:40px"><label><input type="checkbox" id="selectAll" /><span></span></label></th>
+                <th class="sortable" data-field="sku">SKU <i class="material-icons sort-icon">unfold_more</i></th>
+                <th class="sortable" data-field="title">Produto <i class="material-icons sort-icon">unfold_more</i></th>
+                <th class="sortable" data-field="price">Preço <i class="material-icons sort-icon">unfold_more</i></th>
+                <th class="sortable" data-field="stock">Estoque <i class="material-icons sort-icon">unfold_more</i></th>
+                <th>Ações</th>
+              </tr></thead>
+              <tbody id="tableBody"><tr><td colspan="6"><div class="empty-state">Carregando produtos…</div></td></tr></tbody>
+            </table>
+          </div>
+          <div id="paginationContainer"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="productModal" class="modal modal-custom">
+    <div class="modal-header"><h5 class="modal-title" id="modalTitle">Novo Produto</h5><a class="modal-close btn-flat" href="#!" aria-label="Fechar"><i class="material-icons">close</i></a></div>
+    <div class="modal-body">
+      <form id="productForm" novalidate>
+        <input id="productId" type="hidden" />
+        <div class="form-row"><div class="input-field"><input id="fieldSku" type="text" maxlength="100" required /><label for="fieldSku">SKU *</label></div>
+          <div class="input-field"><input id="fieldTitle" type="text" maxlength="150" required /><label for="fieldTitle">Título *</label></div></div>
+        <div class="form-row"><div class="input-field"><input id="fieldPrice" type="number" min="0.01" step="0.01" required /><label for="fieldPrice">Preço (R$) *</label></div>
+          <div class="input-field"><input id="fieldStock" type="number" min="0" step="1" required /><label for="fieldStock">Estoque *</label></div></div>
+        <div id="formErrors" class="form-errors" role="alert"></div>
+      </form>
+    </div>
+    <div class="modal-footer-custom">
+      <button class="btn btn-outline waves-effect modal-close">Cancelar</button>
+      <button class="btn btn-primary waves-effect" id="btnSave"><i class="material-icons left">save</i>Salvar</button>
+    </div>
+  </div>
+
+  <div id="detailModal" class="modal modal-custom" style="max-width:600px">
+    <div class="modal-header"><h5 class="modal-title">Detalhes do Produto</h5><a class="modal-close btn-flat" href="#!" aria-label="Fechar"><i class="material-icons">close</i></a></div>
+    <div class="modal-body" id="detailBody"></div>
+    <div class="modal-footer-custom">
+      <button class="btn btn-outline waves-effect modal-close">Fechar</button>
+      <button class="btn btn-primary waves-effect" id="btnEditFromDetail"><i class="material-icons left">edit</i>Editar</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="../js/api.js"></script><script src="../js/auth.js"></script><script src="../js/components.js"></script><script src="../js/products.js"></script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OrderFlow — Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #1565c0 0%, #0d47a1 50%, #01579b 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-card {
+      border-radius: 16px;
+      padding: 48px 40px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .login-logo {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .login-logo .brand-name {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: #1565c0;
+      letter-spacing: -1px;
+    }
+    .login-logo .brand-sub {
+      font-size: 0.85rem;
+      color: #78909c;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .login-logo .material-icons {
+      font-size: 3rem;
+      color: #1565c0;
+    }
+    .input-field input:focus + label { color: #1565c0 !important; }
+    .input-field input:focus { border-bottom: 1px solid #1565c0 !important; box-shadow: 0 1px 0 0 #1565c0 !important; }
+    .btn-login {
+      background-color: #1565c0;
+      width: 100%;
+      border-radius: 8px;
+      height: 48px;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+    .btn-login:hover { background-color: #0d47a1; }
+    .login-error {
+      background: #ffebee;
+      border-left: 4px solid #c62828;
+      color: #c62828;
+      padding: 12px 16px;
+      border-radius: 4px;
+      margin-bottom: 16px;
+      font-size: 0.9rem;
+      display: none;
+    }
+    .login-credentials {
+      background: #e3f2fd;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-top: 24px;
+      font-size: 0.8rem;
+      color: #1565c0;
+    }
+    .login-credentials p { margin: 4px 0; }
+    .password-toggle {
+      cursor: pointer;
+      user-select: none;
+      position: absolute;
+      right: 0;
+      bottom: 8px;
+      color: #90a4ae;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-card white z-depth-5">
+    <div class="login-logo">
+      <i class="material-icons">local_shipping</i>
+      <div class="brand-name">OrderFlow</div>
+      <div class="brand-sub">Gestão de Pedidos</div>
+    </div>
+
+    <div class="login-error" id="loginError"></div>
+
+    <form id="loginForm" autocomplete="off">
+      <div class="input-field">
+        <i class="material-icons prefix" style="color:#90a4ae">email</i>
+        <input id="email" type="email" name="email" required autocomplete="username" />
+        <label for="email">E-mail</label>
+      </div>
+
+      <div class="input-field" style="position:relative">
+        <i class="material-icons prefix" style="color:#90a4ae">lock</i>
+        <input id="password" type="password" name="password" required autocomplete="current-password" />
+        <label for="password">Senha</label>
+        <i class="material-icons password-toggle" id="togglePass">visibility</i>
+      </div>
+
+      <button type="submit" class="btn btn-login waves-effect waves-light" id="submitBtn">
+        <span id="submitText">Entrar</span>
+        <div class="preloader-wrapper small active" id="submitLoader" style="display:none;vertical-align:middle;margin-left:8px;">
+          <div class="spinner-layer spinner-white-only">
+            <div class="circle-clipper left"><div class="circle"></div></div>
+            <div class="gap-patch"><div class="circle"></div></div>
+            <div class="circle-clipper right"><div class="circle"></div></div>
+          </div>
+        </div>
+      </button>
+    </form>
+
+    <div class="login-credentials">
+      <strong>Credenciais de demonstração:</strong>
+      <p>Admin: admin@orderflow.dev / Admin@123</p>
+      <p>Operador: operator@orderflow.dev / Operator@123</p>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script>
+    // Redireciona se já houver uma sessão iniciada
+    if (Auth.isAuthenticated()) {
+      window.location.href = '/pages/dashboard.html';
+    }
+
+    // Alternância da visibilidade da senha
+    document.getElementById('togglePass').addEventListener('click', function () {
+      const pwd = document.getElementById('password');
+      const isText = pwd.type === 'text';
+      pwd.type = isText ? 'password' : 'text';
+      this.textContent = isText ? 'visibility' : 'visibility_off';
+    });
+
+    // Formulário de login
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const errorEl = document.getElementById('loginError');
+      const submitBtn = document.getElementById('submitBtn');
+      const submitText = document.getElementById('submitText');
+      const submitLoader = document.getElementById('submitLoader');
+
+      errorEl.style.display = 'none';
+      submitBtn.disabled = true;
+      submitText.textContent = 'Entrando...';
+      submitLoader.style.display = 'inline-block';
+
+      try {
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        await Auth.login(email, password);
+        window.location.href = '/pages/dashboard.html';
+      } catch (err) {
+        errorEl.textContent = err.message || 'E-mail ou senha inválidos';
+        errorEl.style.display = 'block';
+      } finally {
+        submitBtn.disabled = false;
+        submitText.textContent = 'Entrar';
+        submitLoader.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
