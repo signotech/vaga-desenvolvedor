@@ -1,0 +1,204 @@
+/* ================================================================
+   OrderFlow — Reusable Components CSS
+   ================================================================ */
+
+/* ─── Tabela de Itens do Pedido (no formulário do pedido) ────── */
+.order-items-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.order-items-table th {
+  padding: 10px 12px;
+  background: #f4f6f9;
+  font-weight: 600;
+  color: #546e7a;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.order-items-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e0e0e0;
+  vertical-align: middle;
+}
+
+.order-items-table tfoot td {
+  font-weight: 600;
+  background: #f4f6f9;
+}
+
+/* ─── Linha para Adicionar Produto ───────────────────────────── */
+.add-item-row {
+  background: #f9fbe7;
+  border: 1px dashed #c5e1a5;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+@media (max-width: 600px) {
+  .add-item-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ─── Ponto do Indicador de Status ───────────────────────────── */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.status-dot.open       { background: #f57f17; }
+.status-dot.paid       { background: #2e7d32; }
+.status-dot.cancelled  { background: #c62828; }
+
+/* ─── Diálogo de Confirmação ─────────────────────────────────── */
+.confirm-dialog {
+  text-align: center;
+  padding: 24px;
+}
+
+.confirm-dialog .confirm-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.confirm-dialog .confirm-icon.danger { color: #c62828; }
+.confirm-dialog .confirm-icon.warning { color: #f57f17; }
+
+/* ─── Visualização de Detalhes ───────────────────────────────── */
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.detail-item label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #546e7a;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.detail-item .detail-value {
+  font-size: 0.95rem;
+  color: #212121;
+}
+
+/* ─── Quadro de Resumo do Total ───────────────────────────────── */
+.order-summary {
+  background: #f4f6f9;
+  border-radius: 8px;
+  padding: 16px;
+  min-width: 240px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  padding: 4px 0;
+  color: #546e7a;
+}
+
+.summary-row.total {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #212121;
+  padding-top: 8px;
+  border-top: 2px solid #e0e0e0;
+  margin-top: 4px;
+}
+
+.summary-row.discount { color: #2e7d32; }
+
+/* ─── Carregamento / Esqueleto de Progresso ──────────────────── */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+.skeleton-row { height: 44px; margin-bottom: 1px; }
+
+/* ─── Indicador de Estoque ───────────────────────────────────── */
+.stock-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stock-bar {
+  flex: 1;
+  height: 4px;
+  background: #e0e0e0;
+  border-radius: 2px;
+  max-width: 60px;
+}
+
+.stock-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+}
+
+.stock-bar-fill.high   { background: #2e7d32; }
+.stock-bar-fill.medium { background: #f57c00; }
+.stock-bar-fill.low    { background: #c62828; }
+
+/* ─── Navegação estrutural ───────────────────────────────────── */
+.breadcrumb-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: #90a4ae;
+  margin-bottom: 20px;
+}
+
+.breadcrumb-nav a { color: #1565c0; text-decoration: none; }
+.breadcrumb-nav a:hover { text-decoration: underline; }
+.breadcrumb-nav .material-icons { font-size: 0.9rem; }
+
+/* ─── Filtros em Etiquetas ───────────────────────────────────── */
+.chip-group { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+
+.chip-filter {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid #e0e0e0;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: white;
+  color: #546e7a;
+}
+
+.chip-filter.active {
+  background: #1565c0;
+  color: white;
+  border-color: #1565c0;
+}
+
+.chip-filter:hover:not(.active) { background: #e3f2fd; border-color: #1565c0; color: #1565c0; }

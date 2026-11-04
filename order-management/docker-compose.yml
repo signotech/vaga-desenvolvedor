@@ -1,0 +1,58 @@
+services:
+  db:
+    image: mysql:8.4
+    container_name: orderflow_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS:-root_secret}
+      MYSQL_DATABASE: ${DB_NAME:-order_management}
+      MYSQL_USER: ${DB_USER:-orderflow}
+      MYSQL_PASSWORD: ${DB_PASS:-orderflow_secret}
+      MYSQL_TEST_DATABASE: ${DB_NAME_TEST:-order_management_test}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init-test-db.sh:/docker-entrypoint-initdb.d/init-test-db.sh:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASS:-root_secret}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - orderflow_net
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: orderflow_backend
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      NODE_ENV: development
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend/src:/app/src:ro
+      - ./backend/migrations:/app/migrations:ro
+      - ./backend/seeders:/app/seeders:ro
+      - ./backend/factories:/app/factories:ro
+      - ./frontend/public:/frontend/public:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - orderflow_net
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  orderflow_net:
+    driver: bridge

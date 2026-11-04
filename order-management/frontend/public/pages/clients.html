@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OrderFlow — Clientes</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+</head>
+<body>
+  <div class="app-layout">
+    <div id="sidebarWrapper"></div>
+
+    <div class="main-content">
+      <header class="top-header">
+        <button class="btn-menu-toggle" id="menuToggle"><i class="material-icons">menu</i></button>
+        <span class="header-title">Clientes</span>
+        <div class="header-actions">
+          <button class="btn btn-primary waves-effect" id="btnNew">
+            <i class="material-icons left">add</i>Novo Cliente
+          </button>
+        </div>
+      </header>
+
+      <div class="page-body">
+        <div class="card-custom">
+          <!-- Barra de seleção -->
+          <div class="selection-bar" id="selectionBar">
+            <span id="selectionCount">0 selecionados</span>
+            <span class="spacer"></span>
+            <button class="btn btn-flat white-text waves-effect" id="btnBulkDelete">
+              <i class="material-icons left">delete</i>Excluir Selecionados
+            </button>
+            <button class="btn btn-flat white-text waves-effect" id="btnClearSelection">
+              <i class="material-icons">close</i>
+            </button>
+          </div>
+
+          <!-- Filtros -->
+          <div class="filters-bar">
+            <div class="search-box">
+              <i class="material-icons">search</i>
+              <input type="text" id="searchInput" placeholder="Buscar por nome, CPF ou e-mail..." />
+            </div>
+            <input class="filter-select date-filter" id="dateFrom" type="date" aria-label="Cadastro a partir de" />
+            <input class="filter-select date-filter" id="dateTo" type="date" aria-label="Cadastro até" />
+            <select class="filter-select" id="sortBy">
+              <option value="name">Ordenar por Nome</option>
+              <option value="cpf">CPF</option>
+              <option value="email">E-mail</option>
+              <option value="created_at">Data de Cadastro</option>
+            </select>
+            <select class="filter-select" id="sortOrder">
+              <option value="ASC">↑ Crescente</option>
+              <option value="DESC">↓ Decrescente</option>
+            </select>
+            <label class="per-page-label">
+              <span>Por página:</span>
+              <select class="filter-select" id="limitSelect" style="margin-left:4px;">
+                <option value="10">10</option>
+                <option value="20" selected>20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </label>
+          </div>
+
+          <!-- Tabela -->
+          <div class="table-wrapper" id="tableWrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width:40px"><label><input type="checkbox" id="selectAll" /><span></span></label></th>
+                  <th class="sortable" data-field="name">Nome <i class="material-icons sort-icon">unfold_more</i></th>
+                  <th class="sortable" data-field="cpf">CPF <i class="material-icons sort-icon">unfold_more</i></th>
+                  <th class="sortable" data-field="email">E-mail <i class="material-icons sort-icon">unfold_more</i></th>
+                  <th class="sortable" data-field="created_at">Cadastro <i class="material-icons sort-icon">unfold_more</i></th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody">
+                <tr><td colspan="6" class="center-align"><div class="preloader-wrapper small active" style="margin:20px auto;display:block;"><div class="spinner-layer spinner-blue-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Paginação -->
+          <div id="paginationContainer"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de criação/edição -->
+  <div id="clientModal" class="modal modal-custom">
+    <div class="modal-header">
+      <h5 class="modal-title" id="modalTitle">Novo Cliente</h5>
+      <a class="modal-close waves-effect btn-flat" href="#!"><i class="material-icons">close</i></a>
+    </div>
+    <div class="modal-body">
+      <form id="clientForm" novalidate>
+        <input type="hidden" id="clientId" />
+        <div class="form-row">
+          <div class="input-field">
+            <input id="fieldName" type="text" required maxlength="150" />
+            <label for="fieldName">Nome Completo *</label>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="input-field">
+            <input id="fieldCpf" type="text" required maxlength="14" placeholder="000.000.000-00" />
+            <label for="fieldCpf" class="active">CPF *</label>
+          </div>
+          <div class="input-field">
+            <input id="fieldEmail" type="email" required maxlength="255" />
+            <label for="fieldEmail">E-mail *</label>
+          </div>
+        </div>
+        <div id="formErrors" style="color:#c62828;font-size:0.85rem;margin-top:8px;"></div>
+      </form>
+    </div>
+    <div class="modal-footer-custom">
+      <button class="btn btn-outline waves-effect modal-close">Cancelar</button>
+      <button class="btn btn-primary waves-effect" id="btnSave">
+        <i class="material-icons left">save</i>Salvar
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal de detalhes -->
+  <div id="detailModal" class="modal modal-custom" style="max-width:600px;">
+    <div class="modal-header">
+      <h5 class="modal-title">Detalhes do Cliente</h5>
+      <a class="modal-close waves-effect btn-flat" href="#!"><i class="material-icons">close</i></a>
+    </div>
+    <div class="modal-body" id="detailBody"></div>
+    <div class="modal-footer-custom">
+      <button class="btn btn-outline waves-effect modal-close">Fechar</button>
+      <button class="btn btn-primary waves-effect" id="btnEditFromDetail">
+        <i class="material-icons left">edit</i>Editar
+      </button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/components.js"></script>
+  <script src="../js/clients.js"></script>
+</body>
+</html>

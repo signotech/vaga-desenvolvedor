@@ -1,0 +1,59 @@
+{
+  "name": "orderflow-backend",
+  "version": "1.0.0",
+  "description": "OrderFlow - Sistema de Gerenciamento de Pedidos de Compra",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "migrate": "sequelize-cli db:migrate",
+    "migrate:undo": "sequelize-cli db:migrate:undo:all",
+    "seed": "sequelize-cli db:seed:all",
+    "seed:undo": "sequelize-cli db:seed:undo:all",
+    "test": "NODE_ENV=test jest --forceExit --detectOpenHandles",
+    "test:unit": "NODE_ENV=test jest tests/unit --forceExit",
+    "test:integration": "NODE_ENV=test jest tests/integration --forceExit --detectOpenHandles",
+    "lint": "eslint src/**/*.js",
+    "lint:fix": "eslint src/**/*.js --fix",
+    "format": "prettier --write \"src/**/*.js\""
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.3",
+    "express-rate-limit": "^7.2.0",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.9.4",
+    "sequelize": "^6.37.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.0",
+    "prettier": "^3.2.5",
+    "sequelize-cli": "^6.6.2",
+    "supertest": "^7.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ],
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ]
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

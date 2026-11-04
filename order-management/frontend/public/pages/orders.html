@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OrderFlow — Pedidos</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+</head>
+<body>
+  <div class="app-layout">
+    <div id="sidebarWrapper"></div>
+    <main class="main-content">
+      <header class="top-header">
+        <button class="btn-menu-toggle" id="menuToggle" aria-label="Abrir menu"><i class="material-icons">menu</i></button>
+        <span class="header-title">Pedidos</span>
+        <div class="header-actions"><button class="btn btn-primary waves-effect" id="btnNew"><i class="material-icons left">add</i>Novo Pedido</button></div>
+      </header>
+      <section class="page-body">
+        <div class="card-custom">
+          <div class="selection-bar" id="selectionBar">
+            <span id="selectionCount">0 selecionados</span><span class="spacer"></span>
+            <button class="btn btn-flat white-text waves-effect" id="btnBulkDelete"><i class="material-icons left">delete</i>Excluir selecionados</button>
+            <button class="btn btn-flat white-text waves-effect" id="btnClearSelection" aria-label="Limpar seleção"><i class="material-icons">close</i></button>
+          </div>
+          <div class="filters-bar">
+            <div class="search-box"><i class="material-icons">search</i><input id="searchInput" type="search" placeholder="Buscar pelo nome do cliente" aria-label="Buscar pelo cliente" /></div>
+            <select class="filter-select" id="clientFilter" aria-label="Filtrar por cliente"><option value="">Todos os clientes</option></select>
+            <select class="filter-select" id="productFilter" aria-label="Filtrar por produto"><option value="">Todos os produtos</option></select>
+            <select class="filter-select" id="statusFilter" aria-label="Filtrar por status">
+              <option value="">Todos os status</option><option value="OPEN">Em aberto</option><option value="PAID">Pago</option><option value="CANCELLED">Cancelado</option>
+            </select>
+            <input class="filter-select date-filter" type="date" id="dateFrom" aria-label="Data inicial" />
+            <input class="filter-select date-filter" type="date" id="dateTo" aria-label="Data final" />
+            <input class="filter-select numeric-filter" type="number" id="totalMin" min="0" step="0.01" placeholder="Total mín." aria-label="Total mínimo" />
+            <input class="filter-select numeric-filter" type="number" id="totalMax" min="0" step="0.01" placeholder="Total máx." aria-label="Total máximo" />
+            <input class="filter-select numeric-filter" type="number" id="discountMin" min="0" max="100" step="0.01" placeholder="Desconto mín." aria-label="Desconto mínimo" />
+            <input class="filter-select numeric-filter" type="number" id="discountMax" min="0" max="100" step="0.01" placeholder="Desconto máx." aria-label="Desconto máximo" />
+            <select class="filter-select" id="sortBy" aria-label="Ordenar por">
+              <option value="order_date">Data</option><option value="id">Código</option><option value="client_name">Cliente</option>
+              <option value="status">Status</option><option value="discount_percent">Desconto</option><option value="total">Total</option>
+            </select>
+            <select class="filter-select" id="sortOrder" aria-label="Direção da ordenação"><option value="DESC">Decrescente</option><option value="ASC">Crescente</option></select>
+            <label class="per-page-label"><span>Por página:</span>
+              <select class="filter-select" id="limitSelect"><option value="10">10</option><option value="20" selected>20</option><option value="50">50</option><option value="100">100</option></select>
+            </label>
+          </div>
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead><tr>
+                <th style="width:40px"><label><input type="checkbox" id="selectAll" /><span></span></label></th>
+                <th class="sortable" data-field="id">Código <i class="material-icons sort-icon">unfold_more</i></th>
+                <th class="sortable" data-field="client_name">Cliente <i class="material-icons sort-icon">unfold_more</i></th>
+                <th>Produtos</th>
+                <th class="sortable" data-field="order_date">Data <i class="material-icons sort-icon">unfold_more</i></th>
+                <th class="sortable" data-field="status">Status <i class="material-icons sort-icon">unfold_more</i></th>
+                <th class="sortable" data-field="discount_percent">Desconto <i class="material-icons sort-icon">unfold_more</i></th>
+                <th class="sortable" data-field="total">Total <i class="material-icons sort-icon">unfold_more</i></th>
+                <th>Ações</th>
+              </tr></thead>
+              <tbody id="tableBody"><tr><td colspan="9"><div class="empty-state">Carregando pedidos…</div></td></tr></tbody>
+            </table>
+          </div>
+          <div id="paginationContainer"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="orderModal" class="modal modal-custom order-modal">
+    <div class="modal-header"><h5 class="modal-title" id="modalTitle">Novo Pedido</h5><a class="modal-close btn-flat" href="#!" aria-label="Fechar"><i class="material-icons">close</i></a></div>
+    <div class="modal-body">
+      <form id="orderForm" novalidate>
+        <input id="orderId" type="hidden" />
+        <div class="form-row">
+          <div class="input-field"><select id="fieldClient" required><option value="" disabled selected>Selecione um cliente</option></select><label for="fieldClient">Cliente *</label></div>
+          <div class="input-field"><input id="fieldOrderDate" type="datetime-local" /><label for="fieldOrderDate" class="active">Data do pedido</label></div>
+        </div>
+        <div class="order-form-heading"><strong>Itens do pedido</strong><button class="btn btn-outline waves-effect" type="button" id="btnAddItem"><i class="material-icons left">add</i>Adicionar produto</button></div>
+        <div class="table-wrapper"><table class="order-items-table"><thead><tr><th>Produto</th><th>Preço</th><th>Quantidade</th><th>Subtotal</th><th></th></tr></thead><tbody id="itemRows"></tbody></table></div>
+        <div id="orderEmptyItems" class="empty-state order-empty">Adicione pelo menos um produto.</div>
+        <div class="order-form-footer">
+          <div class="input-field discount-field"><input id="fieldDiscount" type="number" min="0" max="100" step="0.01" value="0" /><label for="fieldDiscount" class="active">Desconto (%)</label></div>
+          <div class="order-summary" id="orderSummary">
+            <div class="summary-row"><span>Subtotal</span><strong id="summarySubtotal">R$ 0,00</strong></div>
+            <div class="summary-row discount"><span>Desconto</span><strong id="summaryDiscount">− R$ 0,00</strong></div>
+            <div class="summary-row total"><span>Total estimado</span><strong id="summaryTotal">R$ 0,00</strong></div>
+          </div>
+        </div>
+        <div id="formErrors" class="form-errors" role="alert"></div>
+      </form>
+    </div>
+    <div class="modal-footer-custom">
+      <button class="btn btn-outline waves-effect modal-close">Cancelar</button>
+      <button class="btn btn-primary waves-effect" id="btnSave"><i class="material-icons left">save</i>Salvar pedido</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="../js/api.js"></script><script src="../js/auth.js"></script><script src="../js/components.js"></script><script src="../js/orders.js"></script>
+</body>
+</html>

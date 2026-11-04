@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OrderFlow — Usuários</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+</head>
+<body>
+  <div class="app-layout">
+    <div id="sidebarWrapper"></div>
+    <main class="main-content">
+      <header class="top-header">
+        <button class="btn-menu-toggle" id="menuToggle" aria-label="Abrir menu"><i class="material-icons">menu</i></button>
+        <span class="header-title">Usuários</span>
+        <div class="header-actions"><button class="btn btn-primary waves-effect" id="btnNew"><i class="material-icons left">add</i>Novo Usuário</button></div>
+      </header>
+      <section class="page-body">
+        <div class="card-custom">
+          <div class="filters-bar">
+            <div class="search-box"><i class="material-icons">search</i><input id="searchInput" type="search" placeholder="Buscar por nome ou e-mail" aria-label="Buscar usuários" /></div>
+            <select class="filter-select" id="roleFilter" aria-label="Filtrar por perfil">
+              <option value="">Todos os perfis</option><option value="ADMIN">Administrador</option><option value="OPERATOR">Operador</option>
+            </select>
+          </div>
+          <div class="table-wrapper"><table class="data-table">
+            <thead><tr><th>Nome</th><th>E-mail</th><th>Perfil</th><th>Cadastro</th><th>Ações</th></tr></thead>
+            <tbody id="tableBody"><tr><td colspan="5"><div class="empty-state">Carregando usuários…</div></td></tr></tbody>
+          </table></div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div id="userModal" class="modal modal-custom" style="max-width:620px">
+    <div class="modal-header"><h5 class="modal-title" id="modalTitle">Novo Usuário</h5><a class="modal-close btn-flat" href="#!" aria-label="Fechar"><i class="material-icons">close</i></a></div>
+    <div class="modal-body">
+      <form id="userForm" novalidate>
+        <input id="userId" type="hidden" />
+        <div class="form-row"><div class="input-field"><input id="fieldName" type="text" maxlength="150" required /><label for="fieldName">Nome *</label></div>
+          <div class="input-field"><input id="fieldEmail" type="email" maxlength="255" required /><label for="fieldEmail">E-mail *</label></div></div>
+        <div class="form-row"><div class="input-field"><input id="fieldPassword" type="password" minlength="8" autocomplete="new-password" /><label for="fieldPassword">Senha <span id="passwordRequired">*</span></label></div>
+          <div class="input-field"><select id="fieldRole"><option value="OPERATOR">Operador</option><option value="ADMIN">Administrador</option></select><label for="fieldRole">Perfil de acesso</label></div></div>
+        <div id="passwordHint" class="muted-text">A senha deve ter pelo menos 8 caracteres.</div>
+        <div id="formErrors" class="form-errors" role="alert"></div>
+      </form>
+    </div>
+    <div class="modal-footer-custom"><button class="btn btn-outline waves-effect modal-close">Cancelar</button><button class="btn btn-primary waves-effect" id="btnSave"><i class="material-icons left">save</i>Salvar</button></div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="../js/api.js"></script><script src="../js/auth.js"></script><script src="../js/components.js"></script><script src="../js/users.js"></script>
+</body>
+</html>
