@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos - Sistema de Pedidos</title>
+    <link rel="icon" href="/img/logo.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-pagina="pedidos">
+    <main class="container">
+        <header class="pagina-cabecalho">
+            <div>
+                <h2>Pedidos</h2>
+                <p>Registre pedidos de compra, aplique descontos e acompanhe o status. Clique em uma linha para ver os detalhes.</p>
+            </div>
+            <button type="button" class="botao" data-novo><span class="material-icons" aria-hidden="true">add_shopping_cart</span>Novo pedido</button>
+        </header>
+
+        <section class="card" id="listagem"></section>
+    </main>
+
+    <div id="modalFormulario" class="modal modal-formulario" role="dialog" aria-labelledby="tituloFormulario">
+        <form id="formulario">
+            <div class="modal-cabecalho">
+                <h4 id="tituloFormulario" data-titulo-formulario></h4>
+                <button type="button" class="botao-icone modal-close" aria-label="Fechar"><span class="material-icons" aria-hidden="true">close</span></button>
+            </div>
+            <div class="modal-content formulario">
+                <input type="hidden" name="id">
+                <div class="campo">
+                    <label for="codigo_pedido">Código do pedido</label>
+                    <input type="number" id="codigo_pedido" name="codigo_pedido" class="browser-default" min="1" step="1" required>
+                </div>
+                <div class="campo">
+                    <label for="data_pedido">Data do pedido</label>
+                    <input type="date" id="data_pedido" name="data_pedido" class="browser-default">
+                </div>
+                <div class="campo">
+                    <label for="cliente_id">Cliente</label>
+                    <select id="cliente_id" name="cliente_id" class="browser-default" required>
+                        <option value="">Selecione um cliente</option>
+                    </select>
+                </div>
+                <div class="campo">
+                    <label for="status">Status</label>
+                    <select id="status" name="status" class="browser-default" required>
+                        <option value="Em Aberto">Em Aberto</option>
+                        <option value="Pago">Pago (baixa o estoque)</option>
+                        <option value="Cancelado">Cancelado</option>
+                    </select>
+                </div>
+
+                <div class="card-cabecalho largura-total">
+                    <h3>Produtos</h3>
+                    <button type="button" class="botao botao-secundario botao-pequeno" id="adicionarItem">
+                        <span class="material-icons" aria-hidden="true">add</span>Adicionar produto
+                    </button>
+                </div>
+                <div class="largura-total itens-pedido">
+                    <div class="itens-cabecalho" aria-hidden="true"><span>Produto</span><span>Qtde.</span><span>Preço unit.</span><span>Subtotal</span></div>
+                    <div id="itens" class="itens-pedido"></div>
+                </div>
+
+                <div class="campo">
+                    <label for="tipo_desconto">Desconto</label>
+                    <select id="tipo_desconto" name="tipo_desconto" class="browser-default">
+                        <option value="NENHUM">Sem desconto</option>
+                        <option value="PERCENTUAL">Percentual (%)</option>
+                        <option value="VALOR">Valor fixo (R$)</option>
+                    </select>
+                </div>
+                <div class="campo">
+                    <label for="desconto">Valor do desconto</label>
+                    <input type="number" id="desconto" name="desconto" class="browser-default" min="0" step="0.01" value="0">
+                </div>
+
+                <div class="totais resumo-pedido largura-total" aria-live="polite">
+                    <p>Subtotal <strong id="resumoSubtotal">R$ 0,00</strong></p>
+                    <p>Desconto <strong id="resumoDesconto">R$ 0,00</strong></p>
+                    <p>Total <span id="resumoTotal">R$ 0,00</span></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="botao botao-secundario modal-close">Cancelar</button>
+                <button type="submit" class="botao"><span class="material-icons" aria-hidden="true">check</span>Salvar pedido</button>
+            </div>
+        </form>
+
+        <template id="modeloItem">
+            <div class="item-pedido">
+                <div class="campo campo-produto">
+                    <select class="browser-default" data-produto aria-label="Produto" required>
+                        <option value="">Selecione um produto</option>
+                    </select>
+                </div>
+                <div class="campo">
+                    <input type="number" class="browser-default" data-quantidade aria-label="Quantidade" min="1" step="1" required>
+                </div>
+                <span class="valor" data-preco></span>
+                <span class="valor" data-subtotal></span>
+                <button type="button" class="botao-icone perigo" data-remover title="Remover produto" aria-label="Remover produto">
+                    <span class="material-icons" aria-hidden="true">delete</span>
+                </button>
+                <span class="dica" data-aviso hidden></span>
+            </div>
+        </template>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="/js/core/api.js"></script>
+    <script src="/js/core/utils.js"></script>
+    <script src="/js/core/layout.js"></script>
+    <script src="/js/core/CrudPage.js"></script>
+    <script src="/js/pages/pedidos.js"></script>
+</body>
+</html>

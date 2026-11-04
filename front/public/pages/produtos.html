@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos - Sistema de Pedidos</title>
+    <link rel="icon" href="/img/logo.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-pagina="produtos">
+    <main class="container">
+        <header class="pagina-cabecalho">
+            <div>
+                <h2>Produtos</h2>
+                <p>Controle o catálogo, os preços e o estoque. Clique em uma linha para ver os detalhes.</p>
+            </div>
+            <button type="button" class="botao" data-novo><span class="material-icons" aria-hidden="true">add</span>Novo produto</button>
+        </header>
+
+        <section class="card" id="listagem"></section>
+    </main>
+
+    <div id="modalFormulario" class="modal modal-formulario" role="dialog" aria-labelledby="tituloFormulario">
+        <form id="formulario">
+            <div class="modal-cabecalho">
+                <h4 id="tituloFormulario" data-titulo-formulario></h4>
+                <button type="button" class="botao-icone modal-close" aria-label="Fechar"><span class="material-icons" aria-hidden="true">close</span></button>
+            </div>
+            <div class="modal-content formulario">
+                <input type="hidden" name="id">
+                <div class="campo largura-total">
+                    <label for="titulo">Nome do produto</label>
+                    <input type="text" id="titulo" name="titulo" class="browser-default" maxlength="100" required>
+                </div>
+                <div class="campo largura-total">
+                    <label for="sku">SKU <span class="texto-suave">(opcional)</span></label>
+                    <input type="text" id="sku" name="sku" class="browser-default" maxlength="100" placeholder="Ex.: SKU-00001">
+                </div>
+                <div class="campo">
+                    <label for="preco">Preço (R$)</label>
+                    <input type="number" id="preco" name="preco" class="browser-default" min="0" step="0.01" placeholder="0,00" required>
+                </div>
+                <div class="campo">
+                    <label for="estoque">Quantidade em estoque</label>
+                    <input type="number" id="estoque" name="estoque" class="browser-default" min="0" step="1" value="0" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="botao botao-secundario modal-close">Cancelar</button>
+                <button type="submit" class="botao"><span class="material-icons" aria-hidden="true">check</span>Salvar</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="/js/core/api.js"></script>
+    <script src="/js/core/utils.js"></script>
+    <script src="/js/core/layout.js"></script>
+    <script src="/js/core/CrudPage.js"></script>
+    <script src="/js/pages/produtos.js"></script>
+</body>
+</html>

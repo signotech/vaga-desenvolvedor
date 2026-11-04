@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar - Sistema de Pedidos</title>
+    <link rel="icon" href="/img/logo.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="pagina-login">
+    <main class="login">
+        <section class="login-card">
+            <div class="login-marca">
+                <img class="logo-login" src="/img/logo.png" alt="">
+                <div>
+                    <h1>Sistema de Pedidos</h1>
+                    <p>Entre com sua conta para continuar</p>
+                </div>
+            </div>
+
+            <form id="formLogin" class="formulario">
+                <div class="campo">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" class="browser-default" placeholder="voce@empresa.com" autocomplete="username" required autofocus>
+                </div>
+                <div class="campo">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" name="senha" class="browser-default" placeholder="Sua senha" autocomplete="current-password" required>
+                </div>
+                <div class="acoes-formulario">
+                    <button type="submit" class="botao"><span class="material-icons" aria-hidden="true">login</span>Entrar</button>
+                </div>
+            </form>
+
+            <p id="loginMensagem" role="status" aria-live="polite"></p>
+            <p class="login-nota">Acesso padrão: admin@teste.com / 123456</p>
+        </section>
+    </main>
+
+    <script src="/js/core/api.js"></script>
+    <script src="/js/pages/login.js"></script>
+</body>
+</html>

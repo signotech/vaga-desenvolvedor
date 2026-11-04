@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes - Sistema de Pedidos</title>
+    <link rel="icon" href="/img/logo.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-pagina="clientes">
+    <main class="container">
+        <header class="pagina-cabecalho">
+            <div>
+                <h2>Clientes</h2>
+                <p>Cadastre e consulte os clientes da loja. Clique em uma linha para ver os detalhes.</p>
+            </div>
+            <button type="button" class="botao" data-novo><span class="material-icons" aria-hidden="true">person_add</span>Novo cliente</button>
+        </header>
+
+        <section class="card" id="listagem"></section>
+    </main>
+
+    <div id="modalFormulario" class="modal modal-formulario" role="dialog" aria-labelledby="tituloFormulario">
+        <form id="formulario">
+            <div class="modal-cabecalho">
+                <h4 id="tituloFormulario" data-titulo-formulario></h4>
+                <button type="button" class="botao-icone modal-close" aria-label="Fechar"><span class="material-icons" aria-hidden="true">close</span></button>
+            </div>
+            <div class="modal-content formulario">
+                <input type="hidden" name="id">
+                <div class="campo largura-total">
+                    <label for="nome">Nome</label>
+                    <input type="text" id="nome" name="nome" class="browser-default" maxlength="150" placeholder="Nome completo" required>
+                </div>
+                <div class="campo">
+                    <label for="cpf">CPF <span class="texto-suave">(opcional)</span></label>
+                    <input type="text" id="cpf" name="cpf" class="browser-default" inputmode="numeric" placeholder="000.000.000-00" data-mascara="cpf">
+                </div>
+                <div class="campo">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" class="browser-default" maxlength="255" placeholder="exemplo@email.com" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="botao botao-secundario modal-close">Cancelar</button>
+                <button type="submit" class="botao"><span class="material-icons" aria-hidden="true">check</span>Salvar</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="/js/core/api.js"></script>
+    <script src="/js/core/utils.js"></script>
+    <script src="/js/core/layout.js"></script>
+    <script src="/js/core/CrudPage.js"></script>
+    <script src="/js/pages/clientes.js"></script>
+</body>
+</html>

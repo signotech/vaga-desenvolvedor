@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Início - Sistema de Pedidos</title>
+    <link rel="icon" href="/img/logo.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-pagina="inicio">
+    <main class="container">
+        <header class="pagina-cabecalho">
+            <div>
+                <h2>Bem-vindo ao sistema</h2>
+                <p>Gerencie clientes, produtos e pedidos em um único lugar. Escolha uma das opções abaixo para começar.</p>
+            </div>
+        </header>
+
+        <section class="atalhos">
+            <a class="atalho" href="/pages/clientes.html">
+                <span class="material-icons" aria-hidden="true">people</span>
+                <h3>Clientes</h3>
+                <p>Cadastre, edite e exclua clientes.</p>
+                <span class="atalho-acao">Acessar clientes<span class="material-icons" aria-hidden="true">arrow_forward</span></span>
+            </a>
+            <a class="atalho" href="/pages/produtos.html">
+                <span class="material-icons" aria-hidden="true">inventory_2</span>
+                <h3>Produtos</h3>
+                <p>Gerencie produtos, preços e estoques.</p>
+                <span class="atalho-acao">Acessar produtos<span class="material-icons" aria-hidden="true">arrow_forward</span></span>
+            </a>
+            <a class="atalho" href="/pages/pedidos.html">
+                <span class="material-icons" aria-hidden="true">receipt_long</span>
+                <h3>Pedidos</h3>
+                <p>Registre pedidos, aplique descontos e consulte o status.</p>
+                <span class="atalho-acao">Acessar pedidos<span class="material-icons" aria-hidden="true">arrow_forward</span></span>
+            </a>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="/js/core/api.js"></script>
+    <script src="/js/core/utils.js"></script>
+    <script src="/js/core/layout.js"></script>
+</body>
+</html>

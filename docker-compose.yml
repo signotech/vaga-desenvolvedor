@@ -1,0 +1,12 @@
+services:
+  app:
+    build: .
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      JWT_SECRET: ${JWT_SECRET:-troque-esta-chave}
+    volumes:
+      - dados:/app/data
+
+volumes:
+  dados:
