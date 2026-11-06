@@ -1,0 +1,375 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f6fa;
+  color: #263247;
+}
+
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  background: #17243a;
+  color: white;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.brand {
+  margin-bottom: 45px;
+}
+
+.brand h2 {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.brand span {
+  color: #aab7ca;
+  font-size: 13px;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar nav a {
+  text-decoration: none;
+  color: #cbd5e1;
+  padding: 13px 15px;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.sidebar nav a:hover,
+.sidebar nav a.active {
+  background: #304968;
+  color: white;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  color: #91a0b5;
+  font-size: 12px;
+}
+
+.main-content {
+  flex: 1;
+  padding: 35px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+}
+
+.topbar h1 {
+  font-size: 27px;
+  margin-bottom: 8px;
+}
+
+.topbar p {
+  color: #778397;
+  font-size: 14px;
+}
+
+.user-info {
+  background: white;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.welcome {
+  margin-bottom: 25px;
+}
+
+.welcome h2,
+.content-section h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.welcome p,
+.content-section p {
+  color: #778397;
+  font-size: 14px;
+}
+
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.card {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card span {
+  color: #778397;
+  font-size: 14px;
+}
+
+.card strong {
+  font-size: 32px;
+  color: #2457a6;
+}
+
+.card small {
+  color: #9aa5b5;
+  font-size: 12px;
+}
+
+.content-section {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+}
+
+@media (max-width: 1000px) {
+  .dashboard-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 650px) {
+  .app {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .brand {
+    margin-bottom: 20px;
+  }
+
+  .sidebar nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .main-content {
+    padding: 20px;
+  }
+
+  .topbar {
+    align-items: flex-start;
+    gap: 15px;
+    flex-direction: column;
+  }
+
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+.vagas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.vagas-header h2 {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.vagas-header p {
+  color: #778397;
+  font-size: 14px;
+}
+
+.btn-primary {
+  background: #2457a6;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-primary:hover {
+  background: #1b447f;
+}
+
+.table-container {
+  overflow-x: auto;
+  margin-top: 25px;
+}
+
+.vagas-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.vagas-table th,
+.vagas-table td {
+  padding: 17px;
+  text-align: left;
+  border-bottom: 1px solid #edf0f5;
+  font-size: 14px;
+}
+
+.vagas-table th {
+  color: #778397;
+  background: #f8f9fc;
+}
+
+.status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status.aberta {
+  background: #e4f7ec;
+  color: #21834c;
+}
+
+.status.pausada {
+  background: #fff3d9;
+  color: #a66b00;
+}
+
+.btn-action {
+  border: none;
+  background: #edf3fc;
+  color: #2457a6;
+  padding: 7px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 6px;
+}
+
+.btn-action.delete {
+  background: #fdeaea;
+  color: #c03939;
+}
+
+@media (max-width: 650px) {
+  .vagas-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+
+.form-vaga {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.campo-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.campo-formulario label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #263247;
+}
+
+.campo-formulario input,
+.campo-formulario textarea,
+.campo-formulario select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #dce2eb;
+  border-radius: 7px;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #263247;
+  background: white;
+  outline: none;
+}
+
+.campo-formulario input:focus,
+.campo-formulario textarea:focus,
+.campo-formulario select:focus {
+  border-color: #2457a6;
+  box-shadow: 0 0 0 2px rgba(36, 87, 166, 0.1);
+}
+
+.campo-formulario textarea {
+  resize: vertical;
+}
+
+.formulario-linha {
+  display: flex;
+  gap: 20px;
+}
+
+.formulario-acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.btn-cancelar {
+  background: #edf0f5;
+  color: #263247;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-cancelar:hover {
+  background: #dce2eb;
+}
+
+@media (max-width: 650px) {
+  .formulario-linha {
+    flex-direction: column;
+  }
+
+  .formulario-acoes {
+    flex-direction: column-reverse;
+  }
+
+  .formulario-acoes button {
+    width: 100%;
+  }
+}
+
